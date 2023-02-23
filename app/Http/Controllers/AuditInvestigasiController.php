@@ -66,6 +66,17 @@ class AuditInvestigasiController extends Controller
     {
         $kasus = DataPelanggar::find($kasus_id);
         $value = $this->valueDoc($kasus_id);
+        $template_document = new TemplateProcessor(storage_path('template_surat/surat_penghadapan.docx'));
+        $template_document->setValues($value);
+        $template_document->saveAs(storage_path('template_surat/surat-penghadapan.docx'));
+
+        return response()->download(storage_path('template_surat/surat-penghadapan.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function undanganWawancara($kasus_id)
+    {
+        // $kasus = DataPelanggar::find($kasus_id);
+        $value = $this->valueDoc($kasus_id);
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
         $template_document->setValues($value);
         $template_document->saveAs(storage_path('template_surat/surat-undangan-wawancara.docx'));
@@ -112,6 +123,12 @@ class AuditInvestigasiController extends Controller
             'anggota_5' => $penyidik[5]['name'] ?? '',
             'pangkat_5' => $penyidik[5]['pangkat'] ?? '',
             'nrp_5' => $penyidik[5]['nrp'] ?? '',
+            'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
+            'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
+            'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
+            'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
+            'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
+            'jabatan_6' => $penyidik[5]['jabatan'] ?? '',
 
         );
     }

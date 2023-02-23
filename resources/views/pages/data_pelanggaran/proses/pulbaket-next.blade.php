@@ -16,8 +16,7 @@
                 <tr>
                     <td>Surat Penghadapan</td>
                     <td>
-                        <a href="/surat-undangan-wawancara/{{ $kasus->id }}"
-                            class="btn btn-outline-primary text-primar">
+                        <a href="/surat-penghadapan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                         </a>
                         {{-- <button type="button" class="btn btn-primary">Buat Undangan <i class="far fa-file-plus"></i></button>
@@ -52,7 +51,7 @@
                 <tr>
                     <td>Nota Wawancara</td>
                     <td>
-                        <a href="/laporan-hasil-penyelidikan/{{ $kasus->id }}"
+                        <a href="/laporan-hasil-penyelidikan/{{ $kasus->id }}" disabled
                             class="btn btn-outline-primary text-primary">
                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                         </a>
@@ -62,7 +61,7 @@
                 <tr>
                     <td>Laporan Hasil Audit</td>
                     <td>
-                        <a href="/nd-permohonan-gerlar/{{ $kasus->id }}"
+                        <a href="/nd-permohonan-gerlar/{{ $kasus->id }}" disabled
                             class="btn btn-outline-primary text-primary">
                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                         </a>
@@ -82,7 +81,7 @@
                 <input type="text" class="form-control" value="5" hidden name="disposisi_tujuan" hidden>
                 <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 4 ? 'disabled' : '' }}
                     value="update_status">
-                    Lanjutkan ke proses Gelar Penyelidikan
+                    Lanjutkan ke proses Gelar Investigasi
                 </button>
             </form>
         </div>

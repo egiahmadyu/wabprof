@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agama;
 use App\Models\DataPelanggar;
+use App\Models\Disposisi;
 use App\Models\GelarPerkaraHistory;
 use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
@@ -253,6 +254,7 @@ class KasusController extends Controller
         $status = Process::find($kasus->status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
         $agama = Agama::get();
+
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
 
@@ -262,7 +264,8 @@ class KasusController extends Controller
             'process' =>  $process,
             'agama' => $agama,
             'jenis_identitas' => $jenis_identitas,
-            'jenis_kelamin' => $jenis_kelamin
+            'jenis_kelamin' => $jenis_kelamin,
+            'disposisi_kabag' => Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first()
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuditInvestigasiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiterimaController;
 use App\Http\Controllers\GelarPerkaraController;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
@@ -66,12 +67,13 @@ Route::middleware(['auth'])->group(function (){
     // End View Kasus
 
     // Generate
-    Route::post('/lembar-disposisi', [LimpahPoldaController::class, 'generateDisposisi']);
+    Route::post('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
+    Route::get('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
     // Route::get('/lembar-disposisi/{type}', [LimpahPoldaController::class, 'downloadDisposisi']);
     // Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
     Route::get('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
     Route::get('/surat-undangan-wawancara/{id}', [AuditInvestigasiController::class, 'undanganWawancara']);
-    Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'undanganWawancara']);
+    Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'suratPenghadapan']);
 
     // Route::group(['middleware' => ['role:super-admin']], function () {
     //     Route::get('/user',[UserController::class, 'index'])->name('user-index');

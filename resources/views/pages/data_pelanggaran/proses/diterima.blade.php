@@ -208,10 +208,18 @@
                                 <div class="col-lg-6">
                                     <label for="exampleFormControlInput1" class="form-label">Disposisi
                                         Karo/Sesro</label>
-                                    <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
-                                        data-bs-target="#modal_disposisi" type="button">
-                                        <i class="far fa-download"></i> Download
-                                    </button>
+                                    @if ($disposisi_kabag)
+                                        <a href="/lembar-disposisi-kabag/?data_pelanggar_id={{ $kasus->id }}">
+                                            <button class="btn btn-primary" style="width: 100%" type="button">
+                                                <i class="far fa-download"></i> Download
+                                            </button></a>
+                                    @else
+                                        <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
+                                            data-bs-target="#modal_disposisi" type="button">
+                                            <i class="far fa-download"></i> Download
+                                        </button>
+                                    @endif
+
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="exampleFormControlInput1" class="form-label">Distribusi Pemeriksaan
@@ -224,22 +232,6 @@
                             </div>
 
                             {{-- <input type="text" class="form-control" value="{{ $kasus->terlapor }}" > --}}
-                        </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Status</label>
-                            <select class="form-select border-dark" aria-label="Default select example"
-                                name="disposisi_tujuan" {{-- {{ 2 != $kasus->status_id ? 'disabled' : '' }}  --}} onchange="getPolda()"
-                                id="disposisi-tujuan">
-                                <option value="" class="text-center">-- Pilih Status --</option>
-                                <option value="4" class="text-center"
-                                    {{ $kasus->status_id == 4 ? 'selected' : '' }}>Audit Investigas</option>
-                                <option value="3" class="text-center"
-                                    {{ $kasus->status_id == 3 ? 'selected' : '' }}>Limpah
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-lg-12 mb-3" id="limpah-polda">
-
                         </div>
                     </div>
                 </div>
@@ -284,13 +276,15 @@
                 <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/lembar-disposisi" method="post">
+            <form action="/lembar-disposisi-kabag" method="post">
+                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
                         <input type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
-                            name="nomor_agenda">
+                            name="no_agenda">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
