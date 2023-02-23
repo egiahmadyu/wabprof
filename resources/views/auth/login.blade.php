@@ -5,12 +5,12 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign In | DMS PAMINAL</title>
+    <title>Sign In | DMS WABPROF</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Minimal Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/paminal.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/wabprof.ico') }}">
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -55,7 +55,7 @@
 
                         <div class="card-body p-3 p-sm-5 m-lg-2">
                             <div class="text-center">
-                                <img width="70%" src="{{ asset('assets/images/logo/paminal.png') }}" alt="">
+                                <img width="40%" src="{{ asset('assets/images/logo/wabprof.png') }}" alt="">
                                 <h5 class="text-primary fs-22">Welcome Back !</h5>
                                 <p class="text-muted">Sign in to continue to Propam Integrated System.</p>
                             </div>

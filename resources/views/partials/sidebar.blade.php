@@ -3,18 +3,18 @@
     <div class="navbar-brand-box">
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="/assets/images/logo/paminal.png" alt="" height="40">
+                <img src="/assets/images/logo/wabprof.png" alt="" height="30">
             </span>
             <span class="logo-lg">
-                <img src="/assets/images/logo/Paminal_v7.png" alt="" height="60">
+                <img src="/assets/images/logo/wabprof_normal.png" alt="" height="60">
             </span>
         </a>
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="/assets/images/logo/paminal.png" alt="" height="40">
+                <img src="/assets/images/logo/wabprof.png" alt="" height="30">
             </span>
             <span class="logo-lg">
-                <img src="/assets/images/logo/Paminal_v5.png" alt="" height="60">
+                <img src="/assets/images/logo/wabprof_dark.png" alt="" height="60">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"

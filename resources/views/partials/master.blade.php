@@ -5,12 +5,12 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard | Paminal</title>
+    <title>Dashboard | WABPROF</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Minimal Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/paminal.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/wabprof.ico') }}">
 
     <!-- jsvectormap css -->
     <link href="{{ asset('assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
