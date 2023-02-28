@@ -2,7 +2,7 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-warning" onclick="getViewProcess(1)">Sebelumnya</button>
+                <button type="button" class="btn btn-warning" onclick="getViewProcess(4)">Sebelumnya</button>
             </div>
 
             <div>
@@ -16,18 +16,23 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="75" data-number-of-steps="2" style="width: 75%;">
+                    <div class="f1-progress-line" data-now-value="100" data-number-of-steps="4" style="width: 100%;">
                     </div>
                 </div>
-                <a href="javascript::void(0)" onclick="getViewProcess(1)">
-                    <div class="f1-step" style="width: 50%;">
-                        <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                        <p>Diterima</p>
-                    </div>
-                </a>
-
-                <div class="f1-step active" style="width: 50%;">
-                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                    <p>Diterima</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-home" onclick="getViewProcess(3)"></i></div>
+                    <p>Audit Investigasi</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                    <p>Gelar Investigasi</p>
+                </div>
+                <div class="f1-step active">
+                    <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Limpah Polda</p>
                 </div>
             </div>
@@ -83,8 +88,8 @@
                                             title="Blockquote"><i class="fa fa-indent"></i></a>
                                         <a class="btn btn-xs btn-default" data-role="insertUnorderedList" href="#"
                                             title="Unordered List"><i class="fa fa-list-ul"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="insertOrderedList" href="#"
-                                            title="Ordered List"><i class="fa fa-list-ol"></i></a>
+                                        <a class="btn btn-xs btn-default" data-role="insertOrderedList"
+                                            href="#" title="Ordered List"><i class="fa fa-list-ol"></i></a>
                                     </div>
                                     <div class="btn-group">
                                         <a class="btn btn-xs btn-default" data-role="h1" href="#"

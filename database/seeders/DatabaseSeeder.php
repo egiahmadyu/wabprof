@@ -66,6 +66,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Sidang KEPP'
         ]);
 
+        Process::create([
+            'name' => 'Limpah Polda'
+        ]);
+
         $this->call([
             AgamaSeeder::class,
             JenisKelaminSeed::class,

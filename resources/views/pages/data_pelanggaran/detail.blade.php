@@ -4,11 +4,13 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        select:hover, #datepicker:hover {
+        select:hover,
+        #datepicker:hover {
             cursor: pointer;
         }
+
         .loader-view {
-            margin-top : 75px;
+            margin-top: 75px;
         }
     </style>
 @endprepend
@@ -68,8 +70,8 @@
             let process_id = $('#process_id').val()
             $("#viewProses").html("")
             $('.loader-view').css("display", "block");
-            if (id == 3 && process_id > 3) {
-                id = 4
+            if (id == 5 && process_id == 8) {
+                id = 8
             }
 
             $.ajax({
@@ -84,6 +86,5 @@
         function getValue() {
             console.log($('#editor').text())
         }
-
     </script>
 @endsection

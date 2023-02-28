@@ -164,9 +164,44 @@ class KasusController extends Controller
         if ($status_id == 1) return $this->viewDiterima($kasus_id);
         elseif ($status_id == 2) return $this->viewDisposisi($kasus_id);
         elseif ($status_id == 3) return $this->viewAuditInverstigasi($kasus_id);
+        elseif ($status_id == 4) return $this->viewGelarInvestigasi($kasus_id);
+        elseif ($status_id == 5) return $this->viewSidik($kasus_id);
+        elseif ($status_id == 6) return $this->viewPemberkasan($kasus_id);
+        elseif ($status_id == 7) return $this->viewPemberkasan($kasus_id);
+        elseif ($status_id == 8) return $this->viewLimpah($kasus_id);
         // elseif ($status_id == 4) return $this->viewPulbaket($kasus_id);
         // elseif ($status_id == 5) return $this->viewGelarPenyelidikan($kasus_id);
         // elseif ($status_id == 6) return $this->viewLimpahBiro($kasus_id);
+    }
+
+    private function viewPemberkasan($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        // $status = Process::find($kasus->status_id);
+        // $process = Process::where('sort', '<=', $status->id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+        ];
+        return view('pages.data_pelanggaran.proses.pemberkasan', $data);
+    }
+
+    private function viewSidik($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        // $status = Process::find($kasus->status_id);
+        // $process = Process::where('sort', '<=', $status->id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+        ];
+        return view('pages.data_pelanggaran.proses.sidik', $data);
     }
 
     private function viewLimpahBiro($id)
@@ -284,5 +319,20 @@ class KasusController extends Controller
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.audit_investigasi', $data);
+    }
+
+    private function viewGelarInvestigasi($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        // $status = Process::find($kasus->status_id);
+        // $process = Process::where('sort', '<=', $status->id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+        ];
+        return view('pages.data_pelanggaran.proses.gelar_investigasi', $data);
     }
 }

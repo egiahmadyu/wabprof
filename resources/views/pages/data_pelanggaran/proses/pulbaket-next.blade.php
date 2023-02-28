@@ -72,14 +72,14 @@
     </div>
 </div>
 
-@if (isset($kasus) & ($kasus->status_id === 4))
+@if (isset($kasus) & ($kasus->status_id === 3))
     <div class="row mt-4">
         <div class="col-lg-12">
             <form action="/data-kasus/update" method="post">
                 @csrf
                 <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                <input type="text" class="form-control" value="5" hidden name="disposisi_tujuan" hidden>
-                <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 4 ? 'disabled' : '' }}
+                <input type="text" class="form-control" value="4" hidden name="disposisi_tujuan" hidden>
+                <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
                     value="update_status">
                     Lanjutkan ke proses Gelar Investigasi
                 </button>
