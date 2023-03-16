@@ -33,6 +33,7 @@ class DataPelanggarSeed extends Seeder
             'jenis_identitas' => 1,
             'terlapor' => 'Rizky',
             'kesatuan' => 'Polri',
+            'alamat_terlapor' => 'Jakarta',
             'tempat_kejadian' => 'Tebet',
             'kronologi' => 'Jatuh Bangun',
             'pangkat' => 'Bharada Dua',
@@ -40,7 +41,9 @@ class DataPelanggarSeed extends Seeder
             'status_id' => 1,
             'nrp' => '12345',
             'tanggal_kejadian' => '2023-01-20',
-            'jabatan' => 'Sekretaris'
+            'jabatan' => 'Sekretaris',
+            'suku' => 'Batak',
+            'agama_terlapor' => 'Kristen'
         ]);
     }
 }

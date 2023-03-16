@@ -10,8 +10,8 @@ class DataPelanggar extends Model
     use HasFactory;
 
     protected $fillable = [
-        'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama',
-        'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian','tanggal_kejadian', 'kronologi',
+        'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama','suku', 'agama_terlapor', 'jabatan', 'nrp',
+        'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian','tanggal_kejadian', 'kronologi','alamat_terlapor',
         'pangkat', 'nama_korban', 'status_id', 'no_telp', 'kewarganegaraan', 'perihal_nota_dinas', 'tanggal_nota_dinas',
         'wujud_perbuatan'
     ];

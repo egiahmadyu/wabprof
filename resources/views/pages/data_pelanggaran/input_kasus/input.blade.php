@@ -17,6 +17,9 @@
         <form action="/input-data-kasus/store" method="post">
             @csrf
             <div class="row">
+                <hr>
+                    <h3>Nota Dinas</h3>
+                <hr class="mt-2">
                 <div class="col-lg-6 mb-3">
                     <label for="no_nota_dinas" class="form-label">No. Nota Dinas</label>
                     <input type="text" name="no_nota_dinas" class="form-control border-dark" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" >
@@ -31,13 +34,15 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
-                    <input type="text" name="tanggal_nota_dinas" class="form-control border-dark" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" >
+                    <input type="text" id="datepicker" name="tanggal_nota_dinas" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" >
                 </div>
-                <hr>
             </div>
             {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
             <div class="row">
-                <div class="col-lg-6 p-3">
+                <hr>
+                    <h3>Pelapor</h3>
+                <hr class="mt-2">
+                <div class="col-lg-12 p-3">
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="pelapor" class="form-label">Pelapor</label>
@@ -75,7 +80,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="col-lg-6 mb-3">
                             <label for="no_identitas" class="form-label">No Identitas</label>
                             <input type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" >
@@ -100,7 +104,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 p-3">
+            </div>
+            <div class="row">
+                <hr>
+                    <h3>Terlapor</h3>
+                <hr class="mt-2">
+                <div class="col-lg-12 p-3">
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="terlapor" class="form-label">Terlapor</label>
@@ -115,6 +124,20 @@
                             <input type="text" name="nrp" placeholder="NRP Terlapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->nrp : '' }}" >
                         </div>
                         <div class="col-lg-6 mb-3">
+                            <label for="suku" class="form-label">Suku</label>
+                            <input type="text" name="suku" class="form-control border-dark" placeholder="Suku Terlapor" value="{{ isset($kasus) ? $kasus->suku : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="agama" class="form-label">Agama</label>
+                            {{-- <input type="text" name="agama_terlapor" class="form-control border-dark" placeholder="Agama Terlapor" value="{{ isset($kasus) ? $kasus->agama_terlapor : '' }}" > --}}
+                            <select class="form-select border-dark" aria-label="Default select example" name="agama_terlapor" id="agama-terlapor">
+                                <option value="" selected>-- Agama --</option>
+                                @foreach ($agama as $key => $ag)
+                                    <option value="{{ $ag->id }}">{{ $ag->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
                             <label for="jabatan" class="form-label">Jabatan</label>
                             <input type="text" name="jabatan" placeholder="Jabatan Terlapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" >
                         </div>
@@ -122,6 +145,15 @@
                             <label for="kesatuan" class="form-label">Kesatuan</label>
                             <input type="text" name="kesatuan" class="form-control border-dark" placeholder="Kesatuan" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" >
                         </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea name="alamat_terlapor" cols="30" rows="9" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <hr>
+                            <h3>Kronologis</h3>
+                        <hr class="mt-2">
                         <div class="col-lg-6 mb-3">
                             <label for="tempat_kejadian" class="form-label">Tempat Kejadian</label>
                             <input type="text" name="tempat_kejadian" class="form-control border-dark" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}"
@@ -129,7 +161,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_kejadian" class="form-label">Tanggal Kejadian</label>
-                            <input type="text" id="datepicker" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" >
+                            <input type="text" id="datepicker2" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" >
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="nama_korban" class="form-label">Nama Korban</label>
@@ -196,6 +228,12 @@
 
         $( function() {
             $( "#datepicker" ).datepicker({
+                autoclose:true,
+                todayHighlight:true,
+                format:'yyyy-mm-dd',
+                language: 'id'
+            });
+            $( "#datepicker2" ).datepicker({
                 autoclose:true,
                 todayHighlight:true,
                 format:'yyyy-mm-dd',

@@ -53,6 +53,9 @@
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <div class="row">
+                <hr>
+                    <h3>Nota Dinas</h3>
+                <hr class="mt-2">
                 <div class="col-lg-6 mb-3">
                     <label for="no_nota_dinas" class="form-label">No. Nota Dinas</label>
                     <input type="text" name="no_nota_dinas" class="form-control border-dark"
@@ -73,10 +76,12 @@
                     <input type="text" name="tanggal_nota_dinas" class="form-control border-dark"
                         placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
                 </div>
-                <hr>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <hr>
+                    <h3>Pelapor</h3>
+                <hr class="mt-2">
+                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="pelapor" class="form-label">Pelapor</label>
@@ -144,14 +149,17 @@
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat" cols="30" rows="9" placeholder="Alamat" class="form-control border-dark"
+                            <textarea name="alamat" cols="30" rows="7" placeholder="Alamat" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->alamat : '' }}">{{ isset($kasus) ? $kasus->alamat : '' }}</textarea>
                         </div>
                     </div>
-                    <hr>
                 </div>
-
-                <div class="col-lg-6">
+            </div>
+            <div class="row">
+                <hr>
+                    <h3>Terlapor</h3>
+                <hr class="mt-2">
+                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="terlapor" class="form-label">Terlapor</label>
@@ -169,6 +177,26 @@
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->nrp : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
+                            <label for="suku" class="form-label">Suku</label>
+                            <input type="text" name="suku" placeholder="Suku Terlapor"
+                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->suku : '' }}">
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="agama" class="form-label">Agama</label>
+                            {{-- <input type="text" name="agama_terlapor" class="form-control" value="{{ isset($kasus) ? ($kasus->agama_terlapor == 0 ? 'Islam' : 'Kristen') : '' }}" > --}}
+                            <select class="form-select border-dark" aria-label="Default select example"
+                                name="agama_terlapor" id="agama-terlapor">
+                                <option value="">-- Agama --</option>
+                                @if (isset($agama))
+                                    @foreach ($agama as $key => $ag)
+                                        <option value="{{ $ag->id }}"
+                                            {{ $kasus->agama == $ag->id ? 'selected' : '' }}>{{ $ag->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
                             <label for="jabatan" class="form-label">Jabatan</label>
                             <input type="text" name="jabatan" placeholder="Jabatan Terlapor"
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->jabatan : '' }}">
@@ -178,6 +206,20 @@
                             <input type="text" name="kesatuan" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->kesatuan : '' }}">
                         </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <textarea name="alamat" cols="30" rows="7" placeholder="Alamat Terlapor" class="form-control border-dark"
+                                value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}">{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <hr>
+                    <h3>Kronologis</h3>
+                <hr class="mt-2">
+                <div class="col-lg-12">
+                    <div class="row">
                         <div class="col-lg-6 mb-3">
                             <label for="tempat_kejadian" class="form-label">Tempat Kejadian</label>
                             <input type="text" name="tempat_kejadian" class="form-control border-dark"
@@ -195,12 +237,13 @@
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Kronologis</label>
-                            <textarea name="kronologis" cols="30" rows="5" placeholder="Alamat" class="form-control border-dark"
+                            <textarea name="kronologis" cols="30" rows="7" placeholder="Kronologis" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->kronologi : '' }}">{{ isset($kasus) ? $kasus->kronologi : '' }}</textarea>
                         </div>
                     </div>
-                    <hr>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card p-2">
                         <div class="col-lg-12 mb-3">
@@ -266,6 +309,50 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/lembar-disposisi-kabag" method="post">
+                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
+                        <input type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
+                            name="no_agenda">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
+                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
+                            name="surat_dari">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal">
+                    </div>
+                    {{-- <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                        <input type="text" class="form-control" id="perihal" name="perihal">
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

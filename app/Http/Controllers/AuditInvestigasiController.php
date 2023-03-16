@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DataPelanggar;
 use App\Models\Penyidik;
 use App\Models\SprinHistory;
+use App\Models\Wawancara;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -73,10 +74,21 @@ class AuditInvestigasiController extends Controller
         return response()->download(storage_path('template_surat/surat-penghadapan.docx'))->deleteFileAfterSend(true);
     }
 
-    public function undanganWawancara($kasus_id)
+    public function generateWawancara(Request $request)
     {
-        // $kasus = DataPelanggar::find($kasus_id);
-        $value = $this->valueDoc($kasus_id);
+        $wawancara = Wawancara::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        if (!$wawancara)
+        {
+            $wawancara = Wawancara::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'ruangan' => $request->ruangan,
+                'tanggal' => $request->tanggal,
+                'jam' => $request->jam,
+                'alamat' => $request->alamat
+            ]);
+        }
+
+        $value = $this->valueDoc($request->data_pelanggar_id, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
         $template_document->setValues($value);
         $template_document->saveAs(storage_path('template_surat/surat-undangan-wawancara.docx'));
@@ -84,14 +96,36 @@ class AuditInvestigasiController extends Controller
         return response()->download(storage_path('template_surat/surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
     }
 
+    public function notaWawancara($kasus_id)
+    {
+        // $kasus = DataPelanggar::find($kasus_id);
+        $value = $this->valueDoc($kasus_id, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/nota_wawancara.docx'));
+        $template_document->setValues($value, true);
+        $template_document->saveAs(storage_path('template_surat/surat-nota-wawancara.docx'));
 
-    Private function valueDoc($kasus_id)
+        return response()->download(storage_path('template_surat/surat-nota-wawancara.docx'))->deleteFileAfterSend(true);
+    }
+
+
+    Private function valueDoc($kasus_id, $wawancara = false)
     {
         $kasus = DataPelanggar::find($kasus_id);
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
 
-        return array(
+        $data = array();
+
+        if($wawancara){
+            $wawancara_data = Wawancara::where('data_pelanggar_id', $kasus_id)->first();
+            $data['tanggal_wawancara'] = Carbon::parse($wawancara_data->tanggal)->translatedFormat('d F Y');
+            $data['hari_wawancara'] = Carbon::parse($wawancara_data->tanggal)->translatedFormat('DD');
+            $data['ruangan_wawancara'] = $wawancara_data->ruangan;
+            $data['jam_wawancara'] = $wawancara_data->jam;
+            $data['alamat_wawancara'] = $wawancara_data->alamat;
+        }
+
+        $data += array(
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
             'no_sprin' => $sprin->no_sprin,
             'bulan_tahun_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y'),
@@ -99,10 +133,18 @@ class AuditInvestigasiController extends Controller
             'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'perihal' => $kasus->perihal_nota_dinas,
+            'pelapor' => $kasus->pelapor,
+            'no_telp' => $kasus->no_telp,
             'terlapor' => $kasus->terlapor,
+            'nrp' => $kasus->nrp,
             'pangkat' => $kasus->pangkat,
             'kesatuan' => $kasus->kesatuan,
             'jabatan' => $kasus->jabatan,
+            'agama' => $kasus->agama,
+            'suku_terlapor' => $kasus->suku,
+            'agama_terlapor' => $kasus->agama_terlapor,
+            'alamat_terlapor' => $kasus->alamat_terlapor,
+            'alamat' => $kasus->alamat,
             'wujud_perbuatan' => $kasus->wujud_perbuatan,
             'tanggal_ttd' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
             'ketua' => $penyidik[0]['name'] ?? '',
@@ -128,8 +170,9 @@ class AuditInvestigasiController extends Controller
             'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
             'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
             'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
-            'jabatan_6' => $penyidik[5]['jabatan'] ?? '',
-
+            'jabatan_6' => $penyidik[5]['jabatan'] ?? ''
         );
+
+        return $data;
     }
 }

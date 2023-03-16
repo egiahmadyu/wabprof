@@ -35,6 +35,9 @@ return new class extends Migration
             $table->string('kesatuan')->nullable();
             $table->string('tempat_kejadian')->nullable();
             $table->string('nrp')->nullable();
+            $table->string('suku')->nullable();
+            $table->text('alamat_terlapor')->nullable();
+            $table->string('agama_terlapor')->nullable();
             $table->date('tanggal_kejadian')->nullable();
             $table->text('kronologi')->nullable();
             $table->string('pangkat')->nullable();

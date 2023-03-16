@@ -71,8 +71,10 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
     // Route::get('/lembar-disposisi/{type}', [LimpahPoldaController::class, 'downloadDisposisi']);
     // Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
-    Route::get('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
-    Route::get('/surat-undangan-wawancara/{id}', [AuditInvestigasiController::class, 'undanganWawancara']);
+    Route::post('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
+    Route::post('/surat-undangan-wawancara', [AuditInvestigasiController::class, 'generateWawancara']);
+    Route::get('/surat-nota-wawancara/{id}', [AuditInvestigasiController::class, 'notaWawancara']);
+    Route::get('/laporan-hasil-audit/{id}', [AuditInvestigasiController::class, 'laporanHasilAudit']);
     Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'suratPenghadapan']);
 
     // Route::group(['middleware' => ['role:super-admin']], function () {
