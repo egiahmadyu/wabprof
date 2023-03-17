@@ -6,6 +6,7 @@ use App\Models\DataPelanggar;
 use App\Models\Penyidik;
 use App\Models\SprinHistory;
 use App\Models\Wawancara;
+use App\Models\LaporanHasilAudit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -96,6 +97,26 @@ class AuditInvestigasiController extends Controller
         return response()->download(storage_path('template_surat/surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
     }
 
+    public function generateLaporanHasilAudit(Request $request)
+    {
+        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        if (!$laporan)
+        {
+            $laporan = LaporanHasilAudit::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'nomor_laporan' => $request->nomor_laporan,
+                'tanggal_laporan' => $request->tanggal
+            ]);
+        }
+
+        $value = $this->valueDoc($request->data_pelanggar_id, false, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
+        $template_document->setValues($value);
+        $template_document->saveAs(storage_path('template_surat/laporan-hasil-audit.docx'));
+
+        return response()->download(storage_path('template_surat/laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
+    }
+
     public function notaWawancara($kasus_id)
     {
         // $kasus = DataPelanggar::find($kasus_id);
@@ -107,8 +128,29 @@ class AuditInvestigasiController extends Controller
         return response()->download(storage_path('template_surat/surat-nota-wawancara.docx'))->deleteFileAfterSend(true);
     }
 
+    public function undanganWawancara($kasus_id)
+    {
+         $value = $this->valueDoc($kasus_id, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
+        $template_document->setValues($value);
+        $template_document->saveAs(storage_path('template_surat/surat-undangan-wawancara.docx'));
 
-    Private function valueDoc($kasus_id, $wawancara = false)
+        return response()->download(storage_path('template_surat/surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function laporanHasilAudit($kasus_id)
+    {
+        $value = $this->valueDoc($kasus_id, false, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
+        $template_document->setValues($value);
+        $template_document->saveAs(storage_path('template_surat/laporan-hasil-audit.docx'));
+
+        return response()->download(storage_path('template_surat/laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
+    }
+
+
+
+    Private function valueDoc($kasus_id, $wawancara = false, $laporan = false)
     {
         $kasus = DataPelanggar::find($kasus_id);
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
@@ -123,6 +165,13 @@ class AuditInvestigasiController extends Controller
             $data['ruangan_wawancara'] = $wawancara_data->ruangan;
             $data['jam_wawancara'] = $wawancara_data->jam;
             $data['alamat_wawancara'] = $wawancara_data->alamat;
+        }
+
+        if($laporan){
+            $laporan_data = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id)->first();
+            $data['nomor_laporan'] = $laporan_data->nomor_laporan;
+            $data['tanggal_laporan'] = Carbon::parse($laporan_data->tanggal_laporan)->translatedFormat('d F Y');
+
         }
 
         $data += array(

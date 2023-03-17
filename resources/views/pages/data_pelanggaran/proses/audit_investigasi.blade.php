@@ -171,7 +171,7 @@
                                 required>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" name="tanggal_investigasi"
+                            <input type="date" class="form-control" name="tanggal_investigasi"
                                 placeholder="Tanggal Investigasi" required>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                                         <div class="form-outline mb-3">
                                             <label for="tipe_tim" class="form-label">Jabatan TIM : </label>
                                             <select name="tipe_tim_ketua" id="tipe_tim" class="form-control"
-                                            readonly="">
+                                            disabled>
                                                 <option value="1" class="text-center" selected>Ketua</option>
                                             </select>
                                         </div>
@@ -442,7 +442,7 @@
             <div class="col-lg-12">
                 <div class="form-outline mb-3">
                 <label for="tipe_tim" class="form-label">Jabatan TIM : </label>
-                <select name="tipe_tim_anggota[]" id="tipe_tim" class="form-control" readonly="">
+                <select name="tipe_tim_anggota[]" id="tipe_tim" class="form-control" disabled>
                     <option value="2" class="text-center" selected>Anggota</option>
                 </select>
                 </div>

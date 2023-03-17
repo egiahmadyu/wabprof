@@ -10,6 +10,8 @@ use App\Models\HistorySprin;
 use App\Models\Penyidik;
 use App\Models\Saksi;
 use App\Models\Sp2hp2Hisory;
+use App\Models\Wawancara;
+use App\Models\LaporanHasilAudit;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use Carbon\Carbon;
@@ -387,13 +389,17 @@ class PulbaketController extends Controller
     public function viewNextData($id)
     {
         $kasus = DataPelanggar::find($id);
+        $wawancara = Wawancara::where('data_pelanggar_id', $id)->first();
+        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $id)->first();
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
-
         $data = [
             'kasus' => $kasus,
+            'wawancara' => $wawancara,
+            'laporan' => $laporan,
             'bai_terlapor' => BaiPelapor::where('data_pelanggar_id', $id)->first()
         ];
+
         return view('pages.data_pelanggaran.proses.pulbaket-next', $data);
     }
 

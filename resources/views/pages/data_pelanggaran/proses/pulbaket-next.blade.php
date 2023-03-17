@@ -41,11 +41,16 @@
                 <tr>
                     <td>Undangan Wawancara</td>
                     <td>
-                        <button data-bs-toggle="modal"
-                                            data-bs-target="#modal_wawancara" type="button"
-                            class="btn btn-outline-primary text-primar">
-                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                        </button>
+                        @if (isset($wawancara))
+                        <a href="/surat-undangan-wawancara/{{ $kasus->id }}"" class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>Dokumen</h6>
+                            </button>
+                        @else
+                            <button data-bs-toggle="modal" data-bs-target="#modal_wawancara" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                        @endif
 
                     </td>
                 </tr>
@@ -62,10 +67,16 @@
                 <tr>
                     <td>Laporan Hasil Audit</td>
                     <td>
-                        <a href="/laporan-hasil-audit/{{ $kasus->id }}" disabled
-                            class="btn btn-outline-primary text-primary">
-                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                        </a>
+                        @if (isset($laporan))
+                            <a href="/laporan-hasil-audit/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>Dokumen</h6>
+                            </button>
+                        @else
+                            <button data-bs-toggle="modal" data-bs-target="#modal_laporan" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                        @endif
                     </td>
                 </tr>
             </tbody>
@@ -119,6 +130,38 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Alamat :</label>
                         <textarea name="alamat" class="form-control" id="alamat" cols="30" rows="7" placeholder="Alamat Wawancara" ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_laporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Template Laporan Hasil Audit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/laporan-hasil-audit" method="post">
+                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Laporan :</label>
+                        <input type="text" class="form-control" id="nomor_laporan" aria-describedby="emailHelp"
+                            name="nomor_laporan" placeholder="Nomor Laporan">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Laporan :</label>
+                        <input type="date" class="form-control" id="tanggal" aria-describedby="emailHelp"
+                            name="tanggal">
                     </div>
                 </div>
                 <div class="modal-footer">
