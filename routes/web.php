@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiterimaController;
 use App\Http\Controllers\GelarPerkaraController;
+use App\Http\Controllers\GelarInvestigasiController;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\ProvostWabprofController;
@@ -76,6 +77,11 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/surat-undangan-wawancara/{id}', [AuditInvestigasiController::class, 'undanganWawancara']);
     Route::post('/laporan-hasil-audit', [AuditInvestigasiController::class, 'generateLaporanHasilAudit']);
     Route::get('/laporan-hasil-audit/{id}', [AuditInvestigasiController::class, 'laporanHasilAudit']);
+    Route::post('/gelar-perkara-undangan', [GelarInvestigasiController::class, 'generateUndanganGelar']);
+    Route::get('/gelar-perkara-undangan/{id}', [GelarInvestigasiController::class, 'undanganGelar']);
+    Route::post('/laporan-gelar-perkara', [GelarInvestigasiController::class, 'generateLaporanGelar']);
+    Route::get('/laporan-gelar-perkara/{id}', [GelarInvestigasiController::class, 'LaporanGelar']);
+    Route::get('/nota-dinas-laporan/{id}', [GelarInvestigasiController::class, 'notaDinasLaporanGelarPerkara']);
     Route::get('/surat-nota-wawancara/{id}', [AuditInvestigasiController::class, 'notaWawancara']);
     Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'suratPenghadapan']);
 

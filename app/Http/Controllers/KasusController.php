@@ -7,6 +7,8 @@ use App\Models\DataPelanggar;
 use App\Models\Disposisi;
 use App\Models\GelarPerkaraHistory;
 use App\Models\JenisIdentitas;
+use App\Models\UndanganGelar;
+use App\Models\LaporanHasilGelar;
 use App\Models\JenisKelamin;
 use App\Models\LimpahPolda;
 use App\Models\Process;
@@ -332,11 +334,15 @@ class KasusController extends Controller
     private function viewGelarInvestigasi($id)
     {
         $kasus = DataPelanggar::find($id);
+        $undangan_gelar = UndanganGelar::where('data_pelanggar_id', $id)->first();
+        $laporan_gelar = LaporanHasilGelar::where('data_pelanggar_id', $id)->first();
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
 
         $data = [
             'kasus' => $kasus,
+            'undangan_gelar' => $undangan_gelar,
+            'laporan_gelar' => $laporan_gelar,
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),

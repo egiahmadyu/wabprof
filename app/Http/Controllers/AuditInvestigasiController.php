@@ -6,6 +6,8 @@ use App\Models\DataPelanggar;
 use App\Models\Penyidik;
 use App\Models\SprinHistory;
 use App\Models\Wawancara;
+use App\Models\UndanganGelar;
+use App\Models\LaporanHasilGelar;
 use App\Models\LaporanHasilAudit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -150,7 +152,7 @@ class AuditInvestigasiController extends Controller
 
 
 
-    Private function valueDoc($kasus_id, $wawancara = false, $laporan = false)
+    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false)
     {
         $kasus = DataPelanggar::find($kasus_id);
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
@@ -161,7 +163,7 @@ class AuditInvestigasiController extends Controller
         if($wawancara){
             $wawancara_data = Wawancara::where('data_pelanggar_id', $kasus_id)->first();
             $data['tanggal_wawancara'] = Carbon::parse($wawancara_data->tanggal)->translatedFormat('d F Y');
-            $data['hari_wawancara'] = Carbon::parse($wawancara_data->tanggal)->translatedFormat('DD');
+            $data['hari_wawancara'] = Carbon::parse($wawancara_data->tanggal)->translatedFormat('l');
             $data['ruangan_wawancara'] = $wawancara_data->ruangan;
             $data['jam_wawancara'] = $wawancara_data->jam;
             $data['alamat_wawancara'] = $wawancara_data->alamat;
@@ -171,6 +173,38 @@ class AuditInvestigasiController extends Controller
             $laporan_data = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id)->first();
             $data['nomor_laporan'] = $laporan_data->nomor_laporan;
             $data['tanggal_laporan'] = Carbon::parse($laporan_data->tanggal_laporan)->translatedFormat('d F Y');
+        }
+
+        if($undangan_gelar){
+            $undangan_gelar_data = UndanganGelar::where('data_pelanggar_id', $kasus_id)->first();
+            $data['nomor_gelar'] = $undangan_gelar_data->nomor_gelar;
+            $data['tanggal_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('d F Y');
+            $data['hari_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('l');
+            $data['pukul_gelar'] = $undangan_gelar_data->jam_gelar;
+            $data['tempat_gelar'] = $undangan_gelar_data->tempat_gelar;
+            $data['pangkat_akreditor'] = $undangan_gelar_data->pangkat_akreditor;
+            $data['nama_akreditor'] = $undangan_gelar_data->nama_akreditor;
+            $data['no_telp_akreditor'] = $undangan_gelar_data->no_telp_akreditor;
+        }
+
+        if($laporan_gelar){
+            $laporan_gelar_data = LaporanHasilGelar::where('data_pelanggar_id', $kasus_id)->first();
+            $data['tanggal_laporan_gelar'] = Carbon::parse($laporan_gelar_data->tanggal_laporan_gelar)->translatedFormat('d F Y');
+            $data['nama_pimpinan_gelar'] = $laporan_gelar_data->nama_pimpinan_gelar;
+            $data['pangkat_pimpinan_gelar'] = $laporan_gelar_data->pangkat_pimpinan_gelar;
+            $data['jabatan_pimpinan_gelar'] = $laporan_gelar_data->jabatan_pimpinan_gelar;
+            $data['kesatuan_pimpinan_gelar'] = $laporan_gelar_data->kesatuan_pimpinan_gelar;
+            $data['nama_pemapar'] = $laporan_gelar_data->nama_pemapar;
+            $data['pangkat_pemapar'] = $laporan_gelar_data->pangkat_pemapar;
+            $data['jabatan_pemapar'] = $laporan_gelar_data->jabatan_pemapar;
+            $data['kesatuan_pemapar'] = $laporan_gelar_data->kesatuan_pemapar;
+            $data['nrp_pembuat'] = $laporan_gelar_data->nrp_pembuat;
+            $data['nama_pembuat'] = $laporan_gelar_data->nama_pembuat;
+            $data['pangkat_pembuat'] = $laporan_gelar_data->pangkat_pembuat;
+            $data['nama_terlapor'] = strtoupper($kasus->terlapor);
+            $data['pangkat_terlapor'] = strtoupper($kasus->pangkat);
+            $data['jabatan_terlapor'] = strtoupper($kasus->jabatan);
+            $data['kesatuan_terlapor'] = strtoupper($kasus->kesatuan);
 
         }
 

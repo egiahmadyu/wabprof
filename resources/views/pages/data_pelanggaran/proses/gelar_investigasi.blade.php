@@ -127,31 +127,45 @@
                     <tr>
                         <td>Undangan Gelar Perkara Penyelidikan</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if (isset($undangan_gelar))
+                                <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-outline-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                                </a>        
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal-undangan-gelar" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
-                            </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
-                        <td>Laporan Hasil Gelar</td>
+                        <td>Nota Dinas Laporan Gelar Perkara</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
+                            <a href="/nota-dinas-laporan/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-outline-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                            </a>  
                         </td>
                     </tr>
                     <tr>
                         <td>Laporan Gelar Perkara</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                        @if (isset($laporan_gelar))
+                                <a href="/laporan-gelar-perkara/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-outline-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                                </a>        
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal-laporan-gelar" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
-                            </a>
+                            @endif
                         </td>
                     </tr>
                     {{-- <tr>
@@ -225,80 +239,149 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_uuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-laporan-gelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Template Laporan Gelar Perkara</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/surat-uuk/{{ $kasus->id }}">
+            <form action="/laporan-gelar-perkara" method="post">
+                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
+                @csrf
+                <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat">
+                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" name="tanggal_laporan_gelar"
+                        >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">NRP</label>
-                        <input type="text" class="form-control" name="nrp">
+                        <input type="text" class="form-control" name="nrp_pembuat" placeholder="NRP Pembuat"
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nama</label>
+                        <input type="text" class="form-control" name="nama_pembuat" placeholder="Nama Pembuat"
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
+                        <input type="text" class="form-control" name="pangkat_pembuat" placeholder="Pangkat Pembuat"
+                        >
+                    </div>
+                    <hr>
+                        <h5>Pimpinan Gelar </h5>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
+                        <input type="text" class="form-control" name="pangkat_pimpinan_gelar"
+                            placeholder="Pangkat Pimpinan">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nama</label>
+                        <input type="text" class="form-control" name="nama_pimpinan_gelar" aria-describedby="emailHelp"
+                            placeholder="Nama">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan">
+                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar" placeholder="Jabatan">
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
+                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar"
+                            placeholder="Satuan Kerja">
+                    </div>
+                    <hr>
+                    <h5>Pemapar </h5>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
+                        <input type="text" class="form-control" name="pangkat_pemapar"
+                            placeholder="Pangkat">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nama</label>
+                        <input type="text" class="form-control" name="nama_pemapar"
+                            placeholder="Nama">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
+                        <input type="text" class="form-control" name="jabatan_pemapar"
+                            placeholder="Jabatan">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
+                        <input type="text" class="form-control" name="kesatuan_pemapar"
+                            placeholder="Satuan Kerja">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_sp2hp2_awal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal-undangan-gelar" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Template Undangan Gelar Perkara Penyelidikan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/surat-sp2hp2-awal/{{ $kasus->id }}">
+            <form action="/gelar-perkara-undangan" method="post">
+                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
+                @csrf
+                <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama yang Menangani</label>
-                        <input type="text" class="form-control" name="penangan" aria-describedby="emailHelp"
-                            placeholder="Unit II Detasemen A Ropaminal Divpropam Polri">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Undangan</label>
+                        <input type="text" class="form-control" name="nomor_undangan"
+                            placeholder="Nomor Undangan">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama yang dihubungi</label>
-                        <input type="text" class="form-control" name="dihubungi"
-                            placeholder="AKP ERICSON SIREGAR, S.Kom., M.T., M.Sc">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Undangan</label>
+                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp"
+                            >
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan yang dihubungi</label>
-                        <input type="text" class="form-control" name="jabatan_dihubungi"
-                            placeholder="Kanit II Den A">
+                        <label for="exampleInputPassword1" class="form-label">Pukul Undangan</label>
+                        <input type="time" class="form-control" name="pukul">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="telp_dihubungi">
+                        <label for="exampleInputPassword1" class="form-label">Tempat Undangan</label>
+                        <input type="text" class="form-control" name="tempat_undangan"
+                            placeholder="Tempat Undangan">
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
+                    <hr>
+                    <h5>Akreditor yang bisa dihubungi </h5>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Pangkat Akreditor</label>
+                        <input type="text" class="form-control" name="pangkat_akreditor"
+                            placeholder="Pangkat Akreditor">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nama Aktreditor</label>
+                        <input type="text" class="form-control" name="nama_akreditor"
+                            placeholder="Nama Akreditor">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Telepon</label>
+                        <input type="text" class="form-control" name="no_telp_akreditor"
+                            placeholder="Nomor Telepon Akreditor">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
