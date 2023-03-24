@@ -18,8 +18,12 @@ return new class extends Migration
             $table->bigInteger('data_pelanggar_id');
             $table->bigInteger('polda_id');
             $table->date('tanggal_limpah');
-            $table->text('isi_surat')->nullable();
+            $table->string('nomor_limpah')->default('123');
+            $table->text('alamat_polda')->nullable();
             $table->bigInteger('created_by');
+            $table->string('nomor_klarifikasi')->default('123');
+            $table->date('tanggal_klarifikasi')->nullable();
+            $table->string('perihal_klarifikasi')->default('123');
             $table->timestamps();
         });
     }

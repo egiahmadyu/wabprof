@@ -16,7 +16,11 @@ return new class extends Migration
         Schema::create('saksis', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->string('name');
+            $table->string('nrp');
+            $table->string('nama');
+            $table->string('pangkat');
+            $table->string('jabatan');
+            $table->string('kesatuan');
             $table->timestamps();
         });
     }

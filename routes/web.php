@@ -84,6 +84,9 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/nota-dinas-laporan/{id}', [GelarInvestigasiController::class, 'notaDinasLaporanGelarPerkara']);
     Route::get('/surat-nota-wawancara/{id}', [AuditInvestigasiController::class, 'notaWawancara']);
     Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'suratPenghadapan']);
+    Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
+    Route::get('/surat-limpah-polda/{id}', [LimpahPoldaController::class, 'limpahPolda']);
+
 
     // Route::group(['middleware' => ['role:super-admin']], function () {
     //     Route::get('/user',[UserController::class, 'index'])->name('user-index');

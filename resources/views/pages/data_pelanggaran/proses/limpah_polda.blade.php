@@ -41,6 +41,8 @@
     <div class="col-lg-12">
         <h4>Limpah Ke Polda</h4>
         <form action="/surat-limpah-polda" method="post">
+        <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
             @csrf
             <div>
                 <div class="row mb-3">
@@ -59,69 +61,31 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-lg-12">
-                        <div class="container">
-                            <div class="title">
-                                <h3>Isi Surat Limpah</h3>
-                            </div>
-
-                            <div id="editparent">
-                                <div id="editControls">
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" data-role="undo" href="#"
-                                            title="Undo"><i class="fa fa-undo"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="redo" href="#"
-                                            title="Redo"><i class="fa fa-repeat"></i></a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" data-role="bold" href="#"
-                                            title="Bold"><i class="fa fa-bold"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="italic" href="#"
-                                            title="Italic"><i class="fa fa-italic"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="underline" href="#"
-                                            title="Underline"><i class="fa fa-underline"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="strikeThrough" href="#"
-                                            title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" data-role="indent" href="#"
-                                            title="Blockquote"><i class="fa fa-indent"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="insertUnorderedList" href="#"
-                                            title="Unordered List"><i class="fa fa-list-ul"></i></a>
-                                        <a class="btn btn-xs btn-default" data-role="insertOrderedList"
-                                            href="#" title="Ordered List"><i class="fa fa-list-ol"></i></a>
-                                    </div>
-                                    <div class="btn-group">
-                                        <a class="btn btn-xs btn-default" data-role="h1" href="#"
-                                            title="Heading 1"><i class="fa fa-header"></i><sup>1</sup></a>
-                                        <a class="btn btn-xs btn-default" data-role="h2" href="#"
-                                            title="Heading 2"><i class="fa fa-header"></i><sup>2</sup></a>
-                                        <a class="btn btn-xs btn-default" data-role="h3" href="#"
-                                            title="Heading 3"><i class="fa fa-header"></i><sup>3</sup></a>
-                                        <a class="btn btn-xs btn-default" data-role="p" href="#"
-                                            title="Paragraph"><i class="fa fa-paragraph"></i></a>
-                                    </div>
-                                </div>
-                                <div id="editor" contenteditable>
-                                    {{-- <ol>
-                                        <li>Rujukan :&nbsp;<br><b>a</b>.&nbsp;Undang-Undang Nomor 2 Tahun 2022 tentang
-                                            Kepolisian Negara Republik Indonesia.<br><b>b</b>.&nbsp;Peraturan Kepolisian
-                                            Negara Republik Indonesia Nomor 7 Tahun 2022 tentang Kode Etik Profesi&nbsp;
-                                            &nbsp; &nbsp;dan Komisi Kode Etik Polri.<br><b>c</b>.&nbsp;Peraturan Kepala
-                                            Kepolisian Negara Republik Indonesia Nomor 13 Tahun 2016 tentang Pengamanan
-                                            Internal di Lingkungan Polri<br><b>d</b>.&nbsp;Nota Dinas Kepala Bagian
-                                            Pelayanan Pengaduan Divpropam Polri Nomor:
-                                            R/ND-2766-b/XII/WAS.2.4/2022/Divpropam tanggal 16 Desember 2022 perihal
-                                            pelimpahan Dumas BRIPKA JAMALUDDIN ASYARI.</li>
-                                    </ol> --}}
-                                    {!! $limpahPolda->isi_surat !!}
-                                </div>
-                                <textarea name="ticketDesc" id="editorCopy" required="required" style="display: none">
-                                </textarea>
-                            </div>
-                        </div>
+                    <div class="col-lg-6">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Laporan Limpah</label>
+                        <input type="text" class="form-control" id="nomor_limpah" name="nomor_limpah"
+                            value="{{ $limpahPolda->nomor_limpah }}" placeholder="Nomor Laporan Limpah">
                     </div>
-
+                    <div class="col-lg-6">
+                        <label for="exampleInputEmail1" class="form-label">Alamat Polda</label>
+                        <input type="text" class="form-control" id="alamat_polda" name="alamat_polda"
+                                value="{{ $limpahPolda->alamat_polda }}" placeholder="Alamat Polda">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1" class="form-label">Nota Dinas Laporan Hasil Klarifikasi</label>
+                        <input type="text" class="form-control" id="nomor_klarifikasi" name="nomor_klarifikasi"
+                            value="{{ $limpahPolda->nomor_klarifikasi }}" placeholder="Nota Dinas Laporan Hasil Klarifikasi">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Hasil Klarifikasi</label>
+                        <input type="date" class="form-control" id="tanggal_klarifikasi" name="tanggal_klarifikasi" value="{{ $limpahPolda->tanggal_klarifikasi }}">
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1" class="form-label">Perihal Hasil Klarifikasi</label>
+                        <input type="text" class="form-control" id="perihal_klarifikasi" name="perihal_klarifikasi" value="{{ $limpahPolda->perihal_klarifikasi }}" placeholder="Perihal Hasil Klarifikasi">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Generate Surat
                     Limpah</button>

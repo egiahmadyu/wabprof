@@ -2,50 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LimpahPolda;
+use App\Http\Controllers\AuditInvestigasiController;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use PDF;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class LimpahPoldaController extends Controller
 {
     public function generateLimpahPolda(Request $request)
     {
-        // dd($request->all());
-        $data['ticketDesc'] = $request->ticketDesc;
-        $pdf =  PDF::setOptions(['isRemoteEnabled' => TRUE])
-        ->setPaper('A4', 'potrait')
-        ->loadView('pages.data_pelanggaran.generate.limpah-polda', $data);
+      
+        LimpahPolda::where('id', $request->data_pelanggar_id)
+        ->update([
+            'nomor_limpah' => $request->nomor_limpah,
+            'alamat_polda' => $request->alamat_polda,
+            'nomor_klarifikasi' => $request->nomor_klarifikasi,
+            'tanggal_klarifikasi' => $request->tanggal_klarifikasi,
+            'perihal_klarifikasi' => $request->perihal_klarifikasi,
+        ]);
 
-        return $pdf->download('limpah-polda.pdf');
+        $kasus_id = $request->data_pelanggar_id;
+
+        $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/surat_pelimpahan_dumas.docx'));
+        $template_document->setValues($value);
+        $template_document->saveAs(storage_path('template_surat/surat-pelimpahan-dumas.docx'));
+
+        return response()->download(storage_path('template_surat/surat-pelimpahan-dumas.docx'))->deleteFileAfterSend(true);
     }
 
-    public function generateDisposisi(Request $request)
-    {
-        // return view('pages.data_pelanggaran.generate.lembar-disposisi');
-        $data = [
-            'tanggal' => $request->tanggal,
-            'surat_dati' => $request->surat_dari,
-            'nomor_surat' => $request->nomor_surat,
-            'perihal' => $request->perihal,
-            'nomor_agenda' => $request->nomor_agenda
-        ];
-        // dd($data);
-        $pdf =  PDF::setOptions(['isRemoteEnabled' => TRUE])
-        ->setPaper('A4', 'potrait')
-        ->loadView('pages.data_pelanggaran.generate.lembar-disposisi', $data);
+    public function limpahPolda($kasus_id){
+        $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/surat_pelimpahan_dumas.docx'));
+        $template_document->setValues($value);
+        $template_document->saveAs(storage_path('template_surat/surat-pelimpahan-dumas.docx'));
 
-        return $pdf->download('itsolutionstuff.pdf');
-    }
-
-
-    public function downloadDisposisi($type)
-    {
-        if ($type == 1) $template_document = new TemplateProcessor(storage_path('template_surat/lembar_disposisi_kabagbinpam.docx'));
-        elseif ($type == 2) $template_document = new TemplateProcessor(storage_path('template_surat/lembar_disposisi_kabagbinpam.docx'));
-        elseif ($type == 3) $template_document = new TemplateProcessor(storage_path('template_surat/lembar_disposisi_kabagbinpam.docx'));
-
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi.docx'));
-
-        return response()->download(storage_path('template_surat/surat-disposisi.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/surat-pelimpahan-dumas.docx'))->deleteFileAfterSend(true);
     }
 }

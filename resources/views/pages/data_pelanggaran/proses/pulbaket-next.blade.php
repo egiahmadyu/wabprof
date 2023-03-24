@@ -142,7 +142,7 @@
 </div>
 
 <div class="modal fade" id="modal_laporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Laporan Hasil Audit</h5>
@@ -153,15 +153,72 @@
                     name="data_pelanggar_id" hidden>
                 @csrf
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nomor Laporan :</label>
-                        <input type="text" class="form-control" id="nomor_laporan" aria-describedby="emailHelp"
-                            name="nomor_laporan" placeholder="Nomor Laporan">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Nomor Laporan :</label>
+                                <input type="text" class="form-control" id="nomor_laporan" aria-describedby="emailHelp"
+                                    name="nomor_laporan" placeholder="Nomor Laporan">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Tanggal Laporan :</label>
+                                <input type="date" class="form-control" id="tanggal" aria-describedby="emailHelp"
+                                    name="tanggal">
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Tanggal Laporan :</label>
-                        <input type="date" class="form-control" id="tanggal" aria-describedby="emailHelp"
-                            name="tanggal">
+                    <div class="card card-data-penyidik">
+                        <div class="card-header">Input Data Saksi</div>
+                        <div class="card-body">
+                            <div class="mb-3" id="form_input_saksi">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">NRP :</label>
+                                            <input type="text" class="form-control" id="nrp" aria-describedby="emailHelp"
+                                                name="nrp[]" placeholder="NRP">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
+                                            <input type="text" class="form-control" id="pangkat" aria-describedby="emailHelp"
+                                                name="pangkat[]" placeholder="Pangkat">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Nama :</label>
+                                            <input type="text" class="form-control" id="nama" aria-describedby="emailHelp"
+                                                name="nama[]" placeholder="Nama">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
+                                            <input type="text" class="form-control" id="jabatan" aria-describedby="emailHelp"
+                                                name="jabatan[]" placeholder="Jabatan">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
+                                            <input type="text" class="form-control" id="kesatuan" aria-describedby="emailHelp"
+                                                name="kesatuan[]" placeholder="Kesatuan">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="row mb-3" class="d-flex justify-content-end">
+                                <a href="#" onclick="tambahSaksi()"> <i class="far fa-plus-square"></i>
+                                    Saksi </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -172,3 +229,49 @@
         </div>
     </div>
 </div>
+<script>
+    function tambahSaksi() {
+        let inHtml =
+            `<div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">NRP :</label>
+                        <input type="text" class="form-control" id="nrp" aria-describedby="emailHelp"
+                            name="nrp[]" placeholder="NRP">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
+                        <input type="text" class="form-control" id="pangkat" aria-describedby="emailHelp"
+                            name="pangkat[]" placeholder="Pangkat">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nama :</label>
+                        <input type="text" class="form-control" id="nama" aria-describedby="emailHelp"
+                            name="nama[]" placeholder="Nama">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
+                        <input type="text" class="form-control" id="jabatan" aria-describedby="emailHelp"
+                            name="jabatan[]" placeholder="Jabatan">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
+                        <input type="text" class="form-control" id="kesatuan" aria-describedby="emailHelp"
+                            name="kesatuan[]" placeholder="Kesatuan">
+                    </div>
+                </div>
+            </div>
+            <hr>`;
+        $('#form_input_saksi').append(inHtml);
+    }
+</script>

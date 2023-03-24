@@ -6,6 +6,8 @@ use App\Models\DataPelanggar;
 use App\Models\Penyidik;
 use App\Models\SprinHistory;
 use App\Models\Wawancara;
+use App\Models\Saksi;
+use App\Models\LimpahPolda;
 use App\Models\UndanganGelar;
 use App\Models\LaporanHasilGelar;
 use App\Models\LaporanHasilAudit;
@@ -109,6 +111,17 @@ class AuditInvestigasiController extends Controller
                 'nomor_laporan' => $request->nomor_laporan,
                 'tanggal_laporan' => $request->tanggal
             ]);
+
+            for ($i=0; $i < count($request->nrp); $i++) { 
+                Saksi::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'pangkat' => $request->pangkat[$i],
+                    'nrp' => $request->nrp[$i],
+                    'nama' => $request->nama[$i],
+                    'jabatan' => $request->jabatan[$i],
+                    'kesatuan' => $request->kesatuan[$i],
+                ]);
+            }
         }
 
         $value = $this->valueDoc($request->data_pelanggar_id, false, true);
@@ -152,7 +165,7 @@ class AuditInvestigasiController extends Controller
 
 
 
-    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false)
+    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false, $limpah = false)
     {
         $kasus = DataPelanggar::find($kasus_id);
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
@@ -173,6 +186,44 @@ class AuditInvestigasiController extends Controller
             $laporan_data = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id)->first();
             $data['nomor_laporan'] = $laporan_data->nomor_laporan;
             $data['tanggal_laporan'] = Carbon::parse($laporan_data->tanggal_laporan)->translatedFormat('d F Y');
+
+            $saksi = Saksi::where('data_pelanggar_id', $kasus_id)->get()->toArray();
+
+            $data['pangkat_saksi_1'] = $saksi[0]['pangkat'] ?? '';
+            $data['nama_saksi_1'] = $saksi[0]['nama'] ?? '';
+            $data['jabatan_saksi_1'] = $saksi[0]['jabatan'] ?? '';
+            $data['nrp_saksi_1'] = $saksi[0]['nrp'] ?? '';
+            $data['kesatuan_saksi_1'] = $saksi[0]['kesatuan'] ?? '';
+
+            $data['pangkat_saksi_2'] = $saksi[1]['pangkat'] ?? '';
+            $data['nama_saksi_2'] = $saksi[1]['nama'] ?? '';
+            $data['jabatan_saksi_2'] = $saksi[1]['jabatan'] ?? '';
+            $data['nrp_saksi_2'] = $saksi[1]['nrp'] ?? '';
+            $data['kesatuan_saksi_2'] = $saksi[1]['kesatuan'] ?? '';
+
+            $data['pangkat_saksi_3'] = $saksi[2]['pangkat'] ?? '';
+            $data['nama_saksi_3'] = $saksi[2]['nama'] ?? '';
+            $data['jabatan_saksi_3'] = $saksi[2]['jabatan'] ?? '';
+            $data['nrp_saksi_3'] = $saksi[2]['nrp'] ?? '';
+            $data['kesatuan_saksi_3'] = $saksi[2]['kesatuan'] ?? '';
+
+            $data['pangkat_saksi_4'] = $saksi[3]['pangkat'] ?? '';
+            $data['nama_saksi_4'] = $saksi[3]['nama'] ?? '';
+            $data['jabatan_saksi_4'] = $saksi[3]['jabatan'] ?? '';
+            $data['nrp_saksi_4'] = $saksi[3]['nrp'] ?? '';
+            $data['kesatuan_saksi_4'] = $saksi[3]['kesatuan'] ?? '';
+
+            $data['pangkat_saksi_5'] = $saksi[4]['pangkat'] ?? '';
+            $data['nama_saksi_5'] = $saksi[4]['nama'] ?? '';
+            $data['jabatan_saksi_5'] = $saksi[4]['jabatan'] ?? '';
+            $data['nrp_saksi_5'] = $saksi[4]['nrp'] ?? '';
+            $data['kesatuan_saksi_5'] = $saksi[4]['kesatuan'] ?? '';
+
+            $data['pangkat_saksi_6'] = $saksi[5]['pangkat'] ?? '';
+            $data['nama_saksi_6'] = $saksi[5]['nama'] ?? '';
+            $data['jabatan_saksi_6'] = $saksi[5]['jabatan'] ?? '';
+            $data['nrp_saksi_6'] = $saksi[5]['nrp'] ?? '';
+            $data['kesatuan_saksi_6'] = $saksi[5]['kesatuan'] ?? '';
         }
 
         if($undangan_gelar){
@@ -206,6 +257,18 @@ class AuditInvestigasiController extends Controller
             $data['jabatan_terlapor'] = strtoupper($kasus->jabatan);
             $data['kesatuan_terlapor'] = strtoupper($kasus->kesatuan);
 
+        }
+
+        if($limpah){
+            $limpah_data = LimpahPolda::where('data_pelanggar_id', $kasus_id)->first();
+            $data['tanggal_limpah'] = Carbon::parse($limpah_data->tanggal_limpah)->translatedFormat('d F Y');
+            $data['nomor_limpah'] = $limpah_data->nomor_limpah;
+            $data['polda'] = $limpah_data->polda->name;
+            $data['alamat_polda'] = $limpah_data->alamat_polda;
+            $data['nomor_klarifikasi'] = $limpah_data->nomor_klarifikasi;
+            $data['tanggal_klarifikasi'] = Carbon::parse($limpah_data->tanggal_klarifikasi)->translatedFormat('d F Y');
+            $data['perihal_klarifikasi'] = $limpah_data->perihal_klarifikasi;
+            $data['nama_terlapor'] = strtoupper($kasus->terlapor);
         }
 
         $data += array(
