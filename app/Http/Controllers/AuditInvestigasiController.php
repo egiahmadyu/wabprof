@@ -316,11 +316,12 @@ class AuditInvestigasiController extends Controller
             $data['nomor_lpa'] = $permohonan_data->nomor;
             $data['pasal_lpa'] = $permohonan_data->pasal;
             $perbaikan_data = Bp3kepps::where(array('data_pelanggar_id' => $kasus_id, 'id' => $permohonan_data->bp3kepp_id))->first();
+
             $data['nomor_terduga'] = $perbaikan_data->nomor;
             $data['pangkat_terduga'] = $perbaikan_data->pangkat;
             $data['nama_terduga'] = $perbaikan_data->nama;
             $data['nrp_terduga'] = $perbaikan_data->nrp;
-            $data['jabatan_terduga'] = $perbaikan_data->jabatan;
+            $data['jabatan_ter'] = $perbaikan_data->jabatan;
             $data['kesatuan_terduga'] = $perbaikan_data->kesatuan;
         }
         
