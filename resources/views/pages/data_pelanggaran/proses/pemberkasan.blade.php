@@ -173,10 +173,16 @@
                         <td>Permohonan Pendapat Saran Hukum</td>
                         <td>
                             @if (isset($perbaikan))
-                                <button data-bs-toggle="modal" data-bs-target="#modal_permohonan" type="button"
-                                    class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                </button>
+                                @if (isset($perbaikan))
+                                    <a href="/permohonan-pendapat/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                    </button>
+                                @else
+                                    <button data-bs-toggle="modal" data-bs-target="#modal_permohonan" type="button"
+                                        class="btn btn-outline-primary text-primar">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                    </button>
+                                @endif
                             @else
                                 <div class="alert alert-warning" role="alert">
                                     <span class="fa fa-warning"></span>  Buat Nota Dinas Perbaikan Terlebih Dahulu!

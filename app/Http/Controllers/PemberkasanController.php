@@ -136,8 +136,8 @@ class PemberkasanController extends Controller
     }
 
     public function permohonanPendapat($kasus_id){
-        $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, false, true);
-        $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_perbaikan.docx'));
+        $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, false, false, true);
+        $template_document = new TemplateProcessor(storage_path('template_surat/permohonan_pendapat.docx'));
         $template_document->setValues($value);
         $template_document->saveAs(storage_path('template_surat/permohonan-pendapat-saran-hukum.docx'));
 
