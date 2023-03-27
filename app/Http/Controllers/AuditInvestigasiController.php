@@ -6,8 +6,12 @@ use App\Models\DataPelanggar;
 use App\Models\Penyidik;
 use App\Models\SprinHistory;
 use App\Models\Wawancara;
+use App\Models\Penyerahan;
+use App\Models\Bp3kepps;
 use App\Models\Saksi;
+use App\Models\Sidang;
 use App\Models\LimpahPolda;
+use App\Models\Permohonan;
 use App\Models\UndanganGelar;
 use App\Models\LaporanHasilGelar;
 use App\Models\LaporanHasilAudit;
@@ -165,7 +169,7 @@ class AuditInvestigasiController extends Controller
 
 
 
-    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false, $limpah = false)
+    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false, $limpah = false, $sidang = false, $penyerahan = false, $perbaikan = false, $permohonan = false)
     {
         $kasus = DataPelanggar::find($kasus_id);
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
@@ -270,6 +274,56 @@ class AuditInvestigasiController extends Controller
             $data['perihal_klarifikasi'] = $limpah_data->perihal_klarifikasi;
             $data['nama_terlapor'] = strtoupper($kasus->terlapor);
         }
+
+        if($sidang){
+            $sidang_data = Sidang::where('data_pelanggar_id', $kasus_id)->first();
+            $data['hari_sidang'] = Carbon::parse($sidang_data->tanggal)->translatedFormat('l');
+            $data['bulan_tahun_sidang'] = Carbon::parse($sidang_data->tanggal)->translatedFormat('F Y');
+            $data['tanggal_sidang'] = Carbon::parse($sidang_data->tanggal)->translatedFormat('d F Y');
+            $data['jam_sidang'] = $sidang_data->jam;
+            $data['tempat_sidang'] = $sidang_data->tempat;
+            $data['pakaian'] = $sidang_data->pakaian;
+        }
+
+        if($penyerahan){
+            $penyerahan_data = Penyerahan::where('data_pelanggar_id', $kasus_id)->first();
+            $data['bulan_tahun_bp3kepp'] = Carbon::parse($penyerahan_data->tanggal)->translatedFormat('F Y');
+            $data['tanggal_bp3kepp'] = Carbon::parse($penyerahan_data->tanggal)->translatedFormat('d F Y');
+            $data['nomor_bp3kepp'] = $penyerahan_data->nomor;
+        }
+
+        if($perbaikan){
+            $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $kasus_id)->get()->toArray();
+            $data['bulan_tahun_perbaikan'] = Carbon::parse($perbaikan_data[0]['created_at'])->translatedFormat('F Y');
+            $index = 1;
+            for ($i=0; $i < count($perbaikan_data); $i++) { 
+                $data['tanggal_terduga_'.$index] = Carbon::parse($perbaikan_data[$i]['tanggal'])->translatedFormat('d F Y') ?? '';
+                $data['nomor_terduga_'.$index] = $perbaikan_data[$i]['nomor'] ?? '';
+                $data['pangkat_terduga_'.$index] = $perbaikan_data[$i]['pangkat'] ?? '';
+                $data['nama_terduga_'.$index] = $perbaikan_data[$i]['nama'] ?? '';
+                $data['nrp_terduga_'.$index] = $perbaikan_data[$i]['nrp'] ?? '';
+                $data['jabatan_terduga_'.$index] = $perbaikan_data[$i]['jabatan'] ?? '';
+                $data['kesatuan_terduga_'.$index] = $perbaikan_data[$i]['kesatuan'] ?? '';
+                $index++;
+            }
+            
+        }
+
+        if($permohonan){
+            $permohonan_data = Permohonan::where('data_pelanggar_id', $kasus_id)->first();
+            $data['bulan_tahun_lpa'] = Carbon::parse($permohonan_data->tanggal)->translatedFormat('F Y');
+            $data['tanggal_lpa'] = Carbon::parse($permohonan_data->tanggal)->translatedFormat('d F Y');
+            $data['nomor_lpa'] = $permohonan_data->nomor;
+            $data['pasal_lpa'] = $permohonan_data->pasal;
+            $perbaikan_data = Bp3kepps::where(array('data_pelanggar_id' => $kasus_id, 'id' => $permohonan_data->bp3kepp_id))->first();
+            $data['nomor_terduga'] = $perbaikan_data->nomor;
+            $data['pangkat_terduga'] = $perbaikan_data->pangkat;
+            $data['nama_terduga'] = $perbaikan_data->nama;
+            $data['nrp_terduga'] = $perbaikan_data->nrp;
+            $data['jabatan_terduga'] = $perbaikan_data->jabatan;
+            $data['kesatuan_terduga'] = $perbaikan_data->kesatuan;
+        }
+        
 
         $data += array(
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),

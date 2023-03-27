@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiterimaController;
 use App\Http\Controllers\GelarPerkaraController;
 use App\Http\Controllers\GelarInvestigasiController;
+use App\Http\Controllers\PemberkasanController;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\ProvostWabprofController;
@@ -86,6 +87,14 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'suratPenghadapan']);
     Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
     Route::get('/surat-limpah-polda/{id}', [LimpahPoldaController::class, 'limpahPolda']);
+    Route::post('/administrasi-sidang', [PemberkasanController::class, 'generateAdmistrasiSidang']);
+    Route::get('/administrasi-sidang/{id}', [PemberkasanController::class, 'AdmistrasiSidang']);
+    Route::post('/nota-dinas-penyerahan', [PemberkasanController::class, 'generateNotaDinasPenyerahan']);
+    Route::get('/nota-dinas-penyerahan/{id}', [PemberkasanController::class, 'notaDinasPenyerahan']);
+    Route::post('/nota-dinas-perbaikan', [PemberkasanController::class, 'generateNotaDinasPerbaikan']);
+    Route::get('/nota-dinas-perbaikan/{id}', [PemberkasanController::class, 'notaDinasPerbaikan']);
+    Route::post('/permohonan-pendapat', [PemberkasanController::class, 'generatePermohonanPendapat']);
+    Route::get('/permohonan-pendapat/{id}', [PemberkasanController::class, 'permohonanPendapat']);
 
 
     // Route::group(['middleware' => ['role:super-admin']], function () {

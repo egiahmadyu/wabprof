@@ -12,6 +12,10 @@ use App\Models\LaporanHasilGelar;
 use App\Models\JenisKelamin;
 use App\Models\LimpahPolda;
 use App\Models\Process;
+use App\Models\Sidang;
+use App\Models\Penyerahan;
+use App\Models\Permohonan;
+use App\Models\Bp3kepps;
 use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
@@ -187,11 +191,21 @@ class KasusController extends Controller
     private function viewPemberkasan($id)
     {
         $kasus = DataPelanggar::find($id);
-        // $status = Process::find($kasus->status_id);
+        $administrasi_sidang = Sidang::where('data_pelanggar_id', $id)->first();
+        $penyerahan = Penyerahan::where('data_pelanggar_id', $id)->first();
+        $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
+        $permohonan = Permohonan::where('data_pelanggar_id', $id)->first();
+        $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $id)->get();
+
         // $process = Process::where('sort', '<=', $status->id)->get();
 
         $data = [
             'kasus' => $kasus,
+            'administrasi_sidang' => $administrasi_sidang,
+            'penyerahan' => $penyerahan,
+            'perbaikan' => $perbaikan,
+            'permohonan' => $permohonan,
+            'perbaikan_data' => $perbaikan_data,
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),

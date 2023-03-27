@@ -127,41 +127,61 @@
                     <tr>
                         <td>Administrasi Sidang</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if (isset($administrasi_sidang))
+                            <a href="/administrasi-sidang/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                 </button>
-                            </a>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_administrasi_sidang" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <td>Nota Dinas Penyerahan Berkas</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if (isset($penyerahan))
+                            <a href="/nota-dinas-penyerahan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                 </button>
-                            </a>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_penyerahan" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <td>Nota Dinas Perbaikan Berkas</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if (isset($perbaikan))
+                            <a href="/nota-dinas-perbaikan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                 </button>
-                            </a>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_perbaikan" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <td>Permohonan Pendapat Saran Hukum</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if (isset($perbaikan))
+                                <button data-bs-toggle="modal" data-bs-target="#modal_permohonan" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
-                            </a>
+                            @else
+                                <div class="alert alert-warning" role="alert">
+                                    <span class="fa fa-warning"></span>  Buat Nota Dinas Perbaikan Terlebih Dahulu!
+                                </div>
+                            @endif
                         </td>
                     </tr>
                     {{-- <tr>
@@ -197,104 +217,176 @@
     @endif
 </div>
 
-<div class="modal fade" id="modal_sprin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_administrasi_sidang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Administrasi Sidang</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/surat-perintah/{{ $kasus->id }}">
-                    <div class="form-outline mb-3">
-                        <label class="form-label" for="textAreaExample2">Isi Surat</label>
-                        <textarea class="form-control" name="isi_surat_perintah" rows="8"></textarea>
+            <form action="/administrasi-sidang" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp">
                     </div>
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Jam</label>
+                        <input type="time" class="form-control" name="jam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tempat</label>
+                        <input type="text" class="form-control" name="tempat" placeholder="Tempat">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Pakaian</label>
+                        <input type="text" class="form-control" name="pakaian" placeholder="Pakaian">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_uuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_permohonan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Permohonan Pendapat Saran Hukum</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/surat-uuk/{{ $kasus->id }}">
+            <form action="/permohonan-pendapat" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama" aria-describedby="emailHelp">
+                        <label for="exampleInputEmail1" class="form-label">Nomor LP-A</label>
+                        <input type="text" class="form-control" name="nomor" aria-describedby="emailHelp" placeholder="Nomor LP-A">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat">
+                        <label for="exampleInputPassword1" class="form-label">Tanggal LP-A</label>
+                        <input type="date" class="form-control" name="tanggal">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">NRP</label>
-                        <input type="text" class="form-control" name="nrp">
+                        <label for="exampleInputPassword1" class="form-label">Terduga</label>
+                        @if (isset($perbaikan))
+                            <select name="bp3kepp_id" id="bp3kepp_id" class="form-control">
+                                <option value="">Pilih Terudga</option>
+                                @foreach($perbaikan_data as $perbaikan)
+                                    <option value="{{ $perbaikan->id }}">{{ $perbaikan->nama }}</option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan">
+                        <label for="exampleInputPassword1" class="form-label">Pasal Yang Disangkakan</label>
+                        <input type="text" class="form-control" name="pasal" placeholder="Pasal">
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_sp2hp2_awal" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal_nota_dinas_penyerahan" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Penyerahan Berkas Perkara Ke Binetik</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/surat-sp2hp2-awal/{{ $kasus->id }}">
+            <form action="/nota-dinas-penyerahan" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama yang Menangani</label>
-                        <input type="text" class="form-control" name="penangan" aria-describedby="emailHelp"
-                            placeholder="Unit II Detasemen A Ropaminal Divpropam Polri">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal BP3KEPP</label>
+                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama yang dihubungi</label>
-                        <input type="text" class="form-control" name="dihubungi"
-                            placeholder="AKP ERICSON SIREGAR, S.Kom., M.T., M.Sc">
+                        <label for="exampleInputPassword1" class="form-label">Nomor BP3KEPP</label>
+                        <input type="text" class="form-control" name="nomor" placeholder="Nomor BP3KEPP">
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan yang dihubungi</label>
-                        <input type="text" class="form-control" name="jabatan_dihubungi"
-                            placeholder="Kanit II Den A">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="telp_dihubungi">
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
+<div class="modal fade" id="modal_nota_dinas_perbaikan" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Perbaikan Berkas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
+            <form action="/nota-dinas-perbaikan" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
+                    <div class="mb-3" id="form_input_terduga">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Tanggal BP3KEPP</label>
+                                <input type="date" class="form-control" name="tanggal[]" aria-describedby="emailHelp">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Nomor BP3KEPP</label>
+                                <input type="text" class="form-control" name="nomor[]" placeholder="Nomor BP3KEPP">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="exampleInputPassword1" class="form-label">NRP Terduga</label>
+                                <input type="text" class="form-control" name="nrp[]" placeholder="NRP Terduga">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Nama Terduga</label>
+                                <input type="text" class="form-control" name="nama[]" placeholder="Nama Terduga">
+                            </div>   
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Pangkat Terduga</label>
+                                <input type="text" class="form-control" name="pangkat[]" placeholder="Pangkat Terduga">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Jabatan Terduga</label>
+                                <input type="text" class="form-control" name="jabatan[]" placeholder="Jabatan Terduga">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Kesatuan Terduga</label>
+                                <input type="text" class="form-control" name="kesatuan[]" placeholder="Kesatuan Terduga">
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="row mb-3" class="d-flex justify-content-end">
+                        <a href="#" onclick="tambahTerduga()"> <i class="far fa-plus-square"></i>
+                            Terduga </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -317,4 +409,44 @@
     //         });
     //     }
     // }
+
+    function tambahTerduga() {
+        let inHtml =
+            `<div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Tanggal BP3KEPP</label>
+                    <input type="date" class="form-control" name="tanggal[]" aria-describedby="emailHelp">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nomor BP3KEPP</label>
+                    <input type="text" class="form-control" name="nomor[]" placeholder="Nomor BP3KEPP">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="exampleInputPassword1" class="form-label">NRP Terduga</label>
+                    <input type="text" class="form-control" name="nrp[]" placeholder="NRP Terduga">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nama Terduga</label>
+                    <input type="text" class="form-control" name="nama[]" placeholder="Nama Terduga">
+                </div>   
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Pangkat Terduga</label>
+                    <input type="text" class="form-control" name="pangkat[]" placeholder="Pangkat Terduga">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Jabatan Terduga</label>
+                    <input type="text" class="form-control" name="jabatan[]" placeholder="Jabatan Terduga">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Kesatuan Terduga</label>
+                    <input type="text" class="form-control" name="kesatuan[]" placeholder="Kesatuan Terduga">
+                </div>
+            </div>
+            <hr>`;
+        $('#form_input_terduga').append(inHtml);
+    }
 </script>
