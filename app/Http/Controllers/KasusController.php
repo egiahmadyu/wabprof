@@ -181,11 +181,30 @@ class KasusController extends Controller
         elseif ($status_id == 4) return $this->viewGelarInvestigasi($kasus_id);
         elseif ($status_id == 5) return $this->viewSidik($kasus_id);
         elseif ($status_id == 6) return $this->viewPemberkasan($kasus_id);
-        elseif ($status_id == 7) return $this->viewPemberkasan($kasus_id);
+        elseif ($status_id == 7) return $this->viewSidang($kasus_id);
         elseif ($status_id == 8) return $this->viewLimpah($kasus_id);
         // elseif ($status_id == 4) return $this->viewPulbaket($kasus_id);
         // elseif ($status_id == 5) return $this->viewGelarPenyelidikan($kasus_id);
         // elseif ($status_id == 6) return $this->viewLimpahBiro($kasus_id);
+    }
+
+    private function viewSidang($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        // $status = Process::find($kasus->status_id);
+        // $process = Process::where('sort', '<=', $status->id)->get();
+        $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
+        $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'perbaikan' => $perbaikan,
+            'perbaikan_data' => $perbaikan_data,
+            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+        ];
+        return view('pages.data_pelanggaran.proses.sidang', $data);
     }
 
     private function viewPemberkasan($id)
@@ -194,8 +213,8 @@ class KasusController extends Controller
         $administrasi_sidang = Sidang::where('data_pelanggar_id', $id)->first();
         $penyerahan = Penyerahan::where('data_pelanggar_id', $id)->first();
         $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
-        $permohonan = Permohonan::where('data_pelanggar_id', $id)->first();
         $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $id)->get();
+        $permohonan = Permohonan::where('data_pelanggar_id', $id)->first();
 
         // $process = Process::where('sort', '<=', $status->id)->get();
 

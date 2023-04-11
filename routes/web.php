@@ -7,6 +7,7 @@ use App\Http\Controllers\DiterimaController;
 use App\Http\Controllers\GelarPerkaraController;
 use App\Http\Controllers\GelarInvestigasiController;
 use App\Http\Controllers\PemberkasanController;
+use App\Http\Controllers\SidangController;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\ProvostWabprofController;
@@ -95,6 +96,8 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/nota-dinas-perbaikan/{id}', [PemberkasanController::class, 'notaDinasPerbaikan']);
     Route::post('/permohonan-pendapat', [PemberkasanController::class, 'generatePermohonanPendapat']);
     Route::get('/permohonan-pendapat/{id}', [PemberkasanController::class, 'permohonanPendapat']);
+    Route::post('/pembentukan-komisi', [SidangController::class, 'generatePembentukanKomisi']);
+    Route::get('/pembentukan-komisi/{id}', [SidangController::class, 'pembentukanKomisi']);
 
 
     // Route::group(['middleware' => ['role:super-admin']], function () {

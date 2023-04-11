@@ -62,8 +62,9 @@
 
             let process_id = $('#process_id').val()
             getViewProcess(process_id)
+
         });
-    </script>
+        </script>
     <script>
         function getViewProcess(id) {
             let kasus_id = $('#data_pelanggar_id').val()

@@ -173,7 +173,7 @@
                         <td>Permohonan Pendapat Saran Hukum</td>
                         <td>
                             @if (isset($perbaikan))
-                                @if (isset($perbaikan))
+                                @if (isset($permohonan))
                                     <a href="/permohonan-pendapat/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
                                         <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                     </button>

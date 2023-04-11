@@ -137,12 +137,20 @@
                     <tr>
                         <td>BAP</td>
                         <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
+                        @if (isset($usulan_pembentukan))
+                            <a href="/bap/{{ $kasus->id }}">
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
                             </a>
+                        @else
+                            <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                        @endif
                         </td>
+
                     </tr>
                     {{-- <tr>
                         <td>Berita Acara Intograsi</td>
@@ -177,107 +185,43 @@
     @endif
 </div>
 
-<div class="modal fade" id="modal_sprin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_bap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <h5 class="modal-title" id="exampleModalLabel">BAP</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/surat-perintah/{{ $kasus->id }}">
-                    <div class="form-outline mb-3">
-                        <label class="form-label" for="textAreaExample2">Isi Surat</label>
-                        <textarea class="form-control" name="isi_surat_perintah" rows="8"></textarea>
+            <form action="/bap" method="post">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp">
                     </div>
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Jam</label>
+                        <input type="time" class="form-control" name="jam">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tempat</label>
+                        <input type="text" class="form-control" name="tempat" placeholder="Tempat">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Pakaian</label>
+                        <input type="text" class="form-control" name="pakaian" placeholder="Pakaian">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_uuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/surat-uuk/{{ $kasus->id }}">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">NRP</label>
-                        <input type="text" class="form-control" name="nrp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal_sp2hp2_awal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/surat-sp2hp2-awal/{{ $kasus->id }}">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama yang Menangani</label>
-                        <input type="text" class="form-control" name="penangan" aria-describedby="emailHelp"
-                            placeholder="Unit II Detasemen A Ropaminal Divpropam Polri">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama yang dihubungi</label>
-                        <input type="text" class="form-control" name="dihubungi"
-                            placeholder="AKP ERICSON SIREGAR, S.Kom., M.T., M.Sc">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan yang dihubungi</label>
-                        <input type="text" class="form-control" name="jabatan_dihubungi"
-                            placeholder="Kanit II Den A">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="telp_dihubungi">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     function getPolda() {

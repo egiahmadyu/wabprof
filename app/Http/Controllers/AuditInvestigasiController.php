@@ -32,7 +32,8 @@ class AuditInvestigasiController extends Controller
             $data = SprinHistory::create([
                 'data_pelanggar_id' => $kasus_id,
                 'no_sprin' => $request->no_sprin,
-                'tanggal_investigasi' => $request->tanggal_investigasi
+                'tanggal_investigasi' => $request->tanggal_investigasi,
+                'tempat_investigasi' => $request->tempat_investigasi
                 // 'isi_surat_perintah' => $request->isi_surat_perintah
             ]);
             if ($request->nama_penyelidik_ketua)
@@ -169,7 +170,7 @@ class AuditInvestigasiController extends Controller
 
 
 
-    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false, $limpah = false, $sidang = false, $penyerahan = false, $perbaikan = false, $permohonan = false)
+    Public static function valueDoc($kasus_id, $wawancara = false, $laporan = false, $undangan_gelar = false, $laporan_gelar = false, $limpah = false, $sidang = false, $penyerahan = false, $perbaikan = false, $permohonan = false, $pembentukan = false)
     {
         $kasus = DataPelanggar::find($kasus_id);
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
@@ -244,6 +245,11 @@ class AuditInvestigasiController extends Controller
 
         if($laporan_gelar){
             $laporan_gelar_data = LaporanHasilGelar::where('data_pelanggar_id', $kasus_id)->first();
+            $undangan_gelar_data = UndanganGelar::where('data_pelanggar_id', $kasus_id)->first();
+
+            $data['nomor_gelar'] = $undangan_gelar_data->nomor_gelar;
+            $data['tanggal_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('d F Y');
+
             $data['tanggal_laporan_gelar'] = Carbon::parse($laporan_gelar_data->tanggal_laporan_gelar)->translatedFormat('d F Y');
             $data['nama_pimpinan_gelar'] = $laporan_gelar_data->nama_pimpinan_gelar;
             $data['pangkat_pimpinan_gelar'] = $laporan_gelar_data->pangkat_pimpinan_gelar;
@@ -323,6 +329,20 @@ class AuditInvestigasiController extends Controller
             $data['nrp_terduga'] = $perbaikan_data->nrp;
             $data['jabatan_ter'] = $perbaikan_data->jabatan;
             $data['kesatuan_terduga'] = $perbaikan_data->kesatuan;
+        }
+
+        if($pembentukan){
+            $pembentukan_data = PembentukanKomisi::where('data_pelanggar_id', $kasus_id)->first();
+            $data['bulan_tahun_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('F Y');
+            $data['tanggal_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('d F Y');
+            $data['nomor_pembentukan'] = $pembentukan_data->nomor;
+            $data['nomor_surat_divkum'] = $permohonan_data->nomor_surat_divkum;
+            $data['tanggal_surat_divkum'] = Carbon::parse($pembentukan_data->tanggal_surat_divkum)->translatedFormat('d F Y');
+            $data['pangkat_pelanggar'] = $permohonan_data->pangkat;
+            $data['nama_pelanggar'] = $permohonan_data->nama;
+            $data['jabtan_pelanggar'] = $permohonan_data->jabtan;
+            $data['kesatuan_pelanggar'] = $permohonan_data->kesatuan;
+
         }
         
 

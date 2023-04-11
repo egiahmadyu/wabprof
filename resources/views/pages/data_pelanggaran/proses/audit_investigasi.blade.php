@@ -174,6 +174,10 @@
                             <input type="date" class="form-control" name="tanggal_investigasi"
                                 placeholder="Tanggal Investigasi" required>
                         </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="tempat_investigasi"
+                                placeholder="Tempat Investigasi" required>
+                        </div>
                     </div>
                     <!-- Input data penyidik -->
                     <div class="card card-data-penyidik">

@@ -1,3 +1,5 @@
+<input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row mt-4">
     <div class="col-lg-12">
         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
@@ -42,13 +44,16 @@
                     <td>Undangan Wawancara</td>
                     <td>
                         @if (isset($wawancara))
-                        <a href="/surat-undangan-wawancara/{{ $kasus->id }}"" class="btn btn-outline-primary text-primar">
+                        <a href="/surat-undangan-wawancara/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-wawancara">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>Dokumen</h6>
                             </button>
                         @else
                             <button data-bs-toggle="modal" data-bs-target="#modal_wawancara" type="button"
-                                class="btn btn-outline-primary text-primar">
+                                class="btn btn-outline-primary text-primar btn-dokumen-wawancara">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                            <a href="/surat-undangan-wawancara/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-wawancara d-none">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>Dokumen</h6>
                             </button>
                         @endif
 
@@ -68,13 +73,16 @@
                     <td>Laporan Hasil Audit</td>
                     <td>
                         @if (isset($laporan))
-                            <a href="/laporan-hasil-audit/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                            <a href="/laporan-hasil-audit/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-laporan">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>Dokumen</h6>
                             </button>
                         @else
                             <button data-bs-toggle="modal" data-bs-target="#modal_laporan" type="button"
-                                class="btn btn-outline-primary text-primar">
+                                class="btn btn-outline-primary text-primar btn-dokumen-laporan">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                            <a href="/laporan-hasil-audit/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-laporan d-none">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>Dokumen</h6>
                             </button>
                         @endif
                     </td>
@@ -134,7 +142,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-primary btn-generate" modal="modal_wawancara" btn-buat="btn-dokumen-wawancara" btn-dokumen="btn-wawancara">Generate</button>
                 </div>
             </form>
         </div>
@@ -223,7 +231,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-primary btn-generate" modal="modal_laporan" btn-buat="btn-dokumen-laporan" btn-dokumen="btn-laporan">Generate</button>
                 </div>
             </form>
         </div>
@@ -273,5 +281,29 @@
             </div>
             <hr>`;
         $('#form_input_saksi').append(inHtml);
+
     }
+    $('.btn-generate').on('click', function () {
+        var modal = $(this).attr('modal');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#'+modal).modal('hide');
+        $.ajax({
+            type: 'get',
+            url: `/data-kasus/view/${kasus_id}/${id}`,
+            beforeSend: function() {
+                $('.loader-view').show();
+                $('#viewProses').hide();
+            },
+            success: function(data) {
+                $('#viewProses').append(data);
+                $('.loader-view').hide();
+            }
+        });
+        // var button_buat = $(this).attr('btn-buat')
+        // var button_dokumen = $(this).attr('btn-dokumen')
+
+        // $('.'+button_buat).hide();
+        // $('.'+button_dokumen).removeClass('d-none');
+    });
 </script>

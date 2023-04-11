@@ -135,9 +135,14 @@
                                 </a>        
                             @else
                                 <button data-bs-toggle="modal" data-bs-target="#modal-undangan-gelar" type="button"
-                                class="btn btn-outline-primary text-primar">
+                                class="btn btn-outline-primary text-primar btn-dokumen-undangan">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
+                                <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-outline-primary text-primar btn-undangan d-none">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                                </a>     
                             @endif
                         </td>
                     </tr>
@@ -379,7 +384,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="button" class="btn btn-primary btn-generate" modal="modal-undangan-gelar" btn-buat="btn-dokumen-undangan" btn-dokumen="btn-undangan">Generate</button>
                 </div>
             </form>
         </div>
@@ -415,4 +420,16 @@
     //         });
     //     }
     // }
+    $('.btn-generate').on('click', function () {
+        var modal = $(this).attr('modal');
+        $('#'+modal).modal('hide');
+
+        var button_buat = $(this).attr('btn-buat')
+        var button_dokumen = $(this).attr('btn-dokumen')
+
+        $('.'+button_buat).hide();
+        $('.'+button_dokumen).removeClass('d-none');
+        $('#viewProses').hide(0).delay(3000).show(0);
+        $('.loader-view').show(0).delay(3000).hide(0);
+    });
 </script>
