@@ -1,3 +1,5 @@
+<input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -223,7 +225,7 @@
     @endif
 </div>
 
-<div class="modal fade" id="modal_administrasi_sidang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_administrasi_sidang" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -252,15 +254,15 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Generate</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_administrasi_sidang">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_permohonan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_permohonan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -296,15 +298,15 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Generate</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_permohonan">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_nota_dinas_penyerahan" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal_nota_dinas_penyerahan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -326,15 +328,15 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Generate</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_nota_dinas_penyerahan">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_nota_dinas_perbaikan" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal_nota_dinas_perbaikan"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -389,8 +391,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Generate</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_nota_dinas_perbaikan">Generate</button>
                 </div>
             </form>
         </div>
@@ -455,4 +457,23 @@
             <hr>`;
         $('#form_input_terduga').append(inHtml);
     }
+    $('.btn-generate').on('click', function () {
+        var modal = $(this).attr('modal');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#'+modal).modal('hide');
+        $('.loader-view').show();
+        $('#viewProses').hide();
+        setTimeout(function() {
+            $.ajax({
+                type: 'get',
+                url: `/data-kasus/view/${kasus_id}/${id}`,
+                success: function(data) {
+                    $('#viewProses').html(data);
+                    $('.loader-view').hide();
+                    $('#viewProses').show();
+                }
+            });
+        }, 3000);
+    });
 </script>

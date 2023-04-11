@@ -1,3 +1,5 @@
+<input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -138,11 +140,6 @@
                                 class="btn btn-outline-primary text-primar btn-dokumen-undangan">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
-                                <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                    <button type="button" class="btn btn-outline-primary text-primar btn-undangan d-none">
-                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                    </button>
-                                </a>     
                             @endif
                         </td>
                     </tr>
@@ -244,7 +241,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-laporan-gelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-laporan-gelar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -324,14 +321,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal-laporan-gelar">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-undangan-gelar" tabindex="-1" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal-undangan-gelar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -384,7 +381,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-generate" modal="modal-undangan-gelar" btn-buat="btn-dokumen-undangan" btn-dokumen="btn-undangan">Generate</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal-undangan-gelar">Generate</button>
                 </div>
             </form>
         </div>
@@ -422,14 +419,21 @@
     // }
     $('.btn-generate').on('click', function () {
         var modal = $(this).attr('modal');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
         $('#'+modal).modal('hide');
-
-        var button_buat = $(this).attr('btn-buat')
-        var button_dokumen = $(this).attr('btn-dokumen')
-
-        $('.'+button_buat).hide();
-        $('.'+button_dokumen).removeClass('d-none');
-        $('#viewProses').hide(0).delay(3000).show(0);
-        $('.loader-view').show(0).delay(3000).hide(0);
+        $('.loader-view').show();
+        $('#viewProses').hide();
+        setTimeout(function() {
+            $.ajax({
+                type: 'get',
+                url: `/data-kasus/view/${kasus_id}/${id}`,
+                success: function(data) {
+                    $('#viewProses').html(data);
+                    $('.loader-view').hide();
+                    $('#viewProses').show();
+                }
+            });
+        }, 3000);
     });
 </script>
