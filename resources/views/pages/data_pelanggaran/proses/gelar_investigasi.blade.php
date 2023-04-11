@@ -186,6 +186,7 @@
             </table>
         </div>
     </div>
+    @if (isset($undangan_gelar) && isset($laporan_gelar))
     <form action="/data-kasus/update" method="post">
         @csrf
         <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
@@ -207,7 +208,7 @@
 
             </div>
             <div class="col-lg-12">
-                <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
+                <button class="btn btn-update-diterima btn-primary col-12" type="submit" value="update_status"
                     name="type_submit" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>
                     <i class="far fa-upload"></i> Update Status
                 </button>
@@ -215,6 +216,11 @@
 
         </div>
     </form>
+    @else
+        <button class="btn btn-update-diterima btn-primary disabled" type="button" value="update_status">
+            <i class="far fa-upload"></i> Update Status
+        </button>
+    @endif
 </div>
 
 <div class="modal fade" id="modal_sprin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -255,22 +261,22 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" name="tanggal_laporan_gelar"
+                        <input type="date" class="form-control" name="tanggal_laporan_gelar" id="tanggal_laporan_gelar"
                         >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">NRP</label>
-                        <input type="text" class="form-control" name="nrp_pembuat" placeholder="NRP Pembuat"
+                        <input type="text" class="form-control" name="nrp_pembuat" id="nrp_pembuat" placeholder="NRP Pembuat"
                         >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pembuat" placeholder="Nama Pembuat"
+                        <input type="text" class="form-control" name="nama_pembuat" id="nama_pembuat" placeholder="Nama Pembuat"
                         >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat_pembuat" placeholder="Pangkat Pembuat"
+                        <input type="text" class="form-control" name="pangkat_pembuat" id="pangkat_pembuat" placeholder="Pangkat Pembuat"
                         >
                     </div>
                     <hr>
@@ -278,21 +284,21 @@
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat_pimpinan_gelar"
+                        <input type="text" class="form-control" name="pangkat_pimpinan_gelar" id="pangkat_pimpinan_gelar"
                             placeholder="Pangkat Pimpinan">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pimpinan_gelar" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" name="nama_pimpinan_gelar" id="nama_pimpinan_gelar" aria-describedby="emailHelp"
                             placeholder="Nama">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar" placeholder="Jabatan">
+                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar" id="jabatan_pimpinan_gelar" placeholder="Jabatan">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
-                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar"
+                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar" id="kesatuan_pimpinan_gelar"
                             placeholder="Satuan Kerja">
                     </div>
                     <hr>
@@ -300,22 +306,22 @@
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat_pemapar"
+                        <input type="text" class="form-control" name="pangkat_pemapar" id="pangkat_pemapar"
                             placeholder="Pangkat">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pemapar"
+                        <input type="text" class="form-control" name="nama_pemapar" id="nama_pemapar"
                             placeholder="Nama">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan_pemapar"
+                        <input type="text" class="form-control" name="jabatan_pemapar" id="jabatan_pemapar"
                             placeholder="Jabatan">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
-                        <input type="text" class="form-control" name="kesatuan_pemapar"
+                        <input type="text" class="form-control" name="kesatuan_pemapar" id="kesatuan_pemapar"
                             placeholder="Satuan Kerja">
                     </div>
                 </div>
@@ -343,45 +349,45 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Undangan</label>
-                        <input type="text" class="form-control" name="nomor_undangan"
+                        <input type="text" class="form-control" name="nomor_undangan" id="nomor_undangan"
                             placeholder="Nomor Undangan">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Undangan</label>
                         <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp"
-                            >
+                            id="tanggal">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pukul Undangan</label>
-                        <input type="time" class="form-control" name="pukul">
+                        <input type="time" class="form-control" id="pukul" name="pukul">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tempat Undangan</label>
                         <input type="text" class="form-control" name="tempat_undangan"
-                            placeholder="Tempat Undangan">
+                            placeholder="Tempat Undangan"id="tempat_undangan">
                     </div>
                     <hr>
                     <h5>Akreditor yang bisa dihubungi </h5>
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat Akreditor</label>
-                        <input type="text" class="form-control" name="pangkat_akreditor"
+                        <input type="text" class="form-control" name="pangkat_akreditor" id="pangkat_akreditor"
                             placeholder="Pangkat Akreditor">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nama Aktreditor</label>
-                        <input type="text" class="form-control" name="nama_akreditor"
+                        <input type="text" class="form-control" name="nama_akreditor" id="nama_akreditor"
                             placeholder="Nama Akreditor">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" name="no_telp_akreditor"
+                        <input type="text" class="form-control" name="no_telp_akreditor" id="no_telp_akreditor"
                             placeholder="Nomor Telepon Akreditor">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-tutup" form="form-gelar-perkara" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal-undangan-gelar">Generate</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
         </div>
@@ -389,6 +395,152 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#form-gelar-perkara').validate({
+            rules: {
+                nomor_undangan : {
+                    required: true,
+                },
+                tanggal : {
+                    required: true,
+                },
+                pukul : {
+                    required: true,
+                },
+                tempat_undangan : {
+                    required: true,
+                },
+                pangkat_akreditor : {
+                    required: true,
+                },
+                nama_akreditor : {
+                    required: true,
+                },
+                no_telp_akreditor : {
+                    required: true,
+                },
+            },
+            messages : {
+                nomor_undangan: "Silahkan isi nomor undangan!",
+                tanggal: "Silahkan isi tanggal undangan!",
+                pukul: "Silahkan isi pukul undangan!",
+                tempat_undangan: "Silahkan isi tempat undangan!",
+                pangkat_akreditor: "Silahkan isi pangkat akreditor!",
+                nama_akreditor: "Silahkan isi nama akreditor!",
+                no_telp_akreditor: "Silahkan isi no telepon akreditor!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal-undangan-gelar').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+        $('#form-laporan-perkara').validate({
+            rules: {
+                tanggal_laporan_gelar : {
+                    required: true,
+                },
+                nrp_pembuat : {
+                    required: true,
+                },
+                nama_pembuat : {
+                    required: true,
+                },
+                pangkat_pembuat : {
+                    required: true,
+                },
+                pangkat_pimpinan_gelar : {
+                    required: true,
+                },
+                nama_pimpinan_gelar : {
+                    required: true,
+                },
+                jabatan_pimpinan_gelar : {
+                    required: true,
+                },
+                kesatuan_pimpinan_gelar : {
+                    required: true,
+                },
+                pangkat_pemapar : {
+                    required: true,
+                },
+                nama_pemapar : {
+                    required: true,
+                },
+                jabatan_pemapar : {
+                    required: true,
+                },
+                kesatuan_pemapar : {
+                    required: true,
+                },
+            },
+            messages : {
+                tanggal_laporan_gelar: "Silahkan isi tanggal laporan gelar!",
+                nrp_pembuat: "Silahkan isi nrp pembuat!",
+                nama_pembuat: "Silahkan isi nama pembuat!",
+                pangkat_pembuat: "Silahkan isi pangkat pembuat!",
+                pangkat_pimpinan_gelar: "Silahkan isi pangkat pimpinan gelar!",
+                nama_pimpinan_gelar: "Silahkan isi nama pimpinan gelar!",
+                jabatan_pimpinan_gelar: "Silahkan isi jabatan pimpinan gelar!",
+                kesatuan_pimpinan_gelar: "Silahkan isi kesatuan pimpinan gelar!",
+                pangkat_pemapar: "Silahkan isi pangkat pemapar!",
+                nama_pemapar: "Silahkan isi nama pemapar!",
+                jabatan_pemapar: "Silahkan isi jabatan pemapar!",
+                kesatuan_pemapar: "Silahkan isi kesatuan pemapar!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal-laporan-gelar').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+    });
     function getPolda() {
         let disposisi = $('#disposisi-tujuan').val()
         if (disposisi == '8') {
@@ -400,42 +552,6 @@
             });
         } else $("#limpah-polda").html("")
     }
-    // $(document).ready(function() {
-    //     getNextData()
-    // });
-
-    // function getNextData() {
-    //     console.log($('#test_sprin').val())
-    //     if ($('#test_sprin').val() == 'done') {
-
-    //         $.ajax({
-    //             url: `/pulbaket/view/next-data/` + $('#kasus_id').val(),
-    //             method: "get"
-    //         }).done(function(data) {
-    //             $('.loader-view').css("display", "none");
-    //             $("#viewNext").html(data)
-    //         });
-    //     }
-    // }
-    $('.btn-generate').on('click', function () {
-        var modal = $(this).attr('modal');
-        var kasus_id = $('#kasus_id').val();
-        var id = $('#status_id').val();
-        $('#'+modal).modal('hide');
-        $('.loader-view').show();
-        $('#viewProses').hide();
-        setTimeout(function() {
-            $.ajax({
-                type: 'get',
-                url: `/data-kasus/view/${kasus_id}/${id}`,
-                success: function(data) {
-                    $('#viewProses').html(data);
-                    $('.loader-view').hide();
-                    $('#viewProses').show();
-                }
-            });
-        }, 3000);
-    });
 
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
