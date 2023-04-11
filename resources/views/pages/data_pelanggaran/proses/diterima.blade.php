@@ -1,3 +1,5 @@
+<input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -251,26 +253,33 @@
                                 <div class="col-lg-6">
                                     <label for="exampleFormControlInput1" class="form-label">Disposisi
                                         Karo/Sesro</label>
-                                    @if ($disposisi_kabag)
-                                        <a href="/lembar-disposisi-kabag/?data_pelanggar_id={{ $kasus->id }}">
-                                            <button class="btn btn-primary" style="width: 100%" type="button">
+                                        @if ($disposisi_kabag)
+                                            <a href="/lembar-disposisi-kabag/?data_pelanggar_id={{ $kasus->id }}">
+                                                <button class="btn btn-primary" style="width: 100%" type="button">
+                                                    <i class="far fa-download"></i> Download
+                                                </button></a>
+                                        @else
+                                            <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
+                                                data-bs-target="#modal_disposisi" type="button">
                                                 <i class="far fa-download"></i> Download
-                                            </button></a>
-                                    @else
-                                        <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
-                                            data-bs-target="#modal_disposisi" type="button">
-                                            <i class="far fa-download"></i> Download
-                                        </button>
-                                    @endif
+                                            </button>
+                                        @endif
 
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="exampleFormControlInput1" class="form-label">Distribusi Pemeriksaan
                                         AUDITOR</label>
-                                    <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
-                                        data-bs-target="#modal_disposisi" type="button">
-                                        <i class="far fa-download"></i> Download
-                                    </button>
+                                        @if ($disposisi_kabag)
+                                            <a href="/lembar-disposisi-kabag/?data_pelanggar_id={{ $kasus->id }}">
+                                                <button class="btn btn-primary" style="width: 100%" type="button">
+                                                    <i class="far fa-download"></i> Download
+                                                </button></a>
+                                        @else
+                                            <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
+                                                data-bs-target="#modal_disposisi" type="button">
+                                                <i class="far fa-download"></i> Download
+                                            </button>
+                                        @endif
                                 </div>
                             </div>
 
@@ -289,6 +298,7 @@
                             </button>
                         </div>
                         <div class="col-6">
+                            @if ($disposisi_kabag)
                             <form action="/data-kasus/update" method="post">
                                 @csrf
                                 <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
@@ -300,6 +310,11 @@
                                     Lanjutkan ke Proses Audit Investigasi
                                 </button>
                             </form>
+                            @else
+                            <button class="btn btn-success disabled">
+                                    Lanjutkan ke Proses Audit Investigasi
+                                </button>
+                            @endif
                             {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
                                 name="type_submit" {{ $kasus->status_id > 1 ? 'disabled' : '' }}>
                                 <i class="far fa-upload"></i> Lanjut Proses Audit Investigasi
@@ -312,31 +327,31 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-disposisi-kabag" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/lembar-disposisi-kabag" method="post">
+            <form action="/lembar-disposisi-kabag" method="post" id="form-disposisi-kabag">
                 <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
                     name="data_pelanggar_id" hidden>
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
-                        <input type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
-                            name="no_agenda">
+                        <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
+                            name="no_agenda" placeholder="Nomor Agenda">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
                         <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari">
+                            name="surat_dari" placeholder="Surat dari">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" placeholder="Nomor Surat">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
@@ -344,55 +359,11 @@
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal">
+                        <input type="text" class="form-control" id="perihal" name="perihal" placeholder="Perihal">
                     </div> --}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="/lembar-disposisi-kabag" method="post">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
-                        <input type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
-                            name="no_agenda">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal">
-                    </div>
-                    {{-- <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal">
-                    </div> --}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-kabag" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -403,6 +374,57 @@
 <script>
     $(document).ready(function() {
         getPolda()
+        $('#form-disposisi-kabag').validate({
+            rules: {
+                no_agenda : {
+                    required: true,
+                },
+                tanggal : {
+                    required: true,
+                },
+                nomor_surat : {
+                    required: true,
+                },
+                surat_dari : {
+                    required: true,
+                },
+            },
+            messages : {
+                no_agenda: "Silahkan isi nomor agenda!",
+                tanggal: "Silahkan isi tanggal!",
+                nomor_surat: "Silahkan isi nomor surat!",
+                surat_dari: "Silahkan isi surat dari!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var modal = $(this).attr('modal');
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal_disposisi').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
     });
 
     function getPolda() {
@@ -416,4 +438,9 @@
             });
         } else $("#limpah-polda").html("")
     }
+
+    $('.btn-tutup').on('click', function () {
+        var form = $(this).attr('form');
+        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+    })
 </script>

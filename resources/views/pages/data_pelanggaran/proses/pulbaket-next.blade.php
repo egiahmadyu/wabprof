@@ -88,15 +88,21 @@
 @if (isset($kasus) & ($kasus->status_id === 3))
     <div class="row mt-4">
         <div class="col-lg-12">
-            <form action="/data-kasus/update" method="post">
-                @csrf
-                <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                <input type="text" class="form-control" value="4" hidden name="disposisi_tujuan" hidden>
-                <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
-                    value="update_status">
+            @if (isset($wawancara) && isset($laporan))
+                <form action="/data-kasus/update" method="post">
+                    @csrf
+                    <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+                    <input type="text" class="form-control" value="4" hidden name="disposisi_tujuan" hidden>
+                    <button class="btn btn-success " name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
+                        value="update_status">
+                        Lanjutkan ke proses Gelar Investigasi
+                    </button>
+                </form>
+            @else
+                <button class="btn btn-success disabled">
                     Lanjutkan ke proses Gelar Investigasi
                 </button>
-            </form>
+            @endif
         </div>
     </div>
 @endif
@@ -113,29 +119,29 @@
                     name="data_pelanggar_id">
                 @csrf
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Wawancara :</label>
                         <input type="date" class="form-control" id="tanggal" aria-describedby="emailHelp"
                             name="tanggal">
                     </div>
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Jam :</label>
                         <input type="time" class="form-control" id="jam" aria-describedby="emailHelp"
                         name="jam">
                     </div>
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Ruangan Wawancara :</label>
                         <input type="text" class="form-control" id="ruangan" aria-describedby="emailHelp"
                             name="ruangan" placeholder="Ruangan Wawancara">
                     </div>
-                    <div class="mb-3">
+                    <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Alamat :</label>
                         <textarea name="alamat" class="form-control" id="alamat" cols="30" rows="7" placeholder="Alamat Wawancara" ></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-tutup" form="form-wawancara" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_wawancara" btn-buat="btn-dokumen-wawancara" btn-dokumen="btn-wawancara">Generate</button>
+                    <button type="submit" class="btn btn-primary" modal="modal_wawancara" btn-buat="btn-dokumen-wawancara" btn-dokumen="btn-wawancara">Generate</button>
                 </div>
             </form>
         </div>
@@ -216,7 +222,7 @@
                                 <hr>
                             </div>
                             <div class="row mb-3" class="d-flex justify-content-end">
-                                <a href="#" onclick="tambahSaksi()"> <i class="far fa-plus-square"></i>
+                                <a href="#" id="tambah" counter="0"> <i class="far fa-plus-square"></i>
                                     Saksi </a>
                             </div>
                         </div>
@@ -231,27 +237,139 @@
     </div>
 </div>
 <script>
-    function tambahSaksi() {
+     $(document).ready(function() {
+        $('#form-wawancara').validate({
+            rules: {
+                tanggal : {
+                    required: true,
+                },
+                jam : {
+                    required: true,
+                },
+                ruangan : {
+                    required: true,
+                },
+                alamat : {
+                    required: true,
+                },
+            },
+            messages : {
+                tanggal: "Silahkan isi tanggal!",
+                jam: "Silahkan isi jam!",
+                ruangan: "Silahkan isi ruangan wawancara!",
+                alamat: "Silahkan isi alamat!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var modal = $(this).attr('modal');
+                var kasus_id = $('#kasus_id').val();
+                $('#modal_wawancara').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/pulbaket/view/next-data/${kasus_id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+        $('#form-laporan').validate({
+            rules: {
+                tanggal : {
+                    required: true,
+                },
+                nomor_laporan : {
+                    required: true,
+                },
+                "nrp[]":'required',
+                'pangkat[]' :'required',
+                'nama[]' :'required',
+                'jabatan[]' :'required',
+                'kesatuan[]' :'required',
+            },
+            messages : {
+                tanggal: "Silahkan isi tanggal!",
+                nomor_laporan: "Silahkan isi nomor laporan!",
+                'nrp[]': "Silahkan isi nrp!",
+                'pangkat[]': "Silahkan isi pangkat!",
+                'nama[]': "Silahkan isi nama!",
+                'jabatan[]': "Silahkan isi jabatan!",
+                'kesatuan[]': "Silahkan isi kesatuan!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var modal = $(this).attr('modal');
+                var kasus_id = $('#kasus_id').val();
+                $('#modal_laporan').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/pulbaket/view/next-data/${kasus_id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+    });
+    $('#tambah').on('click', function () {
+       var counter = $(this).attr('counter');
+       console.log('ori', counter)
+       var counter = parseInt(counter)+1;
+       console.log('add', counter)
+       tambahSaksi(counter);
+        $(this).attr('counter', counter);
+    });
+    function tambahSaksi(counter) {
         let inHtml =
             `<div class="row">
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">NRP :</label>
-                        <input type="text" class="form-control" id="nrp" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="nrp_${counter}" aria-describedby="emailHelp"
                             name="nrp[]" placeholder="NRP">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
-                        <input type="text" class="form-control" id="pangkat" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="pangkat_${counter}" aria-describedby="emailHelp"
                             name="pangkat[]" placeholder="Pangkat">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama :</label>
-                        <input type="text" class="form-control" id="nama" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="nama_${counter}" aria-describedby="emailHelp"
                             name="nama[]" placeholder="Nama">
                     </div>
                 </div>
@@ -260,14 +378,14 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
-                        <input type="text" class="form-control" id="jabatan" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="jabatan_${counter}" aria-describedby="emailHelp"
                             name="jabatan[]" placeholder="Jabatan">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
-                        <input type="text" class="form-control" id="kesatuan" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="kesatuan_${counter}" aria-describedby="emailHelp"
                             name="kesatuan[]" placeholder="Kesatuan">
                     </div>
                 </div>
@@ -276,26 +394,9 @@
         $('#form_input_saksi').append(inHtml);
 
     }
-    $('.btn-generate').on('click', function () {
-        var modal = $(this).attr('modal');
-        var kasus_id = $('#kasus_id').val();
-        $('#'+modal).modal('hide');
-        $('.loader-view').show();
-        $('#viewProses').hide();
-        setTimeout(function() {
-                $.ajax({
-                    type: 'get',
-                    url: `/pulbaket/view/next-data/${kasus_id}`,
-                    success: function(data) {
-                        $('#viewProses').html(data);
-                        $('.loader-view').hide();
-                        $('#viewProses').show();
-                    }
-                });
-        }, 3000);
-    });
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
         $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
     })
+   
 </script>

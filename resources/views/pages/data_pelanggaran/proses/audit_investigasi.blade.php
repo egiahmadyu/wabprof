@@ -169,15 +169,15 @@
                     <div class="row mb-3">
                         <div class="col">
                             <input type="text" class="form-control" name="no_sprin" placeholder="Masukan No. SPRIN"
-                                required="required">
+                                required="required" id="no_sprin">
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="tanggal_investigasi"
-                                placeholder="Tanggal Investigasi" required>
+                                placeholder="Tanggal Investigasi" id="tanggal_investigasi" required>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control" name="tempat_investigasi"
-                                placeholder="Tempat Investigasi" required>
+                                placeholder="Tempat Investigasi" required id="tempat_investigasi">
                         </div>
                     </div>
                     <!-- Input data penyidik -->
@@ -196,7 +196,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-outline mb-3">
                                             <input type="text" class="form-control" name="nama_penyelidik_ketua"
-                                                id="nama_penyidik" placeholder="Nama Penyelidik" required>
+                                                id="nama_penyelidik_ketua" placeholder="Nama Penyelidik" required>
                                         </div>
                                     </div>
 
@@ -228,7 +228,7 @@
                             </div>
 
                             <div class="row mb-3" class="d-flex justify-content-end">
-                                <a href="#" onclick="tambahAnggota()"> <i class="far fa-plus-square"></i>
+                                <a href="#" id="tambah" counter="0"> <i class="far fa-plus-square"></i>
                                     Anggota </a>
                             </div>
                         </div>
@@ -407,6 +407,86 @@
 <script>
     $(document).ready(function() {
         getNextData();
+        $('#form-sprin').validate({
+            rules: {
+                no_sprin : {
+                    required: true,
+                },
+                tanggal_investigasi : {
+                    required: true,
+                },
+                tempat_investigasi : {
+                    required: true,
+                },
+                nrp_ketua : {
+                    required: true,
+                },
+                nama_penyelidik_ketua : {
+                    required: true,
+                },
+                pangkat_ketua : {
+                    required: true,
+                },
+                jabatan_ketua : {
+                    required: true,
+                },
+                "nrp_anggota[]":'required',
+                'pangkat_anggota[]' :'required',
+                'nama_penyelidik_anggota[]' :'required',
+                'jabatan_anggota[]' :'required',
+            },
+            messages : {
+                no_sprin: "Silahkan isi nomor sprin!",
+                tanggal_investigasi: "Silahkan isi tanggal investigasi!",
+                tempat_investigasi: "Silahkan isi tempat investigasi!",
+                nrp_ketua: "Silahkan isi nrp ketua!",
+                pangkat_ketua: "Silahkan isi pangkat ketua!",
+                nama_penyelidik_ketua: "Silahkan isi nama penyelidik ketua!",
+                jabatan_ketua: "Silahkan isi jabatan ketua!",
+                'nrp_anggota[]': "Silahkan isi nrp!",
+                'pangkat_anggota[]': "Silahkan isi pangkat!",
+                'nama_penyelidik_anggota[]': "Silahkan isi nama!",
+                'jabatan_anggota[]': "Silahkan isi jabatan!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal_sprin').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                $('#viewNext').hide();
+                setTimeout(function() {
+                        $.ajax({
+                            type: 'get',
+                            url: `/data-kasus/view/${kasus_id}/${id}`,
+                            success: function(data) {
+                                $('#viewProses').html(data);
+                                $.ajax({
+                                    type: 'get',
+                                    url: `/pulbaket/view/next-data/${kasus_id}`,
+                                    success: function(data) {
+                                        $('#viewNext').html(data);
+                                        $('.loader-view').hide();
+                                        $('#viewProses').show();
+                                        $('#viewNext').show();
+                                    }
+                                });
+                            }
+                        });
+                        
+                }, 3000);
+            }
+        });
     });
 
     function tambahSaksi() {
@@ -417,30 +497,39 @@
         // $('#form_tambah_saksi .inputNamaSaksi:last').before(inHtml);
     }
 
-    function tambahAnggota() {
+    $('#tambah').on('click', function () {
+       var counter = $(this).attr('counter');
+       console.log('ori', counter)
+       var counter = parseInt(counter)+1;
+       console.log('add', counter)
+       tambahAnggota(counter);
+        $(this).attr('counter', counter);
+    });
+
+    function tambahAnggota(counter) {
         let inHtml =
             `<div class="row">
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="pangkat_anggota[]" id="pangkat" placeholder="Pangkat Penyelidik" required>
+                    <input type="text" class="form-control" name="pangkat_anggota[]" id="pangkat_anggota_${counter}" placeholder="Pangkat Penyelidik" required>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="nama_penyelidik_anggota[]" id="nama_penyidik" placeholder="Nama Penyelidik" required>
+                    <input type="text" class="form-control" name="nama_penyelidik_anggota[]" id="nama_penyelidik_anggota_${counter}" placeholder="Nama Penyelidik" required>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="nrp_anggota[]" id="nrp" placeholder="NRP" required>
+                    <input type="text" class="form-control" name="nrp_anggota[]" id="nrp_anggota_${counter}" placeholder="NRP" required>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="jabatan_anggota[]" id="jabatan" placeholder="Jabatan Penyelidik" required>
+                    <input type="text" class="form-control" name="jabatan_anggota[]" id="jabatan_anggota_${counter}" placeholder="Jabatan Penyelidik" required>
                 </div>
             </div>
 
@@ -470,36 +559,6 @@
             });
         }
     }
-
-    $('.btn-generate').on('click', function () {
-        var modal = $(this).attr('modal');
-        var kasus_id = $('#kasus_id').val();
-        var id = $('#status_id').val();
-        $('#'+modal).modal('hide');
-        $('.loader-view').show();
-        $('#viewProses').hide();
-        $('#viewNext').hide();
-        setTimeout(function() {
-                $.ajax({
-                    type: 'get',
-                    url: `/data-kasus/view/${kasus_id}/${id}`,
-                    success: function(data) {
-                        $('#viewProses').html(data);
-                        $.ajax({
-                            type: 'get',
-                            url: `/pulbaket/view/next-data/${kasus_id}`,
-                            success: function(data) {
-                                $('#viewNext').html(data);
-                                $('.loader-view').hide();
-                                $('#viewProses').show();
-                                $('#viewNext').show();
-                            }
-                        });
-                    }
-                });
-                
-        }, 3000);
-    });
 
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
