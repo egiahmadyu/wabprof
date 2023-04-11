@@ -1,3 +1,4 @@
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -154,21 +155,21 @@
 </div>
 
 <!-- Modal Buat SPRIN -->
-<div class="modal fade" id="modal_sprin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_sprin" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah (SPRIN)</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-sprin" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/surat-perintah/{{ $kasus->id }}" method="post">
+                <form action="/surat-perintah/{{ $kasus->id }}" method="post" id="form-sprin">
                     @csrf
                     <!-- Input no SPRIN -->
                     <div class="row mb-3">
                         <div class="col">
                             <input type="text" class="form-control" name="no_sprin" placeholder="Masukan No. SPRIN"
-                                required>
+                                required="required">
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="tanggal_investigasi"
@@ -188,28 +189,28 @@
                                     <div class="col-lg-6">
                                         <div class="form-outline mb-3">
                                             <input type="text" class="form-control" name="pangkat_ketua"
-                                                id="pangkat" placeholder="Pangkat Penyelidik">
+                                                id="pangkat" placeholder="Pangkat Penyelidik" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-outline mb-3">
                                             <input type="text" class="form-control" name="nama_penyelidik_ketua"
-                                                id="nama_penyidik" placeholder="Nama Penyelidik">
+                                                id="nama_penyidik" placeholder="Nama Penyelidik" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-outline mb-3">
                                             <input type="text" class="form-control" name="nrp_ketua"
-                                                id="nrp" placeholder="NRP">
+                                                id="nrp" placeholder="NRP" required>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="form-outline mb-3">
                                             <input type="text" class="form-control" name="jabatan_ketua"
-                                                id="jabatan" placeholder="Jabatan Penyelidik">
+                                                id="jabatan" placeholder="Jabatan Penyelidik" required>
                                         </div>
                                     </div>
 
@@ -234,7 +235,7 @@
                     </div>
 
                     <div class="form-outline mb-3">
-                        <button type="submit" class="form-control btn btn-primary">Buat SPRIN</button>
+                        <button type="submit" class="form-control btn btn-primary btn-generate" modal="modal_sprin">Buat SPRIN</button>
                     </div>
                 </form>
             </div>
@@ -421,25 +422,25 @@
             `<div class="row">
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="pangkat_anggota[]" id="pangkat" placeholder="Pangkat Penyelidik">
+                    <input type="text" class="form-control" name="pangkat_anggota[]" id="pangkat" placeholder="Pangkat Penyelidik" required>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="nama_penyelidik_anggota[]" id="nama_penyidik" placeholder="Nama Penyelidik">
+                    <input type="text" class="form-control" name="nama_penyelidik_anggota[]" id="nama_penyidik" placeholder="Nama Penyelidik" required>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="nrp_anggota[]" id="nrp" placeholder="NRP">
+                    <input type="text" class="form-control" name="nrp_anggota[]" id="nrp" placeholder="NRP" required>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="jabatan_anggota[]" id="jabatan" placeholder="Jabatan Penyelidik">
+                    <input type="text" class="form-control" name="jabatan_anggota[]" id="jabatan" placeholder="Jabatan Penyelidik" required>
                 </div>
             </div>
 
@@ -469,4 +470,39 @@
             });
         }
     }
+
+    $('.btn-generate').on('click', function () {
+        var modal = $(this).attr('modal');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#'+modal).modal('hide');
+        $('.loader-view').show();
+        $('#viewProses').hide();
+        $('#viewNext').hide();
+        setTimeout(function() {
+                $.ajax({
+                    type: 'get',
+                    url: `/data-kasus/view/${kasus_id}/${id}`,
+                    success: function(data) {
+                        $('#viewProses').html(data);
+                        $.ajax({
+                            type: 'get',
+                            url: `/pulbaket/view/next-data/${kasus_id}`,
+                            success: function(data) {
+                                $('#viewNext').html(data);
+                                $('.loader-view').hide();
+                                $('#viewProses').show();
+                                $('#viewNext').show();
+                            }
+                        });
+                    }
+                });
+                
+        }, 3000);
+    });
+
+    $('.btn-tutup').on('click', function () {
+        var form = $(this).attr('form');
+        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+    })
 </script>

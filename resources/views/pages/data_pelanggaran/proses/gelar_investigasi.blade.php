@@ -246,11 +246,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Laporan Gelar Perkara</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-laporan-perkara" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/laporan-gelar-perkara" method="post">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
+            <form action="/laporan-gelar-perkara" method="post" id="form-laporan-perkara">
+                <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" >
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -320,7 +320,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-laporan-perkara" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal-laporan-gelar">Generate</button>
                 </div>
             </form>
@@ -334,11 +334,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Undangan Gelar Perkara Penyelidikan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-gelar-perkara" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/gelar-perkara-undangan" method="post">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
+            <form action="/gelar-perkara-undangan" method="post" id="form-gelar-perkara">
+                <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" >
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -380,7 +380,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-gelar-perkara" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal-undangan-gelar">Generate</button>
                 </div>
             </form>
@@ -436,4 +436,9 @@
             });
         }, 3000);
     });
+
+    $('.btn-tutup').on('click', function () {
+        var form = $(this).attr('form');
+        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+    })
 </script>

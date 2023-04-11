@@ -106,11 +106,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Undangan Wawancara</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-wawancara" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/surat-undangan-wawancara" method="post">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
+            <form action="/surat-undangan-wawancara" method="post" id="form-wawancara">
+                <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-wawancara" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal_wawancara" btn-buat="btn-dokumen-wawancara" btn-dokumen="btn-wawancara">Generate</button>
                 </div>
             </form>
@@ -147,11 +147,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Laporan Hasil Audit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-laporan" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/laporan-hasil-audit" method="post">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
+            <form action="/laporan-hasil-audit" method="post" id="form-laporan">
+                <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" >
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -223,7 +223,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-laporan" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal_laporan" btn-buat="btn-dokumen-laporan" btn-dokumen="btn-laporan">Generate</button>
                 </div>
             </form>
@@ -294,4 +294,8 @@
                 });
         }, 3000);
     });
+    $('.btn-tutup').on('click', function () {
+        var form = $(this).attr('form');
+        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+    })
 </script>

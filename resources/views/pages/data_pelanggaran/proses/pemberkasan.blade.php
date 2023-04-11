@@ -230,9 +230,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Administrasi Sidang</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-admistrasi-sidang" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/administrasi-sidang" method="post">
+            <form action="/administrasi-sidang" method="post" id="form-admistrasi-sidang">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
@@ -254,7 +254,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-admistrasi-sidang" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal_administrasi_sidang">Generate</button>
                 </div>
             </form>
@@ -267,9 +267,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Permohonan Pendapat Saran Hukum</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-permohonan" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/permohonan-pendapat" method="post">
+            <form action="/permohonan-pendapat" method="post" id="form-permohonan">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
@@ -298,7 +298,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-permohonan" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal_permohonan">Generate</button>
                 </div>
             </form>
@@ -312,9 +312,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Penyerahan Berkas Perkara Ke Binetik</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-penyerahan" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/nota-dinas-penyerahan" method="post">
+            <form action="/nota-dinas-penyerahan" method="post" id="form-penyerahan">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
@@ -328,7 +328,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-penyerahan" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal_nota_dinas_penyerahan">Generate</button>
                 </div>
             </form>
@@ -342,9 +342,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Perbaikan Berkas</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-perbaikan" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/nota-dinas-perbaikan" method="post">
+            <form action="/nota-dinas-perbaikan" method="post" id="form-perbaikan">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
@@ -391,7 +391,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-perbaikan" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-generate" modal="modal_nota_dinas_perbaikan">Generate</button>
                 </div>
             </form>
@@ -476,4 +476,9 @@
             });
         }, 3000);
     });
+
+    $('.btn-tutup').on('click', function () {
+        var form = $(this).attr('form');
+        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+    })
 </script>

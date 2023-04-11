@@ -13,6 +13,7 @@ use App\Models\Sidang;
 use App\Models\LimpahPolda;
 use App\Models\Permohonan;
 use App\Models\UndanganGelar;
+use App\Models\PembentukanKomisi;
 use App\Models\LaporanHasilGelar;
 use App\Models\LaporanHasilAudit;
 use Carbon\Carbon;
@@ -336,12 +337,12 @@ class AuditInvestigasiController extends Controller
             $data['bulan_tahun_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('F Y');
             $data['tanggal_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('d F Y');
             $data['nomor_pembentukan'] = $pembentukan_data->nomor;
-            $data['nomor_surat_divkum'] = $permohonan_data->nomor_surat_divkum;
+            $data['nomor_surat_divkum'] = $pembentukan_data->nomor_surat_divkum;
             $data['tanggal_surat_divkum'] = Carbon::parse($pembentukan_data->tanggal_surat_divkum)->translatedFormat('d F Y');
-            $data['pangkat_pelanggar'] = $permohonan_data->pangkat;
-            $data['nama_pelanggar'] = $permohonan_data->nama;
-            $data['jabtan_pelanggar'] = $permohonan_data->jabtan;
-            $data['kesatuan_pelanggar'] = $permohonan_data->kesatuan;
+            $data['pangkat_pelanggar'] = $pembentukan_data->pangkat;
+            $data['nama_pelanggar'] = $pembentukan_data->nama;
+            $data['jabtan_pelanggar'] = $pembentukan_data->jabatan;
+            $data['kesatuan_pelanggar'] = $pembentukan_data->kesatuan;
 
         }
         

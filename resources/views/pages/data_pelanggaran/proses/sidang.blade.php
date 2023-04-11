@@ -1,3 +1,5 @@
+<input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -187,14 +189,14 @@
     @endif
 </div>
 
-<div class="modal fade" id="modal_pembentukan_komisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_pembentukan_komisi" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pembentukan Komisi Kode Etik</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-pembentukan-komisi" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/pembentukan-komisi" method="post">
+            <form action="/pembentukan-komisi" method="post" id="form-pembentukan-komisi">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
@@ -312,8 +314,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Generate</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_pembentukan_komisi">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-pembentukan-komisi" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -363,4 +365,29 @@ function tambahAnggota() {
             <hr>`;
         $('#form_input_susunan').append(inHtml);
     }
+
+    $('.btn-generate').on('click', function () {
+        var modal = $(this).attr('modal');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#'+modal).modal('hide');
+        $('.loader-view').show();
+        $('#viewProses').hide();
+        setTimeout(function() {
+            $.ajax({
+                type: 'get',
+                url: `/data-kasus/view/${kasus_id}/${id}`,
+                success: function(data) {
+                    $('#viewProses').html(data);
+                    $('.loader-view').hide();
+                    $('#viewProses').show();
+                }
+            });
+        }, 3000);
+    });
+
+    $('.btn-tutup').on('click', function () {
+        var form = $(this).attr('form');
+        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+    })
 </script>
