@@ -70,8 +70,16 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
-                    <input type="text" name="wujud_perbuatan" class="form-control border-dark"
-                        placeholder="Wujud Perbuatan" value="{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}">
+                    <select class="form-select border-dark" data-live-search="true" aria-label="Default select example" name="wujud_perbuatan" id="wujud_perbuatan" required>
+                        <option value="">-- Pilih Pangkat --</option>
+                            @foreach ($wujud_perbuatan as $key => $p)
+                                <option value="{{ $p->id }}" {{ $kasus->wujud_perbuatan == $p->id ? 'selected' : ''}}>
+                                    {{ $p->keterangan_wp }}
+                                </option>
+                            @endforeach
+                    </select>
+                    <!-- <input type="text" name="wujud_perbuatan" class="form-control border-dark"
+                        placeholder="Wujud Perbuatan" value="{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}"> -->
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
@@ -170,8 +178,14 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
-                            <input type="text" name="pangkat" class="form-control border-dark"
-                                value="{{ isset($kasus) ? $kasus->pangkat : '' }}">
+                            <select class="form-select border-dark" data-live-search="true" aria-label="Default select example" name="pangkat" id="pangkat" required>
+                                    <option value="">-- Pilih Pangkat --</option>
+                                        @foreach ($pangkat as $key => $p)
+                                            <option value="{{ $p->id }}" {{ $kasus->pangkat == $p->id ? 'selected' : ''}}>
+                                                {{ $p->name }}
+                                            </option>
+                                        @endforeach
+                                </select>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="nrp" class="form-label">NRP</label>
