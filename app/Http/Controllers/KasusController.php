@@ -51,18 +51,15 @@ class KasusController extends Controller
 
     public function storeKasus(Request $request)
     {
-        $no_nota_dinas = "11/32/propam";
-        $perihal_nota_dinas = "Penting";
-        $wujud_perbuatan = "Kode Erik";
-        $tgl_nota_dinas = Carbon::now();
+
         $no_pengaduan = "123456"; //generate otomatis
         // dd($request->all());
         $DP = DataPelanggar::create([
-            'no_nota_dinas' => $no_nota_dinas,
+            'no_nota_dinas' => $request->no_nota_dinas,
             'no_pengaduan' => $no_pengaduan,
-            'perihal_nota_dinas' => $perihal_nota_dinas,
-            'wujud_perbuatan' => $wujud_perbuatan,
-            'tanggal_nota_dinas' => $tgl_nota_dinas,
+            'perihal_nota_dinas' => $request->perihal_nota_dinas,
+            'wujud_perbuatan' => $request->wujud_perbuatan,
+            'tanggal_nota_dinas' => Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d'),
             'pelapor' => $request->pelapor,
             'umur' => $request->umur,
             'jenis_kelamin' => $request->jenis_kelamin,

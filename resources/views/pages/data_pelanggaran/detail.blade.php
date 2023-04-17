@@ -33,6 +33,10 @@
                     <div class="loader-view" style="display:block;">
 
                     </div>
+                    <input type="hidden" id="status_surat_download" value="0">
+                    <input type="hidden" id="status_nota_download" value="0">
+                    <input type="hidden" id="status_undangan_download" value="0">
+                    <input type="hidden" id="status_laporan_download" value="0">
                     <div id="viewProses">
 
                     </div>
@@ -59,6 +63,14 @@
             //     .catch(error => {
             //         console.error(error);
             //     });
+            // var page_status = $('#page_status').val();
+            // if (page_status == 1){
+            //     console.log('refresh')
+            //     cek_status_update_refresh();
+            // }else{
+            //     console.log('not refresh')
+            //     cek_status_update();
+            // }
 
             let process_id = $('#process_id').val()
             getViewProcess(process_id)

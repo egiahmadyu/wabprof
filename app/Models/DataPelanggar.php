@@ -30,4 +30,9 @@ class DataPelanggar extends Model
     {
         return $this->hasOne(JenisIdentitas::class, 'id', 'jenis_identitas');
     }
+
+    public function penyidik()
+    {
+        return $this->hasMany('penyidik');
+    }
 }

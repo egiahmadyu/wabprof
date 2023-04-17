@@ -17,7 +17,7 @@
                 <tr>
                     <td>Surat Penghadapan</td>
                     <td>
-                        <a href="/surat-penghadapan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                        <a href="/surat-penghadapan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-surat-penghadapan">
                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                         </a>
                         {{-- <button type="button" class="btn btn-primary">Buat Undangan <i class="far fa-file-plus"></i></button>
@@ -59,7 +59,7 @@
                     <td>Nota Wawancara</td>
                     <td>
                         <a href="/surat-nota-wawancara/{{ $kasus->id }}" disabled
-                            class="btn btn-outline-primary text-primary">
+                            class="btn btn-outline-primary text-primary btn-nota-wawancara">
                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                         </a>
                         {{-- <button type="button" class="btn btn-outline-primary text-primary">Buat Dokumen</button> --}}
@@ -88,23 +88,28 @@
 @if (isset($kasus) & ($kasus->status_id === 3))
     <div class="row mt-4">
         <div class="col-lg-12">
-            @if (isset($wawancara) && isset($laporan))
                 <form action="/data-kasus/update" method="post">
                     @csrf
                     <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
                     <input type="text" class="form-control" value="4" hidden name="disposisi_tujuan" hidden>
-                    <button class="btn btn-success " name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
+                    <button class="btn btn-success btn-lanjut-update d-none" name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
                         value="update_status">
                         Lanjutkan ke proses Gelar Investigasi
                     </button>
                 </form>
-            @else
-                <button class="btn btn-success disabled">
+                <button class="btn btn-success btn-lanjut disabled d-none">
                     Lanjutkan ke proses Gelar Investigasi
                 </button>
-            @endif
         </div>
     </div>
+@endif
+
+@if (isset($wawancara) && isset($laporan))
+    <input type="hidden" id="status_buat_dokumen" value="1">
+    <input type="hidden" id="page_status" value="1">
+@else
+    <input type="hidden" id="status_buat_dokumen" value="0">
+    <input type="hidden" id="page_status" value="0">
 @endif
 
 <div class="modal fade" id="modal_wawancara" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -280,6 +285,7 @@
                         type: 'get',
                         url: `/pulbaket/view/next-data/${kasus_id}`,
                         success: function(data) {
+                            cek_status_update();
                             $('#viewProses').html(data);
                             $('.loader-view').hide();
                             $('#viewProses').show();
@@ -332,6 +338,7 @@
                         type: 'get',
                         url: `/pulbaket/view/next-data/${kasus_id}`,
                         success: function(data) {
+                            cek_status_update();
                             $('#viewProses').html(data);
                             $('.loader-view').hide();
                             $('#viewProses').show();
@@ -349,6 +356,43 @@
        tambahSaksi(counter);
         $(this).attr('counter', counter);
     });
+
+    function cek_status_update(){
+       var status_nota_download =  $('#status_nota_download').val();
+       var status_surat_download =  $('#status_surat_download').val();
+       var status_buat_dokumen =  $('#status_buat_dokumen').val();
+
+       if(status_nota_download == 1 && status_surat_download == 1 && status_buat_dokumen == 1){
+            $('.btn-lanjut-update').removeClass('d-none');
+            $('.btn-lanjut').removeClass('d-none');
+            $('.btn-lanjut').addClass('d-none');
+       }else{
+            $('.btn-lanjut').removeClass('d-none');
+            $('.btn-lanjut-update').removeClass('d-none');
+            $('.btn-lanjut-update').addClass('d-none');
+       }
+
+    }
+
+    function cek_status_update_refresh(){
+        console.log('refresh');
+       var status_nota_download =  $('#status_nota_download').val();
+       var status_surat_download =  $('#status_surat_download').val();
+       var status_undangan_dokumen =  $('#status_undangan_dokumen').val();
+       var status_laporan_dokumen =  $('#status_laporan_dokumen').val();
+
+       if(status_nota_download == 1 && status_surat_download == 1 && status_undangan_dokumen == 1 && status_laporan_dokumen == 1){
+            $('.btn-lanjut-update').removeClass('d-none');
+            $('.btn-lanjut').removeClass('d-none');
+            $('.btn-lanjut').addClass('d-none');
+       }else{
+            $('.btn-lanjut').removeClass('d-none');
+            $('.btn-lanjut-update').removeClass('d-none');
+            $('.btn-lanjut-update').addClass('d-none');
+       }
+
+    }
+
     function tambahSaksi(counter) {
         let inHtml =
             `<div class="row">
@@ -397,6 +441,15 @@
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
         $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
-    })
+    });
+    $('.btn-surat-penghadapan').on('click', function () {
+        $('#status_surat_download').val(1);
+        cek_status_update();
+    });
+    $('.btn-nota-wawancara').on('click', function () {
+        $('#status_nota_download').val(1);
+        cek_status_update();
+    });
+
    
 </script>

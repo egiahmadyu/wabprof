@@ -75,7 +75,9 @@ class DatabaseSeeder extends Seeder
             JenisKelaminSeed::class,
             JenisIdentitasSeeder::class,
             DataPelanggarSeed::class,
-            PoldaSeed::class
+            PoldaSeed::class,
+            PangkatSeeder::class,
+            WujudPerbuatanSeeder::class
           ]);
 
         // Process::create([
