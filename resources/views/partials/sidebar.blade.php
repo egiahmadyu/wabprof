@@ -48,6 +48,7 @@
                             class="bi bi-clipboard-data"></i> <span data-key="t-dashboard">Input Data Pelanggar</span>
                     </a>
                 </li>
+                @can('manage-auth')
                 <li class="nav-item">
                     <a href="{{ route('penyidik.index') }}"
                         class="nav-link menu-link {{ Request::segment(1) == 'kelola-penyidik' ? 'active' : '' }}"> <i
@@ -66,7 +67,6 @@
                             class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Wujud Perbuatan</span>
                     </a>
                 </li>
-                @can('manage-auth')
                     <li class="menu-title"><span data-key="t-menu">Settings</span></li>
                     <li class="nav-item">
                         <a href="/user" class="nav-link menu-link {{ Request::segment(1) == 'user' ? 'active' : '' }}">
