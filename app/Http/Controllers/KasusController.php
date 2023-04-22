@@ -24,8 +24,6 @@ use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
-use App\Models\Pangkat;
-use App\Models\WujudPerbuatan;
 
 class KasusController extends Controller
 {

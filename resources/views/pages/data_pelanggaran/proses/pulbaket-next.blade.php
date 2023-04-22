@@ -188,7 +188,7 @@
                                             {{ 'selected' }}
                                         @endif
                                     @endif
-                                >$penyidik->name</option>
+                                >{{$penyidik->name}}</option>
                             @endforeach
                         </select>
                     </div>
