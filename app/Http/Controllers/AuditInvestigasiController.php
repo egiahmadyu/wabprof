@@ -124,6 +124,8 @@ class AuditInvestigasiController extends Controller
         $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->where('type', 1)->first();
         $penyidik = Penyidik::where('id', $wawancara->id_penyidik)->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
         $date = date('Y-m-d');
 
@@ -131,11 +133,14 @@ class AuditInvestigasiController extends Controller
         $tanggal = date("n",strtotime($date));
         $bln = $array_bln[$tanggal];
 
+        $tanggal_sprin = date("n",strtotime($sprin->created_at));
+        $bln_sprin = $array_bln[$tanggal_sprin];
+
         $template_document->setValues(array(
             'nomor_surat' => $wawancara->nomor_surat,
             'surat_dari' => $disposisi->surat_dari,
             'no_nota_dinas' => $kasus->no_nota_dinas,
-            'tanggal' => $kasus->tanggal_nota_dinas,
+            'tanggal_no_dinas' => $kasus->tanggal_nota_dinas,
             'perihal' => $kasus->perihal_nota_dinas,
             'tanggal_surat' => Carbon::parse($date)->translatedFormat('d F Y'),
             'bulan_tahun_surat' => Carbon::parse($date)->translatedFormat('F Y'),
@@ -146,6 +151,14 @@ class AuditInvestigasiController extends Controller
             'pangkat' => $kasus->pangkat->name,
             'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
             'bulan_surat' => $bln,
+            'no_sprin' => $sprin->no_sprin,
+            'bulan_sprin' => $bln_sprin,
+            'pelapor' => $kasus->pelapor,
+            'hari_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('l'),
+            'tanggal_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('d F Y'),
+            'jam_wawancara' => $wawancara->jam,
+            'tahun_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('Y'),
+            'tanggal_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
             'jabatan_terhubung' => $penyidik->jabatan,
             'nama_terhubung' => $penyidik->name,
             'nomor_handphone' => $wawancara->nomor_handphone,
