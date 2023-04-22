@@ -24,6 +24,8 @@ use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
+use App\Models\Pangkat;
+use App\Models\WujudPerbuatan;
 
 class KasusController extends Controller
 {
@@ -112,12 +114,18 @@ class KasusController extends Controller
         $status = Process::find($kasus->status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
         $agama = Agama::get();
+        $pangkat = Pangkat::all();
+        $wujud_perbuatan = WujudPerbuatan::get();
+
+        // dd($pangkat);
 
         // dd($agama[0]->name);
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'process' =>  $process,
+            'pangkat' =>  $pangkat,
+            'wujud_perbuatan' =>  $wujud_perbuatan,
         ];
 
         // if ($kasus->status_id == 3)

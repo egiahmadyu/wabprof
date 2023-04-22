@@ -33,14 +33,16 @@ return new class extends Migration
             // Terlapor
             $table->string('terlapor')->nullable();
             $table->string('kesatuan')->nullable();
+            $table->string('wilayah_hukum')->nullable();
             $table->string('tempat_kejadian')->nullable();
             $table->string('nrp')->nullable();
-            $table->string('suku')->nullable();
-            $table->text('alamat_terlapor')->nullable();
-            $table->string('agama_terlapor')->nullable();
             $table->date('tanggal_kejadian')->nullable();
             $table->text('kronologi')->nullable();
+<<<<<<< HEAD
             $table->integer('id_pangkat')->nullable();
+=======
+            $table->integer('pangkat')->nullable();
+>>>>>>> 6a042a64ba91f1db031df651d50a4ad51ab97040
             $table->string('jabatan')->nullable();
             $table->string('nama_korban')->nullable();
             $table->integer('status_id')->nullable();
