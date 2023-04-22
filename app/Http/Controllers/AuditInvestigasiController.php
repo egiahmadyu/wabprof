@@ -40,7 +40,7 @@ class AuditInvestigasiController extends Controller
                 'tim' => $request->tim
             ]);
         }
-        $value = $this->valueDoc($kasus_id);
+
         $penyidik = Penyidik::where('tim', $request->tim)->where('fungsional', 'anggota')->get()->toArray();
         $ketua_penyidik = Penyidik::where('tim', $request->tim)->where('fungsional', 'ketua')->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
@@ -243,10 +243,72 @@ class AuditInvestigasiController extends Controller
 
     public function notaWawancara($kasus_id)
     {
-        // $kasus = DataPelanggar::find($kasus_id);
-        $value = $this->valueDoc($kasus_id, true);
+        // $kasus = DataPelanggar::find($kasus_id);\
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_wawancara.docx'));
-        $template_document->setValues($value, true);
+        
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
+        $wawancara = Wawancara::where('data_pelanggar_id', $kasus_id)->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->where('type', 2)->first();
+        
+        $penyidik = Penyidik::where('tim', $disposisi->tim)->where('fungsional', 'anggota')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $disposisi->tim)->where('fungsional', 'ketua')->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
+        
+        $template_document = new TemplateProcessor(storage_path('template_surat/nota_wawancara.docx'));
+
+        $date = date('Y-m-d');
+
+        $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+        $tanggal = date("m",strtotime($sprin->tanggal_investigasi));
+        $bln = $array_bln[$tanggal];
+
+        $template_document->setValues( array(
+            'hari_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('l'),
+            'tanggal_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('d F Y'),
+            'ruangan_wawancara' => $wawancara->ruangan,
+            'jam_wawancara' => $wawancara->jam,
+            'no_sprin' => $sprin->no_sprin,
+            'surat_dari' => $disposisi->surat_dari,
+            'terlapor' => $kasus->terlapor,
+            'pelapor' => $kasus->pelapor,
+            'pangkat' => $kasus->pangkat->name,
+            'nrp' => $kasus->nrp,
+            'jabatan' => $kasus->jabatan,
+            'kesatuan' => $kasus->kesatuan,
+            'agama_terlapor' => $kasus->agama_terlapor,
+            'suku_terlapor' => $kasus->suku,
+            'alamat_terlapor' => $kasus->alamat_terlapor,
+            'no_telp' => $kasus->no_telp,
+            'tanggal_sprin' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
+            'bulan_tahun_sprin' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('F Y'),
+            'tahun_sprin' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('Y'),
+            'bulan_sprin' => $bln,
+            'ketua' => $ketua_penyidik->name ?? '',
+            'nrp_ketua' => $ketua_penyidik->nrp ?? '',
+            'jabatan_ketua' => $ketua_penyidik->jabatan ?? '',
+            'pangkat_ketua' => $ketua_penyidik->pangkat->name ?? '',
+            'anggota_1' => $penyidik[0]['name'] ?? '',
+            'nrp_1' => $penyidik[0]['nrp'] ?? '',
+            'pangkat_1' => $penyidik[0]['pangkat'][0]['name'] ?? '',
+            'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
+            'anggota_2' => $penyidik[1]['name'] ?? '',
+            'nrp_2' => $penyidik[1]['nrp'] ?? '',
+            'pangkat_2' => $penyidik[1]['pangkat'][0]['name'] ?? '',
+            'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
+            'anggota_3' => $penyidik[2]['name'] ?? '',
+            'nrp_3' => $penyidik[2]['nrp'] ?? '',
+            'pangkat_3' => $penyidik[2]['pangkat'][0]['name'] ?? '',
+            'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
+            'anggota_4' => $penyidik[3]['name'] ?? '',
+            'nrp_4' => $penyidik[3]['nrp'] ?? '',
+            'pangkat_4' => $penyidik[3]['pangkat'][0]['name'] ?? '',
+            'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
+            'anggota_5' => $penyidik[4]['name'] ?? '',
+            'pangkat_5' => $penyidik[4]['pangkat'][0]['name'] ?? '',
+            'nrp_5' => $penyidik[4]['nrp'] ?? '',
+            'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
+        ));
+
         $template_document->saveAs(storage_path('template_surat/surat-nota-wawancara.docx'));
 
         return response()->download(storage_path('template_surat/surat-nota-wawancara.docx'))->deleteFileAfterSend(true);
