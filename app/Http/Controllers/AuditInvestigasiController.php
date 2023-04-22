@@ -114,7 +114,9 @@ class AuditInvestigasiController extends Controller
                 'ruangan' => $request->ruangan,
                 'tanggal' => $request->tanggal,
                 'jam' => $request->jam,
-                'alamat' => $request->alamat
+                'alamat' => $request->alamat,
+                'id_penyidik' => $request->id_penyidik,
+                'nomor_handphone' => $request->nomor_handphone,
             ]);
         }
 
@@ -123,13 +125,12 @@ class AuditInvestigasiController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->where('type', 1)->first();
         $penyidik = Penyidik::where('id', $wawancara->id_penyidik)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
-        $penyidik = Penyidik::where('id', $wawancara->id_penyidik);
         $date = date('Y-m-d');
 
         $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
         $tanggal = date("n",strtotime($date));
         $bln = $array_bln[$tanggal];
-        
+
         $template_document->setValues(array(
             'nomor_surat' => $wawancara->nomor_surat,
             'surat_dari' => $disposisi->surat_dari,
