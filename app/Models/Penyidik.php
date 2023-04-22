@@ -8,12 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Penyidik extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'data_pelanggar_id' ,'name', 'nrp', 'id_pangkat', 'jabatan', 'tim', 'unit' ];
-
-    public function dataPelanggar()
-    {
-        return $this->belongsTo(DataPelanggar::class, 'data_pelanggar_id');
-    }
+    protected $fillable = ['name', 'nrp', 'id_pangkat', 'jabatan', 'tim', 'unit', 'fungsional' ];
 
     public function pangkat()
     {

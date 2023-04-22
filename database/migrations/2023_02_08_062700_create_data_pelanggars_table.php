@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('no_nota_dinas');
             $table->string('no_pengaduan');
             $table->string('perihal_nota_dinas')->nullable();
-            $table->string('wujud_perbuatan')->nullable();
+            $table->integer('id_wujud_perbuatan')->nullable();
             $table->date('tanggal_nota_dinas');
             $table->string('pelapor')->nullable();
             $table->integer('umur')->nullable();
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('agama_terlapor')->nullable();
             $table->date('tanggal_kejadian')->nullable();
             $table->text('kronologi')->nullable();
-            $table->string('pangkat')->nullable();
+            $table->integer('id_pangkat')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('nama_korban')->nullable();
             $table->integer('status_id')->nullable();

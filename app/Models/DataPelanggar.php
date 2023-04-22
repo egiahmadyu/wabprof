@@ -12,8 +12,8 @@ class DataPelanggar extends Model
     protected $fillable = [
         'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama','suku', 'agama_terlapor', 'jabatan', 'nrp',
         'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian','tanggal_kejadian', 'kronologi','alamat_terlapor',
-        'pangkat', 'nama_korban', 'status_id', 'no_telp', 'kewarganegaraan', 'perihal_nota_dinas', 'tanggal_nota_dinas',
-        'wujud_perbuatan'
+        'id_pangkat', 'nama_korban', 'status_id', 'no_telp', 'kewarganegaraan', 'perihal_nota_dinas', 'tanggal_nota_dinas',
+        'id_wujud_perbuatan'
     ];
 
     public function status()
@@ -34,5 +34,15 @@ class DataPelanggar extends Model
     public function penyidik()
     {
         return $this->hasMany('penyidik');
+    }
+
+    public function pangkat()
+    {
+        return $this->belongsTo(Pangkat::class, 'id_pangkat');
+    }
+
+    public function wujud_perbuatan()
+    {
+        return $this->belongsTo(WujudPerbuatan::class, 'id_wujud_perbuatan');
     }
 }

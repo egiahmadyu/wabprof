@@ -19,6 +19,8 @@ use App\Models\Bp3kepps;
 use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
+use App\Models\Pangkat;
+use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
@@ -40,10 +42,14 @@ class KasusController extends Controller
         $agama = Agama::get();
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
+        $pangkat = Pangkat::get();
+        $wujud_perbuatan = WujudPerbuatan::where('jenis_wp', 'kode etik')->get();
         $data = [
             'agama' => $agama,
             'jenis_identitas' => $jenis_identitas,
-            'jenis_kelamin' => $jenis_kelamin
+            'jenis_kelamin' => $jenis_kelamin,
+            'pangkat' => $pangkat,
+            'wujud_perbuatan' => $wujud_perbuatan
         ];
 
         return view('pages.data_pelanggaran.input_kasus.input',$data);
@@ -58,7 +64,7 @@ class KasusController extends Controller
             'no_nota_dinas' => $request->no_nota_dinas,
             'no_pengaduan' => $no_pengaduan,
             'perihal_nota_dinas' => $request->perihal_nota_dinas,
-            'wujud_perbuatan' => $request->wujud_perbuatan,
+            'id_wujud_perbuatan' => $request->id_wujud_perbuatan,
             'tanggal_nota_dinas' => Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d'),
             'pelapor' => $request->pelapor,
             'umur' => $request->umur,
@@ -80,7 +86,7 @@ class KasusController extends Controller
             'tempat_kejadian' => $request->tempat_kejadian,
             'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
             'kronologi' => $request->kronologis,
-            'pangkat' => $request->pangkat,
+            'id_pangkat' => $request->id_pangkat,
             'nama_korban' => $request->nama_korban,
             'status_id' => 1
         ]);
@@ -89,7 +95,7 @@ class KasusController extends Controller
 
     public function data(Request $request)
     {
-        $query = DataPelanggar::orderBy('id', 'desc')->with('status');
+        $query = DataPelanggar::orderBy('id', 'desc')->with('status', 'pangkat');
 
         return Datatables::of($query)
             ->editColumn('no_nota_dinas', function($query) {
@@ -135,6 +141,7 @@ class KasusController extends Controller
             'pekerjaan' => $request->pekerjaan,
             'agama' => $request->agama,
             'suku' => $request->suku,
+            'id_wujud_perbuatan' => $request->id_wujud_perbuatan,
             'agama_terlapor' => $request->agama_terlapor,
             'alamat_terlapor' => $request->alamat_terlapor,
             'suku' => $request->suku,
@@ -149,7 +156,7 @@ class KasusController extends Controller
             'tempat_kejadian' => $request->tempat_kejadian,
             'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
             'kronologi' => $request->kronologis,
-            'pangkat' => $request->pangkat,
+            'id_pangkat' => $request->id_pangkat,
             'nama_korban' => $request->nama_korban,
         ]);
         return redirect()->back();
@@ -329,18 +336,29 @@ class KasusController extends Controller
         $status = Process::find($kasus->status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
         $agama = Agama::get();
+        $tim = ['A','B','C','D','E','F'];
+        $disposisi_kabag = Disposisi::where('data_pelanggar_id', $id)
+        ->where('type', 1)->first();
+        $disposisi_auditor = Disposisi::where('data_pelanggar_id', $id)
+        ->where('type', 2)->first();
 
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
+        $pangkat = Pangkat::get();
+        $wujud_perbuatan = WujudPerbuatan::where('jenis_wp', 'kode etik')->get();
 
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'process' =>  $process,
             'agama' => $agama,
+            'tims' => $tim,
             'jenis_identitas' => $jenis_identitas,
             'jenis_kelamin' => $jenis_kelamin,
-            'disposisi_kabag' => Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first()
+            'pangkat' => $pangkat,
+            'wujud_perbuatan' => $wujud_perbuatan,
+            'disposisi_kabag' => Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first(),
+            'disposisi_auditor' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first()
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);
@@ -351,9 +369,11 @@ class KasusController extends Controller
         $kasus = DataPelanggar::find($id);
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
+        $tim = ['A','B','C','D','E','F'];
 
         $data = [
             'kasus' => $kasus,
+            'tims' => $tim,
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),

@@ -17,26 +17,16 @@
                 <tr>
                     <td>Surat Penghadapan</td>
                     <td>
-                        <a href="/surat-penghadapan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-surat-penghadapan">
-                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                        </a>
-                        {{-- <button type="button" class="btn btn-primary">Buat Undangan <i class="far fa-file-plus"></i></button>
-                        <button type="button" class="btn btn-warning">Tambah Saksi <i class="far fa-user-plus"></i></button> --}}
-                        {{-- <div class="row">
-                            <div class="col-md-6 col-lg-6">
-                                <a href="#" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Undangan</h6>
-                                </a>
-                            </div>
-                            <div class="col-md-6 col-lg-6">
-                                <a href="#!" class="btn btn-outline-warning text-warning px-2"
-                                    data-bs-toggle="modal" data-bs-target="#modal_tambah_saksi">
-                                    <h6 class="p-0 m-0"><i class="far fa-user-plus"></i> Saksi</h6>
-                                </a>
-                            </div>
-                        </div> --}}
-
-
+                        @if (isset($surat_penghadapan))
+                        <a href="/surat-penghadapan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar btn-wawancara">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>&nbsp;Dokumen</h6>
+                            </button>
+                        @else
+                            <button data-bs-toggle="modal" data-bs-target="#modal_surat_penghadapan"  type="button"
+                                class="btn btn-outline-primary text-primar btn-dokumen-surat-penghadapan">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -52,7 +42,6 @@
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                             </button>
                         @endif
-
                     </td>
                 </tr>
                 <tr>
@@ -104,13 +93,53 @@
     </div>
 @endif
 
-@if (isset($wawancara) && isset($laporan))
-    <input type="hidden" id="status_buat_dokumen" value="1">
-    <input type="hidden" id="page_status" value="1">
-@else
-    <input type="hidden" id="status_buat_dokumen" value="0">
-    <input type="hidden" id="page_status" value="0">
-@endif
+<div class="modal fade" id="modal_surat_penghadapan" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Template Surat Penghadapan</h5>
+                <button type="button" class="btn-close btn-tutup" form="form-surat-pengahadapan" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/surat-penghadapan" method="post" id="form-surat-pengahadapan">
+                <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id">
+                @csrf
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">No. Nota Dinas :</label>
+                        <input type="text" class="form-control" aria-describedby="emailHelp" value="{{ $kasus->no_nota_dinas ?? '' }}" placeholder="No. Nota Dinas" readonly="">
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Perihal :</label>
+                        <input type="text" class="form-control" aria-describedby="emailHelp" value="{{ $kasus->perihal_nota_dinas ?? '' }}" placeholder="Perihal" readonly="">
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Surat :</label>
+                        <input type="text" class="form-control" id="nomor_surat" aria-describedby="emailHelp"
+                            name="nomor_surat" placeholder="Nomor Surat">
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Pelaksaan Audit Investigasi :</label>
+                        <input type="date" class="form-control" id="tanggal_pelaksanaan" aria-describedby="emailHelp"
+                        name="tanggal_pelaksanaan">
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Hasil Audit Investigasi :</label>
+                        <select name="hasil" id="hasil" class="form-control">
+                            <option value="">Pilih Hasil</option>
+                            <option value="Ditemukan">Ditemukan</option>
+                            <option value="Tidak Ditemukan">Tidak Ditemukan</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-surat-penghadapan" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" modal="modal_surat_penghadapan" btn-buat="btn-dokumen-surat-penghadapan" btn-dokumen="btn-surat-penghadapan">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="modal_wawancara" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
@@ -124,6 +153,11 @@
                     name="data_pelanggar_id">
                 @csrf
                 <div class="modal-body">
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Surat :</label>
+                        <input type="text" class="form-control" id="nomor_surat" aria-describedby="emailHelp"
+                            name="nomor_surat" placeholder="Nomor Surat">
+                    </div>
                     <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Wawancara :</label>
                         <input type="date" class="form-control" id="tanggal" aria-describedby="emailHelp"
@@ -142,6 +176,26 @@
                     <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Alamat :</label>
                         <textarea name="alamat" class="form-control" id="alamat" cols="30" rows="7" placeholder="Alamat Wawancara" ></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Penyidik Yamg Bisa di Hubungi :</label>
+                        <select name="id_penyidik" id="id_penyidik" class="form-control">
+                            <option value="">Pilih Penyidik</option>
+                            @foreach ($penyidiks as $penyidik)
+                                <option value="{{ $penyidik->id }}"
+                                    @if(isset($wawancara))
+                                        @if($penyidik->id == $wawancara->id_penyidik)
+                                            {{ 'selected' }}
+                                        @endif
+                                    @endif
+                                >$penyidik->name</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleInputEmail1" class="form-label">No. Handphone :</label>
+                        <input type="number" class="form-control" id="nomor_handphone" aria-describedby="emailHelp"
+                            name="nomor_handphone" placeholder="No. Handphone">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -285,7 +339,53 @@
                         type: 'get',
                         url: `/pulbaket/view/next-data/${kasus_id}`,
                         success: function(data) {
-                            cek_status_update();
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+
+        $('#form-surat-penghadapan').validate({
+            rules: {
+                nomor_surat : {
+                    required: true,
+                },
+                tanggal_pelaksanaan : {
+                    required: true,
+                },
+                hasil : {
+                    required: true,
+                },
+            },
+            messages : {
+                nomor_surat: "Silahkan isi nomor surat!",
+                tanggal_pelaksanaan: "Silahkan isi tanggal pelaksanaan!",
+                hasil: "Silahkan isi hasil!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var modal = $(this).attr('modal');
+                var kasus_id = $('#kasus_id').val();
+                $('#modal_surat_penghadapan').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/pulbaket/view/next-data/${kasus_id}`,
+                        success: function(data) {
                             $('#viewProses').html(data);
                             $('.loader-view').hide();
                             $('#viewProses').show();
@@ -338,7 +438,6 @@
                         type: 'get',
                         url: `/pulbaket/view/next-data/${kasus_id}`,
                         success: function(data) {
-                            cek_status_update();
                             $('#viewProses').html(data);
                             $('.loader-view').hide();
                             $('#viewProses').show();
@@ -356,42 +455,6 @@
        tambahSaksi(counter);
         $(this).attr('counter', counter);
     });
-
-    function cek_status_update(){
-       var status_nota_download =  $('#status_nota_download').val();
-       var status_surat_download =  $('#status_surat_download').val();
-       var status_buat_dokumen =  $('#status_buat_dokumen').val();
-
-       if(status_nota_download == 1 && status_surat_download == 1 && status_buat_dokumen == 1){
-            $('.btn-lanjut-update').removeClass('d-none');
-            $('.btn-lanjut').removeClass('d-none');
-            $('.btn-lanjut').addClass('d-none');
-       }else{
-            $('.btn-lanjut').removeClass('d-none');
-            $('.btn-lanjut-update').removeClass('d-none');
-            $('.btn-lanjut-update').addClass('d-none');
-       }
-
-    }
-
-    function cek_status_update_refresh(){
-        console.log('refresh');
-       var status_nota_download =  $('#status_nota_download').val();
-       var status_surat_download =  $('#status_surat_download').val();
-       var status_undangan_dokumen =  $('#status_undangan_dokumen').val();
-       var status_laporan_dokumen =  $('#status_laporan_dokumen').val();
-
-       if(status_nota_download == 1 && status_surat_download == 1 && status_undangan_dokumen == 1 && status_laporan_dokumen == 1){
-            $('.btn-lanjut-update').removeClass('d-none');
-            $('.btn-lanjut').removeClass('d-none');
-            $('.btn-lanjut').addClass('d-none');
-       }else{
-            $('.btn-lanjut').removeClass('d-none');
-            $('.btn-lanjut-update').removeClass('d-none');
-            $('.btn-lanjut-update').addClass('d-none');
-       }
-
-    }
 
     function tambahSaksi(counter) {
         let inHtml =
@@ -441,14 +504,6 @@
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
         $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
-    });
-    $('.btn-surat-penghadapan').on('click', function () {
-        $('#status_surat_download').val(1);
-        cek_status_update();
-    });
-    $('.btn-nota-wawancara').on('click', function () {
-        $('#status_nota_download').val(1);
-        cek_status_update();
     });
 
    

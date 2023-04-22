@@ -20,6 +20,8 @@ return new class extends Migration
             $table->time('jam')->nullable();
             $table->string('ruangan')->nullable();
             $table->text('alamat')->nullable();
+            $table->integer('id_penyidik');
+            $table->string('nomor_handphone');
             $table->timestamps();
         });
     }

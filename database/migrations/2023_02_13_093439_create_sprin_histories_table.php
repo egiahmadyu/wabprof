@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('sprin_histories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->string('no_sprin');
+            $table->string('no_sprin')->nullable();
             $table->date('tanggal_investigasi');
             $table->string('tempat_investigasi');
+            $table->string('tim');
             $table->timestamps();
         });
     }

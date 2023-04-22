@@ -17,7 +17,7 @@ class DataPelanggarSeed extends Seeder
     {
         DataPelanggar::create([
             'no_nota_dinas' => "10/24/propam",
-            'wujud_perbuatan' => 'kode etik',
+            'id_wujud_perbuatan' => 1,
             'tanggal_nota_dinas' => '2023-02-01',
             'no_telp' => '085720966872',
             'kewarganegaraan' => 'Indonesia',
@@ -36,7 +36,7 @@ class DataPelanggarSeed extends Seeder
             'alamat_terlapor' => 'Jakarta',
             'tempat_kejadian' => 'Tebet',
             'kronologi' => 'Jatuh Bangun',
-            'pangkat' => 'Bharada Dua',
+            'id_pangkat' => 1,
             'nama_korban' => 'Prayogi',
             'status_id' => 1,
             'nrp' => '12345',

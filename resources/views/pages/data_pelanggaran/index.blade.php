@@ -163,8 +163,8 @@
                         name: 'terlapor'
                     },
                     {
-                        data: 'pangkat',
-                        name: 'pangkat'
+                        data: 'pangkat.name',
+                        name: 'id_pangkat'
                     },
                     {
                         data: 'nama_korban',

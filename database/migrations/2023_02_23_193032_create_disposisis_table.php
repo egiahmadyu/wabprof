@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('surat_dari')->nullable();
             $table->date('tanggal_surat')->nullable();
             $table->string('nomor_surat')->nullable();
+            $table->string('klasifikasi')->nullable();
+            $table->string('derajat')->nullable();
+            $table->string('tim')->nullable();
+            $table->date('tanggal_diterima')->nullable();
             $table->integer('type')->nullable();
             $table->timestamps();
         });

@@ -8,10 +8,12 @@ use App\Models\DataPelanggar;
 use App\Models\GelarPerkaraHistory;
 use App\Models\HistorySprin;
 use App\Models\Penyidik;
+use App\Models\Disposisi;
 use App\Models\Saksi;
 use App\Models\Sp2hp2Hisory;
 use App\Models\Wawancara;
 use App\Models\LaporanHasilAudit;
+use App\Models\SuratPenghadapan;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use Carbon\Carbon;
@@ -389,14 +391,19 @@ class PulbaketController extends Controller
     public function viewNextData($id)
     {
         $kasus = DataPelanggar::find($id);
+        $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first();
+        $penyidik = Penyidik::where('tim', $disposisi->tim)->get();
         $wawancara = Wawancara::where('data_pelanggar_id', $id)->first();
         $laporan = LaporanHasilAudit::where('data_pelanggar_id', $id)->first();
+        $surat_penghadapan = SuratPenghadapan::where('data_pelanggar_id', $id)->first();
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
         $data = [
             'kasus' => $kasus,
             'wawancara' => $wawancara,
             'laporan' => $laporan,
+            'penyidiks' => $penyidik,
+            'surat_penghadapan' => $surat_penghadapan,
             'bai_terlapor' => BaiPelapor::where('data_pelanggar_id', $id)->first()
         ];
 

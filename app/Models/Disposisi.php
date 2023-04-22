@@ -14,6 +14,10 @@ class Disposisi extends Model
         'surat_dari',
         'nomor_surat',
         'tanggal_surat',
+        'klasifikasi',
+        'derajat',
+        'tanggal_diterima',
+        'tim',
         'type'
     ];
 }

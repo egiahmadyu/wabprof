@@ -112,9 +112,15 @@ Route::middleware(['auth'])->group(function (){
 
     // End View Kasus
 
+    //SPRIN
+    Route::get('data-penyidik/{tim}', [AuditInvestigasiController::class, 'viewPenyidik']);
+    //END SPRIN
+
     // Generate
     Route::post('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
     Route::get('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
+    Route::post('/lembar-disposisi-auditor', [DiterimaController::class, 'generateDisposisiAuditor']);
+    Route::get('/lembar-disposisi-auditor', [DiterimaController::class, 'generateDisposisiAuditor']);
     // Route::get('/lembar-disposisi/{type}', [LimpahPoldaController::class, 'downloadDisposisi']);
     // Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
     Route::post('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
@@ -128,6 +134,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/laporan-gelar-perkara/{id}', [GelarInvestigasiController::class, 'LaporanGelar']);
     Route::get('/nota-dinas-laporan/{id}', [GelarInvestigasiController::class, 'notaDinasLaporanGelarPerkara']);
     Route::get('/surat-nota-wawancara/{id}', [AuditInvestigasiController::class, 'notaWawancara']);
+    Route::post('/surat-penghadapan', [AuditInvestigasiController::class, 'generateSuratPenghadapan']);
     Route::get('/surat-penghadapan/{id}', [AuditInvestigasiController::class, 'suratPenghadapan']);
     Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
     Route::get('/surat-limpah-polda/{id}', [LimpahPoldaController::class, 'limpahPolda']);

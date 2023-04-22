@@ -91,7 +91,7 @@
                                         <tr>
                                             <td>Perihal</td>
                                             <td>:</td>
-                                            <td>Perihal</td>
+                                            <td>{{ $kasus->perihal }}</td>
                                         </tr>
                                         <tr>
                                             <td>Unit Pelaksana</td>
@@ -168,70 +168,30 @@
                     <!-- Input no SPRIN -->
                     <div class="row mb-3">
                         <div class="col">
-                            <input type="text" class="form-control" name="no_sprin" placeholder="Masukan No. SPRIN"
-                                required="required" id="no_sprin">
+                            <input type="text" class="form-control" name="no_sprin" placeholder="Masukan No. SPRIN" id="no_sprin">
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="tanggal_investigasi"
                                 placeholder="Tanggal Investigasi" id="tanggal_investigasi" required>
-                        </div>
+                        </div>                        
+                    </div>
+                    <div class="row mb-3">
                         <div class="col">
                             <input type="text" class="form-control" name="tempat_investigasi"
                                 placeholder="Tempat Investigasi" required id="tempat_investigasi">
                         </div>
-                    </div>
-                    <!-- Input data penyidik -->
-                    <div class="card card-data-penyidik">
-                        <div class="card-header">Input Data Penyelidik</div>
-                        <div class="card-body">
-                            <div class="mb-3" id="form_input_anggota">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-outline mb-3">
-                                            <input type="text" class="form-control" name="pangkat_ketua"
-                                                id="pangkat" placeholder="Pangkat Penyelidik" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-outline mb-3">
-                                            <input type="text" class="form-control" name="nama_penyelidik_ketua"
-                                                id="nama_penyelidik_ketua" placeholder="Nama Penyelidik" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-outline mb-3">
-                                            <input type="text" class="form-control" name="nrp_ketua"
-                                                id="nrp" placeholder="NRP" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-outline mb-3">
-                                            <input type="text" class="form-control" name="jabatan_ketua"
-                                                id="jabatan" placeholder="Jabatan Penyelidik" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-outline mb-3">
-                                            <label for="tipe_tim" class="form-label">Jabatan TIM : </label>
-                                            <select name="tipe_tim_ketua" id="tipe_tim" class="form-control"
-                                            disabled>
-                                                <option value="1" class="text-center" selected>Ketua</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-
-                            <div class="row mb-3" class="d-flex justify-content-end">
-                                <a href="#" id="tambah" counter="0"> <i class="far fa-plus-square"></i>
-                                    Anggota </a>
-                            </div>
+                        <div class="col">
+                            <select name="tim" id="tim" class="form-control">
+                                <option value="">Pilih Tim</option>
+                                @for ($i = 0; $i < count($tims); $i++)
+                                    <option value="{{ $tims[$i] }}">{{ $tims[$i] }}</option>
+                                @endfor
+                            </select>
                         </div>
+                    </div>
+                    <!-- data penyidik -->
+                    <div class="card card-data-penyidik" id="data-penyidik" style="display:none;">
+                        
                     </div>
 
                     <div class="form-outline mb-3">
@@ -409,44 +369,20 @@
         getNextData();
         $('#form-sprin').validate({
             rules: {
-                no_sprin : {
-                    required: true,
-                },
                 tanggal_investigasi : {
                     required: true,
                 },
                 tempat_investigasi : {
                     required: true,
                 },
-                nrp_ketua : {
+                tim : {
                     required: true,
                 },
-                nama_penyelidik_ketua : {
-                    required: true,
-                },
-                pangkat_ketua : {
-                    required: true,
-                },
-                jabatan_ketua : {
-                    required: true,
-                },
-                "nrp_anggota[]":'required',
-                'pangkat_anggota[]' :'required',
-                'nama_penyelidik_anggota[]' :'required',
-                'jabatan_anggota[]' :'required',
             },
             messages : {
-                no_sprin: "Silahkan isi nomor sprin!",
                 tanggal_investigasi: "Silahkan isi tanggal investigasi!",
                 tempat_investigasi: "Silahkan isi tempat investigasi!",
-                nrp_ketua: "Silahkan isi nrp ketua!",
-                pangkat_ketua: "Silahkan isi pangkat ketua!",
-                nama_penyelidik_ketua: "Silahkan isi nama penyelidik ketua!",
-                jabatan_ketua: "Silahkan isi jabatan ketua!",
-                'nrp_anggota[]': "Silahkan isi nrp!",
-                'pangkat_anggota[]': "Silahkan isi pangkat!",
-                'nama_penyelidik_anggota[]': "Silahkan isi nama!",
-                'jabatan_anggota[]': "Silahkan isi jabatan!",
+                tim: "Silahkan isi tim!",
             },
             errorElement : 'label',
             errorClass: 'text-danger',
@@ -502,49 +438,9 @@
        console.log('ori', counter)
        var counter = parseInt(counter)+1;
        console.log('add', counter)
-       tambahAnggota(counter);
+    //    tambahAnggota(counter);
         $(this).attr('counter', counter);
     });
-
-    function tambahAnggota(counter) {
-        let inHtml =
-            `<div class="row">
-            <div class="col-lg-6">
-                <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="pangkat_anggota[]" id="pangkat_anggota_${counter}" placeholder="Pangkat Penyelidik" required>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="nama_penyelidik_anggota[]" id="nama_penyelidik_anggota_${counter}" placeholder="Nama Penyelidik" required>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="nrp_anggota[]" id="nrp_anggota_${counter}" placeholder="NRP" required>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-outline mb-3">
-                    <input type="text" class="form-control" name="jabatan_anggota[]" id="jabatan_anggota_${counter}" placeholder="Jabatan Penyelidik" required>
-                </div>
-            </div>
-
-            <div class="col-lg-12">
-                <div class="form-outline mb-3">
-                <label for="tipe_tim" class="form-label">Jabatan TIM : </label>
-                <select name="tipe_tim_anggota[]" id="tipe_tim" class="form-control" disabled>
-                    <option value="2" class="text-center" selected>Anggota</option>
-                </select>
-                </div>
-            </div>
-        </div>
-        <hr>`;
-        $('#form_input_anggota').append(inHtml);
-    }
 
     function getNextData() {
         console.log($('#test_sprin').val())
@@ -560,8 +456,22 @@
         }
     }
 
+    $('#tim').on('change', function () {
+        var tim = $(this).val();
+        $.ajax({
+            type: 'get',
+            url: `/data-penyidik/${tim}/`,
+            success: function(data) {
+                $('#data-penyidik').html(data);
+                $('#data-penyidik').show();
+            }
+        });
+    })
+
     $('.btn-tutup').on('click', function () {
-        var form = $(this).attr('form');
-        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+        $('#no_sprin').val('');
+        $('#tempat_investigasi').val('');
+        $('#tanggal_investigasi').val('');
+        $('#tim').val('');
     })
 </script>

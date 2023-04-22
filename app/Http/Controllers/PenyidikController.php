@@ -20,10 +20,10 @@ class PenyidikController extends Controller
     public function inputPenyidik()
     {
         $pangkat = Pangkat::get();
-        $data_pelanggar = DataPelanggar::get();
+        $tim = ['A','B','C','D','E','F'];
         $data = [
             'pangkats' => $pangkat,
-            'data_pelanggars' => $data_pelanggar,
+            'tims' => $tim,
         ];
 
         return view('pages.data_penyidik.input_penyidik.input',$data);
@@ -33,11 +33,11 @@ class PenyidikController extends Controller
     {
         $pangkat = Pangkat::get();
         $penyidik = Penyidik::where('id', $id)->first();
-        $data_pelanggar = DataPelanggar::get();
+        $tim = ['A','B','C','D','E','F'];
         $data = [
             'pangkats' => $pangkat,
-            'data_pelanggars' => $data_pelanggar,
             'penyidik' => $penyidik,
+            'tims' => $tim,
         ];
 
         return view('pages.data_penyidik.input_penyidik.input',$data);
@@ -46,13 +46,13 @@ class PenyidikController extends Controller
     public function storePenyidik(Request $request)
     {
         $DP = Penyidik::create([
-            'data_pelanggar_id' => $request->data_pelanggar_id,
             'name' => $request->name,
             'nrp' => $request->nrp,
             'id_pangkat' => $request->id_pangkat,
             'jabatan' => $request->jabatan,
             'tim' => $request->tim,
             'unit' => $request->unit,
+            'fungsional' => $request->fungsional,
         ]);
         
         return redirect()->action([PenyidikController::class, 'index']);
@@ -60,7 +60,7 @@ class PenyidikController extends Controller
 
     public function data(Request $request)
     {
-        $query = Penyidik::select('*')->orderBy('id','desc')->with('dataPelanggar', 'pangkat')->get();
+        $query = Penyidik::select('*')->orderBy('id','desc')->with('pangkat')->get();
 
         return Datatables::of($query)->addColumn('action', function ($row) {
             return '<a href="' . route('penyidik.edit', [$row->id]) . '" class="btn btn-info btn-circle"
@@ -75,13 +75,13 @@ class PenyidikController extends Controller
     {
         $data_penyidik = Penyidik::where('id', $request->id)->first();
         $data_penyidik->update([
-            'data_pelanggar' => $request->kasus_id,
             'name' => $request->name,
             'nrp' => $request->nrp,
             'id_pangkat' => $request->id_pangkat,
             'jabatan' => $request->jabatan,
             'tim' => $request->tim,
             'unit' => $request->unit,
+            'fungsional' => $request->fungsional,
         ]);
 
         return redirect()->action([PenyidikController::class, 'index']);

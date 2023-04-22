@@ -26,20 +26,6 @@
             <div class="row">
                 <input type="hidden" name="id" id="id" value="{{ isset($penyidik) ? $penyidik->id : '' }}">
                 <div class="col-lg-6 mb-3">
-                    <label for="no_nota_dinas" class="form-label">No. Nota Dinas</label>
-                    <select name="data_pelanggar_id" id="data_pelanggar_id" class="form-control">
-                        @foreach ($data_pelanggars as $pelanggar)
-                            <option value="{{ $pelanggar->id }}"
-                                @if(isset($penyidik)) 
-                                    @if($penyidik->data_pelanggar_id == $pelanggar->id)
-                                        "selected";
-                                    @endif 
-                                @endif 
-                            >{{ $pelanggar->no_nota_dinas }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Nama</label>
                     <input type="text" name="name" class="form-control border-dark" placeholder="Nama" value="{{ isset($penyidik) ? $penyidik->name : '' }}" >
                 </div>
@@ -67,11 +53,41 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tim" class="form-label">Tim</label>
-                    <input type="text" id="tim" name="tim" class="form-control border-dark" placeholder="Tim" value="{{ isset($penyidik) ? $penyidik->tim : '' }}" >
+                    <select name="tim" id="tim" class="form-control">
+                        <option value="">Pilih Tim</option>
+                        @for ($i = 0; $i < count($tims); $i++)
+                            <option value="{{ $tims[$i] }}"
+                                    @if(isset($penyidik))
+                                        @if($penyidik->tim == $tims[$i])
+                                            "selected";
+                                        @endif 
+                                    @endif 
+                            >{{ $tims[$i] }}</option>
+                        @endfor
+                    </select>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="unit" class="form-label">Unit</label>
                     <input type="text" id="unit" name="unit" class="form-control border-dark" placeholder="Unit" value="{{ isset($penyidik) ? $penyidik->unit : '' }}" >
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <label for="unit" class="form-label">Fungsional</label>
+                    <select class="form-control" name="fungsional" id="fungsional">
+                        <option value="Ketua" 
+                            @if(isset($penyidik))
+                                @if($penyidik->fungsional == 'Ketua')
+                                    "selected";
+                                @endif 
+                            @endif 
+                        >Ketua</option>
+                        <option value="Anggota"
+                            @if(isset($penyidik))
+                                @if($penyidik->fungsional == 'Anggota')
+                                    "selected";
+                                @endif 
+                            @endif 
+                        >Anggota</option>
+                    </select>
                 </div>
             </div>
             {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}

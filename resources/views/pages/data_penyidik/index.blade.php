@@ -22,13 +22,13 @@
                         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
                             <thead class="text-muted table-light">
                                 <tr>
-                                    <th scope="col">No. Nota Dinas</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">NRP</th>
                                     <th scope="col">Pangkat</th>
                                     <th scope="col">Jabatan</th>
                                     <th scope="col">Tim</th>
                                     <th scope="col">Unit</th>
+                                    <th scope="col">Fungsional</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -112,10 +112,6 @@
                 },
                 columns: [
                     {
-                        data: 'data_pelanggar.no_nota_dinas',
-                        name: 'no_nota_dinas'
-                    },
-                    {
                         data: 'name',
                         name: 'name'
                     },
@@ -138,6 +134,10 @@
                     {
                         data: 'unit',
                         name: 'unit'
+                    },
+                    {
+                        data: 'fungsional',
+                        name: 'fungsional'
                     },
                     {
                         data: 'action',

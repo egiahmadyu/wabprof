@@ -30,7 +30,13 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
-                    <input type="text" name="wujud_perbuatan" class="form-control border-dark" placeholder="Wujud Perbuatan" value="{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}" >
+                    <select name="id_wujud_perbuatan" id="id_wujud_perbuatan" class="form-control">
+                        @if (isset($wujud_perbuatan))
+                            @foreach ($wujud_perbuatan as $key => $wujud)
+                                <option value="{{ $wujud->id }}" {{ isset($kasus) ? ($kasus->id_wujud_perbuatan == $wujud->id ? 'selected' : '') : '' }}>{{ $wujud->keterangan_wp }}</option>
+                            @endforeach
+                        @endif
+                    </select>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
@@ -117,7 +123,13 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
-                            <input type="text" name="pangkat" placeholder="Pangkat Terlapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" >
+                            <select name="id_pangkat" id="id_pangkat" class="form-control">
+                                @if (isset($pangkat))
+                                    @foreach ($pangkat as $key => $pangkt)
+                                        <option value="{{ $pangkt->id }}" {{ isset($kasus) ? ($kasus->id_pangkat == $pangkt->id ? 'selected' : '') : '' }}>{{ $pangkt->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="nrp" class="form-label">NRP</label>
