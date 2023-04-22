@@ -38,11 +38,7 @@ return new class extends Migration
             $table->string('nrp')->nullable();
             $table->date('tanggal_kejadian')->nullable();
             $table->text('kronologi')->nullable();
-<<<<<<< HEAD
             $table->integer('id_pangkat')->nullable();
-=======
-            $table->integer('pangkat')->nullable();
->>>>>>> 6a042a64ba91f1db031df651d50a4ad51ab97040
             $table->string('jabatan')->nullable();
             $table->string('nama_korban')->nullable();
             $table->integer('status_id')->nullable();

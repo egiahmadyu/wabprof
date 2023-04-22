@@ -60,7 +60,7 @@ class AuditInvestigasiController extends Controller
             'surat_dari' => $disposisi->surat_dari,
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'tanggal' => $kasus->tanggal_nota_dinas,
-            'perihal' => $disposisi->perihal_nota_dinas,
+            'perihal' => $kasus->perihal_nota_dinas,
             'tanggal_sprin' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
             'tanggal_ttd' => Carbon::parse($date)->translatedFormat('d F Y'),
             'bulan_tahun_sprin' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('F Y'),
@@ -119,15 +119,23 @@ class AuditInvestigasiController extends Controller
         }
 
         $wawancara = Wawancara::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        $value = $this->valueDoc($request->data_pelanggar_id, true);
+        $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->where('type', 1)->first();
+        $penyidik = Penyidik::where('id', $wawancara->id_penyidik)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
         $penyidik = Penyidik::where('id', $wawancara->id_penyidik);
+        $date = date('Y-m-d');
+
+        $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+        $tanggal = date("n",strtotime($date));
+        $bln = $array_bln[$tanggal];
+        
         $template_document->setValues(array(
-            'nomor_surat' => $sprin->nomor_surat,
+            'nomor_surat' => $wawancara->nomor_surat,
             'surat_dari' => $disposisi->surat_dari,
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'tanggal' => $kasus->tanggal_nota_dinas,
-            'perihal' => $disposisi->perihal_nota_dinas,
+            'perihal' => $kasus->perihal_nota_dinas,
             'tanggal_surat' => Carbon::parse($date)->translatedFormat('d F Y'),
             'bulan_tahun_surat' => Carbon::parse($date)->translatedFormat('F Y'),
             'tahun_surat' => Carbon::parse($date)->translatedFormat('Y'),
@@ -137,6 +145,9 @@ class AuditInvestigasiController extends Controller
             'pangkat' => $kasus->pangkat->name,
             'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
             'bulan_surat' => $bln,
+            'jabatan_terhubung' => $penyidik->jabatan,
+            'nama_terhubung' => $penyidik->name,
+            'nomor_handphone' => $wawancara->nomor_handphone,
         ));
         $template_document->saveAs(storage_path('template_surat/surat-undangan-wawancara.docx'));
 
@@ -169,7 +180,7 @@ class AuditInvestigasiController extends Controller
             'bulan_surat' => $bln,
             'surat_dari' => $disposisi->surat_dari,
             'tahun_surat' => Carbon::parse($date)->translatedFormat('Y'),
-            'perihal' => $disposisi->perihal_nota_dinas,
+            'perihal' => $kasus->perihal_nota_dinas,
             'kesatuan' => $kasus->kesatuan,
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'terlapor' => $kasus->terlapor,
