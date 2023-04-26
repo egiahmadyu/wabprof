@@ -222,14 +222,21 @@ class AuditInvestigasiController extends Controller
             ]);
 
             for ($i=0; $i < count($request->nrp); $i++) { 
-                Saksi::create([
-                    'data_pelanggar_id' => $request->data_pelanggar_id,
-                    'pangkat' => $request->pangkat[$i],
-                    'nrp' => $request->nrp[$i],
-                    'nama' => $request->nama[$i],
-                    'jabatan' => $request->jabatan[$i],
-                    'kesatuan' => $request->kesatuan[$i],
-                ]);
+                if($request->type[$i] == "Sipil"){
+                    Saksi::create([
+                        'data_pelanggar_id' => $request->data_pelanggar_id,
+                        'nama' => $request->nama[$i],
+                    ]);
+                }else{
+                    Saksi::create([
+                        'data_pelanggar_id' => $request->data_pelanggar_id,
+                        'pangkat' => $request->pangkat[$i],
+                        'nrp' => $request->nrp[$i],
+                        'nama' => $request->nama[$i],
+                        'jabatan' => $request->jabatan[$i],
+                        'kesatuan' => $request->kesatuan[$i],
+                    ]);
+                }
             }
         }
 

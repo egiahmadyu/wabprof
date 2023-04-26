@@ -222,9 +222,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nomor Laporan :</label>
+                                <label for="exampleInputEmail1" class="form-label">Nomor Laporan Hasil Audit Investigas :</label>
                                 <input type="text" class="form-control" id="nomor_laporan" aria-describedby="emailHelp"
-                                    name="nomor_laporan" placeholder="Nomor Laporan">
+                                    name="nomor_laporan" placeholder="Nomor Laporan Hasil Audit Investigas">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -240,41 +240,66 @@
                         <div class="card-body">
                             <div class="mb-3" id="form_input_saksi">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">NRP :</label>
-                                            <input type="text" class="form-control" id="nrp" aria-describedby="emailHelp"
-                                                name="nrp[]" placeholder="NRP">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
-                                            <input type="text" class="form-control" id="pangkat" aria-describedby="emailHelp"
-                                                name="pangkat[]" placeholder="Pangkat">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Nama :</label>
-                                            <input type="text" class="form-control" id="nama" aria-describedby="emailHelp"
-                                                name="nama[]" placeholder="Nama">
+                                            <label for="exampleInputEmail1" class="form-label">Type :</label>
+                                            <select name="type[]" class="form-control" id="type">
+                                                <option value="">Pilih Type Saksi</option>
+                                                <option value="Sipil">Sipil</option>
+                                                <option value="Polri">Polri</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
-                                            <input type="text" class="form-control" id="jabatan" aria-describedby="emailHelp"
-                                                name="jabatan[]" placeholder="Jabatan">
+                                <div id="Polri" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">NRP :</label>
+                                                <input type="text" class="form-control" id="nrp" aria-describedby="emailHelp"
+                                                    name="nrp[]" placeholder="NRP">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
+                                                <input type="text" class="form-control" id="pangkat" aria-describedby="emailHelp"
+                                                    name="pangkat[]" placeholder="Pangkat">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Nama :</label>
+                                                <input type="text" class="form-control" id="nama" aria-describedby="emailHelp"
+                                                    name="nama[]" placeholder="Nama">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
-                                            <input type="text" class="form-control" id="kesatuan" aria-describedby="emailHelp"
-                                                name="kesatuan[]" placeholder="Kesatuan">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
+                                                <input type="text" class="form-control" id="jabatan" aria-describedby="emailHelp"
+                                                    name="jabatan[]" placeholder="Jabatan">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
+                                                <input type="text" class="form-control" id="kesatuan" aria-describedby="emailHelp"
+                                                    name="kesatuan[]" placeholder="Kesatuan">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Sipil" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Nama :</label>
+                                                <input type="text" class="form-control" id="nama" aria-describedby="emailHelp"
+                                                    name="nama[]" placeholder="Nama">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -402,20 +427,12 @@
                 nomor_laporan : {
                     required: true,
                 },
-                "nrp[]":'required',
-                'pangkat[]' :'required',
                 'nama[]' :'required',
-                'jabatan[]' :'required',
-                'kesatuan[]' :'required',
             },
             messages : {
                 tanggal: "Silahkan isi tanggal!",
-                nomor_laporan: "Silahkan isi nomor laporan!",
-                'nrp[]': "Silahkan isi nrp!",
-                'pangkat[]': "Silahkan isi pangkat!",
+                nomor_laporan: "Silahkan isi nomor laporan hasil audit investigasi!",
                 'nama[]': "Silahkan isi nama!",
-                'jabatan[]': "Silahkan isi jabatan!",
-                'kesatuan[]': "Silahkan isi kesatuan!",
             },
             errorElement : 'label',
             errorClass: 'text-danger',
@@ -447,59 +464,111 @@
             }
         });
     });
+
+    $('#type').on('change', function () {
+        var type = $(this).val();
+        if(type == 'Sipil'){
+            $('#Sipil').show();
+            $('#Polri').hide();
+        }else{
+            $('#Polri').show();
+            $('#Sipil').hide();
+        }
+    })
+
     $('#tambah').on('click', function () {
        var counter = $(this).attr('counter');
-       console.log('ori', counter)
+
        var counter = parseInt(counter)+1;
-       console.log('add', counter)
+
        tambahSaksi(counter);
+
+       $('#type_'+counter).on('change', function () {
+                var type = $(this).val();
+                console.log('hasil_type', type);
+                if(type == 'Sipil'){
+                    console.log('satu');
+                    $('#Sipil_'+counter).show();
+                    $('#Polri_'+counter).hide();
+                }else{
+                    console.log('dua');
+                    $('#Polri_'+counter).show();
+                    $('#Sipil_'+counter).hide();
+                }
+            })
+        $('#type_'+counter).trigger('change');
+
         $(this).attr('counter', counter);
     });
 
     function tambahSaksi(counter) {
-        let inHtml =
+            let inHtml =
             `<div class="row">
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">NRP :</label>
-                        <input type="text" class="form-control" id="nrp_${counter}" aria-describedby="emailHelp"
-                            name="nrp[]" placeholder="NRP">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
-                        <input type="text" class="form-control" id="pangkat_${counter}" aria-describedby="emailHelp"
-                            name="pangkat[]" placeholder="Pangkat">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama :</label>
-                        <input type="text" class="form-control" id="nama_${counter}" aria-describedby="emailHelp"
-                            name="nama[]" placeholder="Nama">
+                        <label for="exampleInputEmail1" class="form-label">Type :</label>
+                        <select name="type[]" class="form-control" id="type_${counter}">
+                            <option value="">Pilih Type Saksi</option>
+                            <option value="Sipil">Sipil</option>
+                            <option value="Polri">Polri</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
-                        <input type="text" class="form-control" id="jabatan_${counter}" aria-describedby="emailHelp"
-                            name="jabatan[]" placeholder="Jabatan">
+             <div id="Polri_${counter}" style="display: none;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">NRP :</label>
+                            <input type="text" class="form-control" id="nrp_${counter}" aria-describedby="emailHelp"
+                                name="nrp[]" placeholder="NRP">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
+                            <input type="text" class="form-control" id="pangkat_${counter}" aria-describedby="emailHelp"
+                                name="pangkat[]" placeholder="Pangkat">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nama :</label>
+                            <input type="text" class="form-control" id="nama_${counter}" aria-describedby="emailHelp"
+                                name="nama[]" placeholder="Nama">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
-                        <input type="text" class="form-control" id="kesatuan_${counter}" aria-describedby="emailHelp"
-                            name="kesatuan[]" placeholder="Kesatuan">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
+                            <input type="text" class="form-control" id="jabatan_${counter}" aria-describedby="emailHelp"
+                                name="jabatan[]" placeholder="Jabatan">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
+                            <input type="text" class="form-control" id="kesatuan_${counter}" aria-describedby="emailHelp"
+                                name="kesatuan[]" placeholder="Kesatuan">
+                        </div>
                     </div>
                 </div>
             </div>
-            <hr>`;
+            <div id="Sipil_${counter}" style="display: none;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nama :</label>
+                            <input type="text" class="form-control" id="nama_${counter}" aria-describedby="emailHelp"
+                                name="nama[]" placeholder="Nama">
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            
         $('#form_input_saksi').append(inHtml);
-
     }
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
