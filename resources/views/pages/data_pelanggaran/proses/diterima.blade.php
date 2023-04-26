@@ -453,6 +453,9 @@
 
 <script>
     $(document).ready(function() {
+        $( 'select' ).select2( {
+            theme: 'bootstrap-5'
+        } );
         getPolda()
         $('#form-disposisi-kabag').validate({
             rules: {
