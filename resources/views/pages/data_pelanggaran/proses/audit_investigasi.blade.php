@@ -181,10 +181,17 @@
                                 placeholder="Tempat Investigasi" required id="tempat_investigasi">
                         </div>
                         <div class="col">
-                            <select name="tim" id="tim" class="form-control">
+                            <select name="tim" id="tim" class="form-control" readonly="">
                                 <option value="">Pilih Tim</option>
                                 @for ($i = 0; $i < count($tims); $i++)
-                                    <option value="{{ $tims[$i] }}">{{ $tims[$i] }}</option>
+                                    
+                                    <option value="{{ $tims[$i] }}"
+                                    @if(isset(disposisi))
+                                        @if($disposisi->tim == $tims[$i])
+                                            {{ 'selected' }}
+                                        @end if
+                                    @end if
+                                    >{{ $tims[$i] }}</option>
                                 @endfor
                             </select>
                         </div>

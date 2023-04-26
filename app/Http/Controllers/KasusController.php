@@ -382,6 +382,7 @@ class KasusController extends Controller
             'tims' => $tim,
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'disposisi' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.audit_investigasi', $data);
