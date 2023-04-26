@@ -240,9 +240,81 @@ class AuditInvestigasiController extends Controller
             }
         }
 
-        $value = $this->valueDoc($request->data_pelanggar_id, false, true);
+        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $penyidik = Penyidik::where('tim', $request->tim)->where('fungsional', 'anggota')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $request->tim)->where('fungsional', 'ketua')->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $saksi = Saksi::where('data_pelanggar_id', $request->data_pelanggar_id)->get()->toArray();
+
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
-        $template_document->setValues($value);
+        $date = date('Y-m-d');
+
+        $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+        $tanggal = date("n",strtotime($date));
+        $bln = $array_bln[$tanggal];
+
+        $template_document->setValues( array(
+            'nomor_laporan' => $laporan->nomor_laporan,
+            'no_sprin' => $sprin->no_sprin,
+            'tempat_investigasi' => $sprin->tempat_investigasi,
+            'pangkat' => $kasus->pangkat->name,
+            'terlapor' => $kasus->terlapor,
+            'pelapor' => $kasus->pelapor,
+            'jabatan' => $kasus->jabatan,
+            'nrp' => $kasus->nrp,
+            'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
+            'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+            'tanggal_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('d F Y'),
+            'no_nota_dinas' => $kasus->no_nota_dinas,
+            'perihal' => $kasus->perihal_nota_dinas,
+            'ketua' => $ketua_penyidik->name ?? '',
+            'nrp_ketua' => $ketua_penyidik->nrp ?? '',
+            'jabatan_ketua' => $ketua_penyidik->jabatan ?? '',
+            'pangkat_ketua' => $ketua_penyidik->pangkat ?? '',
+            'anggota_1' => $penyidik[0]['name'] ?? '',
+            'nrp_1' => $penyidik[0]['nrp'] ?? '',
+            'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
+            'anggota_2' => $penyidik[1]['name'] ?? '',
+            'nrp_2' => $penyidik[1]['nrp'] ?? '',
+            'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
+            'anggota_3' => $penyidik[2]['name'] ?? '',
+            'nrp_3' => $penyidik[2]['nrp'] ?? '',
+            'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
+            'anggota_4' => $penyidik[3]['name'] ?? '',
+            'nrp_4' => $penyidik[3]['nrp'] ?? '',
+            'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
+            'anggota_5' => $penyidik[4]['name'] ?? '',
+            'nrp_5' => $penyidik[4]['nrp'] ?? '',
+            'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
+            'pangkat_saksi_1' => $saksi[0]['pangkat'] ?? '',
+            'nama_saksi_1' => $saksi[0]['nama'] ?? '',
+            'nrp_sasi_1' => $saksi[0]['nrp'] ?? '',
+            'jabatan_saksi_1' => $saksi[0]['jabatan'] ?? '',
+            'kesatuan_saksi_1' => $saksi[0]['kesatuan'] ?? '',
+            'pangkat_saksi_2' => $saksi[1]['pangkat'] ?? '',
+            'nama_saksi_2' => $saksi[1]['nama'] ?? '',
+            'nrp_sasi_2' => $saksi[1]['nrp'] ?? '',
+            'jabatan_saksi_2' => $saksi[1]['jabatan'] ?? '',
+            'kesatuan_saksi_2' => $saksi[1]['kesatuan'] ?? '',
+            'pangkat_saksi_3' => $saksi[2]['pangkat'] ?? '',
+            'nama_saksi_3' => $saksi[2]['nama'] ?? '',
+            'nrp_sasi_3' => $saksi[2]['nrp'] ?? '',
+            'jabatan_saksi_3' => $saksi[2]['jabatan'] ?? '',
+            'kesatuan_saksi_3' => $saksi[2]['kesatuan'] ?? '',
+            'pangkat_saksi_4' => $saksi[3]['pangkat'] ?? '',
+            'nama_saksi_4' => $saksi[3]['nama'] ?? '',
+            'nrp_sasi_4' => $saksi[3]['nrp'] ?? '',
+            'jabatan_saksi_4' => $saksi[3]['jabatan'] ?? '',
+            'kesatuan_saksi_4' => $saksi[3]['kesatuan'] ?? '',
+            'pangkat_saksi_5' => $saksi[4]['pangkat'] ?? '',
+            'nama_saksi_5' => $saksi[4]['nama'] ?? '',
+            'nrp_sasi_5' => $saksi[4]['nrp'] ?? '',
+            'jabatan_saksi_5' => $saksi[4]['jabatan'] ?? '',
+            'kesatuan_saksi_5' => $saksi[4]['kesatuan'] ?? '',
+
+        ));
         $template_document->saveAs(storage_path('template_surat/laporan-hasil-audit.docx'));
 
         return response()->download(storage_path('template_surat/laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
@@ -333,9 +405,82 @@ class AuditInvestigasiController extends Controller
 
     public function laporanHasilAudit($kasus_id)
     {
-        $value = $this->valueDoc($kasus_id, false, true);
+        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id)->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
+        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->first();
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
+        $saksi = Saksi::where('data_pelanggar_id', $kasus_id)->get()->toArray();
+
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
-        $template_document->setValues($value);
+        $date = date('Y-m-d');
+
+        $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
+        $tanggal = date("n",strtotime($date));
+        $bln = $array_bln[$tanggal];
+
+        $template_document->setValues( array(
+            'nomor_laporan' => $laporan->nomor_laporan,
+            'no_sprin' => $sprin->no_sprin,
+            'tempat_investigasi' => $sprin->tempat_investigasi,
+            'pangkat' => $kasus->pangkat->name,
+            'terlapor' => $kasus->terlapor,
+            'pelapor' => $kasus->pelapor,
+            'jabatan' => $kasus->jabatan,
+            'nrp' => $kasus->nrp,
+            'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
+            'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+            'tanggal_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('d F Y'),
+            'no_nota_dinas' => $kasus->no_nota_dinas,
+            'perihal' => $kasus->perihal_nota_dinas,
+            'ketua' => $ketua_penyidik->name ?? '',
+            'nrp_ketua' => $ketua_penyidik->nrp ?? '',
+            'jabatan_ketua' => $ketua_penyidik->jabatan ?? '',
+            'pangkat_ketua' => $ketua_penyidik->pangkat ?? '',
+            'anggota_1' => $penyidik[0]['name'] ?? '',
+            'nrp_1' => $penyidik[0]['nrp'] ?? '',
+            'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
+            'anggota_2' => $penyidik[1]['name'] ?? '',
+            'nrp_2' => $penyidik[1]['nrp'] ?? '',
+            'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
+            'anggota_3' => $penyidik[2]['name'] ?? '',
+            'nrp_3' => $penyidik[2]['nrp'] ?? '',
+            'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
+            'anggota_4' => $penyidik[3]['name'] ?? '',
+            'nrp_4' => $penyidik[3]['nrp'] ?? '',
+            'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
+            'anggota_5' => $penyidik[4]['name'] ?? '',
+            'nrp_5' => $penyidik[4]['nrp'] ?? '',
+            'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
+            'pangkat_saksi_1' => $saksi[0]['pangkat'] ?? '',
+            'nama_saksi_1' => $saksi[0]['nama'] ?? '',
+            'nrp_sasi_1' => $saksi[0]['nrp'] ?? '',
+            'jabatan_saksi_1' => $saksi[0]['jabatan'] ?? '',
+            'kesatuan_saksi_1' => $saksi[0]['kesatuan'] ?? '',
+            'pangkat_saksi_2' => $saksi[1]['pangkat'] ?? '',
+            'nama_saksi_2' => $saksi[1]['nama'] ?? '',
+            'nrp_sasi_2' => $saksi[1]['nrp'] ?? '',
+            'jabatan_saksi_2' => $saksi[1]['jabatan'] ?? '',
+            'kesatuan_saksi_2' => $saksi[1]['kesatuan'] ?? '',
+            'pangkat_saksi_3' => $saksi[2]['pangkat'] ?? '',
+            'nama_saksi_3' => $saksi[2]['nama'] ?? '',
+            'nrp_sasi_3' => $saksi[2]['nrp'] ?? '',
+            'jabatan_saksi_3' => $saksi[2]['jabatan'] ?? '',
+            'kesatuan_saksi_3' => $saksi[2]['kesatuan'] ?? '',
+            'pangkat_saksi_4' => $saksi[3]['pangkat'] ?? '',
+            'nama_saksi_4' => $saksi[3]['nama'] ?? '',
+            'nrp_sasi_4' => $saksi[3]['nrp'] ?? '',
+            'jabatan_saksi_4' => $saksi[3]['jabatan'] ?? '',
+            'kesatuan_saksi_4' => $saksi[3]['kesatuan'] ?? '',
+            'pangkat_saksi_5' => $saksi[4]['pangkat'] ?? '',
+            'nama_saksi_5' => $saksi[4]['nama'] ?? '',
+            'nrp_sasi_5' => $saksi[4]['nrp'] ?? '',
+            'jabatan_saksi_5' => $saksi[4]['jabatan'] ?? '',
+            'kesatuan_saksi_5' => $saksi[4]['kesatuan'] ?? '',
+
+        ));
+
         $template_document->saveAs(storage_path('template_surat/laporan-hasil-audit.docx'));
 
         return response()->download(storage_path('template_surat/laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
