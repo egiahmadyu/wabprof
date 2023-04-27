@@ -11,6 +11,7 @@ use App\Models\Penyidik;
 use App\Models\Disposisi;
 use App\Models\Saksi;
 use App\Models\Sp2hp2Hisory;
+use App\Models\Pangkat;
 use App\Models\Wawancara;
 use App\Models\LaporanHasilAudit;
 use App\Models\SuratPenghadapan;
@@ -391,8 +392,10 @@ class PulbaketController extends Controller
     public function viewNextData($id)
     {
         $kasus = DataPelanggar::find($id);
+        $pangkat = Pangkat::get();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first();
-        $penyidik = Penyidik::where('tim', $disposisi->tim)->get();
+        $penyidik = Penyidik::where('tim', $sprin->tim)->get();
         $wawancara = Wawancara::where('data_pelanggar_id', $id)->first();
         $laporan = LaporanHasilAudit::where('data_pelanggar_id', $id)->first();
         $surat_penghadapan = SuratPenghadapan::where('data_pelanggar_id', $id)->first();
@@ -401,6 +404,7 @@ class PulbaketController extends Controller
         $data = [
             'kasus' => $kasus,
             'wawancara' => $wawancara,
+            'pangkat' => $pangkat,
             'laporan' => $laporan,
             'penyidiks' => $penyidik,
             'surat_penghadapan' => $surat_penghadapan,

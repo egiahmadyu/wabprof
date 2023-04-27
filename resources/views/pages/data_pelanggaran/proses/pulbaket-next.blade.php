@@ -95,9 +95,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Surat Penghadapan</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-surat-pengahadapan" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-surat-penghadapan" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/surat-penghadapan" method="post" id="form-surat-pengahadapan">
+            <form action="/surat-penghadapan" method="post" id="form-surat-penghadapan">
                 <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
                     name="data_pelanggar_id">
                 @csrf
@@ -264,8 +264,14 @@
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
-                                                <input type="text" class="form-control" id="pangkat" aria-describedby="emailHelp"
-                                                    name="pangkat[]" placeholder="Pangkat">
+                                                <select name="id_pangkat[]" id="id_pangkat" class="form-control">
+                                                    <option value="">Pilih Pangkat</option>
+                                                    @if(isset($pangkat))
+                                                        @foreach($pangkat as $pangkat)
+                                                            <option value="{{ $pangkat->id }}">{{ $pangkat->name }}</option>
+                                                        @endforeach   
+                                                    @endif
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -315,7 +321,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-tutup" form="form-laporan" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_laporan" btn-buat="btn-dokumen-laporan" btn-dokumen="btn-laporan">Generate</button>
+                    <button type="submit" class="btn btn-primary" modal="modal_laporan" btn-buat="btn-dokumen-laporan" btn-dokumen="btn-laporan">Generate</button>
                 </div>
             </form>
         </div>
@@ -323,6 +329,8 @@
 </div>
 <script>
      $(document).ready(function() {
+        
+    
         $('#form-wawancara').validate({
             rules: {
                 tanggal : {
@@ -337,12 +345,20 @@
                 alamat : {
                     required: true,
                 },
+                id_penyidik : {
+                    required: true,
+                },
+                nomor_handphone : {
+                    required: true,
+                },
             },
             messages : {
                 tanggal: "Silahkan isi tanggal!",
                 jam: "Silahkan isi jam!",
                 ruangan: "Silahkan isi ruangan wawancara!",
                 alamat: "Silahkan isi alamat!",
+                id_penyidik: "Silahkan Pilih Penyidik!",
+                nomor_handphone: "Silahkan isi Nomor Handphone!",
             },
             errorElement : 'label',
             errorClass: 'text-danger',
@@ -449,6 +465,7 @@
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
                 $('#modal_laporan').modal('hide');
+                console.log('masuk');
                 $('.loader-view').show();
                 $('#viewProses').hide();
                 setTimeout(function() {
@@ -457,6 +474,7 @@
                         url: `/pulbaket/view/next-data/${kasus_id}`,
                         success: function(data) {
                             $('#viewProses').html(data);
+                console.log('masuk2');
                             $('.loader-view').hide();
                             $('#viewProses').show();
                         }
@@ -465,6 +483,17 @@
             }
         });
     });
+
+    function getPangkat(handleData){
+        $.ajax({
+            type: 'get',
+            url: `/get-data-pangkat/`,
+            success: function(data) {
+                data = JSON.parse(data);
+                handleData(data); 
+            }
+        });
+    }
 
     $('#type').on('change', function () {
         var type = $(this).val();
@@ -479,30 +508,32 @@
 
     $('#tambah').on('click', function () {
        var counter = $(this).attr('counter');
+       counter = parseInt(counter)+1;
 
-       var counter = parseInt(counter)+1;
+       getPangkat(function(output){
+            var pangkat = output;
+            tambahSaksi(counter, pangkat);
+            $('#type_'+counter).on('change', function () {
+                     var type = $(this).val();
+                     console.log('hasil_type', type);
+                     if(type == 'Sipil'){
+                         console.log('satu');
+                         $('#Sipil_'+counter).show();
+                         $('#Polri_'+counter).hide();
+                     }else{
+                         console.log('dua');
+                         $('#Polri_'+counter).show();
+                         $('#Sipil_'+counter).hide();
+                     }
+                 })
+             $('#type_'+counter).trigger('change');
+        });
 
-       tambahSaksi(counter);
-
-       $('#type_'+counter).on('change', function () {
-                var type = $(this).val();
-                console.log('hasil_type', type);
-                if(type == 'Sipil'){
-                    console.log('satu');
-                    $('#Sipil_'+counter).show();
-                    $('#Polri_'+counter).hide();
-                }else{
-                    console.log('dua');
-                    $('#Polri_'+counter).show();
-                    $('#Sipil_'+counter).hide();
-                }
-            })
-        $('#type_'+counter).trigger('change');
 
         $(this).attr('counter', counter);
     });
 
-    function tambahSaksi(counter) {
+    function tambahSaksi(counter, pangkat) {
             let inHtml =
             `<div class="row">
                 <div class="col-md-12">
@@ -528,8 +559,15 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
-                            <input type="text" class="form-control" id="pangkat_${counter}" aria-describedby="emailHelp"
-                                name="pangkat[]" placeholder="Pangkat">
+                            <select class="form-control" id="id_pangkat_${counter}" name="id_pangkat[]">
+                                <option value=""> Pilih Pangkat </option>
+                                `;
+                                for(i=0; i<pangkat.length; i++)
+                                {
+                                    inHtml += `<option value="${pangkat[i].id}">${pangkat[i].name}</option>`; 
+                                }
+                                inHtml +=`
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">

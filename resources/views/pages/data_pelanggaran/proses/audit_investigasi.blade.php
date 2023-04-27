@@ -91,17 +91,17 @@
                                         <tr>
                                             <td>Perihal</td>
                                             <td>:</td>
-                                            <td>{{ $kasus->perihal }}</td>
+                                            <td>{{ $kasus->perihal_nota_dinas }}</td>
                                         </tr>
                                         <tr>
                                             <td>Unit Pelaksana</td>
                                             <td>:</td>
-                                            <td>{{ $kasus->pelapor }}</td>
+                                            <td>{{ $sprin->tim ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Ketua Tim</td>
                                             <td>:</td>
-                                            <td>{{ $kasus->terlapor }}</td>
+                                            <td>{{ $penyidik->name ?? '-' }}</td>
                                         </tr>
                                     </table>
                                 </div>

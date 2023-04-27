@@ -14,4 +14,9 @@ class Pangkat extends Model
     {
         return $this->hasMany(Penyidik::class);
     }
+
+    public function saksi()
+    {
+        return $this->hasMany(Saksi::class);
+    }
 }

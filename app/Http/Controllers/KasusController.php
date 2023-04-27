@@ -14,6 +14,7 @@ use App\Models\LimpahPolda;
 use App\Models\Process;
 use App\Models\Sidang;
 use App\Models\Penyerahan;
+use App\Models\Penyidik;
 use App\Models\Permohonan;
 use App\Models\Bp3kepps;
 use App\Models\Sp2hp2Hisory;
@@ -187,7 +188,7 @@ class KasusController extends Controller
     {
         if ($status_id == 1) return $this->viewDiterima($kasus_id);
         elseif ($status_id == 2) return $this->viewDisposisi($kasus_id);
-        elseif ($status_id == 3) return $this->viewAuditInverstigasi($kasus_id);
+        elseif ($status_id == 3) return $this->viewAuditInvestigasi($kasus_id);
         elseif ($status_id == 4) return $this->viewGelarInvestigasi($kasus_id);
         elseif ($status_id == 5) return $this->viewSidik($kasus_id);
         elseif ($status_id == 6) return $this->viewPemberkasan($kasus_id);
@@ -367,17 +368,19 @@ class KasusController extends Controller
         return view('pages.data_pelanggaran.proses.diterima', $data);
     }
 
-    private function viewAuditInverstigasi($id)
+    private function viewAuditInvestigasi($id)
     {
         $kasus = DataPelanggar::find($id);
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
         $tim = ['A','B','C','D','E','F'];
 
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('penyidik')->first();
         $data = [
             'kasus' => $kasus,
             'tims' => $tim,
-            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'sprin' => $sprin,
+            'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $sprin->tim)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'disposisi' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),

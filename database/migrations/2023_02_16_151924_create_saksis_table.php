@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('data_pelanggar_id');
             $table->string('nrp')->nullable();
             $table->string('nama')->nullable();
-            $table->string('pangkat')->nullable();
+            $table->Integer('id_pangkat')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('kesatuan')->nullable();
             $table->timestamps();

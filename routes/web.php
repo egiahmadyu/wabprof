@@ -114,6 +114,7 @@ Route::middleware(['auth'])->group(function (){
 
     //SPRIN
     Route::get('data-penyidik/{tim}', [AuditInvestigasiController::class, 'viewPenyidik']);
+    Route::get('get-data-pangkat', [AuditInvestigasiController::class, 'viewPangkat']);
     //END SPRIN
 
     // Generate

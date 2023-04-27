@@ -11,6 +11,7 @@ use App\Models\Bp3kepps;
 use App\Models\Saksi;
 use App\Models\Sidang;
 use App\Models\LimpahPolda;
+use App\Models\Pangkat;
 use App\Models\Permohonan;
 use App\Models\UndanganGelar;
 use App\Models\PembentukanKomisi;
@@ -240,7 +241,7 @@ class AuditInvestigasiController extends Controller
                 }else{
                     Saksi::create([
                         'data_pelanggar_id' => $request->data_pelanggar_id,
-                        'pangkat' => $request->pangkat[$i],
+                        'id_pangkat' => $request->id_pangkat[$i],
                         'nrp' => $request->nrp[$i],
                         'nama' => $request->nama[$i],
                         'jabatan' => $request->jabatan[$i],
@@ -270,10 +271,12 @@ class AuditInvestigasiController extends Controller
             'no_sprin' => $sprin->no_sprin,
             'tempat_investigasi' => $sprin->tempat_investigasi,
             'pangkat' => $kasus->pangkat->name,
+            'hasil' => $laporan->hasil,
             'terlapor' => $kasus->terlapor,
             'pelapor' => $kasus->pelapor,
             'jabatan' => $kasus->jabatan,
             'nrp' => $kasus->nrp,
+            'bulan_tahun_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('F Y'),
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
             'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'tanggal_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('d F Y'),
@@ -486,7 +489,9 @@ class AuditInvestigasiController extends Controller
             'terlapor' => $kasus->terlapor,
             'pelapor' => $kasus->pelapor,
             'jabatan' => $kasus->jabatan,
+            'hasil' => $laporan->hasil,
             'nrp' => $kasus->nrp,
+            'bulan_tahun_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('F Y'),
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
             'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'tanggal_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('d F Y'),
@@ -785,5 +790,12 @@ class AuditInvestigasiController extends Controller
         // die();
 
         return view('pages.data_pelanggaran.proses.data_penyidik', $data);
+    }
+
+    public function viewPangkat()
+    {
+        $penyidik = Pangkat::get();
+        
+        return json_encode($penyidik);
     }
 }

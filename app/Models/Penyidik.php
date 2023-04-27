@@ -14,4 +14,9 @@ class Penyidik extends Model
     {
         return $this->belongsTo(Pangkat::class, 'id_pangkat');
     }
+
+    public function sprin()
+    {
+        return $this->hasMany(SprinHistory::class);
+    }
 }
