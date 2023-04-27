@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('data_pelanggar_id');
             $table->string('nomor_laporan')->nullable();
             $table->date('tanggal_laporan')->nullable();
+            $table->string('hasil')->nullable();
             $table->timestamps();
         });
     }

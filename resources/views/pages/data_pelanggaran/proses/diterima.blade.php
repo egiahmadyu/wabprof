@@ -276,11 +276,39 @@
                     <div class="card p-2">
                         <div class="col-lg-12 mb-3">
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <label for="exampleFormControlInput1" class="form-label">Disposisi Karo</label>
+                                        @if ($disposisi_karo)
+                                            <a href="/lembar-disposisi-karo/{{ $kasus->id }}">
+                                                <button class="btn btn-primary" style="width: 100%" type="button">
+                                                    <i class="far fa-download"></i> Download
+                                                </button></a>
+                                        @else
+                                            <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_karo"  type="button"
+                                                class="btn btn-outline-primary" style="width: 100%">
+                                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                            </button>
+                                        @endif
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="exampleFormControlInput1" class="form-label">Disposisi Sesro</label>
+                                        @if ($disposisi_sesro)
+                                            <a href="/lembar-disposisi-sesro/{{ $kasus->id }}">
+                                                <button class="btn btn-primary" style="width: 100%" type="button">
+                                                    <i class="far fa-download"></i> Download
+                                                </button></a>
+                                        @else
+                                            <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_sesro"  type="button"
+                                                class="btn btn-outline-primary" style="width: 100%">
+                                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                            </button>
+                                        @endif
+                                </div>
+                                <div class="col-lg-4">
                                     <label for="exampleFormControlInput1" class="form-label">Disposisi
-                                        Karo/Sesro</label>
+                                        Kabagetika </label>
                                         @if ($disposisi_kabag)
-                                            <a href="/lembar-disposisi-kabag/?data_pelanggar_id={{ $kasus->id }}">
+                                            <a href="/lembar-disposisi-kabag/{{ $kasus->id }}">
                                                 <button class="btn btn-primary" style="width: 100%" type="button">
                                                     <i class="far fa-download"></i> Download
                                                 </button></a>
@@ -292,21 +320,7 @@
                                         @endif
 
                                 </div>
-                                <div class="col-lg-6">
-                                    <label for="exampleFormControlInput1" class="form-label">Distribusi Pemeriksaan
-                                        AUDITOR</label>
-                                        @if ($disposisi_auditor)
-                                            <a href="/lembar-disposisi-auditor/?data_pelanggar_id={{ $kasus->id }}">
-                                                <button class="btn btn-primary" style="width: 100%" type="button">
-                                                    <i class="far fa-download"></i> Download
-                                                </button></a>
-                                        @else
-                                            <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_auditor"  type="button"
-                                                class="btn btn-outline-primary" style="width: 100%">
-                                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                            </button>
-                                        @endif
-                                </div>
+                                
                             </div>
 
                             {{-- <input type="text" class="form-control" value="{{ $kasus->terlapor }}" > --}}
@@ -315,36 +329,37 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-6">
-                            <button class="btn btn-update-diterima btn-success" type="submit" value="update_data"
+                            <button class="btn btn-update-diterima col-12 btn-success" type="submit" value="update_data"
                                 name="type_submit">
                                 <i class="far fa-upload"></i> Update Data
                             </button>
                         </div>
                         <div class="col-6">
-                            @if ($disposisi_kabag && $disposisi_auditor)
-                            <form action="/data-kasus/update" method="post">
-                                @csrf
-                                <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
-                                    name="kasus_id">
-                                <input type="text" class="form-control" value="3" hidden
-                                    name="disposisi_tujuan" hidden>
-                                <button class="btn btn-success" name="type_submit"
-                                    {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
-                                    Lanjutkan ke Proses Audit Investigasi
+                            @if ($disposisi_kabag && $disposisi_karo && $disposisi_sesro)
+                                <form action="/data-kasus/update" method="post">
+                                    @csrf
+                                    <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
+                                        name="kasus_id">
+                                    <input type="text" class="form-control" value="3" hidden
+                                        name="disposisi_tujuan" hidden>
+                                    <button class="btn btn-success col-12" name="type_submit"
+                                        {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
+                                        Lanjutkan ke Proses Audit Investigasi
+                                    </button>
+                                </form>
+                                @else
+                                <button class="btn btn-success col-12 disabled">
+                                        Lanjutkan ke Proses Audit Investigasi
                                 </button>
-                            </form>
-                            @else
-                            <button class="btn btn-success disabled">
-                                    Lanjutkan ke Proses Audit Investigasi
-                                </button>
-                            @endif
-                            {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
-                                name="type_submit" {{ $kasus->status_id > 1 ? 'disabled' : '' }}>
-                                <i class="far fa-upload"></i> Lanjut Proses Audit Investigasi
-                            </button> --}}
+                                @endif
+                                {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
+                                    name="type_submit" {{ $kasus->status_id > 1 ? 'disabled' : '' }}>
+                                    <i class="far fa-upload"></i> Lanjut Proses Audit Investigasi
+                                </button> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -420,26 +435,62 @@
     </div>
 </div>
 
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_auditor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_karo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-disposisi-kabag" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-disposisi-karo" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/lembar-disposisi-auditor" method="post" id="form-disposisi-auditor">
+            <form action="/lembar-disposisi-karo" method="post" id="form-disposisi-karo">
                 <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
                     name="data_pelanggar_id" hidden>
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="tim" class="form-label">Tim</label>
-                        <select name="tim" id="tim" class="form-control">
-                            <option value="">Pilih Tim</option>
-                            @for ($i = 0; $i < count($tims); $i++)
-                                <option value="{{ $tims[$i] }}">{{ $tims[$i] }}</option>
-                            @endfor
+                        <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
+                        <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
+                            name="no_agenda" placeholder="Nomor Agenda">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
+                        <?php 
+                            if(isset($kasus->no_nota_dinas)){
+                                $surat_dari = explode('/', $kasus->no_nota_dinas);
+                                $surat_dari = end($surat_dari);
+                            }
+                        ?>
+                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
+                            name="surat_dari" placeholder="Surat dari" value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat" readonly="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
+                        <select name="klasifikasi" id="klasifikasi" class="form-control">
+                            <option value="">Pilih Klasifikasi</option>
+                            <option value="Biasa">Biasa</option>
+                            <option value="Sangat Rahasia">Sangat Rahasia</option>
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Derajat</label>
+                        <select name="derajat" id="derajat" class="form-control">
+                            <option value="">Pilih Derajat</option>
+                            <option value="Biasa">Biasa</option>
+                            <option value="Kilat">Kilat</option>
+                            <option value="Rahasia">Rahasia</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                        <input type="text" class="form-control" id="perihal" name="perihal" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -451,12 +502,75 @@
     </div>
 </div>
 
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_sesro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
+                <button type="button" class="btn-close btn-tutup" form="form-disposisi-sesro" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/lembar-disposisi-sesro" method="post" id="form-disposisi-sesro">
+                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
+                    name="data_pelanggar_id" hidden>
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
+                        <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
+                            name="no_agenda" placeholder="Nomor Agenda">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
+                        <?php 
+                            if(isset($kasus->no_nota_dinas)){
+                                $surat_dari = explode('/', $kasus->no_nota_dinas);
+                                $surat_dari = end($surat_dari);
+                            }
+                        ?>
+                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
+                            name="surat_dari" placeholder="Surat dari" value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat" readonly="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
+                        <select name="klasifikasi" id="klasifikasi" class="form-control">
+                            <option value="">Pilih Klasifikasi</option>
+                            <option value="Biasa">Biasa</option>
+                            <option value="Sangat Rahasia">Sangat Rahasia</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Derajat</label>
+                        <select name="derajat" id="derajat" class="form-control">
+                            <option value="">Pilih Derajat</option>
+                            <option value="Biasa">Biasa</option>
+                            <option value="Kilat">Kilat</option>
+                            <option value="Rahasia">Rahasia</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                        <input type="text" class="form-control" id="perihal" name="perihal" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-sesro" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
-        $( 'select' ).select2( {
-            theme: 'bootstrap-5'
-        } );
-        getPolda()
         $('#form-disposisi-kabag').validate({
             rules: {
                 no_agenda : {
@@ -517,14 +631,22 @@
             }
         });
 
-        $('#form-disposisi-auditor').validate({
+        $('#form-disposisi-karo').validate({
             rules: {
-                tim : {
+                no_agenda : {
+                    required: true,
+                },
+                klasifikasi : {
+                    required: true,
+                },
+                derajat : {
                     required: true,
                 },
             },
             messages : {
-                tim: "Silahkan isi tim!"
+                no_agenda: "Silahkan isi Nomor Agenda!",
+                klasifikasi: "Silahkan isi Klasifikasi!",
+                derajat: "Silahkan isi Derajat!"
             },
             errorElement : 'label',
             errorClass: 'text-danger',
@@ -540,7 +662,7 @@
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
-                $('#modal_disposisi_auditor').modal('hide');
+                $('#modal_disposisi_karo').modal('hide');
                 $('.loader-view').show();
                 $('#viewProses').hide();
                 setTimeout(function() {
@@ -556,6 +678,59 @@
                 }, 3000);
             }
         });
+
+        $('#form-disposisi-sesro').validate({
+            rules: {
+                no_agenda : {
+                    required: true,
+                },
+                klasifikasi : {
+                    required: true,
+                },
+                derajat : {
+                    required: true,
+                },
+            },
+            messages : {
+                no_agenda: "Silahkan isi Nomor Agenda!",
+                klasifikasi: "Silahkan isi Klasifikasi!",
+                derajat: "Silahkan isi Derajat!"
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var modal = $(this).attr('modal');
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal_disposisi_sesro').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+
+        $( 'select' ).select2( {
+            theme: 'bootstrap-5'
+        } );
+        getPolda()
     });
 
     function getPolda() {

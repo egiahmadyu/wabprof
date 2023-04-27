@@ -18,7 +18,6 @@ return new class extends Migration
             $table->bigInteger('data_pelanggar_id');
             $table->string('nomor_surat');
             $table->string('tanggal_pelaksanaan')->nullable();
-            $table->string('hasil');
             $table->timestamps();
         });
     }

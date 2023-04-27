@@ -81,14 +81,11 @@
                     @csrf
                     <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
                     <input type="text" class="form-control" value="4" hidden name="disposisi_tujuan" hidden>
-                    <button class="btn btn-success btn-lanjut-update d-none" name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
+                    <button class="btn btn-success btn-lanjut-update" name="type_submit" {{ $kasus->status_id > 3 ? 'disabled' : '' }}
                         value="update_status">
                         Lanjutkan ke proses Gelar Investigasi
                     </button>
                 </form>
-                <button class="btn btn-success btn-lanjut disabled d-none">
-                    Lanjutkan ke proses Gelar Investigasi
-                </button>
         </div>
     </div>
 @endif
@@ -122,14 +119,6 @@
                         <label for="exampleInputEmail1" class="form-label">Tanggal Pelaksaan Audit Investigasi :</label>
                         <input type="date" class="form-control" id="tanggal_pelaksanaan" aria-describedby="emailHelp"
                         name="tanggal_pelaksanaan">
-                    </div>
-                    <div class="row mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Hasil Audit Investigasi :</label>
-                        <select name="hasil" id="hasil" class="form-control">
-                            <option value="">Pilih Hasil</option>
-                            <option value="Ditemukan">Ditemukan</option>
-                            <option value="Tidak Ditemukan">Tidak Ditemukan</option>
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -232,6 +221,18 @@
                                 <label for="exampleInputEmail1" class="form-label">Tanggal Laporan :</label>
                                 <input type="date" class="form-control" id="tanggal" aria-describedby="emailHelp"
                                     name="tanggal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Hasil Audit Investigasi :</label>
+                                <select name="hasil" id="hasil" class="form-control">
+                                    <option value="">Pilih Hasil</option>
+                                    <option value="Ditemukan">Ditemukan</option>
+                                    <option value="Tidak Ditemukan">Tidak Ditemukan</option>
+                                </select>
                             </div>
                         </div>
                     </div>

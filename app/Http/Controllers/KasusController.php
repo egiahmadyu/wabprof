@@ -343,10 +343,6 @@ class KasusController extends Controller
         $process = Process::where('sort', '<=', $status->id)->get();
         $agama = Agama::get();
         $tim = ['A','B','C','D','E','F'];
-        $disposisi_kabag = Disposisi::where('data_pelanggar_id', $id)
-        ->where('type', 1)->first();
-        $disposisi_auditor = Disposisi::where('data_pelanggar_id', $id)
-        ->where('type', 2)->first();
 
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
@@ -364,7 +360,8 @@ class KasusController extends Controller
             'pangkat' => $pangkat,
             'wujud_perbuatan' => $wujud_perbuatan,
             'disposisi_kabag' => Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first(),
-            'disposisi_auditor' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first()
+            'disposisi_karo' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
+            'disposisi_sesro' => Disposisi::where('data_pelanggar_id', $id)->where('type', 3)->first()
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);
@@ -385,6 +382,7 @@ class KasusController extends Controller
             'disposisi' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
+
         return view('pages.data_pelanggaran.proses.audit_investigasi', $data);
     }
 

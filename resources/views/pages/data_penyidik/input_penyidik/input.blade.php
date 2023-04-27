@@ -18,24 +18,25 @@
         </div>
         <hr>
         @if(isset($penyidik))
-        <form action="/data-penyidik/update" method="post">
+        <form action="/data-penyidik/update" id="input-penyidik" method="post">
         @else
-        <form action="/input-data-penyidik/store" method="post">
+        <form action="/input-data-penyidik/store" id="input-penyidik" method="post">
         @endif
             @csrf
             <div class="row">
                 <input type="hidden" name="id" id="id" value="{{ isset($penyidik) ? $penyidik->id : '' }}">
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Nama</label>
-                    <input type="text" name="name" class="form-control border-dark" placeholder="Nama" value="{{ isset($penyidik) ? $penyidik->name : '' }}" >
+                    <input type="text" name="name" class="form-control border-dark" id="name" placeholder="Nama" value="{{ isset($penyidik) ? $penyidik->name : '' }}" >
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="wujud_perbuatan" class="form-label">NRP</label>
-                    <input type="number" name="nrp" class="form-control border-dark" placeholder="NRP" value="{{ isset($penyidik) ? $penyidik->nrp : '' }}" >
+                    <input type="number" name="nrp" class="form-control border-dark" id="nrp" placeholder="NRP" value="{{ isset($penyidik) ? $penyidik->nrp : '' }}" >
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="pangkat" class="form-label">Pangkat</label>
                     <select name="id_pangkat" id="id_pangkat" class="form-control">
+                        <option value="">Pilih Pangkat</option>
                         @foreach ($pangkats as $pangkat)
                             <option value="{{ $pangkat->id }}"                           
                                 @if(isset($penyidik)) 
@@ -73,6 +74,7 @@
                 <div class="col-lg-6 mb-3">
                     <label for="unit" class="form-label">Fungsional</label>
                     <select class="form-control" name="fungsional" id="fungsional">
+                        <option value="">Pilih Fungsional</option>
                         <option value="Ketua" 
                             @if(isset($penyidik))
                                 @if($penyidik->fungsional == 'Ketua')
@@ -111,9 +113,56 @@
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#input-penyidik').validate({
+                rules: {
+                    name : {
+                        required: true,
+                    },
+                    nrp : {
+                        required: true,
+                    },
+                    id_pangkat : {
+                        required: true,
+                    },
+                    jabatan : {
+                        required: true,
+                    },
+                    tim : {
+                        required: true,
+                    },
+                    unit : {
+                        required: true,
+                    },
+                    fungsional : {
+                        required: true,
+                    },
+                },
+                messages : {
+                    name: "Silahkan isi Nama!",
+                    nrp: "Silahkan isi NRP!",
+                    id_pangkat: "Silahkan Pilih Pangkat!",
+                    jabatan: "Silahkan isi Jabatan!",
+                    tim: "Silahkan Pilih Tim!",
+                    unit: "Silahkan isi Unit!",
+                    Fungsional: "Silahkan Pilih Fungsional!",
+                },
+                errorElement : 'label',
+                errorClass: 'text-danger',
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element);
+                },
+                success: function(label,element) {
+                    label.parent().removeClass('error');
+                    label.remove(); 
+                },
+                submitHandler: function (form) { // for demo
+                    form.submit();
+                }
+            });
         });
         
     </script>

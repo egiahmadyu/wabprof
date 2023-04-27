@@ -144,16 +144,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Nota Dinas Laporan Gelar Perkara</td>
-                        <td>
-                            <a href="/nota-dinas-laporan/{{ $kasus->id }}">
-                                    <button type="button" class="btn btn-outline-primary text-primary">
-                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                    </button>
-                            </a>  
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Laporan Gelar Perkara</td>
                         <td>
                         @if (isset($laporan_gelar))
@@ -168,6 +158,16 @@
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
                             @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nota Dinas Laporan Gelar Perkara</td>
+                        <td>
+                            <a href="/nota-dinas-laporan/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-outline-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                            </a>  
                         </td>
                     </tr>
                     {{-- <tr>

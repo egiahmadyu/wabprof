@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('klasifikasi')->nullable();
             $table->string('derajat')->nullable();
             $table->string('tim')->nullable();
-            $table->date('tanggal_diterima')->nullable();
+            $table->datetime('tanggal_diterima')->nullable();
             $table->integer('type')->nullable();
             $table->timestamps();
         });

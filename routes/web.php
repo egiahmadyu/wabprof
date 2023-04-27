@@ -118,9 +118,11 @@ Route::middleware(['auth'])->group(function (){
 
     // Generate
     Route::post('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
-    Route::get('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
-    Route::post('/lembar-disposisi-auditor', [DiterimaController::class, 'generateDisposisiAuditor']);
-    Route::get('/lembar-disposisi-auditor', [DiterimaController::class, 'generateDisposisiAuditor']);
+    Route::get('/lembar-disposisi-kabag/{id}', [DiterimaController::class, 'disposisiKabag']);
+    Route::post('/lembar-disposisi-karo', [DiterimaController::class, 'generateDisposisiKaro']);
+    Route::get('/lembar-disposisi-karo/{id}', [DiterimaController::class, 'disposisiKaro']);
+    Route::post('/lembar-disposisi-sesro', [DiterimaController::class, 'generateDisposisiSesro']);
+    Route::get('/lembar-disposisi-sesro/{id}', [DiterimaController::class, 'disposisiSesro']);
     // Route::get('/lembar-disposisi/{type}', [LimpahPoldaController::class, 'downloadDisposisi']);
     // Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
     Route::post('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);

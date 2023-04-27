@@ -165,7 +165,6 @@
             <div class="modal-body">
                 <form action="/surat-perintah/{{ $kasus->id }}" method="post" id="form-sprin">
                     @csrf
-                    <!-- Input no SPRIN -->
                     <div class="row mb-3">
                         <div class="col">
                             <input type="text" class="form-control" name="no_sprin" placeholder="Masukan No. SPRIN" id="no_sprin">
@@ -186,17 +185,16 @@
                                 @for ($i = 0; $i < count($tims); $i++)
                                     
                                     <option value="{{ $tims[$i] }}"
-                                    @if(isset(disposisi))
+                                    @if (isset($disposisi))
                                         @if($disposisi->tim == $tims[$i])
                                             {{ 'selected' }}
-                                        @end if
-                                    @end if
+                                        @endif
+                                    @endif
                                     >{{ $tims[$i] }}</option>
                                 @endfor
                             </select>
                         </div>
                     </div>
-                    <!-- data penyidik -->
                     <div class="card card-data-penyidik" id="data-penyidik" style="display:none;">
                         
                     </div>
@@ -206,167 +204,6 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Buat -->
-<div class="modal fade" id="modal_uuk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="form-control" action="/surat-uuk/{{ $kasus->id }}">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">NRP</label>
-                        <input type="text" class="form-control" name="nrp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nomor Telp.</label>
-                        <input type="text" class="form-control" name="jabatan">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Buat SP3HP2 -->
-<div class="modal fade" id="modal_sp2hp2_awal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/surat-sp2hp2-awal/{{ $kasus->id }}">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama yang Menangani</label>
-                        <input type="text" class="form-control" name="penangan" aria-describedby="emailHelp"
-                            placeholder="Unit II Detasemen A Ropaminal Divpropam Polri">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama yang dihubungi</label>
-                        <input type="text" class="form-control" name="dihubungi"
-                            placeholder="AKP ERICSON SIREGAR, S.Kom., M.T., M.Sc">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan yang dihubungi</label>
-                        <input type="text" class="form-control" name="jabatan_dihubungi"
-                            placeholder="Kanit II Den A">
-                    </div>
-                    <div class="mb-3">
-                        <label for="telp_dihubungi" class="form-label">No. Telepon yang dihubungi</label>
-                        <input type="text" class="form-control" name="telp_dihubungi">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Buat Surat</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Tambah Saksi -->
-<div class="modal fade" id="modal_tambah_saksi" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Saksi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/tambah-saksi/{{ $kasus->id }}" method="post">
-                    @csrf
-                    <div class="mb-3" id="form_tambah_saksi">
-                        <div>
-                            <input type="text" class="form-control inputNamaSaksi" name="nama_saksi[]"
-                                aria-describedby="emailHelp" placeholder="Enter Nama Saksi">
-                        </div>
-                    </div>
-                    <div>
-                        <a href="#" onclick="tambahSaksi()"><i class="far fa-plus"></i> Tambah Saksi</a>
-                    </div>
-                    <div class="form-outline mb-3">
-                        <button type="submit" class="btn btn-primary form-control">Simpan</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Tambah BAI Pelapor -->
-<div class="modal fade" id="bai_pelapor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Buat BAI Pelapor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    onclick="getViewProcess(4)"></button>
-            </div>
-            <form action="/bai-sipil/{{ $kasus->id }}" target="_blank">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Tanggal Introgasi</label>
-                        <input type="date" class="form-control" name="tanggal_introgasi">
-                    </div>
-                    <div>
-                        {{-- <a href="#" onclick="tambahSaksi()"><i class="far fa-plus"></i> Tambah Saksi</a> --}}
-                        <button type="submit" class="btn btn-primary form-control">Simpan</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Tambah BAI Terlapor -->
-<div class="modal fade" id="bai_terlapor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Buat BAI Terlapor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    onclick="getViewProcess(4)"></button>
-            </div>
-            <form action="/bai-anggota/{{ $kasus->id }}" target="_blank">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Tanggal Introgasi</label>
-                        <input type="date" class="form-control" name="tanggal_introgasi">
-                    </div>
-                    <div>
-                        {{-- <a href="#" onclick="tambahSaksi()"><i class="far fa-plus"></i> Tambah Saksi</a> --}}
-                        <button type="submit" class="btn btn-primary form-control">Simpan</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -430,6 +267,12 @@
                 }, 3000);
             }
         });
+
+        var tim = $('#tim').val();
+        console.log('isi', tim)
+        if(tim != "" && tim != null){
+            $('#tim').trigger('change');
+        }
     });
 
     function tambahSaksi() {

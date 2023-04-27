@@ -17,16 +17,16 @@
         </div>
         <hr>
         @if(isset($pangkat))
-        <form action="/data-pangkat/update" method="post">
+        <form action="/data-pangkat/update" id="input-pangkat" method="post">
         @else
-        <form action="/input-data-pangkat/store" method="post">
+        <form action="/input-data-pangkat/store" id="input-pangkat"  method="post">
         @endif
             @csrf
             <div class="row">
                 <input type="hidden" name="id" id="id" value="{{ isset($pangkat) ? $pangkat->id : '' }}">
                 <div class="col-lg-12 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Nama</label>
-                    <input type="text" name="name" class="form-control border-dark" placeholder="Nama" value="{{ isset($pangkat) ? $pangkat->name : '' }}" >
+                    <input type="text" name="name" id="name" class="form-control border-dark" placeholder="Nama" value="{{ isset($pangkat) ? $pangkat->name : '' }}" >
                 </div>
             </div>
             {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
@@ -49,9 +49,32 @@
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#input-pangkat').validate({
+                rules: {
+                    name : {
+                        required: true,
+                    },
+                },
+                messages : {
+                    name: "Silahkan isi Nama!",
+                },
+                errorElement : 'label',
+                errorClass: 'text-danger',
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element);
+                },
+                success: function(label,element) {
+                    label.parent().removeClass('error');
+                    label.remove(); 
+                },
+                submitHandler: function (form) { // for demo
+                    form.submit();
+                }
+            });
         });
         
     </script>

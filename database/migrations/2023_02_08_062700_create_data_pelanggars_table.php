@@ -25,7 +25,10 @@ return new class extends Migration
             $table->integer('jenis_kelamin')->nullable();
             $table->string('pekerjaan')->nullable();
             $table->integer('agama')->nullable();
+            $table->string('suku')->nullable();
             $table->text('alamat')->nullable();
+            $table->string('agama_terlapor')->nullable();
+            $table->text('alamat_terlapor')->nullable();
             $table->string('no_identitas')->nullable();
             $table->string('no_telp')->nullable();
             $table->integer('jenis_identitas')->nullable();

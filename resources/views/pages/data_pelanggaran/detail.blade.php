@@ -55,7 +55,6 @@
 
 
     {{-- <script src="{{ asset('ckeditor/build/ckeditor.js') }}"></script> --}}
-
     <script>
         $(document).ready(function() {
             // ClassicEditor
