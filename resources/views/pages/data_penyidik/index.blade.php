@@ -28,6 +28,7 @@
                                     <th scope="col">Jabatan</th>
                                     <th scope="col">Tim</th>
                                     <th scope="col">Unit</th>
+                                    <th scope="col">Kesatuan</th>
                                     <th scope="col">Fungsional</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -134,6 +135,10 @@
                     {
                         data: 'unit',
                         name: 'unit'
+                    },
+                    {
+                        data: 'kesatuan',
+                        name: 'kesatuan'
                     },
                     {
                         data: 'fungsional',

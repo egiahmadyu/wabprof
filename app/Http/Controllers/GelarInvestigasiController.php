@@ -22,9 +22,8 @@ class GelarInvestigasiController extends Controller
                 'tanggal_gelar' => $request->tanggal,
                 'jam_gelar' => $request->pukul,
                 'tempat_gelar' => $request->tempat_undangan,
-                'pangkat_akreditor' => $request->pangkat_akreditor,
-                'nama_akreditor' => $request->nama_akreditor,
-                'no_telp_akreditor' => $request->no_telp_akreditor,
+                'id_penyidik' => $request->id_penyidik,
+                'nomor_handphone' => $request->nomor_handphone,
             ]);
         }
 
@@ -66,17 +65,13 @@ class GelarInvestigasiController extends Controller
             $undangan = LaporanHasilGelar::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'tanggal_laporan_gelar' => $request->tanggal_laporan_gelar,
+                'bukti' => $request->bukti,
                 'nama_pimpinan_gelar' => $request->nama_pimpinan_gelar,
                 'pangkat_pimpinan_gelar' => $request->pangkat_pimpinan_gelar,
                 'jabatan_pimpinan_gelar' => $request->jabatan_pimpinan_gelar,
                 'kesatuan_pimpinan_gelar' => $request->kesatuan_pimpinan_gelar,
-                'nama_pemapar' => $request->nama_pemapar,
-                'pangkat_pemapar' => $request->pangkat_pemapar,
-                'jabatan_pemapar' => $request->jabatan_pemapar,
-                'kesatuan_pemapar' => $request->kesatuan_pemapar,
-                'nrp_pembuat' => $request->nrp_pembuat,
-                'nama_pembuat' => $request->nama_pembuat,
-                'pangkat_pembuat' => $request->pangkat_pembuat,
+                'id_penyidik_pemapar' => $request->id_penyidik_pemapar,
+                'id_penyidik_pembuat' => $request->id_penyidik_pembuat,
             ]);
         }
 

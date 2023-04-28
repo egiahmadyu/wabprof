@@ -613,19 +613,28 @@ class AuditInvestigasiController extends Controller
 
         if($undangan_gelar){
             $undangan_gelar_data = UndanganGelar::where('data_pelanggar_id', $kasus_id)->first();
+            $penyidik = Penyidik::where('id', $undangan_gelar_data->id_penyidik)->first();
             $data['nomor_gelar'] = $undangan_gelar_data->nomor_gelar;
             $data['tanggal_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('d F Y');
             $data['hari_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('l');
             $data['pukul_gelar'] = $undangan_gelar_data->jam_gelar;
             $data['tempat_gelar'] = $undangan_gelar_data->tempat_gelar;
-            $data['pangkat_akreditor'] = $undangan_gelar_data->pangkat_akreditor;
-            $data['nama_akreditor'] = $undangan_gelar_data->nama_akreditor;
-            $data['no_telp_akreditor'] = $undangan_gelar_data->no_telp_akreditor;
+            $data['pangkat_akreditor'] = $penyidik->pangkat->name;
+            $data['nama_akreditor'] = $penyidik->name;
+            $data['no_telp_akreditor'] = $undangan_gelar_data->nomor_handphone;
         }
 
         if($laporan_gelar){
             $laporan_gelar_data = LaporanHasilGelar::where('data_pelanggar_id', $kasus_id)->first();
+            $penyidik_pembuat = Penyidik::where('id', $laporan_gelar_data->id_penyidik_pembuat)->first();
+            $penyidik_pemapar = Penyidik::where('id', $laporan_gelar_data->id_penyidik_pemapar)->first();
             $undangan_gelar_data = UndanganGelar::where('data_pelanggar_id', $kasus_id)->first();
+
+            if($laporan_gelar_data->bukti == 0){
+                $bukti = "Cukup Bukti";
+            }else{
+                $bukti = "Tidak Cukup Bukti";
+            }
 
             $data['nomor_gelar'] = $undangan_gelar_data->nomor_gelar;
             $data['tanggal_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('d F Y');
@@ -635,15 +644,16 @@ class AuditInvestigasiController extends Controller
             $data['pangkat_pimpinan_gelar'] = $laporan_gelar_data->pangkat_pimpinan_gelar;
             $data['jabatan_pimpinan_gelar'] = $laporan_gelar_data->jabatan_pimpinan_gelar;
             $data['kesatuan_pimpinan_gelar'] = $laporan_gelar_data->kesatuan_pimpinan_gelar;
-            $data['nama_pemapar'] = $laporan_gelar_data->nama_pemapar;
-            $data['pangkat_pemapar'] = $laporan_gelar_data->pangkat_pemapar;
-            $data['jabatan_pemapar'] = $laporan_gelar_data->jabatan_pemapar;
-            $data['kesatuan_pemapar'] = $laporan_gelar_data->kesatuan_pemapar;
-            $data['nrp_pembuat'] = $laporan_gelar_data->nrp_pembuat;
-            $data['nama_pembuat'] = $laporan_gelar_data->nama_pembuat;
-            $data['pangkat_pembuat'] = $laporan_gelar_data->pangkat_pembuat;
+            $data['bukti'] = $bukti;
+            $data['nama_pemapar'] = $penyidik_pemapar->name;
+            $data['pangkat_pemapar'] = $penyidik_pemapar->pangkat->name;
+            $data['jabatan_pemapar'] = $penyidik_pemapar->jabatan;
+            $data['kesatuan_pemapar'] = $penyidik_pemapar->kesatuan;
+            $data['nrp_pembuat'] = $penyidik_pembuat->nrp;
+            $data['nama_pembuat'] = $penyidik_pembuat->name;
+            $data['pangkat_pembuat'] = $penyidik_pembuat->pangkat->name;
             $data['nama_terlapor'] = strtoupper($kasus->terlapor);
-            $data['pangkat_terlapor'] = strtoupper($kasus->pangkat);
+            $data['pangkat_terlapor'] = $kasus->pangkat->name;
             $data['jabatan_terlapor'] = strtoupper($kasus->jabatan);
             $data['kesatuan_terlapor'] = strtoupper($kasus->kesatuan);
 
@@ -738,7 +748,7 @@ class AuditInvestigasiController extends Controller
             'no_telp' => $kasus->no_telp,
             'terlapor' => $kasus->terlapor,
             'nrp' => $kasus->nrp,
-            'pangkat' => $kasus->pangkat,
+            'pangkat' => $kasus->pangkat->name,
             'kesatuan' => $kasus->kesatuan,
             'jabatan' => $kasus->jabatan,
             'agama' => $kasus->agama,
@@ -746,7 +756,7 @@ class AuditInvestigasiController extends Controller
             'agama_terlapor' => $kasus->agama_terlapor,
             'alamat_terlapor' => $kasus->alamat_terlapor,
             'alamat' => $kasus->alamat,
-            'wujud_perbuatan' => $kasus->wujud_perbuatan,
+            'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
             'tanggal_ttd' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
             'ketua' => $penyidik[0]['name'] ?? '',
             'pangkat_ketua' => $penyidik[0]['pangkat'] ?? '',

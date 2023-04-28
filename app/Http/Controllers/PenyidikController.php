@@ -52,6 +52,7 @@ class PenyidikController extends Controller
             'jabatan' => $request->jabatan,
             'tim' => $request->tim,
             'unit' => $request->unit,
+            'kesatuan' => $request->kesatuan,
             'fungsional' => $request->fungsional,
         ]);
         
@@ -81,6 +82,7 @@ class PenyidikController extends Controller
             'jabatan' => $request->jabatan,
             'tim' => $request->tim,
             'unit' => $request->unit,
+            'kesatuan' => $request->kesatuan,
             'fungsional' => $request->fungsional,
         ]);
 

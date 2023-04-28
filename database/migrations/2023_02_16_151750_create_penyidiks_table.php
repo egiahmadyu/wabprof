@@ -20,6 +20,7 @@ return new class extends Migration
             $table->Integer('id_pangkat');
             $table->string('jabatan');
             $table->string('tim');
+            $table->string('kesatuan');
             $table->string('unit')->nullable();
             $table->string('fungsional');
             $table->timestamps();

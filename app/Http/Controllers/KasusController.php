@@ -375,12 +375,12 @@ class KasusController extends Controller
         // $process = Process::where('sort', '<=', $status->id)->get();
         $tim = ['A','B','C','D','E','F'];
 
-        $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('penyidik')->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
         $data = [
             'kasus' => $kasus,
             'tims' => $tim,
             'sprin' => $sprin,
-            'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $sprin->tim)->first(),
+            'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $sprin->tim ?? '')->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'disposisi' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
@@ -394,14 +394,20 @@ class KasusController extends Controller
         $kasus = DataPelanggar::find($id);
         $undangan_gelar = UndanganGelar::where('data_pelanggar_id', $id)->first();
         $laporan_gelar = LaporanHasilGelar::where('data_pelanggar_id', $id)->first();
+        $pangkat = Pangkat::get();
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
 
         $data = [
             'kasus' => $kasus,
             'undangan_gelar' => $undangan_gelar,
             'laporan_gelar' => $laporan_gelar,
-            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'sprin' => $sprin,
+            'pangkat' => $pangkat,
+            'penyidik' => Penyidik::where('tim', $sprin->tim)->get(),
+            'penyidik_pemapar' => Penyidik::where('tim', $sprin->tim)->get(),
+            'penyidik_kontak' => Penyidik::where('tim', $sprin->tim)->get(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];

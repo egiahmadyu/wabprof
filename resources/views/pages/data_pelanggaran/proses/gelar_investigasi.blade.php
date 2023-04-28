@@ -265,27 +265,34 @@
                         >
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">NRP</label>
-                        <input type="text" class="form-control" name="nrp_pembuat" id="nrp_pembuat" placeholder="NRP Pembuat"
-                        >
+                        <label for="exampleInputPassword1" class="form-label">Bukti</label>
+                        <select name="bukti" id="bukti" class="form-control">
+                            <option value="">Pilih Bukti</option>
+                            <option value="0">Ditemukan Cukup Bukti</option>
+                            <option value="1">Tidak Ditemukan Cukup Bukti</option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pembuat" id="nama_pembuat" placeholder="Nama Pembuat"
-                        >
+                        <label for="exampleInputPassword1" class="form-label">Pilih Penyidik Pembuat</label>
+                        <select name="id_penyidik_pembuat" id="id_penyidik_pembuat" class="form-control">
+                            <option value="">Pilih Penyidik Pembuat</option>
+                            @foreach($penyidik as $penyidik)
+                                <option value="{{ $penyidik->id }}">{{ $penyidik->pangkat->name." - ".$penyidik->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat_pembuat" id="pangkat_pembuat" placeholder="Pangkat Pembuat"
-                        >
-                    </div>
+                   
                     <hr>
                         <h5>Pimpinan Gelar </h5>
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat_pimpinan_gelar" id="pangkat_pimpinan_gelar"
-                            placeholder="Pangkat Pimpinan">
+                        <select name="id_pangkat" id="id_pangkat" class="form-control">
+                            <option value="">Pilih Pangkat</option>
+                            @foreach($pangkat as $pangkat)
+                                <option value="{{ $pangkat->id }}">{{ $pangkat->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama</label>
@@ -305,24 +312,13 @@
                     <h5>Pemapar </h5>
                     <hr>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <input type="text" class="form-control" name="pangkat_pemapar" id="pangkat_pemapar"
-                            placeholder="Pangkat">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pemapar" id="nama_pemapar"
-                            placeholder="Nama">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan_pemapar" id="jabatan_pemapar"
-                            placeholder="Jabatan">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
-                        <input type="text" class="form-control" name="kesatuan_pemapar" id="kesatuan_pemapar"
-                            placeholder="Satuan Kerja">
+                        <label for="exampleInputPassword1" class="form-label">Pilih penyidik Pemapar</label>
+                        <select name="id_penyidik_pemapar" id="id_penyidik_pemapar" class="form-control">
+                            <option value="">Pilih Penyidik Pemapar</option>
+                            @foreach($penyidik_pemapar as $penyidik)
+                                <option value="{{ $penyidik->id }}">{{ $penyidik->pangkat->name." - ".$penyidik->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -370,18 +366,17 @@
                     <h5>Akreditor yang bisa dihubungi </h5>
                     <hr>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pangkat Akreditor</label>
-                        <input type="text" class="form-control" name="pangkat_akreditor" id="pangkat_akreditor"
-                            placeholder="Pangkat Akreditor">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nama Aktreditor</label>
-                        <input type="text" class="form-control" name="nama_akreditor" id="nama_akreditor"
-                            placeholder="Nama Akreditor">
+                        <label for="exampleInputPassword1" class="form-label">Pilih Penyidik</label>
+                        <select name="id_penyidik" id="id_penyidik" class="form-control">
+                            <option value="">Pilih Penyidik</option>
+                            @foreach($penyidik_kontak as $penyidik)
+                                <option value="{{ $penyidik->id }}">{{ $penyidik->pangkat->name." - ".$penyidik->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" name="no_telp_akreditor" id="no_telp_akreditor"
+                        <input type="text" class="form-control" name="nomor_handphone" id="nomor_handphone"
                             placeholder="Nomor Telepon Akreditor">
                     </div>
                 </div>

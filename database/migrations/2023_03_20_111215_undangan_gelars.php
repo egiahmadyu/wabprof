@@ -20,9 +20,8 @@ return new class extends Migration
             $table->date('tanggal_gelar')->nullable();
             $table->string('tempat_gelar')->nullable();
             $table->time('jam_gelar')->nullable();
-            $table->string('pangkat_akreditor')->nullable();
-            $table->string('nama_akreditor')->nullable();
-            $table->string('no_telp_akreditor')->nullable();
+            $table->integer('id_penyidik')->nullable();
+            $table->string('nomor_handphone')->nullable();
             $table->timestamps();
         });
     }

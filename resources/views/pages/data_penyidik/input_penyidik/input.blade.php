@@ -91,6 +91,11 @@
                         >Anggota</option>
                     </select>
                 </div>
+                <div class="col-lg-6 mb-3">
+                    <label for="kesatuan" class="form-label">Kesatuan</label>
+                    <input type="text" id="kesatuan" name="kesatuan" class="form-control border-dark" placeholder="Kesatuan" value="{{ isset($penyidik) ? $penyidik->kesatuan : '' }}" >
+                </div>
+
             </div>
             {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
             <div class="row">
@@ -137,6 +142,9 @@
                     unit : {
                         required: true,
                     },
+                    kesatuan : {
+                        required: true,
+                    },
                     fungsional : {
                         required: true,
                     },
@@ -148,6 +156,7 @@
                     jabatan: "Silahkan isi Jabatan!",
                     tim: "Silahkan Pilih Tim!",
                     unit: "Silahkan isi Unit!",
+                    kesatuan: "Silahkan isi Kesatuan!",
                     Fungsional: "Silahkan Pilih Fungsional!",
                 },
                 errorElement : 'label',

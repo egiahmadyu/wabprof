@@ -21,13 +21,9 @@ return new class extends Migration
             $table->string('pangkat_pimpinan_gelar')->nullable();
             $table->string('jabatan_pimpinan_gelar')->nullable();
             $table->string('kesatuan_pimpinan_gelar')->nullable();
-            $table->string('nama_pemapar')->nullable();
-            $table->string('pangkat_pemapar')->nullable();
-            $table->string('jabatan_pemapar')->nullable();
-            $table->string('kesatuan_pemapar')->nullable();
-            $table->string('nrp_pembuat')->nullable();
-            $table->string('nama_pembuat')->nullable();
-            $table->string('pangkat_pembuat')->nullable();
+            $table->integer('id_penyidik_pemapar')->nullable();
+            $table->integer('id_penyidik_pembuat')->nullable();
+            $table->string('bukti')->nullable();
             $table->timestamps();
         });
     }
