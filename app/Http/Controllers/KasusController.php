@@ -376,11 +376,12 @@ class KasusController extends Controller
         $tim = ['A','B','C','D','E','F'];
 
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
         $data = [
             'kasus' => $kasus,
             'tims' => $tim,
             'sprin' => $sprin,
-            'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $sprin->tim ?? '')->first(),
+            'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $disposisi->tim ?? '')->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'disposisi' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),

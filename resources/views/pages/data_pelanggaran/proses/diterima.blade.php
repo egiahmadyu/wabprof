@@ -422,6 +422,15 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tim</label>
+                        <select name="tim" id="tim" class="form-control">
+                            <option value="">Pilih Tim</option>
+                            @for ($i = 0; $i < count($tims); $i++)
+                                <option value="{{ $tims[$i] }}">{{ $tims[$i] }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
                         <input type="text" class="form-control" id="perihal" name="perihal" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
                     </div>
@@ -591,6 +600,9 @@
                 derajat : {
                     required: true,
                 },
+                tim : {
+                    required: true,
+                },
             },
             messages : {
                 no_agenda: "Silahkan isi nomor agenda!",
@@ -599,6 +611,7 @@
                 surat_dari: "Silahkan isi surat dari!",
                 klasifikasi: "Silahkan pilih klasifikasi!",
                 derajat: "Silahkan pilih derajat!",
+                tim: "Silahkan pilih tim!",
             },
             errorElement : 'label',
             errorClass: 'text-danger',

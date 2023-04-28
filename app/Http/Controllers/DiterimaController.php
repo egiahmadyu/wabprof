@@ -76,6 +76,7 @@ class DiterimaController extends Controller
             'derajat' => $disposisi->derajat,
             'tanggal_diterima' => Carbon::parse($date)->translatedFormat('d F Y'),
             'pukul' => $time,
+            'tim' => $request->tim,
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'perihal_nota_dinas' => $kasus->perihal_nota_dinas
         ));
