@@ -96,7 +96,7 @@
                                         <tr>
                                             <td>Unit Pelaksana</td>
                                             <td>:</td>
-                                            <td>{{ $sprin->tim ?? '-' }}</td>
+                                            <td>{{ $penyidik->tim ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Ketua Tim</td>
