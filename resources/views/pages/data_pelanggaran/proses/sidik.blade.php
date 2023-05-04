@@ -1,3 +1,5 @@
+<input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden id="status_id">
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -125,6 +127,42 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>LP A</td>
+                        <td>
+                        @if (isset($usulan_pembentukan))
+                            <a href="/bap/{{ $kasus->id }}">
+                                <button type="button" class="btn btn-outline-primary text-primary">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                </button>
+                            </a>
+                        @else
+                            <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                        @endif
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>Sprin</td>
+                        <td>
+                        @if (isset($usulan_pembentukan))
+                            <a href="/bap/{{ $kasus->id }}">
+                                <button type="button" class="btn btn-outline-primary text-primary">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                </button>
+                            </a>
+                        @else
+                            <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
+                                class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                            </button>
+                        @endif
+                        </td>
+
+                    </tr>
+                    <tr>
                         <td>Undangan Pemerikasaan</td>
                         <td>
                             <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
@@ -137,7 +175,7 @@
                     <tr>
                         <td>BAP</td>
                         <td>
-                        @if (isset($usulan_pembentukan))
+                        @if (isset($bap))
                             <a href="/bap/{{ $kasus->id }}">
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
@@ -192,25 +230,17 @@
                 <h5 class="modal-title" id="exampleModalLabel">BAP</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/bap" method="post">
-                @csrf
+            <form action="/bap" method="post" id="form-bap">
+                @csrf 
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Pemeiksaan</label>
+                        <input type="date" class="form-control" name="tanggal_pemeriksaan" id="tanggal_pemeriksaan" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jam</label>
-                        <input type="time" class="form-control" name="jam">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tempat</label>
-                        <input type="text" class="form-control" name="tempat" placeholder="Tempat">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Pakaian</label>
-                        <input type="text" class="form-control" name="pakaian" placeholder="Pakaian">
+                        <label for="exampleInputPassword1" class="form-label">Jam Pemeriksaan</label>
+                        <input type="time" class="form-control" name="jam_pemeriksaan" id="jam_pemeriksaan" placeholder="Jam Pemeriksaan">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -235,9 +265,51 @@
             });
         } else $("#limpah-polda").html("")
     }
-    // $(document).ready(function() {
-    //     getNextData()
-    // });
+    $(document).ready(function() {
+        $('#form-bap').validate({
+            rules: {
+                tanggal_pemeriksaan : {
+                    required: true,
+                },
+                jam_pemeriksaan : {
+                    required: true,
+                },
+            },
+            messages : {
+                tanggal_pemeriksaan: "Silahkan isi Tanggal Pemeriksan!",
+                jam_pemeriksaan: "Silahkan isi Jam Pemeriksaan!",
+            },
+            errorElement : 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label,element) {
+                label.parent().removeClass('error');
+                label.remove(); 
+            },
+            submitHandler: function (form) { // for demo
+                form.submit();
+                var modal = $(this).attr('modal');
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal_bap').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+    });
 
     // function getNextData() {
     //     console.log($('#test_sprin').val())

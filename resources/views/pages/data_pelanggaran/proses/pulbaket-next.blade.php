@@ -611,7 +611,7 @@
     }
     $('.btn-tutup').on('click', function () {
         var form = $(this).attr('form');
-        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+        
     });
 
    

@@ -35,6 +35,11 @@ return new class extends Migration
             $table->string('kewarganegaraan')->nullable();
             // Terlapor
             $table->string('terlapor')->nullable();
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('pendidikan_terakhir')->nullable();
+            $table->string('alamat_tempat_tinggal')->nullable();
             $table->string('kesatuan')->nullable();
             $table->string('wilayah_hukum')->nullable();
             $table->string('tempat_kejadian')->nullable();

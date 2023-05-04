@@ -15,6 +15,7 @@ use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\ProvostWabprofController;
 use App\Http\Controllers\PulbaketController;
+use App\Http\Controllers\SidikController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -151,6 +152,8 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/permohonan-pendapat/{id}', [PemberkasanController::class, 'permohonanPendapat']);
     Route::post('/pembentukan-komisi', [SidangController::class, 'generatePembentukanKomisi']);
     Route::get('/pembentukan-komisi/{id}', [SidangController::class, 'pembentukanKomisi']);
+    Route::post('/bap', [SidikController::class, 'generateBap']);
+    Route::get('/bap/{id}', [SidikController::class, 'bap']);
 
 
     // Route::group(['middleware' => ['role:super-admin']], function () {

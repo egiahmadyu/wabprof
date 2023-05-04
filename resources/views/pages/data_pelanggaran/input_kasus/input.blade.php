@@ -55,11 +55,11 @@
                             <label for="pelapor" class="form-label">Pelapor</label>
                             <input type="text" name="pelapor" id="pelapor" class="form-control border-dark" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" >
                         </div>
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-4 mb-3">
                             <label for="umur" class="form-label">Umur</label>
                             <input type="number" name="umur" id="umur" class="form-control border-dark" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}" >
                         </div>
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-4 mb-3">
                             <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                             {{-- <input type="text" name="jenis_kelamin" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->jenis_kelamin : '' }}" > --}}
                             <select class="form-select border-dark" aria-label="Default select example" name="jenis_kelamin"id="jenis_kelamin">
@@ -72,6 +72,10 @@
                                     @endforeach
                                 @endif
                             </select>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label for="no_telp" class="form-label">No. Telephone</label>
+                            <input type="text" name="no_telp" class="form-control border-dark" placeholder="No. Telephone" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" >
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pekerjaan" class="form-label">Pekerjaan</label>
@@ -123,6 +127,22 @@
                             <input type="text" name="terlapor" id="terlapor" placeholder="Nama Terlapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" >
                         </div>
                         <div class="col-lg-6 mb-3">
+                            <label for="tempat" class="form-label">Tempat Lahir</label>
+                            <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tempat_lahir : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="no_hp" class="form-label">No. Handphone</label>
+                            <input type="text" name="no_hp" id="no_hp" placeholder="No. Handphone" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_hp : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
+                            <input type="text" name="pendidikan_terakhir" id="pendidikan_terakhir" placeholder="Pendidikan Terakhir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->pendidikan_terakhir : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
                             <select name="id_pangkat" id="id_pangkat" class="form-control">
                                 <option value="">Pilih Pangkat</option>
@@ -161,7 +181,11 @@
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat_terlapor" id="alamat_terlapor" cols="30" rows="9" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}"></textarea>
+                            <textarea name="alamat_terlapor" id="alamat_terlapor" cols="30" rows="4" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}"></textarea>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="alamat" class="form-label">Alamat Tempat Tinggal</label>
+                            <textarea name="alamat_tempat_tinggal" id="alamat_tempat_tinggal" cols="30" rows="4" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}"></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -296,6 +320,9 @@
                     agama_terlapor : {
                         required: true,
                     },
+                    no_telp : {
+                        required: true,
+                    },
                     jabatan : {
                         required: true,
                     },
@@ -317,6 +344,21 @@
                     kronologis : {
                         required: true,
                     },
+                    no_hp : {
+                        required: true,
+                    },
+                    tempat_lahir : {
+                        required: true,
+                    },
+                    tanggal_lahir : {
+                        required: true,
+                    },
+                    pendidikan_terakhir : {
+                        required: true,
+                    },
+                    alamat_tempat_tinggal : {
+                        required: true,
+                    },
                 },
                 messages : {
                     no_nota_dinas: "Silahkan isi No. Nota Dinas!",
@@ -326,6 +368,7 @@
                     pelapor: "Silahkan isi Pelapor!",
                     umur: "Silahkan isi Umur!",
                     jenis_kelamin: "Silahkan isi Jenis Kelamin!",
+                    no_telp: "Silahkan isi No. Telephone!",
                     pekerjaan: "Silahkan isi Pekerjaan!",
                     agama: "Silahkan isi Agama!",
                     no_identitas: "Silahkan isi Nomor Identitas!",
@@ -343,6 +386,11 @@
                     tanggal_kejadian: "Silahkan Isi Tanggal Kejadian!",
                     nama_korban: "Silahkan Isi Nama Korban!",
                     kronologis: "Silahkan Isi Kronologis!",
+                    no_hp: "Silahkan Isi Nomor Handphone!",
+                    pendidikan_terakhir: "Silahkan Isi Peniddian Terakhir!",
+                    tempat_lahir: "Silahkan Isi Tempat Lahir!",
+                    tanggal_lahir: "Silahkan Isi Tanggal Lahir!",
+                    alamat_tempat_tinggal: "Silahkan Isi Alamat Tempat Tinggal!",
                 },
                 errorElement : 'label',
                 errorClass: 'text-danger',

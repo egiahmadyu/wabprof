@@ -95,12 +95,12 @@
                             <input type="text" name="pelapor" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->pelapor : '' }}">
                         </div>
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-4 mb-3">
                             <label for="umur" class="form-label">Umur</label>
                             <input type="number" name="umur" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->umur : '' }}">
                         </div>
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-4 mb-3">
                             <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                             <select class="form-select border-dark" aria-label="Default select example"
                                 name="jenis_kelamin" id="jenis_kelamin">
@@ -113,6 +113,10 @@
                                     @endforeach
                                 @endif
                             </select>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label for="no_telp" class="form-label">No. Telephone</label>
+                            <input type="text" name="no_telp" class="form-control border-dark" placeholder="No. Telephone" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" >
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pekerjaan" class="form-label">Pekerjaan</label>
@@ -174,6 +178,22 @@
                                 value="{{ isset($kasus) ? $kasus->terlapor : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
+                            <label for="tempat" class="form-label">Tempat Lahir</label>
+                            <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tempat_lahir : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="no_hp" class="form-label">No. Handphone</label>
+                            <input type="text" name="no_hp" id="no_hp" placeholder="No. Handphone" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_hp : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
+                            <input type="text" name="pendidikan_terakhir" id="pendidikan_terakhir" placeholder="Pendidikan Terakhir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->pendidikan_terakhir : '' }}" >
+                        </div>
+                        <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
                             <select name="id_pangkat" id="id_pangkat" class="form-control">
                                 @if (isset($pangkat))
@@ -220,8 +240,11 @@
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat" cols="30" rows="7" placeholder="Alamat Terlapor" class="form-control border-dark"
-                                value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}">{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}</textarea>
+                            <textarea name="alamat_terlapor" id="alamat_terlapor" cols="30" rows="4" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}">{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}</textarea>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <label for="alamat" class="form-label">Alamat Tempat Tinggal</label>
+                            <textarea name="alamat_tempat_tinggal" id="alamat_tempat_tinggal" cols="30" rows="4" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}">{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}</textarea>
                         </div>
                     </div>
                 </div>

@@ -24,6 +24,7 @@ class DiterimaController extends Controller
                 'surat_dari' => $request->surat_dari,
                 'nomor_surat' => $request->nomor_surat,
                 'tanggal_surat' => $request->tanggal_surat,
+                'tim' => $request->tim,
                 'klasifikasi' => $request->klasifikasi,
                 'derajat' => $request->derajat,
                 'tanggal_diterima' => date('Y-m-d h:i:s'),
@@ -45,6 +46,7 @@ class DiterimaController extends Controller
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'klasifikasi' => $disposisi->klasifikasi,
             'derajat' => $disposisi->derajat,
+            'tim' => $disposisi->tim,
             'tanggal_diterima' => Carbon::parse($date)->translatedFormat('d F Y'),
             'pukul' => $time,
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
@@ -76,7 +78,7 @@ class DiterimaController extends Controller
             'derajat' => $disposisi->derajat,
             'tanggal_diterima' => Carbon::parse($date)->translatedFormat('d F Y'),
             'pukul' => $time,
-            'tim' => $request->tim,
+            'tim' => $disposisi->tim,
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'perihal_nota_dinas' => $kasus->perihal_nota_dinas
         ));

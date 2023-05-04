@@ -274,6 +274,7 @@ class AuditInvestigasiController extends Controller
             'hasil' => $laporan->hasil,
             'terlapor' => $kasus->terlapor,
             'pelapor' => $kasus->pelapor,
+            'kesatuan' => $kasus->kesatuan,
             'jabatan' => $kasus->jabatan,
             'nrp' => $kasus->nrp,
             'bulan_tahun_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('F Y'),
@@ -622,6 +623,8 @@ class AuditInvestigasiController extends Controller
             $data['pangkat_akreditor'] = $penyidik->pangkat->name;
             $data['nama_akreditor'] = $penyidik->name;
             $data['no_telp_akreditor'] = $undangan_gelar_data->nomor_handphone;
+            $date = date('Y-m-d');
+            $data['bulan_tahun_surat'] = Carbon::parse($date)->translatedFormat('F Y');
         }
 
         if($laporan_gelar){
@@ -629,6 +632,8 @@ class AuditInvestigasiController extends Controller
             $penyidik_pembuat = Penyidik::where('id', $laporan_gelar_data->id_penyidik_pembuat)->first();
             $penyidik_pemapar = Penyidik::where('id', $laporan_gelar_data->id_penyidik_pemapar)->first();
             $undangan_gelar_data = UndanganGelar::where('data_pelanggar_id', $kasus_id)->first();
+
+            $date = date('Y-m-d');
 
             if($laporan_gelar_data->bukti == 0){
                 $bukti = "Cukup Bukti";
@@ -644,6 +649,7 @@ class AuditInvestigasiController extends Controller
             $data['pangkat_pimpinan_gelar'] = $laporan_gelar_data->pangkat_pimpinan_gelar;
             $data['jabatan_pimpinan_gelar'] = $laporan_gelar_data->jabatan_pimpinan_gelar;
             $data['kesatuan_pimpinan_gelar'] = $laporan_gelar_data->kesatuan_pimpinan_gelar;
+            $data['bulan_tahun_surat'] = Carbon::parse($date)->translatedFormat('F Y');
             $data['bukti'] = $bukti;
             $data['nama_pemapar'] = $penyidik_pemapar->name;
             $data['pangkat_pemapar'] = $penyidik_pemapar->pangkat->name;
