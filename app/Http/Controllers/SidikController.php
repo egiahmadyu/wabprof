@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DataPelanggar;
 use App\Models\Disposisi;
+use App\Models\SprinHistory;
+use App\Models\Penyidik;
 use App\Models\Bap;
 use Carbon\Carbon;
 use DateTime;

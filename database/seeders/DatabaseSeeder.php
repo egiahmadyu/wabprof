@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
+        Permission::create(['name' => 'manage-auth']);
         $adminRole = Role::create(['name' => 'admin']);
         $permission = Permission::where('name', 'manage-auth')->first();
         $adminRole->givePermissionTo($permission);
