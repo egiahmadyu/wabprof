@@ -389,7 +389,7 @@ class KasusController extends Controller
             'sprin' => $sprin,
             'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $disposisi->tim)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
-            'disposisi' => Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first(),
+            'disposisi' => $disposisi,
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
 

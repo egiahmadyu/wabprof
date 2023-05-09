@@ -47,10 +47,16 @@
                 <tr>
                     <td>Nota Wawancara</td>
                     <td>
-                        <a href="/surat-nota-wawancara/{{ $kasus->id }}" disabled
-                            class="btn btn-outline-primary text-primary btn-nota-wawancara">
-                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                        </a>
+                        @if (isset($wawancara))
+                            <a href="/surat-nota-wawancara/{{ $kasus->id }}" disabled
+                                class="btn btn-outline-primary text-primary btn-nota-wawancara">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                            </a>
+                        @else
+                            <div class="alert alert-warning" role="alert">
+                                <span class="fa fa-warning"></span>  Buat Undanngan Wawancara Terlebih Dahulu!
+                            </div>
+                        @endif
                         {{-- <button type="button" class="btn btn-outline-primary text-primary">Buat Dokumen</button> --}}
                     </td>
                 </tr>
@@ -321,7 +327,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-tutup" form="form-laporan" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" modal="modal_laporan" btn-buat="btn-dokumen-laporan" btn-dokumen="btn-laporan">Generate</button>
+                    <button type="submit" class="btn btn-primary" modal="modal_laporan" btn-dokumen="btn-laporan">Generate</button>
                 </div>
             </form>
         </div>

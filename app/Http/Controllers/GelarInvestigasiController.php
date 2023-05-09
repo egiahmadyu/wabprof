@@ -28,33 +28,36 @@ class GelarInvestigasiController extends Controller
         }
 
         $kasus_id = $request->data_pelanggar_id;
+        $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
 
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_gelar.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/undangan-gelar-perkara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-undangan-gelar-perkara.docx'));
 
-        return response()->download(storage_path('template_surat/undangan-gelar-perkara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-undangan-gelar-perkara.docx'))->deleteFileAfterSend(true);
 
     }
     public function undanganGelar($kasus_id)
     {
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, true);
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_gelar.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/undangan-gelar-perkara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-undangan-gelar-perkara.docx'));
 
-        return response()->download(storage_path('template_surat/undangan-gelar-perkara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-undangan-gelar-perkara.docx'))->deleteFileAfterSend(true);
     }
 
     public function notaDinasLaporanGelarPerkara($kasus_id, Request $request)
     {
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, true);
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_laporan_gelar.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/nota-dinas-laporan-gelar-perkara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-laporan-gelar-perkara.docx'));
 
-        return response()->download(storage_path('template_surat/nota-dinas-laporan-gelar-perkara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-laporan-gelar-perkara.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateLaporanGelar(Request $request)
@@ -76,22 +79,24 @@ class GelarInvestigasiController extends Controller
         }
 
         $kasus_id = $request->data_pelanggar_id;
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
 
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, true, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_gelar_perkara.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/laporan-gelar-perkara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-laporan-gelar-perkara.docx'));
 
-        return response()->download(storage_path('template_surat/laporan-gelar-perkara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-laporan-gelar-perkara.docx'))->deleteFileAfterSend(true);
     }
 
     public function laporanGelar($kasus_id)
     {
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, true, true);
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_gelar_perkara.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/laporan-gelar-perkara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-laporan-gelar-perkara.docx'));
 
-        return response()->download(storage_path('template_surat/laporan-gelar-perkara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-laporan-gelar-perkara.docx'))->deleteFileAfterSend(true);
     }
 }

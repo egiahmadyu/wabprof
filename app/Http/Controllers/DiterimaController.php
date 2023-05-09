@@ -52,9 +52,9 @@ class DiterimaController extends Controller
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'perihal_nota_dinas' => $kasus->perihal_nota_dinas
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi_kabagetika.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi_kabagetika.docx'));
 
-        return response()->download(storage_path('template_surat/surat-disposisi_kabagetika.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi_kabagetika.docx'))->deleteFileAfterSend(true);
     }
 
     public function disposisiKabag($kasus_id)
@@ -82,9 +82,9 @@ class DiterimaController extends Controller
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'perihal_nota_dinas' => $kasus->perihal_nota_dinas
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi-kabagetika.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-kabagetika.docx'));
 
-        return response()->download(storage_path('template_surat/surat-disposisi-kabagetika.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-kabagetika.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateDisposisiKaro(Request $request)
@@ -128,9 +128,9 @@ class DiterimaController extends Controller
             'tanggal_nota_dinas' => Carbon::parse($disposisi->tanggal_surat)->translatedFormat('d F Y'),
             'perihal' => $kasus->perihal_nota_dinas
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi-karo.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'));
 
-        return response()->download(storage_path('template_surat/surat-disposisi-karo.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'))->deleteFileAfterSend(true);
     }
 
     public function disposisiKaro($kasus_id)
@@ -157,9 +157,9 @@ class DiterimaController extends Controller
             'tanggal_surat' => Carbon::parse($disposisi->tanggal_surat)->translatedFormat('d F Y'),
             'perihal_nota_dinas' => $kasus->perihal_nota_dinas
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi-karo.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'));
 
-        return response()->download(storage_path('template_surat/surat-disposisi-karo.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateDisposisiSesro(Request $request)
@@ -203,9 +203,9 @@ class DiterimaController extends Controller
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'perihal' => $kasus->perihal_nota_dinas
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi-karo.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'));
 
-        return response()->download(storage_path('template_surat/surat-disposisi-karo.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'))->deleteFileAfterSend(true);
     }
 
     public function disposisiSesro($kasus_id)
@@ -232,9 +232,9 @@ class DiterimaController extends Controller
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'perihal' => $kasus->perihal_nota_dinas
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-disposisi-sesro.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-sesro.docx'));
 
-        return response()->download(storage_path('template_surat/surat-disposisi-sesro.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-sesro.docx'))->deleteFileAfterSend(true);
     }
 
 }

@@ -94,9 +94,9 @@ class AuditInvestigasiController extends Controller
             'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
         ));
 
-        $template_document->saveAs(storage_path('template_surat/surat-perintah.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-perintah.docx'));
 
-        return response()->download(storage_path('template_surat/surat-perintah.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-perintah.docx'))->deleteFileAfterSend(true);
     }
 
     public function suratPenghadapan($kasus_id)
@@ -105,9 +105,9 @@ class AuditInvestigasiController extends Controller
         $value = $this->valueDoc($kasus_id);
         $template_document = new TemplateProcessor(storage_path('template_surat/surat_penghadapan.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/surat-penghadapan.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-penghadapan.docx'));
 
-        return response()->download(storage_path('template_surat/surat-penghadapan.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-penghadapan.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateWawancara(Request $request)
@@ -172,9 +172,9 @@ class AuditInvestigasiController extends Controller
             'nama_terhubung' => $penyidik->name,
             'nomor_handphone' => $wawancara->nomor_handphone,
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-undangan-wawancara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-undangan-wawancara.docx'));
 
-        return response()->download(storage_path('template_surat/surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateSuratPenghadapan(Request $request)
@@ -215,9 +215,9 @@ class AuditInvestigasiController extends Controller
             'tanggal_pelaksanaan' => Carbon::parse($surat_penghadapan->tanggal_pelaksanaan)->translatedFormat('d F Y'),
             'nomor_surat' => $surat_penghadapan->nomor_surat,
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-penghadapan.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-penghadapan.docx'));
 
-        return response()->download(storage_path('template_surat/surat-penghadapan.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-penghadapan.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateLaporanHasilAudit(Request $request)
@@ -334,9 +334,9 @@ class AuditInvestigasiController extends Controller
             'kesatuan_saksi_5' => $saksi[4]['kesatuan'] ?? '',
 
         ));
-        $template_document->saveAs(storage_path('template_surat/laporan-hasil-audit.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-laporan-hasil-audit.docx'));
 
-        return response()->download(storage_path('template_surat/laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
     }
 
     public function notaWawancara($kasus_id)
@@ -407,9 +407,9 @@ class AuditInvestigasiController extends Controller
             'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
         ));
 
-        $template_document->saveAs(storage_path('template_surat/surat-nota-wawancara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-nota-wawancara.docx'));
 
-        return response()->download(storage_path('template_surat/surat-nota-wawancara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-nota-wawancara.docx'))->deleteFileAfterSend(true);
     }
 
     public function undanganWawancara($kasus_id)
@@ -460,9 +460,9 @@ class AuditInvestigasiController extends Controller
             'nama_terhubung' => $penyidik->name,
             'nomor_handphone' => $wawancara->nomor_handphone,
         ));
-        $template_document->saveAs(storage_path('template_surat/surat-undangan-wawancara.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-undangan-wawancara.docx'));
     
-        return response()->download(storage_path('template_surat/surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-surat-undangan-wawancara.docx'))->deleteFileAfterSend(true);
     }
 
     public function laporanHasilAudit($kasus_id)
@@ -545,9 +545,9 @@ class AuditInvestigasiController extends Controller
 
         ));
 
-        $template_document->saveAs(storage_path('template_surat/laporan-hasil-audit.docx'));
+        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-laporan-hasil-audit.docx'));
 
-        return response()->download(storage_path('template_surat/laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-laporan-hasil-audit.docx'))->deleteFileAfterSend(true);
     }
 
 
