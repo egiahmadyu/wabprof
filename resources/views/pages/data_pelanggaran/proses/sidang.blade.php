@@ -7,14 +7,12 @@
                 <button type="button" class="btn btn-info" onclick="getViewProcess(5)"><i class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
-            <div>
-
+            <!-- <div>
                 @if ($kasus->status_id > 6)
                     <button type="button" class="btn btn-primary" onclick="getViewProcess(7)">Selanjutnya <i
                             class="far fa-arrow-right"></i></button>
                 @endif
-
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -143,6 +141,126 @@
                     </tr>
                     <tr>
                         <td>Pembentukan Komisi Kode Etik</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pendamping Divkum</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Panggilan Pelanggar</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Panggilan Pelanggar ( Satker )</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Panggilan Saksi Anggota</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Panggilan Saksi Ahli SSDM</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Surat Daftar Nama Terlampir</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Putusan Sidang Kepp</td>
+                        <td>
+                            @if (isset($pembentukan_komisi))
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pengiriman Putusan Sidang</td>
                         <td>
                             @if (isset($pembentukan_komisi))
                                 <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">

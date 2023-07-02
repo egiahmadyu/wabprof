@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UndanganGelar;
 use App\Models\LaporanHasilGelar;
+use App\Models\DataPelanggar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuditInvestigasiController;

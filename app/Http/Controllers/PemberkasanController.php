@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sidang;
+use App\Models\DataPelanggar;
 use App\Models\Penyerahan;
 use App\Models\Permohonan;
 use App\Models\Bp3kepps;
