@@ -129,36 +129,22 @@
                     <tr>
                         <td>LP A</td>
                         <td>
-                        @if (isset($usulan_pembentukan))
-                            <a href="/lap/{{ $kasus->id }}">
+                            <a href="/lpa/{{ $kasus->id }}">
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
                             </a>
-                        @else
-                            <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
-                                class="btn btn-outline-primary text-primar">
-                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                            </button>
-                        @endif
                         </td>
 
                     </tr>
                     <tr>
                         <td>Sprin</td>
                         <td>
-                        @if (isset($usulan_pembentukan))
-                            <a href="/bap/{{ $kasus->id }}">
+                            <a href="/sprin/{{ $kasus->id }}">
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
                             </a>
-                        @else
-                            <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
-                                class="btn btn-outline-primary text-primar">
-                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                            </button>
-                        @endif
                         </td>
 
                     </tr>

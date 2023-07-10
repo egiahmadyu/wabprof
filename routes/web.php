@@ -152,8 +152,19 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/permohonan-pendapat/{id}', [PemberkasanController::class, 'permohonanPendapat']);
     Route::post('/pembentukan-komisi', [SidangController::class, 'generatePembentukanKomisi']);
     Route::get('/pembentukan-komisi/{id}', [SidangController::class, 'pembentukanKomisi']);
+    Route::get('/usulan-pembentukan-komisi/{id}', [SidangController::class, 'usulanPembentukanKomisi']);
+    Route::get('/pendamping-divkum/{id}', [SidangController::class, 'pendampingDivkum']);
+    Route::get('/panggilan-pelanggar/{id}', [SidangController::class, 'panggilanPelanggar']);
+    Route::get('/panggilan-pelanggar-satker/{id}', [SidangController::class, 'panggilanPelanggarSatker']);
+    Route::get('/panggilan-saksi-anggota/{id}', [SidangController::class, 'panggilanSaksiAnggota']);
+    Route::get('/panggilan-saksi-sdm/{id}', [SidangController::class, 'panggilanSaksiSdm']);
+    Route::get('/surat-daftar-nama-terlampir/{id}', [SidangController::class, 'suratDaftarNamaTerlampir']);
+    Route::get('/putusan-sidang-kepp/{id}', [SidangController::class, 'putusanSidang']);
+    Route::get('/pengiriman-putusan-sidang/{id}', [SidangController::class, 'pengirimanPutusanSidang']);
     Route::post('/bap', [SidikController::class, 'generateBap']);
     Route::get('/bap/{id}', [SidikController::class, 'bap']);
+    Route::get('/lpa/{id}', [SidikController::class, 'lpa']);
+    Route::get('/sprin/{id}', [SidikController::class, 'sprin']);
 
 
     // Route::group(['middleware' => ['role:super-admin']], function () {
