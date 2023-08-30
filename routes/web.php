@@ -15,7 +15,9 @@ use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\ProvostWabprofController;
 use App\Http\Controllers\PulbaketController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SidikController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +44,7 @@ Route::get('/pdf-test', [LimpahPoldaController::class, 'generateDocumen']);
 Route::post('login', [AuthController::class, 'loginAction'])->name('login-action');
 
 
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth'])->group(function () {
     // Route::get('/', function () {
     //     return view('pages.dashboard.index');
     // });
@@ -71,41 +73,41 @@ Route::middleware(['auth'])->group(function (){
     Route::get('input-data-penyidik', [PenyidikController::class, 'inputPenyidik'])->name('penyidik.input');
     Route::post('input-data-penyidik/store', [PenyidikController::class, 'storePenyidik'])->name('penyidik.store.penyidik');
 
-     Route::get('edit-data-penyidik/{id}', [PenyidikController::class, 'editPenyidik'])->name('penyidik.edit');
-     Route::post('data-penyidik/update', [PenyidikController::class, 'updateData'])->name('penyidik.update');
+    Route::get('edit-data-penyidik/{id}', [PenyidikController::class, 'editPenyidik'])->name('penyidik.edit');
+    Route::post('data-penyidik/update', [PenyidikController::class, 'updateData'])->name('penyidik.update');
 
-     Route::get('data-penyidik/hapus/{id}', [PenyidikController::class, 'hapusData'])->name('penyidik.hapus');
-     // End Penyidik
+    Route::get('data-penyidik/hapus/{id}', [PenyidikController::class, 'hapusData'])->name('penyidik.hapus');
+    // End Penyidik
 
-     // Start Pangkat
+    // Start Pangkat
     Route::get('data-pangkat', [PangkatController::class, 'index'])->name('pangkat.index');
     Route::post('data-pangkat/data', [PangkatController::class, 'data'])->name('pangkat.data');
 
     Route::get('input-data-pangkat', [PangkatController::class, 'inputPangkat'])->name('pangkat.input');
     Route::post('input-data-pangkat/store', [PangkatController::class, 'storePangkat'])->name('pangkat.store.pangkat');
 
-     Route::get('edit-data-pangkat/{id}', [PangkatController::class, 'editPangkat'])->name('pangkat.edit');
-     Route::post('data-pangkat/update', [PangkatController::class, 'updateData'])->name('pangkat.update');
+    Route::get('edit-data-pangkat/{id}', [PangkatController::class, 'editPangkat'])->name('pangkat.edit');
+    Route::post('data-pangkat/update', [PangkatController::class, 'updateData'])->name('pangkat.update');
 
-     Route::get('data-pangkat/hapus/{id}', [PangkatController::class, 'hapusData'])->name('pangkat.hapus');
-     // End Pangkat
+    Route::get('data-pangkat/hapus/{id}', [PangkatController::class, 'hapusData'])->name('pangkat.hapus');
+    // End Pangkat
 
-      // Start Wujud Perbuatan
+    // Start Wujud Perbuatan
     Route::get('data-wujud-perbuatan', [WujudPerbuatanController::class, 'index'])->name('wujud-perbuatan.index');
     Route::post('data-wujud-perbuatan/data', [WujudPerbuatanController::class, 'data'])->name('wujud-perbuatan.data');
 
     Route::get('input-data-wujud-perbuatan', [WujudPerbuatanController::class, 'inputWujudPerbuatan'])->name('wujud-perbuatan.input');
     Route::post('input-data-wujud-perbuatan/store', [WujudPerbuatanController::class, 'storeWujudPerbuatan'])->name('wujud-perbuatan.store.pangkat');
 
-     Route::get('edit-data-wujud-perbuatan/{id}', [WujudPerbuatanController::class, 'editWujudPerbuatan'])->name('wujud-perbuatan.edit');
-     Route::post('data-wujud-perbuatan/update', [WujudPerbuatanController::class, 'updateData'])->name('wujud-perbuatan.update');
+    Route::get('edit-data-wujud-perbuatan/{id}', [WujudPerbuatanController::class, 'editWujudPerbuatan'])->name('wujud-perbuatan.edit');
+    Route::post('data-wujud-perbuatan/update', [WujudPerbuatanController::class, 'updateData'])->name('wujud-perbuatan.update');
 
-     Route::get('data-wujud-perbuatan/hapus/{id}', [WujudPerbuatanController::class, 'hapusData'])->name('wujud-perbuatan.hapus');
-     // End Wujud Perbuatan
-     
+    Route::get('data-wujud-perbuatan/hapus/{id}', [WujudPerbuatanController::class, 'hapusData'])->name('wujud-perbuatan.hapus');
+    // End Wujud Perbuatan
+
 
     // Tambah Saksi
-    Route::post('/tambah-saksi/{id}',[PulbaketController::class, 'tambahSaksi'])->name('tambah.saksi');
+    Route::post('/tambah-saksi/{id}', [PulbaketController::class, 'tambahSaksi'])->name('tambah.saksi');
 
     // View Kasus
     Route::get('data-kasus/view/{kasus_id}/{id}', [KasusController::class, 'viewProcess'])->name('kasus.proses.view');
@@ -167,8 +169,11 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/sprin/{id}', [SidikController::class, 'sprin']);
 
 
-    // Route::group(['middleware' => ['role:super-admin']], function () {
-    //     Route::get('/user',[UserController::class, 'index'])->name('user-index');
-    //     Route::get('/role',[RoleController::class, 'index'])->name('role-index');
-    // });
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::get('user', [UserController::class, 'index']);
+        Route::post('user/save', [UserController::class, 'store']);
+        Route::get('role', [RoleController::class, 'index']);
+        Route::get('role/permission/{id}', [RoleController::class, 'permission']);
+        Route::get('role/permission/{id}/save', [RoleController::class, 'savePermission']);
+    });
 });

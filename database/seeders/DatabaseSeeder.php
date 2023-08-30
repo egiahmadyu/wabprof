@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'password' => bcrypt('123456')
         ]);
-
         $user->assignRole($adminRole);
+        Role::create(['name' => 'operator']);
 
 
         Process::create([
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
             PoldaSeed::class,
             PangkatSeeder::class,
             WujudPerbuatanSeeder::class
-          ]);
+        ]);
 
         // Process::create([
         //     'name' => 'Diterima'
