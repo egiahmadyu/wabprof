@@ -11,9 +11,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">Data Penyidik</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">Data Akreditor</h4>
                     <div class="float-right">
-                        <a href="{{ route('penyidik.input') }}" class="btn btn-primary"><span class="fa fa-plus"></span> Tambah Penyidik</a>
+                        <a href="{{ route('penyidik.input') }}" class="btn btn-primary"><span class="fa fa-plus"></span> Tambah Akreditor</a>
                     </div>
                 </div><!-- end card header -->
 

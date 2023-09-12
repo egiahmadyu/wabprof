@@ -29,6 +29,10 @@
                     <p>Diterima</p>
                 </div>
                 <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                    <p>Time Line Klasifikasi</p>
+                </div>
+                <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Audit Investigasi</p>
                 </div>

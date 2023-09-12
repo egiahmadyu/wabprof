@@ -93,7 +93,7 @@
 
                 <div class="card-body">
                     <div class="table-responsive table-card px-3">
-                        <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                        <table class="table mb-0" id="data-data">
                             <thead class="text-muted table-light">
                                 <tr>
                                     <th scope="col">No Nota Dinas</th>
@@ -101,6 +101,7 @@
                                     <th scope="col">Pelapor</th>
                                     <th scope="col">Terlapor</th>
                                     <th scope="col">Pangkat</th>
+                                    <th scope="col">Jabatan</th>
                                     <th scope="col">Nama Korban</th>
                                     <th scope="col">Status</th>
                                 </tr>
@@ -126,7 +127,7 @@
             var table = $('#data-data').DataTable({
                 processing: true,
                 serverSide: true,
-                searching: false,
+                searching: true,
                 ajax: {
                     url: "{{ route('kasus.data') }}",
                     method: "post",
@@ -165,6 +166,10 @@
                     {
                         data: 'pangkat.name',
                         name: 'id_pangkat'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
                     },
                     {
                         data: 'nama_korban',

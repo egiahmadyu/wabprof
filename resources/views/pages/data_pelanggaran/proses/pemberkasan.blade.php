@@ -8,12 +8,10 @@
                     Sebelumnya</button>
             </div>
             <div>
-
                 @if ($kasus->status_id > 6)
                     <button type="button" class="btn btn-primary" onclick="getViewProcess(7)">Selanjutnya <i
                             class="far fa-arrow-right"></i></button>
                 @endif
-
             </div>
         </div>
     </div>
@@ -127,21 +125,6 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Administrasi Sidang</td>
-                        <td>
-                            @if (isset($administrasi_sidang))
-                            <a href="/administrasi-sidang/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                </button>
-                            @else
-                                <button data-bs-toggle="modal" data-bs-target="#modal_administrasi_sidang" type="button"
-                                    class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                </button>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Nota Dinas Penyerahan Berkas</td>
                         <td>
                             @if (isset($penyerahan))
@@ -171,27 +154,6 @@
                             @endif
                         </td>
                     </tr>
-                    <tr>
-                        <td>Permohonan Pendapat Saran Hukum</td>
-                        <td>
-                            @if (isset($perbaikan))
-                                @if (isset($permohonan))
-                                    <a href="/permohonan-pendapat/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
-                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                    </button>
-                                @else
-                                    <button data-bs-toggle="modal" data-bs-target="#modal_permohonan" type="button"
-                                        class="btn btn-outline-primary text-primar">
-                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                    </button>
-                                @endif
-                            @else
-                                <div class="alert alert-warning" role="alert">
-                                    <span class="fa fa-warning"></span>  Buat Nota Dinas Perbaikan Terlebih Dahulu!
-                                </div>
-                            @endif
-                        </td>
-                    </tr>
                     {{-- <tr>
                         <td>Berita Acara Intograsi</td>
                         <td><button type="button" class="btn btn-primary">Buat Dokumen BAI</button></td>
@@ -208,28 +170,36 @@
             </table>
         </div>
     </div>
-    @if (isset($kasus) & ($kasus->status_id === 6))
-        <div class="row mt-4">
-            <div class="col-lg-12">
-            @if (isset($administrasi_sidang) && isset($penyerahan) && isset($perbaikan) && isset($permohonan))
-                <form action="/data-kasus/update" method="post">
-                    @csrf
-                    <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                    <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan" hidden>
-                    <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 6 ? 'disabled' : '' }}
-                        value="update_status">
+    <div class="row mt-4">
+        <div class="col-lg-4">
+            @if (isset($kasus) & ($kasus->status_id === 6))
+                @if (isset($penyerahan) && isset($perbaikan))
+                    <form action="/data-kasus/update" method="post">
+                        @csrf
+                        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+                        <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan" hidden>
+                        <button class="btn btn-success" name="type_submit"  value="update_status" {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
+                            Lanjutkan ke proses Sidang KEPP
+                        </button>
+                    </form>
+                @else
+                    <button class="btn btn-success disabled">
                         Lanjutkan ke proses Sidang KEPP
                     </button>
-                </form>
-            @else
-                <button class="btn btn-success disabled">
-                        Lanjutkan ke proses Sidang KEPP
-                    </button>
+                @endif
             @endif
-            </div>
-
         </div>
-    @endif
+        <div class="col-lg-4">
+            <button class="btn btn-success col-12 disabled">
+                SP4
+            </button>
+        </div>
+        <div class="col-lg-4">
+            <button class="btn btn-success col-12 disabled">
+                Lanjut Pemberkasan
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="modal_administrasi_sidang" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

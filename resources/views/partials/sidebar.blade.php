@@ -50,8 +50,14 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('penyidik.index') }}"
+                        class="nav-link menu-link {{ Request::segment(1) == 'time-line' ? 'active' : '' }}"> <i
+                            class="bi bi-clipboard-data"></i> <span data-key="t-dashboard">Time Line</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('penyidik.index') }}"
                         class="nav-link menu-link {{ Request::segment(1) == 'kelola-penyidik' ? 'active' : '' }}"> <i
-                            class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Penyidik</span>
+                            class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Akreditor</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -64,6 +70,12 @@
                     <a href="{{ route('wujud-perbuatan.index') }}"
                         class="nav-link menu-link {{ Request::segment(1) == 'kelola-wujud-perbuatan' ? 'active' : '' }}"> <i
                             class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Wujud Perbuatan</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('penyidik.index') }}"
+                        class="nav-link menu-link {{ Request::segment(1) == 'kelola-sidang' ? 'active' : '' }}"> <i
+                            class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Sidang</span>
                     </a>
                 </li>
                     <li class="menu-title"><span data-key="t-menu">Settings</span></li>

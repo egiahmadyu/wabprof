@@ -75,13 +75,20 @@
                     <label for="unit" class="form-label">Fungsional</label>
                     <select class="form-control" name="fungsional" id="fungsional">
                         <option value="">Pilih Fungsional</option>
-                        <option value="Ketua" 
+                        <option value="Akreditor Utama" 
                             @if(isset($penyidik))
-                                @if($penyidik->fungsional == 'Ketua')
+                                @if($penyidik->fungsional == 'Akreditor Utama')
                                     "selected";
                                 @endif 
                             @endif 
-                        >Ketua</option>
+                        >Akreditor Utama</option>
+                        <option value="Akreditor Madya"
+                            @if(isset($penyidik))
+                                @if($penyidik->fungsional == 'Akreditor Madya')
+                                    "selected";
+                                @endif 
+                            @endif 
+                        >Akreditor Madya</option>
                         <option value="Anggota"
                             @if(isset($penyidik))
                                 @if($penyidik->fungsional == 'Anggota')

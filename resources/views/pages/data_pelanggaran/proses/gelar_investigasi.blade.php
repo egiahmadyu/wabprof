@@ -127,7 +127,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Undangan Gelar Perkara Penyelidikan</td>
+                        <td>Undangan Gelar Perkara Audit Investigasi</td>
                         <td>
                             @if (isset($undangan_gelar))
                                 <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
@@ -144,7 +144,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Laporan Gelar Perkara</td>
+                        <td>Laporan Hasil Gelar Perkara Audit Investigasi</td>
                         <td>
                         @if (isset($laporan_gelar))
                                 <a href="/laporan-gelar-perkara/{{ $kasus->id }}">
@@ -164,9 +164,9 @@
                         <td>Nota Dinas Laporan Gelar Perkara</td>
                         <td>
                             <a href="/nota-dinas-laporan/{{ $kasus->id }}">
-                                    <button type="button" class="btn btn-outline-primary text-primary">
-                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                    </button>
+                                <button type="button" class="btn btn-outline-primary text-primary">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                </button>
                             </a>  
                         </td>
                     </tr>
@@ -197,10 +197,12 @@
                     {{-- {{ 2 != $kasus->status_id ? 'disabled' : '' }}  --}} onchange="getPolda()" id="disposisi-tujuan">
                     <option value="" class="text-center">-- Pilih Status --</option>
                     <option value="5" class="text-center"
-                        {{ $kasus->status_id > 4 && $kasus->status_id !== 8 ? 'selected' : '' }}>Sidik
+                        {{ $kasus->status_id > 4 && $kasus->status_id !== 8 ? 'selected' : '' }}>Riksa
                     </option>
                     <option value="8" class="text-center" {{ $kasus->status_id == 8 ? 'selected' : '' }}>Limpah
                         Polda
+                    </option>
+                    <option value="8" class="text-center" {{ $kasus->status_id == 8 ? 'selected' : '' }}>SP4
                     </option>
                 </select>
             </div>

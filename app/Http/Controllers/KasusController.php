@@ -34,7 +34,6 @@ class KasusController extends Controller
         $data['diterima'] = $data['kasuss']->where('status_id',1);
         $data['diproses'] = $data['kasuss']->where('status_id','>',1)->where('status_id','<',6);
         $data['selesai'] = $data['kasuss']->where('status_id',6);
-        // dd($data['k']);
         return view('pages.data_pelanggaran.index', $data);
     }
 
