@@ -98,6 +98,12 @@
         </div>
     </div>
 
+    <div class="row mb-4">
+        <div class="div col-12">
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+        </div>
+    </div>
+
     <!-- Isi Form -->
     <div class="row">
         <div class="col-lg-12">
@@ -293,9 +299,11 @@
 </div>
 
 <script>
-    // $(document).ready(function() {
-    //     getNextData()
-    // });
+    $(document).ready(function() {
+        $('.btn-terlapor').on('click', function () {
+            $('#modal_terlapor').modal('show');
+        })
+    });
 
     // function getNextData() {
     //     console.log($('#test_sprin').val())

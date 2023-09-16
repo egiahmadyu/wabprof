@@ -20,12 +20,16 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="16" data-number-of-steps="6" style="width: 16.6%;">
+                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 16.6%;">
                     </div>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
+                    <p>Time Line Klasifikasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
@@ -50,6 +54,13 @@
             </div>
         </div>
     </div>
+
+    <div class="row mb-4">
+        <div class="div col-12">
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+        </div>
+    </div>
+    
     <div class="col-lg-12">
         <form action="/data-kasus/update" method="post">
             @csrf
@@ -603,6 +614,9 @@
 
 <script>
     $(document).ready(function() {
+        $('.btn-terlapor').on('click', function () {
+            $('#modal_terlapor').modal('show');
+        })
         $('#form-disposisi-kabag').validate({
             rules: {
                 no_agenda : {

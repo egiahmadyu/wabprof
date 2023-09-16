@@ -1,4 +1,9 @@
 <input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
+<div class="row mb-4">
+    <div class="div col-12">
+        <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+    </div>
+</div>
 <div class="row mt-4">
     <div class="col-lg-12">
         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
@@ -335,7 +340,9 @@
 </div>
 <script>
      $(document).ready(function() {
-        
+        $('.btn-terlapor').on('click', function () {
+            $('#modal_terlapor').modal('show');
+        })
     
         $('#form-wawancara').validate({
             rules: {

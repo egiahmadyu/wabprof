@@ -110,6 +110,12 @@
         </div>
     </div>
 
+    <div class="row mb-4">
+        <div class="div col-12">
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+        </div>
+    </div>
+
     <!-- Isi Form -->
     <div class="row">
         <div class="col-lg-12">
@@ -393,6 +399,9 @@
 
 <script>
     $(document).ready(function() {
+        $('.btn-terlapor').on('click', function () {
+            $('#modal_terlapor').modal('show');
+        })
         $('#form-gelar-perkara').validate({
             rules: {
                 nomor_undangan : {

@@ -38,6 +38,13 @@
             </div>
         </div>
     </div>
+
+    <div class="row mb-4">
+        <div class="div col-12">
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+        </div>
+    </div>
+    
     <div class="col-lg-12">
         <h4>Limpah Ke Polda</h4>
         <form action="/surat-limpah-polda" method="post">
@@ -96,6 +103,9 @@
 
 <script>
     $(document).ready(function() {
+        $('.btn-terlapor').on('click', function () {
+            $('#modal_terlapor').modal('show');
+        })
         $('#editControls a').click(function(e) {
             e.preventDefault();
             switch ($(this).data('role')) {

@@ -110,6 +110,12 @@
         </div>
     </div>
 
+    <div class="row mb-4">
+        <div class="div col-12">
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+        </div>
+    </div>
+
     <!-- Isi Form -->
     <div class="row">
         <div class="col-lg-12">
@@ -252,6 +258,9 @@
         } else $("#limpah-polda").html("")
     }
     $(document).ready(function() {
+        $('.btn-terlapor').on('click', function () {
+            $('#modal_terlapor').modal('show');
+        })
         $('#form-bap').validate({
             rules: {
                 tanggal_pemeriksaan : {
