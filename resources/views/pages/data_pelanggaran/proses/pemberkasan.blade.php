@@ -4,7 +4,8 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(5)"><i class="far fa-arrow-left"></i>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(5)"><i
+                        class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
             <div>
@@ -27,6 +28,10 @@
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
+                    <p>Time Line Klasifikasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
@@ -110,7 +115,8 @@
 
     <div class="row mb-4">
         <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                Tambah Terlapor</button>
         </div>
     </div>
 
@@ -134,14 +140,15 @@
                         <td>Nota Dinas Penyerahan Berkas</td>
                         <td>
                             @if (isset($penyerahan))
-                            <a href="/nota-dinas-penyerahan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                </button>
-                            @else
-                                <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_penyerahan" type="button"
+                                <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
                                     class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                </button>
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                    </button>
+                                @else
+                                    <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_penyerahan"
+                                        type="button" class="btn btn-outline-primary text-primar">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                    </button>
                             @endif
                         </td>
                     </tr>
@@ -149,14 +156,15 @@
                         <td>Nota Dinas Perbaikan Berkas</td>
                         <td>
                             @if (isset($perbaikan))
-                            <a href="/nota-dinas-perbaikan/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                </button>
-                            @else
-                                <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_perbaikan" type="button"
+                                <a href="/nota-dinas-perbaikan/{{ $kasus->id }}"
                                     class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                </button>
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                    </button>
+                                @else
+                                    <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_perbaikan"
+                                        type="button" class="btn btn-outline-primary text-primar">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                    </button>
                             @endif
                         </td>
                     </tr>
@@ -184,7 +192,8 @@
                         @csrf
                         <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
                         <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan" hidden>
-                        <button class="btn btn-success" name="type_submit"  value="update_status" {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
+                        <button class="btn btn-success" name="type_submit" value="update_status"
+                            {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
                             Lanjutkan ke proses Sidang KEPP
                         </button>
                     </form>
@@ -208,12 +217,14 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_administrasi_sidang" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_administrasi_sidang" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Administrasi Sidang</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-administrasi-sidang" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-administrasi-sidang"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/administrasi-sidang" method="post" id="form-administrasi-sidang">
                 @csrf
@@ -221,7 +232,8 @@
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp" id="tanggal">
+                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp"
+                            id="tanggal">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jam</label>
@@ -229,28 +241,34 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tempat</label>
-                        <input type="text" class="form-control" name="tempat" placeholder="Tempat" id="tempat">
+                        <input type="text" class="form-control" name="tempat" placeholder="Tempat"
+                            id="tempat">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pakaian</label>
-                        <input type="text" class="form-control" name="pakaian" placeholder="Pakaian" id="pakaian">
+                        <input type="text" class="form-control" name="pakaian" placeholder="Pakaian"
+                            id="pakaian">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-administrasi-sidang" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_administrasi_sidang">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-administrasi-sidang"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate"
+                        modal="modal_administrasi_sidang">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_permohonan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_permohonan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Permohonan Pendapat Saran Hukum</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-permohonan" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-permohonan" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="/permohonan-pendapat" method="post" id="form-permohonan">
                 @csrf
@@ -258,7 +276,8 @@
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor LP-A</label>
-                        <input type="text" class="form-control" name="nomor" id="nomor" aria-describedby="emailHelp" placeholder="Nomor LP-A">
+                        <input type="text" class="form-control" name="nomor" id="nomor"
+                            aria-describedby="emailHelp" placeholder="Nomor LP-A">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal LP-A</label>
@@ -269,7 +288,7 @@
                         @if (isset($perbaikan))
                             <select name="bp3kepp_id" id="bp3kepp_id" class="form-control" required>
                                 <option value="">Pilih Terudga</option>
-                                @foreach($perbaikan_data as $perbaikan)
+                                @foreach ($perbaikan_data as $perbaikan)
                                     <option value="{{ $perbaikan->id }}">{{ $perbaikan->nama }}</option>
                                 @endforeach
                             </select>
@@ -277,25 +296,29 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pasal Yang Disangkakan</label>
-                        <input type="text" class="form-control" name="pasal" id="pasal" placeholder="Pasal">
+                        <input type="text" class="form-control" name="pasal" id="pasal"
+                            placeholder="Pasal">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-permohonan" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_permohonan">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-permohonan"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate"
+                        modal="modal_permohonan">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_nota_dinas_penyerahan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modal_nota_dinas_penyerahan" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Penyerahan Berkas Perkara Ke Binetik</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-penyerahan" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-penyerahan" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="/nota-dinas-penyerahan" method="post" id="form-penyerahan">
                 @csrf
@@ -303,29 +326,34 @@
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal BP3KEPP</label>
-                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp" id="tanggal">
+                        <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp"
+                            id="tanggal">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor BP3KEPP</label>
-                        <input type="text" class="form-control" name="nomor" placeholder="Nomor BP3KEPP" id="nomor">
+                        <input type="text" class="form-control" name="nomor" placeholder="Nomor BP3KEPP"
+                            id="nomor">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-penyerahan" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_nota_dinas_penyerahan">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-penyerahan"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate"
+                        modal="modal_nota_dinas_penyerahan">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_nota_dinas_perbaikan"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modal_nota_dinas_perbaikan" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Perbaikan Berkas</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-perbaikan" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-perbaikan" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="/nota-dinas-perbaikan" method="post" id="form-perbaikan">
                 @csrf
@@ -335,11 +363,13 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Tanggal BP3KEPP</label>
-                                <input type="date" class="form-control" name="tanggal[]" aria-describedby="emailHelp">
+                                <input type="date" class="form-control" name="tanggal[]"
+                                    aria-describedby="emailHelp">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Nomor BP3KEPP</label>
-                                <input type="text" class="form-control" name="nomor[]" placeholder="Nomor BP3KEPP">
+                                <input type="text" class="form-control" name="nomor[]"
+                                    placeholder="Nomor BP3KEPP">
                             </div>
                         </div>
                         <div class="row">
@@ -349,21 +379,25 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Nama Terduga</label>
-                                <input type="text" class="form-control" name="nama[]" placeholder="Nama Terduga">
-                            </div>   
+                                <input type="text" class="form-control" name="nama[]"
+                                    placeholder="Nama Terduga">
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Pangkat Terduga</label>
-                                <input type="text" class="form-control" name="pangkat[]" placeholder="Pangkat Terduga">
+                                <input type="text" class="form-control" name="pangkat[]"
+                                    placeholder="Pangkat Terduga">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Jabatan Terduga</label>
-                                <input type="text" class="form-control" name="jabatan[]" placeholder="Jabatan Terduga">
+                                <input type="text" class="form-control" name="jabatan[]"
+                                    placeholder="Jabatan Terduga">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Kesatuan Terduga</label>
-                                <input type="text" class="form-control" name="kesatuan[]" placeholder="Kesatuan Terduga">
+                                <input type="text" class="form-control" name="kesatuan[]"
+                                    placeholder="Kesatuan Terduga">
                             </div>
                         </div>
                         <hr>
@@ -374,8 +408,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-perbaikan" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_nota_dinas_perbaikan">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-perbaikan"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate"
+                        modal="modal_nota_dinas_perbaikan">Generate</button>
                 </div>
             </form>
         </div>
@@ -383,41 +419,41 @@
 </div>
 
 <script>
-     $(document).ready(function() {
-        $('.btn-terlapor').on('click', function () {
+    $(document).ready(function() {
+        $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
         $('#form-administrasi-sidang').validate({
             rules: {
-                tanggal : {
+                tanggal: {
                     required: true,
                 },
-                jam : {
+                jam: {
                     required: true,
                 },
-                tempat : {
+                tempat: {
                     required: true,
                 },
-                pakaian : {
+                pakaian: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 tanggal: "Silahkan isi tanggal!",
                 jam: "Silahkan isi jam!",
                 tempat: "Silahkan isi tempat!",
                 pakaian: "Silahkan isi pakaian!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -439,27 +475,27 @@
         });
         $('#form-penyerahan').validate({
             rules: {
-                tanggal : {
+                tanggal: {
                     required: true,
                 },
-                nomor : {
+                nomor: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 tanggal: "Silahkan isi tanggal!",
                 nomor: "Silahkan isi nomor!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -481,15 +517,15 @@
         });
         $('#form-perbaikan').validate({
             rules: {
-                "tanggal[]":'required',
-                'nomor[]' :'required',
-                'nrp[]' :'required',
-                'nama[]' :'required',
-                'pangkat[]' :'required',
-                'jabatan[]' :'required',
-                'kesatuan[]' :'required',
+                "tanggal[]": 'required',
+                'nomor[]': 'required',
+                'nrp[]': 'required',
+                'nama[]': 'required',
+                'pangkat[]': 'required',
+                'jabatan[]': 'required',
+                'kesatuan[]': 'required',
             },
-            messages : {
+            messages: {
                 'tanggal[]': "Silahkan isi tanggal!",
                 'nomor[]': "Silahkan isi nomor!",
                 'nrp[]': "Silahkan isi nrp!",
@@ -498,16 +534,16 @@
                 'jabatan[]': "Silahkan isi jabatan!",
                 'kesatuan[]': "Silahkan isi kesatuan!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -529,35 +565,35 @@
         });
         $('#form-permohonan').validate({
             rules: {
-                tanggal : {
+                tanggal: {
                     required: true,
                 },
-                nomor : {
+                nomor: {
                     required: true,
                 },
-                pasal : {
+                pasal: {
                     required: true,
                 },
-                bp3kepp_id : {
+                bp3kepp_id: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 tanggal: "Silahkan isi tanggal!",
                 nomor: "Silahkan isi nomor!",
                 pasal: "Silahkan isi pasal!",
                 bp3kepp_id: "Silahkan pilih terduga!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -578,12 +614,13 @@
             }
         });
     });
-    $('#tambah').on('click', function () {
-       var counter = $(this).attr('counter');
-       var counter = parseInt(counter)+1;
-       tambahTerduga(counter);
+    $('#tambah').on('click', function() {
+        var counter = $(this).attr('counter');
+        var counter = parseInt(counter) + 1;
+        tambahTerduga(counter);
         $(this).attr('counter', counter);
     });
+
     function tambahTerduga(counter) {
         let inHtml =
             `<div class="row">
@@ -604,7 +641,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="exampleInputPassword1" class="form-label">Nama Terduga</label>
                     <input type="text" class="form-control" name="nama[]" id="nama_${counter}" placeholder="Nama Terduga">
-                </div>   
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-4 mb-3">
@@ -623,8 +660,8 @@
             <hr>`;
         $('#form_input_terduga').append(inHtml);
     }
-    $('.btn-tutup').on('click', function () {
+    $('.btn-tutup').on('click', function() {
         var form = $(this).attr('form');
-        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+        $('#' + form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
     })
 </script>

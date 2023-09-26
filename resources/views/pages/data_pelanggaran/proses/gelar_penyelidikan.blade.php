@@ -2,12 +2,14 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(4)"><i class="far fa-arrow-left"></i> Sebelumnya</button>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(4)"><i class="far fa-arrow-left"></i>
+                    Sebelumnya</button>
             </div>
             <div>
 
                 @if ($kasus->status_id > 5)
-                    <button type="button" class="btn btn-primary" onclick="getViewProcess(6)">Selanjutnya <i class="far fa-arrow-right"></i></button>
+                    <button type="button" class="btn btn-primary" onclick="getViewProcess(6)">Selanjutnya <i
+                            class="far fa-arrow-right"></i></button>
                 @endif
 
             </div>
@@ -25,6 +27,10 @@
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
+                    <p>Time Line Klasifikasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
@@ -55,7 +61,7 @@
                                     <td>
                                         @if (isset($sprin))
                                             Sprin/{{ $sprin->no_sprin }}/HUK.6.6./2023
-                                        @else 
+                                        @else
                                             -
                                         @endif
                                     </td>
@@ -100,7 +106,8 @@
 
     <div class="row mb-4">
         <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                Tambah Terlapor</button>
         </div>
     </div>
 
@@ -186,8 +193,8 @@
                         @csrf
                         <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
                         <input type="text" class="form-control" value="6" hidden name="disposisi_tujuan" hidden>
-                        <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 5 ? 'disabled' : '' }}
-                            value="update_status">Lanjutkan
+                        <button class="btn btn-success" name="type_submit"
+                            {{ $kasus->status_id > 5 ? 'disabled' : '' }} value="update_status">Lanjutkan
                             ke Provost / Wabprof</button>
                     </form>
                 @endif
@@ -300,7 +307,7 @@
 
 <script>
     $(document).ready(function() {
-        $('.btn-terlapor').on('click', function () {
+        $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
     });

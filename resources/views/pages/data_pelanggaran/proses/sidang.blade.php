@@ -4,14 +4,15 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(5)"><i class="far fa-arrow-left"></i>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(5)"><i
+                        class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
             <!-- <div>
                 @if ($kasus->status_id > 6)
-                    <button type="button" class="btn btn-primary" onclick="getViewProcess(7)">Selanjutnya <i
+<button type="button" class="btn btn-primary" onclick="getViewProcess(7)">Selanjutnya <i
                             class="far fa-arrow-right"></i></button>
-                @endif
+@endif
             </div> -->
         </div>
     </div>
@@ -21,7 +22,7 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="82" data-number-of-steps="6" style="width: 82%;">
+                    <div class="f1-progress-line" data-now-value="82" data-number-of-steps="7" style="width: 82%;">
                     </div>
                 </div>
                 <div class="f1-step">
@@ -114,10 +115,11 @@
 
     <div class="row mb-4">
         <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                Tambah Terlapor</button>
         </div>
     </div>
-    
+
     <!-- Isi Form -->
     <div class="row">
         <div class="col-lg-12">
@@ -141,21 +143,22 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
                         <td>Pembentukan Komisi Kode Etik</td>
                         <td>
                             @if (isset($pembentukan_komisi))
-                                <a href="/pembentukan-komisi/{{ $kasus->id }}" class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                </button>
-                            @else
-                                <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi" type="button"
+                                <a href="/pembentukan-komisi/{{ $kasus->id }}"
                                     class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                </button>
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                    </button>
+                                @else
+                                    <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi"
+                                        type="button" class="btn btn-outline-primary text-primar">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                    </button>
                             @endif
                         </td>
                     </tr>
@@ -166,7 +169,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -176,7 +179,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -186,7 +189,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -196,7 +199,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -206,7 +209,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -216,7 +219,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -226,7 +229,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -236,7 +239,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     {{-- <tr>
@@ -272,12 +275,14 @@
     @endif
 </div>
 
-<div class="modal fade" id="modal_pembentukan_komisi" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_pembentukan_komisi" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pembentukan Komisi Kode Etik</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-pembentukan-komisi" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-pembentukan-komisi"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/pembentukan-komisi" method="post" id="form-pembentukan-komisi">
                 @csrf
@@ -286,19 +291,21 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nomor Pembentukan Komisi Kode Etik</label>
-                                <input type="text" class="form-control" name="nomor" aria-describedby="emailHelp" placeholder="Nomor Pembentukan Komisi Kode Etik">
+                                <label for="exampleInputEmail1" class="form-label">Nomor Pembentukan Komisi Kode
+                                    Etik</label>
+                                <input type="text" class="form-control" name="nomor"
+                                    aria-describedby="emailHelp" placeholder="Nomor Pembentukan Komisi Kode Etik">
                             </div>
                         </div>
-                        <div class="col-md-6">                   
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Menimbang Pelanggar</label>
                                 @if (isset($perbaikan))
                                     <select name="bp3kepp_id" id="bp3kepp_id" class="form-control">
                                         <option value="">Pilih Pelanggar</option>
-                                            @foreach($perbaikan_data as $perbaikan)
-                                                <option value="{{ $perbaikan->id }}">{{ $perbaikan->nama }}</option>
-                                            @endforeach
+                                        @foreach ($perbaikan_data as $perbaikan)
+                                            <option value="{{ $perbaikan->id }}">{{ $perbaikan->nama }}</option>
+                                        @endforeach
                                     </select>
                                 @endif
                             </div>
@@ -308,7 +315,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nomor Surat DIVKUM</label>
-                                <input type="text" class="form-control" name="nomor_surat_divkum" aria-describedby="emailHelp" placeholder="Nomor Surat DIVKUM">
+                                <input type="text" class="form-control" name="nomor_surat_divkum"
+                                    aria-describedby="emailHelp" placeholder="Nomor Surat DIVKUM">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -356,13 +364,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Nama</label>
-                                    <input type="text" class="form-control" name="nama_komisi[]" placeholder="Nama">
+                                    <input type="text" class="form-control" name="nama_komisi[]"
+                                        placeholder="Nama">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                                    <input type="text" class="form-control" name="pangkat_komisi[]" placeholder="Pangkat">
+                                    <input type="text" class="form-control" name="pangkat_komisi[]"
+                                        placeholder="Pangkat">
                                 </div>
                             </div>
                         </div>
@@ -370,13 +380,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">NRP</label>
-                                    <input type="text" class="form-control" name="nrp_komisi[]" placeholder="NRP">
+                                    <input type="text" class="form-control" name="nrp_komisi[]"
+                                        placeholder="NRP">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                                    <input type="text" class="form-control" name="jabatan_komisi[]" placeholder="Jabatan">
+                                    <input type="text" class="form-control" name="jabatan_komisi[]"
+                                        placeholder="Jabatan">
                                 </div>
                             </div>
                         </div>
@@ -397,8 +409,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal_pembentukan_komisi">Generate</button>
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-pembentukan-komisi" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate"
+                        modal="modal_pembentukan_komisi">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-pembentukan-komisi"
+                        data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -406,10 +420,11 @@
 </div>
 
 <script>
-    $('.btn-terlapor').on('click', function () {
+    $('.btn-terlapor').on('click', function() {
         $('#modal_terlapor').modal('show');
     })
-function tambahAnggota() {
+
+    function tambahAnggota() {
         let inHtml =
             `<div class="row">
                 <div class="col-md-6">
@@ -452,11 +467,11 @@ function tambahAnggota() {
         $('#form_input_susunan').append(inHtml);
     }
 
-    $('.btn-generate').on('click', function () {
+    $('.btn-generate').on('click', function() {
         var modal = $(this).attr('modal');
         var kasus_id = $('#kasus_id').val();
         var id = $('#status_id').val();
-        $('#'+modal).modal('hide');
+        $('#' + modal).modal('hide');
         $('.loader-view').show();
         $('#viewProses').hide();
         setTimeout(function() {
@@ -472,8 +487,8 @@ function tambahAnggota() {
         }, 3000);
     });
 
-    $('.btn-tutup').on('click', function () {
+    $('.btn-tutup').on('click', function() {
         var form = $(this).attr('form');
-        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+        $('#' + form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
     })
 </script>

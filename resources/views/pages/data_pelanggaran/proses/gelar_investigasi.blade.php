@@ -4,7 +4,8 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(3)"><i class="far fa-arrow-left"></i>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(3)"><i
+                        class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
             <div>
@@ -23,12 +24,16 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="50" data-number-of-steps="6" style="width: 50%;">
+                    <div class="f1-progress-line" data-now-value="56" data-number-of-steps="7" style="width: 56%;">
                     </div>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
+                    <p>Time Line Klasifikasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
@@ -112,7 +117,8 @@
 
     <div class="row mb-4">
         <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                Tambah Terlapor</button>
         </div>
     </div>
 
@@ -140,10 +146,10 @@
                                     <button type="button" class="btn btn-outline-primary text-primary">
                                         <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                     </button>
-                                </a>        
+                                </a>
                             @else
                                 <button data-bs-toggle="modal" data-bs-target="#modal-undangan-gelar" type="button"
-                                class="btn btn-outline-primary text-primar btn-dokumen-undangan">
+                                    class="btn btn-outline-primary text-primar btn-dokumen-undangan">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
                             @endif
@@ -152,15 +158,15 @@
                     <tr>
                         <td>Laporan Hasil Gelar Perkara Audit Investigasi</td>
                         <td>
-                        @if (isset($laporan_gelar))
+                            @if (isset($laporan_gelar))
                                 <a href="/laporan-gelar-perkara/{{ $kasus->id }}">
                                     <button type="button" class="btn btn-outline-primary text-primary">
                                         <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                     </button>
-                                </a>        
+                                </a>
                             @else
                                 <button data-bs-toggle="modal" data-bs-target="#modal-laporan-gelar" type="button"
-                                class="btn btn-outline-primary text-primar">
+                                    class="btn btn-outline-primary text-primar">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
                             @endif
@@ -173,7 +179,7 @@
                                 <button type="button" class="btn btn-outline-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
-                            </a>  
+                            </a>
                         </td>
                     </tr>
                     {{-- <tr>
@@ -193,37 +199,38 @@
         </div>
     </div>
     @if (isset($undangan_gelar) && isset($laporan_gelar))
-    <form action="/data-kasus/update" method="post">
-        @csrf
-        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-        <div class="row">
-            <div class="col-lg-12 mb-3">
-                <label for="exampleInputEmail1" class="form-label">Status</label>
-                <select class="form-select border-dark" aria-label="Default select example" name="disposisi_tujuan"
-                    {{-- {{ 2 != $kasus->status_id ? 'disabled' : '' }}  --}} onchange="getPolda()" id="disposisi-tujuan">
-                    <option value="" class="text-center">-- Pilih Status --</option>
-                    <option value="5" class="text-center"
-                        {{ $kasus->status_id > 4 && $kasus->status_id !== 8 ? 'selected' : '' }}>Riksa
-                    </option>
-                    <option value="8" class="text-center" {{ $kasus->status_id == 8 ? 'selected' : '' }}>Limpah
-                        Polda
-                    </option>
-                    <option value="8" class="text-center" {{ $kasus->status_id == 8 ? 'selected' : '' }}>SP4
-                    </option>
-                </select>
-            </div>
-            <div class="col-lg-12 mb-3" id="limpah-polda">
+        <form action="/data-kasus/update" method="post">
+            @csrf
+            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+            <div class="row">
+                <div class="col-lg-12 mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Status</label>
+                    <select class="form-select border-dark" aria-label="Default select example"
+                        name="disposisi_tujuan" {{-- {{ 2 != $kasus->status_id ? 'disabled' : '' }}  --}} onchange="getPolda()" id="disposisi-tujuan">
+                        <option value="" class="text-center">-- Pilih Status --</option>
+                        <option value="5" class="text-center"
+                            {{ $kasus->status_id > 4 && $kasus->status_id !== 8 ? 'selected' : '' }}>Riksa
+                        </option>
+                        <option value="8" class="text-center" {{ $kasus->status_id == 8 ? 'selected' : '' }}>
+                            Limpah
+                            Polda
+                        </option>
+                        <option value="8" class="text-center" {{ $kasus->status_id == 8 ? 'selected' : '' }}>SP4
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-12 mb-3" id="limpah-polda">
+
+                </div>
+                <div class="col-lg-12">
+                    <button class="btn btn-update-diterima btn-primary col-12" type="submit" value="update_status"
+                        name="type_submit" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>
+                        <i class="far fa-upload"></i> Update Status
+                    </button>
+                </div>
 
             </div>
-            <div class="col-lg-12">
-                <button class="btn btn-update-diterima btn-primary col-12" type="submit" value="update_status"
-                    name="type_submit" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>
-                    <i class="far fa-upload"></i> Update Status
-                </button>
-            </div>
-
-        </div>
-    </form>
+        </form>
     @else
         <button class="btn btn-update-diterima btn-primary disabled" type="button" value="update_status">
             <i class="far fa-upload"></i> Update Status
@@ -255,22 +262,24 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-laporan-gelar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-laporan-gelar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Laporan Gelar Perkara</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-laporan-perkara" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-laporan-perkara"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/laporan-gelar-perkara" method="post" id="form-laporan-perkara">
                 <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" >
+                    name="data_pelanggar_id">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" name="tanggal_laporan_gelar" id="tanggal_laporan_gelar"
-                        >
+                        <input type="date" class="form-control" name="tanggal_laporan_gelar"
+                            id="tanggal_laporan_gelar">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Bukti</label>
@@ -284,37 +293,39 @@
                         <label for="exampleInputPassword1" class="form-label">Pilih Penyidik Pembuat</label>
                         <select name="id_penyidik_pembuat" id="id_penyidik_pembuat" class="form-control">
                             <option value="">Pilih Penyidik Pembuat</option>
-                            @foreach($penyidik as $penyidik)
-                                <option value="{{ $penyidik->id }}">{{ $penyidik->pangkat->name." - ".$penyidik->name }}</option>
+                            @foreach ($penyidik as $penyidik)
+                                <option value="{{ $penyidik->id }}">
+                                    {{ $penyidik->pangkat->name . ' - ' . $penyidik->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                   
+
                     <hr>
-                        <h5>Pimpinan Gelar </h5>
+                    <h5>Pimpinan Gelar </h5>
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat</label>
                         <select name="id_pangkat" id="id_pangkat" class="form-control">
                             <option value="">Pilih Pangkat</option>
-                            @foreach($pangkat as $pangkat)
+                            @foreach ($pangkat as $pangkat)
                                 <option value="{{ $pangkat->id }}">{{ $pangkat->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pimpinan_gelar" id="nama_pimpinan_gelar" aria-describedby="emailHelp"
-                            placeholder="Nama">
+                        <input type="text" class="form-control" name="nama_pimpinan_gelar"
+                            id="nama_pimpinan_gelar" aria-describedby="emailHelp" placeholder="Nama">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar" id="jabatan_pimpinan_gelar" placeholder="Jabatan">
+                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar"
+                            id="jabatan_pimpinan_gelar" placeholder="Jabatan">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
-                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar" id="kesatuan_pimpinan_gelar"
-                            placeholder="Satuan Kerja">
+                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar"
+                            id="kesatuan_pimpinan_gelar" placeholder="Satuan Kerja">
                     </div>
                     <hr>
                     <h5>Pemapar </h5>
@@ -323,32 +334,36 @@
                         <label for="exampleInputPassword1" class="form-label">Pilih penyidik Pemapar</label>
                         <select name="id_penyidik_pemapar" id="id_penyidik_pemapar" class="form-control">
                             <option value="">Pilih Penyidik Pemapar</option>
-                            @foreach($penyidik_pemapar as $penyidik)
-                                <option value="{{ $penyidik->id }}">{{ $penyidik->pangkat->name." - ".$penyidik->name }}</option>
+                            @foreach ($penyidik_pemapar as $penyidik)
+                                <option value="{{ $penyidik->id }}">
+                                    {{ $penyidik->pangkat->name . ' - ' . $penyidik->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-laporan-perkara" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-generate" modal="modal-laporan-gelar">Generate</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-laporan-perkara"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-generate"
+                        modal="modal-laporan-gelar">Generate</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal-undangan-gelar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modal-undangan-gelar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Undangan Gelar Perkara Penyelidikan</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-gelar-perkara" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-gelar-perkara" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="/gelar-perkara-undangan" method="post" id="form-gelar-perkara">
                 <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" >
+                    name="data_pelanggar_id">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -377,8 +392,9 @@
                         <label for="exampleInputPassword1" class="form-label">Pilih Penyidik</label>
                         <select name="id_penyidik" id="id_penyidik" class="form-control">
                             <option value="">Pilih Penyidik</option>
-                            @foreach($penyidik_kontak as $penyidik)
-                                <option value="{{ $penyidik->id }}">{{ $penyidik->pangkat->name." - ".$penyidik->name }}</option>
+                            @foreach ($penyidik_kontak as $penyidik)
+                                <option value="{{ $penyidik->id }}">
+                                    {{ $penyidik->pangkat->name . ' - ' . $penyidik->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -389,7 +405,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-tutup" form="form-gelar-perkara" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" form="form-gelar-perkara"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -399,34 +416,34 @@
 
 <script>
     $(document).ready(function() {
-        $('.btn-terlapor').on('click', function () {
+        $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
         $('#form-gelar-perkara').validate({
             rules: {
-                nomor_undangan : {
+                nomor_undangan: {
                     required: true,
                 },
-                tanggal : {
+                tanggal: {
                     required: true,
                 },
-                pukul : {
+                pukul: {
                     required: true,
                 },
-                tempat_undangan : {
+                tempat_undangan: {
                     required: true,
                 },
-                pangkat_akreditor : {
+                pangkat_akreditor: {
                     required: true,
                 },
-                nama_akreditor : {
+                nama_akreditor: {
                     required: true,
                 },
-                no_telp_akreditor : {
+                no_telp_akreditor: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 nomor_undangan: "Silahkan isi nomor undangan!",
                 tanggal: "Silahkan isi tanggal undangan!",
                 pukul: "Silahkan isi pukul undangan!",
@@ -435,16 +452,16 @@
                 nama_akreditor: "Silahkan isi nama akreditor!",
                 no_telp_akreditor: "Silahkan isi no telepon akreditor!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -466,44 +483,44 @@
         });
         $('#form-laporan-perkara').validate({
             rules: {
-                tanggal_laporan_gelar : {
+                tanggal_laporan_gelar: {
                     required: true,
                 },
-                nrp_pembuat : {
+                nrp_pembuat: {
                     required: true,
                 },
-                nama_pembuat : {
+                nama_pembuat: {
                     required: true,
                 },
-                pangkat_pembuat : {
+                pangkat_pembuat: {
                     required: true,
                 },
-                pangkat_pimpinan_gelar : {
+                pangkat_pimpinan_gelar: {
                     required: true,
                 },
-                nama_pimpinan_gelar : {
+                nama_pimpinan_gelar: {
                     required: true,
                 },
-                jabatan_pimpinan_gelar : {
+                jabatan_pimpinan_gelar: {
                     required: true,
                 },
-                kesatuan_pimpinan_gelar : {
+                kesatuan_pimpinan_gelar: {
                     required: true,
                 },
-                pangkat_pemapar : {
+                pangkat_pemapar: {
                     required: true,
                 },
-                nama_pemapar : {
+                nama_pemapar: {
                     required: true,
                 },
-                jabatan_pemapar : {
+                jabatan_pemapar: {
                     required: true,
                 },
-                kesatuan_pemapar : {
+                kesatuan_pemapar: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 tanggal_laporan_gelar: "Silahkan isi tanggal laporan gelar!",
                 nrp_pembuat: "Silahkan isi nrp pembuat!",
                 nama_pembuat: "Silahkan isi nama pembuat!",
@@ -517,16 +534,16 @@
                 jabatan_pemapar: "Silahkan isi jabatan pemapar!",
                 kesatuan_pemapar: "Silahkan isi kesatuan pemapar!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -547,6 +564,7 @@
             }
         });
     });
+
     function getPolda() {
         let disposisi = $('#disposisi-tujuan').val()
         if (disposisi == '8') {
@@ -559,8 +577,8 @@
         } else $("#limpah-polda").html("")
     }
 
-    $('.btn-tutup').on('click', function () {
+    $('.btn-tutup').on('click', function() {
         var form = $(this).attr('form');
-        $('#'+form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
+        $('#' + form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
     })
 </script>
