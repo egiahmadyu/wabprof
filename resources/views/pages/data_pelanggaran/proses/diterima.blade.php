@@ -20,7 +20,7 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 16.6%;">
+                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 13.6%;">
                     </div>
                 </div>
                 <div class="f1-step active">
@@ -377,16 +377,16 @@
                                     @csrf
                                     <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
                                         name="kasus_id">
-                                    <input type="text" class="form-control" value="3" hidden
+                                    <input type="text" class="form-control" value="2" hidden
                                         name="disposisi_tujuan" hidden>
                                     <button class="btn btn-success col-12" name="type_submit"
                                         {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
-                                        Lanjutkan ke Proses Audit Investigasi
+                                        Lanjutkan Timeline Klasifikasi
                                     </button>
                                 </form>
                                 @else
                                 <button class="btn btn-success col-12 disabled">
-                                        Lanjutkan ke Proses Audit Investigasi
+                                        Lanjutkan Timeline Klasifikasi
                                 </button>
                                 @endif
                                 {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"

@@ -21,6 +21,11 @@ class DataPelanggar extends Model
         return $this->hasOne(Process::class, 'id', 'status_id');
     }
 
+    public function processes()
+    {
+        return $this->hasOne(Process::class, 'id', 'status_id');
+    }
+
     public function religi()
     {
         return $this->hasOne(Agama::class, 'id', 'agama');
@@ -37,6 +42,11 @@ class DataPelanggar extends Model
     }
 
     public function pangkat()
+    {
+        return $this->belongsTo(Pangkat::class, 'id_pangkat');
+    }
+
+    public function pangkats()
     {
         return $this->belongsTo(Pangkat::class, 'id_pangkat');
     }

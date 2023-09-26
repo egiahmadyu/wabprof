@@ -18,6 +18,7 @@ use App\Http\Controllers\PulbaketController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SidikController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -117,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
 
     //SPRIN
     Route::get('data-penyidik/{tim}', [AuditInvestigasiController::class, 'viewPenyidik']);
+    Route::get('get-data-penyidik/{tim}', [TimelineController::class, 'viewPenyidik']);
     Route::get('get-data-pangkat', [AuditInvestigasiController::class, 'viewPangkat']);
     //END SPRIN
 

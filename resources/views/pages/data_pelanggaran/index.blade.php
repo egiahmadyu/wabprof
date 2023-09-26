@@ -164,8 +164,8 @@
                         name: 'terlapor'
                     },
                     {
-                        data: 'pangkat.name',
-                        name: 'id_pangkat'
+                        data: 'pangkats.name',
+                        name: 'pangkats.name'
                     },
                     {
                         data: 'jabatan',
@@ -176,8 +176,8 @@
                         name: 'nama_korban'
                     },
                     {
-                        data: 'status.name',
-                        name: 'status.name'
+                        data: 'processes.name',
+                        name: 'processes.name'
                     },
                 ]
             });

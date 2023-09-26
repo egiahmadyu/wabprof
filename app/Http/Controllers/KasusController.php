@@ -101,7 +101,7 @@ class KasusController extends Controller
 
     public function data(Request $request)
     {
-        $query = DataPelanggar::orderBy('id', 'desc')->with('status', 'pangkat');
+        $query = DataPelanggar::orderBy('id', 'desc')->with('processes', 'pangkats');
 
         return Datatables::of($query)
             ->editColumn('no_nota_dinas', function($query) {
@@ -192,7 +192,7 @@ class KasusController extends Controller
     public function viewProcess($kasus_id,$status_id)
     {
         if ($status_id == 1) return $this->viewDiterima($kasus_id);
-        elseif ($status_id == 2) return $this->viewDisposisi($kasus_id);
+        elseif ($status_id == 2) return $this->viewTimeLine($kasus_id);
         elseif ($status_id == 3) return $this->viewAuditInvestigasi($kasus_id);
         elseif ($status_id == 4) return $this->viewGelarInvestigasi($kasus_id);
         elseif ($status_id == 5) return $this->viewSidik($kasus_id);
@@ -221,6 +221,27 @@ class KasusController extends Controller
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.sidang', $data);
+    }
+
+    private function viewTimeLine($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        // $status = Process::find($kasus->status_id);
+        // $process = Process::where('sort', '<=', $status->id)->get();
+        // $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
+        $tim = ['A','B','C','D','E','F'];
+        $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
+        $penyidik = Penyidik::where('tim', $disposisi->tim)->get();
+        $data = [
+            'kasus' => $kasus,
+            'tims' => $tim,
+            'disposisi' => $disposisi,
+            'penyidiks' => $penyidik,
+            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+        ];
+        return view('pages.data_pelanggaran.proses.timeline', $data);
     }
 
     private function viewPemberkasan($id)
