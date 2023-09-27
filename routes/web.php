@@ -122,6 +122,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get-data-pangkat', [AuditInvestigasiController::class, 'viewPangkat']);
     //END SPRIN
 
+    //Store Time Line
+    Route::post('/timeline/store', [TimelineController::class, 'store']);
     // Generate
     Route::post('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
     Route::get('/lembar-disposisi-kabag/{id}', [DiterimaController::class, 'disposisiKabag']);

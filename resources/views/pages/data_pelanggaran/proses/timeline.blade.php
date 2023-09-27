@@ -4,7 +4,10 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                {{-- <button type="button" class="btn btn-info">Sebelumnya</button> --}}
+            <div>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(1)"><i class="far fa-arrow-left"></i>
+                    Sebelumnya</button>
+            </div>
             </div>
             <div>
 
@@ -20,7 +23,7 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 27.6%;">
+                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 23.6%;">
                     </div>
                 </div>
                 <div class="f1-step">
@@ -55,6 +58,62 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <table>
+                                <tr>
+                                    <td> No. SPRIN </td>
+                                    <td>:</td>
+                                    <td>
+                                        @if (isset($sprin))
+                                            Sprin/{{ $sprin->no_sprin }}/XI/WAS.2.4./2022
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pelapor</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->pelapor }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Terlapor</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->terlapor }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <table>
+                                <tr>
+                                    <td>Perihal</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->perihal_nota_dinas }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Unit Pelaksana</td>
+                                    <td>:</td>
+                                    <td>{{ $penyidik->tim ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Ketua Tim</td>
+                                    <td>:</td>
+                                    <td>{{ $penyidik->name ?? '-' }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mb-4">
         <div class="div col-12">
             <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
@@ -62,13 +121,13 @@
     </div>
     
     <div class="col-lg-12">
-        <form action="/timeline/store" method="post">
+        <form action="/timeline/store" id="form-timeline" method="post">
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <div class="row">
                 <div class="col-lg-6 mb-3">
-                    <label for="no_nota_dinas" class="form-label">Tanggal Klarifikasi</label>
-                    <input type="date" name="no_nota_dinas" class="form-control border-dark">
+                    <label for="tanggal_klasifikasi" class="form-label">Tanggal Klarifikasi</label>
+                    <input type="date" name="tanggal_klasifikasi" id="tanggal_klasifikasi" class="form-control border-dark">
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Tim</label>
@@ -131,7 +190,7 @@
                                         name="kasus_id">
                                     <input type="text" class="form-control" value="3" hidden
                                         name="disposisi_tujuan" hidden>
-                                    <button class="btn btn-success col-12" name="type_submit"
+                                    <button class="btn btn-success btn-lanjut col-12" name="type_submit"
                                         {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
                                         Lanjutkan Audit Investigasi
                                     </button>
@@ -178,43 +237,32 @@
 
         $('#tim').prop('disabled', true);
 
-        $('#form-disposisi-kabag').validate({
+        $('#form-timeline').validate({
             rules: {
-                no_agenda : {
+                tanggal_klasifikasi : {
                     required: true,
                 },
-                tanggal : {
+                penyidik : {
                     required: true,
                 },
-                nomor_surat : {
-                    required: true,
-                },
-                surat_dari : {
-                    required: true,
-                },
-                klasifikasi : {
-                    required: true,
-                },
-                derajat : {
-                    required: true,
-                },
-                tim : {
+                status : {
                     required: true,
                 },
             },
             messages : {
-                no_agenda: "Silahkan isi nomor agenda!",
-                tanggal: "Silahkan isi tanggal!",
-                nomor_surat: "Silahkan isi nomor surat!",
-                surat_dari: "Silahkan isi surat dari!",
-                klasifikasi: "Silahkan pilih klasifikasi!",
-                derajat: "Silahkan pilih derajat!",
-                tim: "Silahkan pilih tim!",
+                tanggal_klasifikasi: "Silahkan isi tanggal klasifikasi!",
+                penyidik: "Silahkan isi penyidik!",
+                status: "Silahkan isi status!",
             },
             errorElement : 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
-                error.insertAfter(element);
+                if(element.hasClass('select2-hidden-accessible')){
+                    var element_after = element.next();
+                    error.insertAfter(element_after);
+                }else{
+                    error.insertAfter(element);
+                }
             },
             success: function(label,element) {
                 label.parent().removeClass('error');
@@ -225,20 +273,19 @@
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
-                $('#modal_disposisi').modal('hide');
                 $('.loader-view').show();
                 $('#viewProses').hide();
-                setTimeout(function() {
-                    $.ajax({
-                        type: 'get',
-                        url: `/data-kasus/view/${kasus_id}/${id}`,
-                        success: function(data) {
-                            $('#viewProses').html(data);
-                            $('.loader-view').hide();
-                            $('#viewProses').show();
-                        }
-                    });
-                }, 3000);
+                // setTimeout(function() {
+                //     $.ajax({
+                //         type: 'get',
+                //         url: `/data-kasus/view/${kasus_id}/${id}`,
+                //         success: function(data) {
+                //             $('#viewProses').html(data);
+                //             $('.loader-view').hide();
+                //             $('#viewProses').show();
+                //         }
+                //     });
+                // }, 3000);
             }
         });
 

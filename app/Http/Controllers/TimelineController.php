@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Timeline;
 use App\Models\Penyidik;
+use App\Models\DataPelanggar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
@@ -11,13 +12,28 @@ use DataTables;
 class TimelineController extends Controller
 {
 
-    public function storePangkat(Request $request)
+    public function store(Request $request)
     {
-        $DP = pangkat::create([
-            'name' => $request->name,
+        $DP = Timeline::create([
+            'data_pelanggar_id' => $request->kasus_id,
+            'penyidik_id' => $request->penyidik,
+            'tanggal_klasifikasi' => $request->tanggal_klasifikasi,
+            'status' => $request->status,
         ]);
+
+        if($DP){
+            $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)
+                ->update([
+                    'status_id' => 3
+                ]);
+            if($data_pelanggar){
+                return redirect()->back();
+            }
+        }else{
+            return redirect()->back();
+
+        }
         
-        return redirect()->action([PangkatController::class, 'index']);
     }
 
     public function viewPenyidik($tim){

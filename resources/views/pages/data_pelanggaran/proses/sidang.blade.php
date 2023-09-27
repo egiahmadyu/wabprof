@@ -4,7 +4,7 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(5)"><i class="far fa-arrow-left"></i>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(6)"><i class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
             <!-- <div>
@@ -21,7 +21,7 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="82" data-number-of-steps="6" style="width: 82%;">
+                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 86.6%;">
                     </div>
                 </div>
                 <div class="f1-step">
@@ -29,7 +29,7 @@
                     <p>Diterima</p>
                 </div>
                 <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Time Line Klasifikasi</p>
                 </div>
                 <div class="f1-step">

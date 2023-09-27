@@ -21,12 +21,16 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="82" data-number-of-steps="7" style="width: 82%;">
+                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 76.6%;">
                     </div>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-home"></i></div>
+                    <p>Time Line Klasifikasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
