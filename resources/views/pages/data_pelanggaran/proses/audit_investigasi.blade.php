@@ -159,24 +159,27 @@
 </div>
 
 <!-- Modal Buat SPRIN -->
-<div class="modal fade" id="modal_sprin" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_sprin" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah (SPRIN)</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-sprin" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-sprin" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="/surat-perintah/{{ $kasus->id }}" method="post" id="form-sprin">
                     @csrf
                     <div class="row mb-3">
                         <div class="col">
-                            <input type="text" class="form-control" name="no_sprin" placeholder="Masukan No. SPRIN" id="no_sprin">
+                            <input type="text" class="form-control" name="no_sprin"
+                                placeholder="Masukan No. SPRIN" id="no_sprin">
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="tanggal_investigasi"
                                 placeholder="Tanggal Investigasi" id="tanggal_investigasi" required>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
@@ -187,24 +190,22 @@
                             <select name="tim" id="tim" class="form-control" readonly="">
                                 <option value="">Pilih Tim</option>
                                 @for ($i = 0; $i < count($tims); $i++)
-                                    
                                     <option value="{{ $tims[$i] }}"
-                                    @if (isset($disposisi))
-                                        @if($disposisi->tim == $tims[$i])
-                                            {{ 'selected' }}
+                                        @if (isset($disposisi)) @if ($disposisi->tim == $tims[$i])
+                                            {{ 'selected' }} @endif
                                         @endif
-                                    @endif
-                                    >{{ $tims[$i] }}</option>
+                                        >{{ $tims[$i] }}</option>
                                 @endfor
                             </select>
                         </div>
                     </div>
                     <div class="card card-data-penyidik" id="data-penyidik" style="display:none;">
-                        
+
                     </div>
 
                     <div class="form-outline mb-3">
-                        <button type="submit" class="form-control btn btn-primary btn-generate" modal="modal_sprin">Buat SPRIN</button>
+                        <button type="submit" class="form-control btn btn-primary btn-generate"
+                            modal="modal_sprin">Buat SPRIN</button>
                     </div>
                 </form>
             </div>
@@ -217,31 +218,31 @@
         getNextData();
         $('#form-sprin').validate({
             rules: {
-                tanggal_investigasi : {
+                tanggal_investigasi: {
                     required: true,
                 },
-                tempat_investigasi : {
+                tempat_investigasi: {
                     required: true,
                 },
-                tim : {
+                tim: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 tanggal_investigasi: "Silahkan isi tanggal investigasi!",
                 tempat_investigasi: "Silahkan isi tempat investigasi!",
                 tim: "Silahkan isi tim!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var kasus_id = $('#kasus_id').val();
                 var id = $('#status_id').val();
@@ -250,31 +251,31 @@
                 $('#viewProses').hide();
                 $('#viewNext').hide();
                 setTimeout(function() {
-                        $.ajax({
-                            type: 'get',
-                            url: `/data-kasus/view/${kasus_id}/${id}`,
-                            success: function(data) {
-                                $('#viewProses').html(data);
-                                $.ajax({
-                                    type: 'get',
-                                    url: `/pulbaket/view/next-data/${kasus_id}`,
-                                    success: function(data) {
-                                        $('#viewNext').html(data);
-                                        $('.loader-view').hide();
-                                        $('#viewProses').show();
-                                        $('#viewNext').show();
-                                    }
-                                });
-                            }
-                        });
-                        
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $.ajax({
+                                type: 'get',
+                                url: `/pulbaket/view/next-data/${kasus_id}`,
+                                success: function(data) {
+                                    $('#viewNext').html(data);
+                                    $('.loader-view').hide();
+                                    $('#viewProses').show();
+                                    $('#viewNext').show();
+                                }
+                            });
+                        }
+                    });
+
                 }, 3000);
             }
         });
 
         var tim = $('#tim').val();
         console.log('isi', tim)
-        if(tim != "" && tim != null){
+        if (tim != "" && tim != null) {
             $('#tim').trigger('change');
         }
     });
@@ -287,12 +288,12 @@
         // $('#form_tambah_saksi .inputNamaSaksi:last').before(inHtml);
     }
 
-    $('#tambah').on('click', function () {
-       var counter = $(this).attr('counter');
-       console.log('ori', counter)
-       var counter = parseInt(counter)+1;
-       console.log('add', counter)
-    //    tambahAnggota(counter);
+    $('#tambah').on('click', function() {
+        var counter = $(this).attr('counter');
+        console.log('ori', counter)
+        var counter = parseInt(counter) + 1;
+        console.log('add', counter)
+        //    tambahAnggota(counter);
         $(this).attr('counter', counter);
     });
 
@@ -310,7 +311,7 @@
         }
     }
 
-    $('#tim').on('change', function () {
+    $('#tim').on('change', function() {
         var tim = $(this).val();
         $.ajax({
             type: 'get',
@@ -322,7 +323,7 @@
         });
     })
 
-    $('.btn-tutup').on('click', function () {
+    $('.btn-tutup').on('click', function() {
         $('#no_sprin').val('');
         $('#tempat_investigasi').val('');
         $('#tanggal_investigasi').val('');

@@ -31,9 +31,9 @@ class KasusController extends Controller
     public function index()
     {
         $data['kasuss'] = DataPelanggar::get();
-        $data['diterima'] = $data['kasuss']->where('status_id',1);
-        $data['diproses'] = $data['kasuss']->where('status_id','>',1)->where('status_id','<',6);
-        $data['selesai'] = $data['kasuss']->where('status_id',6);
+        $data['diterima'] = $data['kasuss']->where('status_id', 1);
+        $data['diproses'] = $data['kasuss']->where('status_id', '>', 1)->where('status_id', '<', 6);
+        $data['selesai'] = $data['kasuss']->where('status_id', 6);
         return view('pages.data_pelanggaran.index', $data);
     }
 
@@ -52,7 +52,7 @@ class KasusController extends Controller
             'wujud_perbuatan' => $wujud_perbuatan
         ];
 
-        return view('pages.data_pelanggaran.input_kasus.input',$data);
+        return view('pages.data_pelanggaran.input_kasus.input', $data);
     }
 
     public function storeKasus(Request $request)
@@ -65,7 +65,7 @@ class KasusController extends Controller
             'no_pengaduan' => $no_pengaduan,
             'perihal_nota_dinas' => $request->perihal_nota_dinas,
             'id_wujud_perbuatan' => $request->id_wujud_perbuatan,
-            'tanggal_nota_dinas' => Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d'),
+            'tanggal_nota_dinas' => $request->tanggal_nota_dinas ? Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d') : '',
             'pelapor' => $request->pelapor,
             'umur' => $request->umur,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -86,7 +86,7 @@ class KasusController extends Controller
             'jabatan' => $request->jabatan,
             'kesatuan' => $request->kesatuan,
             'tempat_kejadian' => $request->tempat_kejadian,
-            'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
+            'tanggal_kejadian' => $request->tanggal_kejadian ? Carbon::create($request->tanggal_kejadian)->format('Y-m-d') : '',
             'kronologi' => $request->kronologis,
             'alamat_tempat_tinggal' => $request->alamat_tempat_tinggal,
             'no_hp' => $request->no_hp,
@@ -96,7 +96,7 @@ class KasusController extends Controller
             'nama_korban' => $request->nama_korban,
             'status_id' => 1
         ]);
-        return redirect()->route('kasus.detail',['id'=>$DP->id]);
+        return redirect()->route('kasus.detail', ['id' => $DP->id]);
     }
 
     public function data(Request $request)
@@ -104,9 +104,9 @@ class KasusController extends Controller
         $query = DataPelanggar::orderBy('id', 'desc')->with('processes', 'pangkats');
 
         return Datatables::of($query)
-            ->editColumn('no_nota_dinas', function($query) {
+            ->editColumn('no_nota_dinas', function ($query) {
                 // return $query->no_nota_dinas;
-                return '<a href="/data-kasus/detail/'.$query->id.'">'.$query->no_nota_dinas.'</a>';
+                return '<a href="/data-kasus/detail/' . $query->id . '">' . $query->no_nota_dinas . '</a>';
             })
             ->rawColumns(['no_nota_dinas'])
             ->make(true);
@@ -172,24 +172,22 @@ class KasusController extends Controller
             'nama_korban' => $request->nama_korban,
         ]);
         return redirect()->back();
-
     }
 
     public function updateStatus(Request $request)
     {
-        if ($request->disposisi_tujuan != 8)
-        {
+        if ($request->disposisi_tujuan != 8) {
             DataPelanggar::where('id', $request->kasus_id)
-            ->update([
-                'status_id' => $request->disposisi_tujuan
-            ]);
+                ->update([
+                    'status_id' => $request->disposisi_tujuan
+                ]);
 
             return redirect()->back();
         }
         return $this->limpahToPolda($request);
     }
 
-    public function viewProcess($kasus_id,$status_id)
+    public function viewProcess($kasus_id, $status_id)
     {
         if ($status_id == 1) return $this->viewDiterima($kasus_id);
         elseif ($status_id == 2) return $this->viewTimeLine($kasus_id);
@@ -229,7 +227,7 @@ class KasusController extends Controller
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
         // $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
-        $tim = ['A','B','C','D','E','F'];
+        $tim = ['A', 'B', 'C', 'D', 'E', 'F'];
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
         $penyidik = Penyidik::where('tim', $disposisi->tim)->get();
         $data = [
@@ -339,13 +337,12 @@ class KasusController extends Controller
             'created_by' => auth()->user()->id,
             'isi_surat' => '<ol><li>Rujukan :&nbsp;<br><b>a</b>.&nbsp;Undang-Undang Nomor 2 Tahun 2022 tentang Kepolisian Negara Republik Indonesia.<br><b>b</b>.&nbsp;Peraturan Kepolisian Negara Republik Indonesia Nomor 7 Tahun 2022 tentang Kode Etik Profesi&nbsp; &nbsp; &nbsp;dan Komisi Kode Etik Polri.<br><b>c</b>.&nbsp;Peraturan Kepala Kepolisian Negara Republik Indonesia Nomor 13 Tahun 2016 tentang Pengamanan Internal di Lingkungan Polri<br><b>d</b>.&nbsp;Nota Dinas Kepala Bagian Pelayanan Pengaduan Divpropam Polri Nomor: R/ND-2766-b/XII/WAS.2.4/2022/Divpropam tanggal 16 Desember 2022 perihal pelimpahan Dumas BRIPKA JAMALUDDIN ASYARI.</li></ol>'
         ]);
-         if ($limpah)
-         {
+        if ($limpah) {
             $data->status_id = $request->disposisi_tujuan;
             $data->save();
-         }
+        }
 
-         return redirect()->back();
+        return redirect()->back();
     }
 
     private function viewDisposisi($id)
@@ -369,7 +366,7 @@ class KasusController extends Controller
         $status = Process::find($kasus->status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
         $agama = Agama::get();
-        $tim = ['A','B','C','D','E','F'];
+        $tim = ['A', 'B', 'C', 'D', 'E', 'F'];
 
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
@@ -399,7 +396,7 @@ class KasusController extends Controller
         $kasus = DataPelanggar::find($id);
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
-        $tim = ['A','B','C','D','E','F'];
+        $tim = ['A', 'B', 'C', 'D', 'E', 'F'];
 
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();

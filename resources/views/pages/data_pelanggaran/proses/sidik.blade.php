@@ -4,7 +4,8 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(4)"><i class="far fa-arrow-left"></i>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(4)"><i
+                        class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
             <div>
@@ -116,7 +117,8 @@
 
     <div class="row mb-4">
         <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                Tambah Terlapor</button>
         </div>
     </div>
 
@@ -171,18 +173,18 @@
                     <tr>
                         <td>BAP</td>
                         <td>
-                        @if (isset($bap))
-                            <a href="/bap/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if (isset($bap))
+                                <a href="/bap/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-outline-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                                </a>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
+                                    class="btn btn-outline-primary text-primar">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                 </button>
-                            </a>
-                        @else
-                            <button data-bs-toggle="modal" data-bs-target="#modal_bap" type="button"
-                                class="btn btn-outline-primary text-primar">
-                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                            </button>
-                        @endif
+                            @endif
                         </td>
 
                     </tr>
@@ -227,16 +229,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/bap" method="post" id="form-bap">
-                @csrf 
+                @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Pemeiksaan</label>
-                        <input type="date" class="form-control" name="tanggal_pemeriksaan" id="tanggal_pemeriksaan" aria-describedby="emailHelp">
+                        <input type="date" class="form-control" name="tanggal_pemeriksaan"
+                            id="tanggal_pemeriksaan" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jam Pemeriksaan</label>
-                        <input type="time" class="form-control" name="jam_pemeriksaan" id="jam_pemeriksaan" placeholder="Jam Pemeriksaan">
+                        <input type="time" class="form-control" name="jam_pemeriksaan" id="jam_pemeriksaan"
+                            placeholder="Jam Pemeriksaan">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -262,32 +266,32 @@
         } else $("#limpah-polda").html("")
     }
     $(document).ready(function() {
-        $('.btn-terlapor').on('click', function () {
+        $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
         $('#form-bap').validate({
             rules: {
-                tanggal_pemeriksaan : {
+                tanggal_pemeriksaan: {
                     required: true,
                 },
-                jam_pemeriksaan : {
+                jam_pemeriksaan: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 tanggal_pemeriksaan: "Silahkan isi Tanggal Pemeriksan!",
                 jam_pemeriksaan: "Silahkan isi Jam Pemeriksaan!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
