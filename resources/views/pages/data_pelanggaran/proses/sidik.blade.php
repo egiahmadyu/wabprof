@@ -33,23 +33,23 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Time Line Klasifikasi</p>
+                    <p>Klarifikasi </p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Audit Investigasi</p>
-                </div>
-                <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Gelar Investigasi</p>
+                    <p>Gelar Audit Investigasi</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
-                    <p>Sidik</p>
+                    <p>Riksa</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Pemberkasan</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                    <p>Penuntutan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>

@@ -26,7 +26,9 @@
                 <div class="icon">
                     <i class="fa fa-gavel f-left" aria-hidden="true"></i>
                 </div>
-                <a href="#" class="card-box-footer"><h6>Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></h6></a>
+                <a href="#" class="card-box-footer">
+                    <h6>Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></h6>
+                </a>
             </div>
         </div>
         <div class="col-lg-4 col-sm-6">
@@ -38,7 +40,9 @@
                 <div class="icon">
                     <i class="fa fa-sync-alt fa-spin" aria-hidden="true"></i>
                 </div>
-                <a href="#" class="card-box-footer"> <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6></a>
+                <a href="#" class="card-box-footer">
+                    <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6>
+                </a>
             </div>
         </div>
         <div class="col-lg-4 col-sm-6">
@@ -50,7 +54,9 @@
                 <div class="icon">
                     <i class="fa fa-landmark"></i>
                 </div>
-                <a href="#" class="card-box-footer"> <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6></a>
+                <a href="#" class="card-box-footer">
+                    <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6>
+                </a>
             </div>
         </div>
     </div>
@@ -84,6 +90,7 @@
                                 <th scope="col">Pelapor</th>
                                 <th scope="col">Terlapor</th>
                                 <th scope="col">Pangkat</th>
+                                <th scope="col">Jabatan</th>
                                 <th scope="col">Nama Korban</th>
                                 <th scope="col">Status</th>
                             </tr>
@@ -94,7 +101,6 @@
             </div>
         </div>
     </div>
-    
 @endsection
 
 @section('scripts')
@@ -166,62 +172,66 @@
 
         function getData() {
             var table = $('#data-data').DataTable({
-                processing: true,
-                serverSide: true,
-                searching: false,
-                ajax: {
-                    url: "{{ route('kasus.data') }}",
-                    method: "post",
-                    data: function(data) {
-                        data._token = '{{ csrf_token() }}'
-                        // data.polda = $('#polda').val(),
-                        // data.jenis_kelamin = $('#jenis_kelamin').val(),
-                        // data.jenis_pelanggaran = $('#jenis_pelanggaran').val(),
-                        // data.pangkat = $('#pangkat').val(),
-                        // data.wujud_perbuatan = $('#wujud_perbuatan').val()
-                    }
-                },
-                columns: [
-                    // {
-                    //     data: 'DT_RowIndex',
-                    //     name: 'DT_RowIndex',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
-                    {
-                        data: 'no_nota_dinas',
-                        name: 'no_nota_dinas'
+                    processing: true,
+                    serverSide: true,
+                    searching: true,
+                    ajax: {
+                        url: "{{ route('kasus.data') }}",
+                        method: "post",
+                        data: function(data) {
+                            data._token = '{{ csrf_token() }}'
+                            // data.polda = $('#polda').val(),
+                            // data.jenis_kelamin = $('#jenis_kelamin').val(),
+                            // data.jenis_pelanggaran = $('#jenis_pelanggaran').val(),
+                            // data.pangkat = $('#pangkat').val(),
+                            // data.wujud_perbuatan = $('#wujud_perbuatan').val()
+                        }
                     },
-                    {
-                        data: 'tanggal_kejadian',
-                        name: 'tanggal_kejadian'
-                    },
-                    {
-                        data: 'pelapor',
-                        name: 'pelapor'
-                    },
-                    {
-                        data: 'terlapor',
-                        name: 'terlapor'
-                    },
-                    {
-                        data: 'pangkat',
-                        name: 'pangkat'
-                    },
-                    {
-                        data: 'nama_korban',
-                        name: 'nama_korban'
-                    },
-                    {
-                        data: 'status.name',
-                        name: 'status.name'
-                    },
-                ]
-            });
-            $('#kt_search').on('click', function(e) {
-                e.preventDefault();
-                table.table().draw();
-            });
-        }
+                    columns: [
+                        // {
+                        //     data: 'DT_RowIndex',
+                        //     name: 'DT_RowIndex',
+                        //     orderable: false,
+                        //     searchable: false
+                        // },
+                        {
+                            data: 'no_nota_dinas',
+                            name: 'no_nota_dinas'
+                        },
+                        {
+                            data: 'tanggal_kejadian',
+                            name: 'tanggal_kejadian'
+                        },
+                        {
+                            data: 'pelapor',
+                            name: 'pelapor'
+                        },
+                        {
+                            data: 'terlapor',
+                            name: 'terlapor'
+                        },
+                        {
+                            data: 'pangkats.name',
+                            name: 'pangkats.name'
+                        },
+                        {
+                            data: 'jabatan',
+                            name: 'jabatan'
+                        },
+                        {
+                            data: 'nama_korban',
+                            name: 'nama_korban'
+                        },
+                        {
+                            data: 'processes.name',
+                            name: 'processes.name'
+                        },
+                    ]
+                }
+                $('#kt_search').on('click', function(e) {
+                    e.preventDefault();
+                    table.table().draw();
+                });
+            }
     </script>
 @endsection

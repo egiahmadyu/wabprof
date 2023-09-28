@@ -22,7 +22,7 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 76.6%;">
+                    <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 70.6%;">
                     </div>
                 </div>
                 <div class="f1-step">
@@ -31,23 +31,24 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Time Line Klasifikasi</p>
+                    <p>Klarifikasi </p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Audit Investigasi</p>
-                </div>
-                <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Gelar Investigasi</p>
+                    <p>Gelar Audit Investigasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
-                    <p>Sidik</p>
+                    <p>Riksa</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Pemberkasan</p>
+                </div>
+
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                    <p>Penuntutan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>

@@ -4,7 +4,8 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(6)"><i class="far fa-arrow-left"></i>
+                <button type="button" class="btn btn-info" onclick="getViewProcess(6)"><i
+                        class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
             <!-- <div>
@@ -30,7 +31,7 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Time Line Klasifikasi</p>
+                    <p>Klarifikasi </p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>

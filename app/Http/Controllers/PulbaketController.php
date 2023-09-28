@@ -14,8 +14,10 @@ use App\Models\Sp2hp2Hisory;
 use App\Models\Pangkat;
 use App\Models\Wawancara;
 use App\Models\LaporanHasilAudit;
+use App\Models\LaporanHasilGelar;
 use App\Models\SuratPenghadapan;
 use App\Models\SprinHistory;
+use App\Models\UndanganGelar;
 use App\Models\UukHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,8 +30,7 @@ class PulbaketController extends Controller
     {
         $kasus = DataPelanggar::find($kasus_id);
         // dd($request->all());
-        if (!$data = SprinHistory::where('data_pelanggar_id', $kasus_id)->first())
-        {
+        if (!$data = SprinHistory::where('data_pelanggar_id', $kasus_id)->first()) {
 
             $data = SprinHistory::create([
                 'data_pelanggar_id' => $kasus_id,
@@ -37,8 +38,7 @@ class PulbaketController extends Controller
                 'tanggal_investigasi' => $request->tanggal_investigasi
                 // 'isi_surat_perintah' => $request->isi_surat_perintah
             ]);
-            if ($request->nama_penyelidik_ketua)
-            {
+            if ($request->nama_penyelidik_ketua) {
                 Penyidik::create([
                     'data_pelanggar_id' => $kasus_id,
                     'name' => $request->nama_penyelidik_ketua,
@@ -46,9 +46,8 @@ class PulbaketController extends Controller
                     'pangkat' => $request->pangkat_ketua,
                     'jabatan' => $request->jabatan_ketua
                 ]);
-                if ($request->nama_penyelidik_anggota)
-                {
-                    for ($i=0; $i < count($request->nama_penyelidik_anggota); $i++) {
+                if ($request->nama_penyelidik_anggota) {
+                    for ($i = 0; $i < count($request->nama_penyelidik_anggota); $i++) {
                         Penyidik::create([
                             'data_pelanggar_id' => $kasus_id,
                             'name' => $request->nama_penyelidik_anggota[$i],
@@ -58,9 +57,7 @@ class PulbaketController extends Controller
                         ]);
                     }
                 }
-
             }
-
         }
         $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get()->toArray();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
@@ -127,8 +124,7 @@ class PulbaketController extends Controller
         // Carbon
 
         $kasus = DataPelanggar::find($kasus_id);
-        if (!$data = UukHistory::where('data_pelanggar_id', $kasus_id)->first())
-        {
+        if (!$data = UukHistory::where('data_pelanggar_id', $kasus_id)->first()) {
             $data = UukHistory::create([
                 'data_pelanggar_id' => $kasus_id,
             ]);
@@ -152,8 +148,7 @@ class PulbaketController extends Controller
     public function sp2hp2Awal($kasus_id, Request $request)
     {
         $kasus = DataPelanggar::find($kasus_id);
-        if (!$data = Sp2hp2Hisory::where('data_pelanggar_id', $kasus_id)->first())
-        {
+        if (!$data = Sp2hp2Hisory::where('data_pelanggar_id', $kasus_id)->first()) {
             $data = Sp2hp2Hisory::create([
                 'data_pelanggar_id' => $kasus_id,
                 'penangan' => $request->penangan,
@@ -187,8 +182,7 @@ class PulbaketController extends Controller
         $kasus = DataPelanggar::find($kasus_id);
 
         $template_document = new TemplateProcessor(storage_path('template_surat/BAI_SIPIL.docx'));
-        if (!$data = BaiPelapor::where('data_pelanggar_id', $kasus_id)->first())
-        {
+        if (!$data = BaiPelapor::where('data_pelanggar_id', $kasus_id)->first()) {
             $data = BaiPelapor::create([
                 'data_pelanggar_id' => $kasus_id,
                 'tanggal_introgasi' => $request->tanggal_introgasi
@@ -239,9 +233,8 @@ class PulbaketController extends Controller
         ));
 
         $template_document->saveAs(storage_path('template_surat/surat-bai-pelapor.docx'));
-        Redirect::away("bai-sipil/".$kasus_id);
+        Redirect::away("bai-sipil/" . $kasus_id);
         return response()->download(storage_path('template_surat/surat-bai-pelapor.docx'))->deleteFileAfterSend(true);
-
     }
 
     public function printBaiAnggota($kasus_id, Request $request)
@@ -249,8 +242,7 @@ class PulbaketController extends Controller
         $kasus = DataPelanggar::find($kasus_id);
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/bai_anggota.docx'));
-        if (!$data = BaiTerlapor::where('data_pelanggar_id', $kasus_id)->first())
-        {
+        if (!$data = BaiTerlapor::where('data_pelanggar_id', $kasus_id)->first()) {
             $data = BaiTerlapor::create([
                 'data_pelanggar_id' => $kasus_id,
                 'tanggal_introgasi' => $request->tanggal_introgasi
@@ -303,7 +295,6 @@ class PulbaketController extends Controller
         $template_document->saveAs(storage_path('template_surat/surat-bai-anggota.docx'));
 
         return response()->download(storage_path('template_surat/surat-bai-anggota.docx'))->deleteFileAfterSend(true);
-
     }
 
     public function lhp($kasus_id)
@@ -392,7 +383,7 @@ class PulbaketController extends Controller
     public function viewNextData($id)
     {
         $kasus = DataPelanggar::find($id);
-        $pangkat = Pangkat::get();
+        $pangkat = Pangkat::all();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 2)->first();
         $penyidik = Penyidik::where('tim', $sprin->tim)->get();
@@ -401,14 +392,21 @@ class PulbaketController extends Controller
         $surat_penghadapan = SuratPenghadapan::where('data_pelanggar_id', $id)->first();
         // $status = Process::find($kasus->status_id);
         // $process = Process::where('sort', '<=', $status->id)->get();
+        $undangan_gelar = UndanganGelar::where('data_pelanggar_id', $id)->first();
+        $laporan_gelar = LaporanHasilGelar::where('data_pelanggar_id', $id)->first();
         $data = [
+            'sprin' => $sprin,
             'kasus' => $kasus,
             'wawancara' => $wawancara,
-            'pangkat' => $pangkat,
+            'pangkats' => $pangkat,
             'laporan' => $laporan,
             'penyidiks' => $penyidik,
             'surat_penghadapan' => $surat_penghadapan,
-            'bai_terlapor' => BaiPelapor::where('data_pelanggar_id', $id)->first()
+            'bai_terlapor' => BaiPelapor::where('data_pelanggar_id', $id)->first(),
+            'undangan_gelar' => $undangan_gelar,
+            'laporan_gelar' => $laporan_gelar,
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
 
         return view('pages.data_pelanggaran.proses.pulbaket-next', $data);
@@ -425,6 +423,6 @@ class PulbaketController extends Controller
                 'name' => $value
             ]);
         }
-        return redirect()->route('kasus.detail',['id'=>$id]);
+        return redirect()->route('kasus.detail', ['id' => $id]);
     }
 }

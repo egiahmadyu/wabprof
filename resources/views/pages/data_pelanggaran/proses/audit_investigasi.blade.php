@@ -31,23 +31,23 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Time Line Klasifikasi</p>
+                    <p>Klarifikasi </p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Audit Investigasi</p>
-                </div>
-                <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Gelar Investigasi</p>
+                    <p>Gelar Audit Investigasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
-                    <p>Sidik</p>
+                    <p>Riksa</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Pemberkasan</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
+                    <p>Penuntutan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -213,6 +213,33 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="modal_sprin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/surat-perintah/{{ $kasus->id }}">
+                    <div class="form-outline mb-3">
+                        <label class="form-label" for="textAreaExample2">Isi Surat</label>
+                        <textarea class="form-control" name="isi_surat_perintah" rows="8"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Buat Surat</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
     $(document).ready(function() {
         getNextData();
@@ -269,6 +296,152 @@
                         }
                     });
 
+                }, 3000);
+            }
+        });
+
+        $('#form-gelar-perkara').validate({
+            rules: {
+                nomor_undangan: {
+                    required: true,
+                },
+                tanggal: {
+                    required: true,
+                },
+                pukul: {
+                    required: true,
+                },
+                tempat_undangan: {
+                    required: true,
+                },
+                pangkat_akreditor: {
+                    required: true,
+                },
+                nama_akreditor: {
+                    required: true,
+                },
+                no_telp_akreditor: {
+                    required: true,
+                },
+            },
+            messages: {
+                nomor_undangan: "Silahkan isi nomor undangan!",
+                tanggal: "Silahkan isi tanggal undangan!",
+                pukul: "Silahkan isi pukul undangan!",
+                tempat_undangan: "Silahkan isi tempat undangan!",
+                pangkat_akreditor: "Silahkan isi pangkat akreditor!",
+                nama_akreditor: "Silahkan isi nama akreditor!",
+                no_telp_akreditor: "Silahkan isi no telepon akreditor!",
+            },
+            errorElement: 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label, element) {
+                label.parent().removeClass('error');
+                label.remove();
+            },
+            submitHandler: function(form) { // for demo
+                form.submit();
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal-undangan-gelar').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
+                }, 3000);
+            }
+        });
+
+        $('#form-laporan-perkara').validate({
+            rules: {
+                tanggal_laporan_gelar: {
+                    required: true,
+                },
+                nrp_pembuat: {
+                    required: true,
+                },
+                nama_pembuat: {
+                    required: true,
+                },
+                pangkat_pembuat: {
+                    required: true,
+                },
+                pangkat_pimpinan_gelar: {
+                    required: true,
+                },
+                nama_pimpinan_gelar: {
+                    required: true,
+                },
+                jabatan_pimpinan_gelar: {
+                    required: true,
+                },
+                kesatuan_pimpinan_gelar: {
+                    required: true,
+                },
+                pangkat_pemapar: {
+                    required: true,
+                },
+                nama_pemapar: {
+                    required: true,
+                },
+                jabatan_pemapar: {
+                    required: true,
+                },
+                kesatuan_pemapar: {
+                    required: true,
+                },
+            },
+            messages: {
+                tanggal_laporan_gelar: "Silahkan isi tanggal laporan gelar!",
+                nrp_pembuat: "Silahkan isi nrp pembuat!",
+                nama_pembuat: "Silahkan isi nama pembuat!",
+                pangkat_pembuat: "Silahkan isi pangkat pembuat!",
+                pangkat_pimpinan_gelar: "Silahkan isi pangkat pimpinan gelar!",
+                nama_pimpinan_gelar: "Silahkan isi nama pimpinan gelar!",
+                jabatan_pimpinan_gelar: "Silahkan isi jabatan pimpinan gelar!",
+                kesatuan_pimpinan_gelar: "Silahkan isi kesatuan pimpinan gelar!",
+                pangkat_pemapar: "Silahkan isi pangkat pemapar!",
+                nama_pemapar: "Silahkan isi nama pemapar!",
+                jabatan_pemapar: "Silahkan isi jabatan pemapar!",
+                kesatuan_pemapar: "Silahkan isi kesatuan pemapar!",
+            },
+            errorElement: 'label',
+            errorClass: 'text-danger',
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            },
+            success: function(label, element) {
+                label.parent().removeClass('error');
+                label.remove();
+            },
+            submitHandler: function(form) { // for demo
+                form.submit();
+                var kasus_id = $('#kasus_id').val();
+                var id = $('#status_id').val();
+                $('#modal-laporan-gelar').modal('hide');
+                $('.loader-view').show();
+                $('#viewProses').hide();
+                setTimeout(function() {
+                    $.ajax({
+                        type: 'get',
+                        url: `/data-kasus/view/${kasus_id}/${id}`,
+                        success: function(data) {
+                            $('#viewProses').html(data);
+                            $('.loader-view').hide();
+                            $('#viewProses').show();
+                        }
+                    });
                 }, 3000);
             }
         });

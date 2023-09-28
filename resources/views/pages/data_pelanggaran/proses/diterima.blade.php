@@ -29,15 +29,11 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Time Line Klasifikasi</p>
+                    <p>Klarifikasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Audit Investigasi</p>
-                </div>
-                <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Gelar Investigasi</p>
+                    <p>Gelar Audit Investigasi</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -46,6 +42,10 @@
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Pemberkasan</p>
+                </div>
+                <div class="f1-step">
+                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                    <p>Penuntutan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -57,17 +57,18 @@
 
     <div class="row mb-4">
         <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah Terlapor</button>
+            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                Tambah Terlapor</button>
         </div>
     </div>
-    
+
     <div class="col-lg-12">
         <form action="/data-kasus/update" method="post">
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <div class="row">
                 <hr>
-                    <h3>Nota Dinas</h3>
+                <h3>Nota Dinas</h3>
                 <hr class="mt-2">
                 <div class="col-lg-6 mb-3">
                     <label for="no_nota_dinas" class="form-label">No. Nota Dinas</label>
@@ -84,7 +85,9 @@
                     <select name="id_wujud_perbuatan" id="id_wujud_perbuatan" class="form-control">
                         @if (isset($wujud_perbuatan))
                             @foreach ($wujud_perbuatan as $key => $wujud)
-                                <option value="{{ $wujud->id }}" {{ isset($kasus) ? ($kasus->id_wujud_perbuatan == $wujud->id ? 'selected' : '') : '' }}>{{ $wujud->keterangan_wp }}</option>
+                                <option value="{{ $wujud->id }}"
+                                    {{ isset($kasus) ? ($kasus->id_wujud_perbuatan == $wujud->id ? 'selected' : '') : '' }}>
+                                    {{ $wujud->keterangan_wp }}</option>
                             @endforeach
                         @endif
                     </select>
@@ -97,7 +100,7 @@
             </div>
             <div class="row">
                 <hr>
-                    <h3>Pelapor</h3>
+                <h3>Pelapor</h3>
                 <hr class="mt-2">
                 <div class="col-lg-12">
                     <div class="row">
@@ -127,7 +130,8 @@
                         </div>
                         <div class="col-lg-4 mb-3">
                             <label for="no_telp" class="form-label">No. Telephone</label>
-                            <input type="text" name="no_telp" class="form-control border-dark" placeholder="No. Telephone" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" >
+                            <input type="text" name="no_telp" class="form-control border-dark"
+                                placeholder="No. Telephone" value="{{ isset($kasus) ? $kasus->no_telp : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pekerjaan" class="form-label">Pekerjaan</label>
@@ -179,7 +183,7 @@
             </div>
             <div class="row">
                 <hr>
-                    <h3>Terlapor</h3>
+                <h3>Terlapor</h3>
                 <hr class="mt-2">
                 <div class="col-lg-12">
                     <div class="row">
@@ -190,26 +194,35 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tempat" class="form-label">Tempat Lahir</label>
-                            <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tempat_lahir : '' }}" >
+                            <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir"
+                                class="form-control border-dark"
+                                value="{{ isset($kasus) ? $kasus->tempat_lahir : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}" >
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                                placeholder="Tanggal Lahir" class="form-control border-dark"
+                                value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="no_hp" class="form-label">No. Handphone</label>
-                            <input type="text" name="no_hp" id="no_hp" placeholder="No. Handphone" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_hp : '' }}" >
+                            <input type="text" name="no_hp" id="no_hp" placeholder="No. Handphone"
+                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_hp : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
-                            <input type="text" name="pendidikan_terakhir" id="pendidikan_terakhir" placeholder="Pendidikan Terakhir" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->pendidikan_terakhir : '' }}" >
+                            <input type="text" name="pendidikan_terakhir" id="pendidikan_terakhir"
+                                placeholder="Pendidikan Terakhir" class="form-control border-dark"
+                                value="{{ isset($kasus) ? $kasus->pendidikan_terakhir : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
                             <select name="id_pangkat" id="id_pangkat" class="form-control">
                                 @if (isset($pangkat))
                                     @foreach ($pangkat as $key => $pangkt)
-                                        <option value="{{ $pangkt->id }}" {{ isset($kasus) ? ($kasus->id_pangkat == $pangkt->id ? 'selected' : '') : '' }}>{{ $pangkt->name }}</option>
+                                        <option value="{{ $pangkt->id }}"
+                                            {{ isset($kasus) ? ($kasus->id_pangkat == $pangkt->id ? 'selected' : '') : '' }}>
+                                            {{ $pangkt->name }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -251,18 +264,21 @@
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat_terlapor" id="alamat_terlapor" cols="30" rows="4" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}">{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}</textarea>
+                            <textarea name="alamat_terlapor" id="alamat_terlapor" cols="30" rows="4" placeholder="Alamat"
+                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}">{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}</textarea>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat Tempat Tinggal</label>
-                            <textarea name="alamat_tempat_tinggal" id="alamat_tempat_tinggal" cols="30" rows="4" placeholder="Alamat" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}">{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}</textarea>
+                            <textarea name="alamat_tempat_tinggal" id="alamat_tempat_tinggal" cols="30" rows="4"
+                                placeholder="Alamat" class="form-control border-dark"
+                                value="{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}">{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <hr>
-                    <h3>Kronologis</h3>
+                <h3>Kronologis</h3>
                 <hr class="mt-2">
                 <div class="col-lg-12">
                     <div class="row">
@@ -294,12 +310,12 @@
                     <div class="card p-2">
                         <div class="col-lg-12 mb-3">
                             @if (isset($disposisi->no_agenda))
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label for="" class="form-label">Nomor Agenda</label>
-                                    <p>{{ $disposisi->no_agenda }}</p>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="" class="form-label">Nomor Agenda</label>
+                                        <p>{{ $disposisi->no_agenda }}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         </div>
                     </div>
@@ -312,49 +328,49 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <label for="exampleFormControlInput1" class="form-label">Disposisi Karo</label>
-                                        @if ($disposisi_karo)
-                                            <a href="/lembar-disposisi-karo/{{ $kasus->id }}">
-                                                <button class="btn btn-primary" style="width: 100%" type="button">
-                                                    <i class="far fa-download"></i> Download
-                                                </button></a>
-                                        @else
-                                            <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_karo"  type="button"
-                                                class="btn btn-outline-primary" style="width: 100%">
-                                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                            </button>
-                                        @endif
+                                    @if ($disposisi_karo)
+                                        <a href="/lembar-disposisi-karo/{{ $kasus->id }}">
+                                            <button class="btn btn-primary" style="width: 100%" type="button">
+                                                <i class="far fa-download"></i> Download
+                                            </button></a>
+                                    @else
+                                        <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_karo"
+                                            type="button" class="btn btn-outline-primary" style="width: 100%">
+                                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                        </button>
+                                    @endif
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="exampleFormControlInput1" class="form-label">Disposisi Sesro</label>
-                                        @if ($disposisi_sesro)
-                                            <a href="/lembar-disposisi-sesro/{{ $kasus->id }}">
-                                                <button class="btn btn-primary" style="width: 100%" type="button">
-                                                    <i class="far fa-download"></i> Download
-                                                </button></a>
-                                        @else
-                                            <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_sesro"  type="button"
-                                                class="btn btn-outline-primary" style="width: 100%">
-                                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                            </button>
-                                        @endif
+                                    @if ($disposisi_sesro)
+                                        <a href="/lembar-disposisi-sesro/{{ $kasus->id }}">
+                                            <button class="btn btn-primary" style="width: 100%" type="button">
+                                                <i class="far fa-download"></i> Download
+                                            </button></a>
+                                    @else
+                                        <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_sesro"
+                                            type="button" class="btn btn-outline-primary" style="width: 100%">
+                                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                        </button>
+                                    @endif
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="exampleFormControlInput1" class="form-label">Disposisi
                                         Kabagetika </label>
-                                        @if ($disposisi_kabag)
-                                            <a href="/lembar-disposisi-kabag/{{ $kasus->id }}">
-                                                <button class="btn btn-primary" style="width: 100%" type="button">
-                                                    <i class="far fa-download"></i> Download
-                                                </button></a>
-                                        @else
-                                            <button data-bs-toggle="modal" data-bs-target="#modal_disposisi"  type="button"
-                                                class="btn btn-outline-primary" style="width: 100%">
-                                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                            </button>
-                                        @endif
+                                    @if ($disposisi_kabag)
+                                        <a href="/lembar-disposisi-kabag/{{ $kasus->id }}">
+                                            <button class="btn btn-primary" style="width: 100%" type="button">
+                                                <i class="far fa-download"></i> Download
+                                            </button></a>
+                                    @else
+                                        <button data-bs-toggle="modal" data-bs-target="#modal_disposisi"
+                                            type="button" class="btn btn-outline-primary" style="width: 100%">
+                                            <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                        </button>
+                                    @endif
 
                                 </div>
-                                
+
                             </div>
 
                             {{-- <input type="text" class="form-control" value="{{ $kasus->terlapor }}" > --}}
@@ -366,8 +382,8 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-6">
-                            <button class="btn btn-update-diterima col-12 btn-success" type="submit" value="update_data"
-                                name="type_submit">
+                            <button class="btn btn-update-diterima col-12 btn-success" type="submit"
+                                value="update_data" name="type_submit">
                                 <i class="far fa-upload"></i> Update Data
                             </button>
                         </div>
@@ -384,30 +400,32 @@
                                         Lanjutkan Timeline Klasifikasi
                                     </button>
                                 </form>
-                                @else
+                            @else
                                 <button class="btn btn-success col-12 disabled">
-                                        Lanjutkan Timeline Klasifikasi
+                                    Lanjutkan Timeline Klasifikasi
                                 </button>
-                                @endif
-                                {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
+                            @endif
+                            {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
                                     name="type_submit" {{ $kasus->status_id > 1 ? 'disabled' : '' }}>
                                     <i class="far fa-upload"></i> Lanjut Proses Audit Investigasi
                                 </button> --}}
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
     </div>
+    </form>
+</div>
 </div>
 
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-disposisi-kabag" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-disposisi-kabag"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/lembar-disposisi-kabag" method="post" id="form-disposisi-kabag">
                 <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
@@ -421,22 +439,26 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <?php 
-                            if(isset($kasus->no_nota_dinas)){
-                                $surat_dari = explode('/', $kasus->no_nota_dinas);
-                                $surat_dari = end($surat_dari);
-                            }
+                        <?php
+                        if (isset($kasus->no_nota_dinas)) {
+                            $surat_dari = explode('/', $kasus->no_nota_dinas);
+                            $surat_dari = end($surat_dari);
+                        }
                         ?>
                         <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari" placeholder="Surat dari" value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                            name="surat_dari" placeholder="Surat dari"
+                            value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat" readonly="">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
+                            value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
+                            readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
+                            value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
@@ -466,11 +488,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
+                        <input type="text" class="form-control" id="perihal" name="perihal"
+                            value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-kabag" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-kabag"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -478,12 +502,14 @@
     </div>
 </div>
 
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_karo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_karo" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-disposisi-karo" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-disposisi-karo"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/lembar-disposisi-karo" method="post" id="form-disposisi-karo">
                 <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
@@ -497,22 +523,26 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <?php 
-                            if(isset($kasus->no_nota_dinas)){
-                                $surat_dari = explode('/', $kasus->no_nota_dinas);
-                                $surat_dari = end($surat_dari);
-                            }
+                        <?php
+                        if (isset($kasus->no_nota_dinas)) {
+                            $surat_dari = explode('/', $kasus->no_nota_dinas);
+                            $surat_dari = end($surat_dari);
+                        }
                         ?>
                         <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari" placeholder="Surat dari" value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                            name="surat_dari" placeholder="Surat dari"
+                            value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat" readonly="">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
+                            value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
+                            readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
+                            value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
@@ -533,11 +563,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
+                        <input type="text" class="form-control" id="perihal" name="perihal"
+                            value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-auditor" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-auditor"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -545,12 +577,14 @@
     </div>
 </div>
 
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_sesro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_sesro"
+    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-disposisi-sesro" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" form="form-disposisi-sesro"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/lembar-disposisi-sesro" method="post" id="form-disposisi-sesro">
                 <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
@@ -564,22 +598,26 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <?php 
-                            if(isset($kasus->no_nota_dinas)){
-                                $surat_dari = explode('/', $kasus->no_nota_dinas);
-                                $surat_dari = end($surat_dari);
-                            }
+                        <?php
+                        if (isset($kasus->no_nota_dinas)) {
+                            $surat_dari = explode('/', $kasus->no_nota_dinas);
+                            $surat_dari = end($surat_dari);
+                        }
                         ?>
                         <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari" placeholder="Surat dari" value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                            name="surat_dari" placeholder="Surat dari"
+                            value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat" readonly="">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
+                            value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
+                            readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
+                            value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
@@ -600,11 +638,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
+                        <input type="text" class="form-control" id="perihal" name="perihal"
+                            value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-sesro" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-sesro"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -614,34 +654,34 @@
 
 <script>
     $(document).ready(function() {
-        $('.btn-terlapor').on('click', function () {
+        $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
         $('#form-disposisi-kabag').validate({
             rules: {
-                no_agenda : {
+                no_agenda: {
                     required: true,
                 },
-                tanggal : {
+                tanggal: {
                     required: true,
                 },
-                nomor_surat : {
+                nomor_surat: {
                     required: true,
                 },
-                surat_dari : {
+                surat_dari: {
                     required: true,
                 },
-                klasifikasi : {
+                klasifikasi: {
                     required: true,
                 },
-                derajat : {
+                derajat: {
                     required: true,
                 },
-                tim : {
+                tim: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 no_agenda: "Silahkan isi nomor agenda!",
                 tanggal: "Silahkan isi tanggal!",
                 nomor_surat: "Silahkan isi nomor surat!",
@@ -650,16 +690,16 @@
                 derajat: "Silahkan pilih derajat!",
                 tim: "Silahkan pilih tim!",
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
@@ -683,31 +723,31 @@
 
         $('#form-disposisi-karo').validate({
             rules: {
-                no_agenda : {
+                no_agenda: {
                     required: true,
                 },
-                klasifikasi : {
+                klasifikasi: {
                     required: true,
                 },
-                derajat : {
+                derajat: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 no_agenda: "Silahkan isi Nomor Agenda!",
                 klasifikasi: "Silahkan isi Klasifikasi!",
                 derajat: "Silahkan isi Derajat!"
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
@@ -731,31 +771,31 @@
 
         $('#form-disposisi-sesro').validate({
             rules: {
-                no_agenda : {
+                no_agenda: {
                     required: true,
                 },
-                klasifikasi : {
+                klasifikasi: {
                     required: true,
                 },
-                derajat : {
+                derajat: {
                     required: true,
                 },
             },
-            messages : {
+            messages: {
                 no_agenda: "Silahkan isi Nomor Agenda!",
                 klasifikasi: "Silahkan isi Klasifikasi!",
                 derajat: "Silahkan isi Derajat!"
             },
-            errorElement : 'label',
+            errorElement: 'label',
             errorClass: 'text-danger',
             errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            success: function(label,element) {
+            success: function(label, element) {
                 label.parent().removeClass('error');
-                label.remove(); 
+                label.remove();
             },
-            submitHandler: function (form) { // for demo
+            submitHandler: function(form) { // for demo
                 form.submit();
                 var modal = $(this).attr('modal');
                 var kasus_id = $('#kasus_id').val();
@@ -777,9 +817,9 @@
             }
         });
 
-        $( 'select' ).select2( {
+        $('select').select2({
             theme: 'bootstrap-5'
-        } );
+        });
         getPolda()
     });
 
@@ -795,7 +835,7 @@
         } else $("#limpah-polda").html("")
     }
 
-    $('.btn-tutup').on('click', function () {
+    $('.btn-tutup').on('click', function() {
         var form = $(this).attr('form');
         $('#no_agenda').val('');
         $('#klasifikasi').val('');
