@@ -4,7 +4,7 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(4)"><i
+                <button type="button" class="btn btn-info" onclick="getViewProcess(3)"><i
                         class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>

@@ -21,6 +21,7 @@ use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use App\Models\Pangkat;
+use App\Models\Timeline;
 use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -224,17 +225,16 @@ class KasusController extends Controller
     private function viewTimeLine($id)
     {
         $kasus = DataPelanggar::find($id);
-        // $status = Process::find($kasus->status_id);
-        // $process = Process::where('sort', '<=', $status->id)->get();
-        // $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
         $tim = ['A', 'B', 'C', 'D', 'E', 'F'];
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
         $penyidik = Penyidik::where('tim', $disposisi->tim)->get();
+        $data_klarifikasi = Timeline::where('data_pelanggar_id', $id)->first();;
         $data = [
             'kasus' => $kasus,
             'tims' => $tim,
             'disposisi' => $disposisi,
             'penyidiks' => $penyidik,
+            'data_klarifikasi' => $data_klarifikasi,
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),

@@ -130,7 +130,8 @@
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_klasifikasi" class="form-label">Tanggal Klarifikasi</label>
                     <input type="date" name="tanggal_klasifikasi" id="tanggal_klasifikasi"
-                        class="form-control border-dark">
+                        class="form-control border-dark"
+                        value="{{ $data_klarifikasi ? $data_klarifikasi->tanggal_klasifikasi : '' }}">
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Tim</label>
@@ -153,7 +154,9 @@
                         <option value="">Pilih Penyidik</option>
                         @if (isset($penyidiks) && !empty($penyidiks))
                             @foreach ($penyidiks as $penyidik)
-                                <option value="{{ $penyidik->id }}">{{ $penyidik->name }}</option>
+                                <option value="{{ $penyidik->id }}"
+                                    {{ $data_klarifikasi ? ($data_klarifikasi->penyidik_id == $penyidik->id ? 'selected' : '') : '' }}>
+                                    {{ $penyidik->name }}</option>
                             @endforeach
                         @endif
                     </select>
@@ -162,25 +165,32 @@
                     <label for="perihal_nota_dinas" class="form-label">Status</label>
                     <select name="status" id="status_time" class="form-control">
                         <option value="">Pilih Status</option>
-                        <option value="1">Diterima</option>
-                        <option value="2">Ditolak</option>
-                        <option value="3">Limpah Polda</option>
+                        <option value="Diterima"
+                            {{ $data_klarifikasi ? ($data_klarifikasi->status == 'Diterima' ? 'selected' : '') : '' }}>
+                            Diterima</option>
+                        <option value="Ditolak"
+                            {{ $data_klarifikasi ? ($data_klarifikasi->status == 'Ditolak' ? 'selected' : '') : '' }}>
+                            Ditolak</option>
                     </select>
                 </div>
                 <div class="col-lg-12 mb-3 saran_pendapat d-none">
                     <label for="perihal_nota_dinas" class="form-label">Saran Pendapat Klasifikasi</label>
                     <select name="saran_pendapat_klasifikasi" id="saran_pendapat_klasifikasi" class="form-control">
                         <option value="">Pilih Saran</option>
-                        <option value="1">Terbukti</option>
-                        <option value="2">Lanjut ke Riksa</option>
+                        <option value="5">Lanjut ke Riksa</option>
                         <option value="3">Gelar Audit Investigasi</option>
+                        <option value="8">Limpah Polda</option>
                     </select>
                 </div>
                 <div class="col-lg-12 mb-3 limpah-polda d-none">
 
                 </div>
+                <button class="btn btn-success btn-lanjut col-12" name="type_submit" value="update_status"
+                    type="submit" {{ $data_klarifikasi ? 'disabled' : '' }}>
+                    Simpan Data & Update Status
+                </button>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-12">
@@ -198,7 +208,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
     </div>
     </form>
 </div>
@@ -217,7 +227,7 @@
                 getPolda();
                 $('.limpah-polda').removeClass('d-none');
                 $('.saran_pendapat').addClass('d-none');
-            } else if (status == 1) {
+            } else if (status == 'Diterima') {
                 $('.saran_pendapat').removeClass('d-none');
                 $('.limpah-polda').addClass('d-none');
             } else {

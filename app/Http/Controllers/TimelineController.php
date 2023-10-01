@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Timeline;
 use App\Models\Penyidik;
 use App\Models\DataPelanggar;
@@ -20,25 +21,37 @@ class TimelineController extends Controller
             'tanggal_klasifikasi' => $request->tanggal_klasifikasi,
             'status' => $request->status,
         ]);
-
-        if($DP){
+        if ($DP->status == 'Ditolak') {
+            $DP->next_status == 10;
+            $DP->save();
             $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)
                 ->update([
-                    'status_id' => 3
+                    'status_id' => 10
                 ]);
-            if($data_pelanggar){
+            Helper::saveHistory(10, $request->kasus_id);
+            return redirect()->back();
+        }
+
+        if ($DP) {
+            $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)
+                ->update([
+                    'status_id' => $request->saran_pendapat_klasifikasi
+                ]);
+            $DP->next_status == $request->saran_pendapat_klasifikasi;
+            $DP->save();
+            Helper::saveHistory($request->saran_pendapat_klasifikasi, $request->kasus_id);
+            if ($data_pelanggar) {
                 return redirect()->back();
             }
-        }else{
+        } else {
             return redirect()->back();
-
         }
-        
     }
 
-    public function viewPenyidik($tim){
+    public function viewPenyidik($tim)
+    {
         $penyidik = Penyidik::where('tim', $tim)->get();
-        
+
         $data = [
             'penyidiks' => $penyidik,
         ];
@@ -47,13 +60,13 @@ class TimelineController extends Controller
 
     public function data(Request $request)
     {
-        $query = Pangkat::select('*')->orderBy('id','desc')->get();
+        $query = Pangkat::select('*')->orderBy('id', 'desc')->get();
 
         return Datatables::of($query)->addColumn('action', function ($row) {
             return '<a href="' . route('pangkat.edit', [$row->id]) . '" class="btn btn-info btn-circle"
                   data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-    
-                  <button type="button" onclick="hapus('.$row->id.')" class="btn btn-danger btn-circle sa-params"
+
+                  <button type="button" onclick="hapus(' . $row->id . ')" class="btn btn-danger btn-circle sa-params"
                   data-toggle="tooltip" data-user-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></button>';
         })->make(true);
     }
@@ -66,12 +79,11 @@ class TimelineController extends Controller
         ]);
 
         return redirect()->action([PangkatController::class, 'index']);
-
     }
 
     public function hapusData($id)
     {
-         Pangkat::where('id', $id)
+        Pangkat::where('id', $id)
             ->delete();
     }
 }
