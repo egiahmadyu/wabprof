@@ -10,11 +10,16 @@ class DataPelanggar extends Model
     use HasFactory;
 
     protected $fillable = [
-        'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama','suku', 'agama_terlapor', 'jabatan', 'nrp',
-        'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian','tanggal_kejadian', 'kronologi','alamat_terlapor',
+        'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama', 'suku', 'agama_terlapor', 'jabatan', 'nrp',
+        'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian', 'tanggal_kejadian', 'kronologi', 'alamat_terlapor',
         'id_pangkat', 'nama_korban', 'status_id', 'no_telp', 'kewarganegaraan', 'perihal_nota_dinas', 'tanggal_nota_dinas',
-        'id_wujud_perbuatan', 'tempat_lahir', 'tanggal_lahir','no_hp','pendidikan_terakhir','alamat_tempat_tinggal'
+        'id_wujud_perbuatan', 'tempat_lahir', 'tanggal_lahir', 'no_hp', 'pendidikan_terakhir', 'alamat_tempat_tinggal'
     ];
+
+    public function history_pelanggars()
+    {
+        return $this->hasMany(HistoryPelanggar::class, 'pelanggar_id', 'id')->orderBy('created_at', 'asc');
+    }
 
     public function status()
     {

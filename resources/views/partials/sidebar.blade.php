@@ -49,9 +49,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('penyidik.index') }}"
-                        class="nav-link menu-link {{ Request::segment(1) == 'time-line' ? 'active' : '' }}"> <i
-                            class="bi bi-clipboard-data"></i> <span data-key="t-dashboard">Time Line</span>
+                    <a href="/history-pelanggar"
+                        class="nav-link menu-link {{ Request::segment(1) == 'history-pelanggar' ? 'active' : '' }}"> <i
+                            class="bi bi-clipboard-data"></i> <span data-key="t-dashboard">TimeLine</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -68,8 +68,8 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('wujud-perbuatan.index') }}"
-                        class="nav-link menu-link {{ Request::segment(1) == 'kelola-wujud-perbuatan' ? 'active' : '' }}"> <i
-                            class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Wujud Perbuatan</span>
+                        class="nav-link menu-link {{ Request::segment(1) == 'kelola-wujud-perbuatan' ? 'active' : '' }}">
+                        <i class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Wujud Perbuatan</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -78,19 +78,19 @@
                             class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Sidang</span>
                     </a>
                 </li>
-                    <li class="menu-title"><span data-key="t-menu">Settings</span></li>
-                    <li class="nav-item">
-                        <a href="/user" class="nav-link menu-link {{ Request::segment(1) == 'user' ? 'active' : '' }}">
-                            <i class="fas fa-users"></i> <span data-key="t-dashboard">User</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/role" class="nav-link menu-link {{ Request::segment(1) == 'role' ? 'active' : '' }}">
-                            <i class="far fa-user-tag"></i> <span data-key="t-dashboard">Role</span>
-                        </a>
-                    </li>
+                <li class="menu-title"><span data-key="t-menu">Settings</span></li>
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link menu-link"> 
+                    <a href="/user" class="nav-link menu-link {{ Request::segment(1) == 'user' ? 'active' : '' }}">
+                        <i class="fas fa-users"></i> <span data-key="t-dashboard">User</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/role" class="nav-link menu-link {{ Request::segment(1) == 'role' ? 'active' : '' }}">
+                        <i class="far fa-user-tag"></i> <span data-key="t-dashboard">Role</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link menu-link">
                         <i class="bi bi-box-arrow-right"></i> <span data-key="t-dashboard">Logout</span>
                     </a>
                 </li>

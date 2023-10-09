@@ -56,106 +56,127 @@
             </div>
         </div>
     </div>
+    @if (($klarifikasi && $klarifikasi->next_status == 3) || !$klarifikasi)
+        <div class="row">
+            <div class="col-lg-12 mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card border-dark">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <table>
+                                            <tr>
+                                                <td> No. SPRIN </td>
+                                                <td>:</td>
+                                                <td>
+                                                    @if (isset($sprin))
+                                                        Sprin/{{ $sprin->no_sprin }}/XI/WAS.2.4./2022
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pelapor</td>
+                                                <td>:</td>
+                                                <td>{{ $kasus->pelapor }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Terlapor</td>
+                                                <td>:</td>
+                                                <td>{{ $kasus->terlapor }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table>
+                                            <tr>
+                                                <td>Perihal</td>
+                                                <td>:</td>
+                                                <td>{{ $kasus->perihal_nota_dinas }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Unit Pelaksana</td>
+                                                <td>:</td>
+                                                <td>{{ $penyidik->tim ?? '-' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ketua Tim</td>
+                                                <td>:</td>
+                                                <td>{{ $penyidik->name ?? '-' }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
 
-    <!-- Isi Form -->
-    <div class="row">
-        <div class="col-lg-12 mt-4">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card border-dark">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <table>
-                                        <tr>
-                                            <td> No. SPRIN </td>
-                                            <td>:</td>
-                                            <td>
-                                                @if (isset($sprin))
-                                                    Sprin/{{ $sprin->no_sprin }}/XI/WAS.2.4./2022
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pelapor</td>
-                                            <td>:</td>
-                                            <td>{{ $kasus->pelapor }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Terlapor</td>
-                                            <td>:</td>
-                                            <td>{{ $kasus->terlapor }}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-lg-6">
-                                    <table>
-                                        <tr>
-                                            <td>Perihal</td>
-                                            <td>:</td>
-                                            <td>{{ $kasus->perihal_nota_dinas }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Unit Pelaksana</td>
-                                            <td>:</td>
-                                            <td>{{ $penyidik->tim ?? '-' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ketua Tim</td>
-                                            <td>:</td>
-                                            <td>{{ $penyidik->name ?? '-' }}</td>
-                                        </tr>
-                                    </table>
-                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row mv-3">
-                <div class="col-lg-12 mb-3">
-                    <input type="text" id="test_sprin" value="{{ !empty($sprin) ? 'done' : '' }}" hidden>
-                    <input type="text" id="kasus_id" value="{{ $kasus->id }}" hidden>
-                    <form>
-                        <div class="form-buat-surat col-lg-12 mb-3">
-                            <label for="tgl_pembuatan_surat_perintah" class="form-label">Tanggal Pembuatan Surat
-                                Perintah (SPRIN)</label>
-                            <input type="text" class="form-control border-dark" id="tgl_pembuatan_surat_perintah"
-                                aria-describedby="emailHelp"
-                                value="{{ !empty($sprin) ? date('d-m-Y H:i', strtotime($sprin->created_at)) . ' WIB' : '' }}"
-                                readonly>
-                        </div>
-                        @if (!empty($sprin))
-                            <div class="row">
-                                <div class="col-4">
-                                    <a href="/surat-perintah/{{ $kasus->id }}">
-                                        <i class="far fa-download"></i> SPRIN
-                                    </a>
+                <div class="row mv-3">
+                    <div class="col-lg-12 mb-3">
+                        <input type="text" id="test_sprin" value="{{ !empty($sprin) ? 'done' : '' }}" hidden>
+                        <input type="text" id="kasus_id" value="{{ $kasus->id }}" hidden>
+                        <form>
+                            <div class="form-buat-surat col-lg-12 mb-3">
+                                <label for="tgl_pembuatan_surat_perintah" class="form-label">Tanggal Pembuatan Surat
+                                    Perintah (SPRIN)</label>
+                                <input type="text" class="form-control border-dark" id="tgl_pembuatan_surat_perintah"
+                                    aria-describedby="emailHelp"
+                                    value="{{ !empty($sprin) ? date('d-m-Y H:i', strtotime($sprin->created_at)) . ' WIB' : '' }}"
+                                    readonly>
+                            </div>
+                            @if (!empty($sprin))
+                                <div class="row">
+                                    <div class="col-4">
+                                        <a href="/surat-perintah/{{ $kasus->id }}">
+                                            <i class="far fa-download"></i> SPRIN
+                                        </a>
+                                    </div>
+                                    <div class="col-8">
+                                        <a href="/surat-perintah-pengantar/{{ $kasus->id }}">
+                                            <i class="far fa-download"></i> Surat Pengantar SPRIN
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-8">
-                                    <a href="/surat-perintah-pengantar/{{ $kasus->id }}">
-                                        <i class="far fa-download"></i> Surat Pengantar SPRIN
-                                    </a>
+                            @else
+                                <a href="#!" data-bs-toggle="modal" data-bs-target="#modal_sprin">
+                                    <i class="far fa-file-plus"></i> SPRIN
+                                </a>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div id="viewNext">
+
+        </div>
+    @else
+        <div class="row">
+            <div class="col-lg-12 mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card border-dark">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="alert alert-primary" role="alert">
+                                        Gelar Audit Investigasi tidak dilaksanakan, sesuai hasil Klarifikasi!
+                                    </div>
                                 </div>
                             </div>
-                        @else
-                            <a href="#!" data-bs-toggle="modal" data-bs-target="#modal_sprin">
-                                <i class="far fa-file-plus"></i> SPRIN
-                            </a>
-                        @endif
-                    </form>
+                        </div>
+                    </div>
                 </div>
+                <hr>
             </div>
-            <hr>
         </div>
-    </div>
+    @endif
+    <!-- Isi Form -->
 
-    <div id="viewNext">
-
-    </div>
 </div>
 
 <!-- Modal Buat SPRIN -->

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Agama;
 use App\Models\DataPelanggar;
 use App\Models\Disposisi;
@@ -177,6 +178,7 @@ class KasusController extends Controller
 
     public function updateStatus(Request $request)
     {
+        Helper::saveHistory($request->disposisi_tujuan, $request->kasus_id);
         if ($request->disposisi_tujuan != 8) {
             DataPelanggar::where('id', $request->kasus_id)
                 ->update([
@@ -400,10 +402,13 @@ class KasusController extends Controller
 
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
+        $klarifikasi = Timeline::where('data_pelanggar_id', $id)->first();
+        // dd($klarifikasi);
         $data = [
             'kasus' => $kasus,
             'tims' => $tim,
             'sprin' => $sprin,
+            'klarifikasi' => $klarifikasi,
             'penyidik' => Penyidik::where('fungsional', 'ketua')->where('tim', $disposisi->tim)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'disposisi' => $disposisi,

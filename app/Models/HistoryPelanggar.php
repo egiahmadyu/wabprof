@@ -11,4 +11,9 @@ class HistoryPelanggar extends Model
     protected $fillable = [
         'pelanggar_id', 'status', 'start_date', 'end_date'
     ];
+
+    public function processes()
+    {
+        return $this->hasOne(Process::class, 'id', 'status');
+    }
 }

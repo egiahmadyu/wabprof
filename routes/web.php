@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiterimaController;
 use App\Http\Controllers\GelarPerkaraController;
 use App\Http\Controllers\GelarInvestigasiController;
+use App\Http\Controllers\HistoryPelanggarController;
 use App\Http\Controllers\PemberkasanController;
 use App\Http\Controllers\SidangController;
 use App\Http\Controllers\PenyidikController;
@@ -53,6 +54,10 @@ Route::middleware(['auth'])->group(function () {
     //Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+    // History Pelanggar
+    Route::get('history-pelanggar', [HistoryPelanggarController::class, 'index']);
+    Route::post('history-pelanggar/data', [HistoryPelanggarController::class, 'data']);
 
     // View Kasus
     Route::get('data-kasus', [KasusController::class, 'index'])->name('kasus.index');

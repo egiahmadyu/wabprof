@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Helper;
 use App\Models\DataPelanggar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,7 +16,7 @@ class DataPelanggarSeed extends Seeder
      */
     public function run()
     {
-        DataPelanggar::create([
+        $data = DataPelanggar::create([
             'no_nota_dinas' => "10/24/propam",
             'id_wujud_perbuatan' => 1,
             'tanggal_nota_dinas' => '2023-02-01',
@@ -43,5 +44,7 @@ class DataPelanggarSeed extends Seeder
             'tanggal_kejadian' => '2023-01-20',
             'jabatan' => 'KANIT POLDA METRO JAYA'
         ]);
+
+        Helper::saveHistory(1, $data->id);
     }
 }
