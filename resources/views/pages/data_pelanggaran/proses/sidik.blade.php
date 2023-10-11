@@ -150,7 +150,7 @@
 
                     </tr>
                     <tr>
-                        <td>Sprin</td>
+                        <td>Surat Perintah Pemeriksaan</td>
                         <td>
                             <a href="/sprin/{{ $kasus->id }}">
                                 <button type="button" class="btn btn-outline-primary text-primary">
@@ -171,7 +171,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>BAP</td>
+                        <td>Berita Acara Pemeriksaan</td>
                         <td>
                             @if (isset($bap))
                                 <a href="/bap/{{ $kasus->id }}">

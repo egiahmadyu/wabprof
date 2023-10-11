@@ -67,17 +67,6 @@
                         <div class="col-lg-6">
                             <table>
                                 <tr>
-                                    <td> No. SPRIN </td>
-                                    <td>:</td>
-                                    <td>
-                                        @if (isset($sprin))
-                                            Sprin/{{ $sprin->no_sprin }}/XI/WAS.2.4./2022
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>Pelapor</td>
                                     <td>:</td>
                                     <td>{{ $kasus->pelapor }}</td>
@@ -99,12 +88,7 @@
                                 <tr>
                                     <td>Unit Pelaksana</td>
                                     <td>:</td>
-                                    <td>{{ $penyidik->tim ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Ketua Tim</td>
-                                    <td>:</td>
-                                    <td>{{ $penyidik->name ?? '-' }}</td>
+                                    <td>{{ $disposisi->tim ?? '-' }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -122,8 +106,8 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
-        <form action="/timeline/store" id="form-timeline" method="post">
+    <form action="/timeline/store" id="form-timeline" method="post">
+        <div class="col-lg-12">
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <div class="row">
@@ -167,21 +151,37 @@
                         <option value="">Pilih Status</option>
                         <option value="Diterima"
                             {{ $data_klarifikasi ? ($data_klarifikasi->status == 'Diterima' ? 'selected' : '') : '' }}>
-                            Diterima</option>
+                            Lanjut</option>
                         <option value="Ditolak"
                             {{ $data_klarifikasi ? ($data_klarifikasi->status == 'Ditolak' ? 'selected' : '') : '' }}>
-                            Ditolak</option>
+                            Tidak Lanjut</option>
                     </select>
                 </div>
                 <div class="col-lg-12 mb-3 saran_pendapat d-none">
                     <label for="perihal_nota_dinas" class="form-label">Saran Pendapat Klasifikasi</label>
                     <select name="saran_pendapat_klasifikasi" id="saran_pendapat_klasifikasi" class="form-control">
                         <option value="">Pilih Saran</option>
-                        <option value="5">Lanjut ke Riksa</option>
-                        <option value="3">Gelar Audit Investigasi</option>
-                        <option value="8">Limpah Polda</option>
+                        <option value="5">Diterima dengan Bukti Permulaan Cukup -> Riksa</option>
+                        <option value="3">Diterima untuk dilakukan Audit Investigasi</option>
                     </select>
                 </div>
+                <div class="saran_pendapat_ditolak d-none">
+                    <div class="col-lg-12 mb-3">
+                        <label for="perihal_nota_dinas" class="form-label">Saran Pendapat Tidak Lanjut</label>
+                        <select name="saran_ditolak" id="saran_ditolak" class="form-control">
+                            <option value="">Pilih Saran</option>
+                            <option value="8">Disatukan Penanganannya Pada Polda/Polres</option>
+                            <option value="10">Tidak Perlu dilanjutkan dengan catatan</option>
+                            <option value="10">Ditolak</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-12 mb-3 catatan_berhenti d-none">
+                        <label for="kronologis" class="form-label">Catatan</label>
+                        <textarea name="catatan_berhenti" cols="30" id="catatan_berhenti" rows="5"
+                            class="form-control border-dark" placeholder="Catatan"></textarea>
+                    </div>
+                </div>
+
                 <div class="col-lg-12 mb-3 limpah-polda d-none">
 
                 </div>
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </div> --}}
-    </div>
+        </div>
     </form>
 </div>
 </div>
@@ -227,14 +227,29 @@
                 getPolda();
                 $('.limpah-polda').removeClass('d-none');
                 $('.saran_pendapat').addClass('d-none');
+                $('.saran_pendapat_ditolak').addClass('d-none');
             } else if (status == 'Diterima') {
                 $('.saran_pendapat').removeClass('d-none');
                 $('.limpah-polda').addClass('d-none');
-            } else {
-                $('.saran_pendapat').addClass('d-none');
+                $('.saran_pendapat_ditolak').addClass('d-none');
+            } else if (status == 'Ditolak') {
+                $('.saran_pendapat_ditolak').removeClass('d-none');
                 $('.limpah-polda').addClass('d-none');
+                $('.saran_pendapat').addClass('d-none');
             }
         })
+
+        $('#saran_ditolak').on('change', function() {
+            var status = $('#saran_ditolak').val()
+            console.log(status)
+            if (status == 10) {
+                $('.catatan_berhenti').removeClass('d-none')
+            } else {
+                $('.catatan_berhenti').addClass('d-none')
+            }
+        })
+
+
 
         function getPolda() {
             $.ajax({

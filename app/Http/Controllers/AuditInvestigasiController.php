@@ -17,6 +17,8 @@ use App\Models\UndanganGelar;
 use App\Models\PembentukanKomisi;
 use App\Models\SuratPenghadapan;
 use App\Models\Disposisi;
+use App\Models\Dihentikan;
+use App\Helpers\Helper;
 use App\Models\LaporanHasilGelar;
 use App\Models\LaporanHasilAudit;
 use Carbon\Carbon;
@@ -226,6 +228,17 @@ class AuditInvestigasiController extends Controller
                 'tanggal_laporan' => $request->tanggal,
                 'hasil' => $request->hasil
             ]);
+            if ($request->hasil == 'Tidak Ditemukan') {
+                Dihentikan::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'note' => $request->catatan_berhenti
+                ]);
+                Helper::saveHistory(10, $request->data_pelanggar_id);
+                $data_pelanggar = DataPelanggar::where('id', $request->data_pelanggar_id)
+                    ->update([
+                        'status_id' => 10
+                    ]);
+            }
 
             for ($i = 0; $i < count($request->nrp); $i++) {
                 if ($request->type[$i] == "Sipil") {

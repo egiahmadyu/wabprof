@@ -22,6 +22,9 @@
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Data No Nota Dinas {{ $kasus->no_nota_dinas }}
                         ({{ $kasus->status->name }})</h4>
+                    @if ($kasus->status_dihentikan == 1)
+                        <span class="badge bg-danger">Kasus Sudah Dihentikan</span>
+                    @endif
 
                 </div><!-- end card header -->
 
@@ -44,13 +47,14 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_terlapor"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+    <div class="modal fade" id="modal_terlapor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nota Dinas Perbaikan Berkas</h5>
-                    <button type="button" class="btn-close btn-tutup" form="form-terlapor" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-tutup" form="form-terlapor" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <form action="/tambah_terlapor" method="post" id="form-terlapor">
                     @csrf
@@ -65,20 +69,23 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Nama Terlapor</label>
                                     <input type="text" class="form-control" name="nama[]" placeholder="Nama Terlapor">
-                                </div>   
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Pangkat Terlapor</label>
-                                    <input type="text" class="form-control" name="pangkat[]" placeholder="Pangkat Terlapor">
+                                    <input type="text" class="form-control" name="pangkat[]"
+                                        placeholder="Pangkat Terlapor">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Jabatan Terlapor</label>
-                                    <input type="text" class="form-control" name="jabatan[]" placeholder="Jabatan Terlapor">
+                                    <input type="text" class="form-control" name="jabatan[]"
+                                        placeholder="Jabatan Terlapor">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Kesatuan Terlapor</label>
-                                    <input type="text" class="form-control" name="kesatuan[]" placeholder="Kesatuan Terlapor">
+                                    <input type="text" class="form-control" name="kesatuan[]"
+                                        placeholder="Kesatuan Terlapor">
                                 </div>
                             </div>
                             <hr>
@@ -89,7 +96,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-tutup" form="form-perbaikan" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary btn-tutup" form="form-perbaikan"
+                            data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary btn-simpan" modal="modal_terlapor">Simpan</button>
                     </div>
                 </form>
@@ -109,16 +117,16 @@
     {{-- <script src="{{ asset('ckeditor/build/ckeditor.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
-            $('#tambah').on('click', function () {
+            $('#tambah').on('click', function() {
                 var counter = $(this).attr('counter');
-                var counter = parseInt(counter)+1;
+                var counter = parseInt(counter) + 1;
                 tambahTerlapor(counter);
                 $(this).attr('counter', counter);
             });
-            
+
             function tambahTerlapor(counter) {
                 let inHtml =
-                    `<div id="baris${counter}"> 
+                    `<div id="baris${counter}">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="exampleInputPassword1" class="form-label">NRP Terlapor</label>
@@ -127,7 +135,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="exampleInputPassword1" class="form-label">Nama Terlapor</label>
                             <input type="text" class="form-control" name="nama[]" id="nama_${counter}" placeholder="Nama Terlapor">
-                        </div>   
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
@@ -150,14 +158,14 @@
                     </div>`;
                 $('#form_input_terlapor').append(inHtml);
 
-                $('.hapus').on('click', function () {
+                $('.hapus').on('click', function() {
                     var counter = $(this).attr('counter');
                     console.log('hapussss', counter)
 
-                    $('#baris'+counter).remove();
+                    $('#baris' + counter).remove();
                 })
             }
-            
+
             // ClassicEditor
             //     .create(document.querySelector('#editor'))
             //     .catch(error => {
@@ -176,7 +184,7 @@
             getViewProcess(process_id)
 
         });
-        </script>
+    </script>
     <script>
         function getViewProcess(id) {
             let kasus_id = $('#data_pelanggar_id').val()

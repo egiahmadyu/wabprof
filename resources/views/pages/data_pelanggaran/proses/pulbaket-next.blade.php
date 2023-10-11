@@ -5,6 +5,141 @@
             Terlapor</button>
     </div>
 </div>
+@if (isset($wawancara))
+    <h6>Wawancara</h6>
+    <div class="row">
+        <div class="col-lg-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card border-dark">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table>
+                                        <tr>
+                                            <td>Tanggal Wawancara</td>
+                                            <td>:</td>
+                                            <td>
+                                                {{ date('d-m-Y', strtotime($wawancara->tanggal)) }} -
+                                                {{ $wawancara->jam }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ruangan</td>
+                                            <td>:</td>
+                                            <td>{{ $wawancara->ruangan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td>:</td>
+                                            <td>{{ $wawancara->alamat }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <table>
+                                        <tr>
+                                            <td>Penyidik</td>
+                                            <td>:</td>
+                                            <td>{{ $wawancara->penyidiks->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Telepon</td>
+                                            <td>:</td>
+                                            <td>{{ $wawancara->nomor_handphone ?? '-' }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+@endif
+@if (isset($laporan))
+    <h6>Laporan Hasil Audit</h6>
+    <div class="row">
+        <div class="col-lg-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card border-dark">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table>
+                                        <tr>
+                                            <td>Nomor Laporan</td>
+                                            <td>:</td>
+                                            <td>
+                                                {{ $laporan->nomor_laporan }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tanggal Laporan</td>
+                                            <td>:</td>
+                                            <td>{{ date('d-m-Y', strtotime($laporan->tanggal_laporan)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hasil</td>
+                                            <td>:</td>
+                                            <td>{{ $laporan->hasil }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+@endif
+@if (isset($laporan_gelar))
+    <h6>Laporan Hasil Gelar Perkara Audit Investigasi
+    </h6>
+    <div class="row">
+        <div class="col-lg-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card border-dark">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table>
+                                        <tr>
+                                            <td>Tanggal Laporan Gelar</td>
+                                            <td>:</td>
+                                            <td>
+                                                {{ date('d-m-Y', strtotime($laporan_gelar->tanggal_laporan_gelar)) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pimpinan Gelar</td>
+                                            <td>:</td>
+                                            <td>{{ $laporan_gelar->nama_pimpinan_gelar }} -
+                                                {{ $laporan_gelar->pangkat_pimpinan_gelar }} -
+                                                {{ $laporan_gelar->jabatan_pimpinan_gelar }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bukti</td>
+                                            <td>:</td>
+                                            <td>{{ $laporan_gelar->bukti }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+@endif
 <div class="row mt-4">
     <div class="col-lg-12">
         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
@@ -134,23 +269,26 @@
 </div>
 
 @if (isset($kasus) & ($kasus->status_id === 3))
-    <div class="row mt-4">
-        <div class="col-lg-12">
-            <form action="/data-kasus/update" method="post">
-                @csrf
-                <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                <input type="text" class="form-control" value="5" hidden name="disposisi_tujuan" hidden>
-                <button class="btn btn-success btn-lanjut-update" name="type_submit"
-                    {{ $kasus->status_id > 3 ? 'disabled' : '' }} value="update_status">
-                    Lanjutkan ke proses Riksa
-                </button>
-            </form>
+    @if ($kasus->status_dihentikan == 0)
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <form action="/data-kasus/update" method="post">
+                    @csrf
+                    <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+                    <input type="text" class="form-control" value="5" hidden name="disposisi_tujuan" hidden>
+                    <button class="btn btn-success btn-lanjut-update" name="type_submit"
+                        {{ $kasus->status_id > 3 ? 'disabled' : '' }} value="update_status">
+                        Lanjutkan ke proses Riksa
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
+
+    @endif
 @endif
 
-<div class="modal fade" id="modal_surat_penghadapan" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_surat_penghadapan" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -300,13 +438,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Hasil Audit Investigasi :</label>
-                                <select name="hasil" id="hasil" class="form-control">
+                                <label for="exampleInputEmail1" class="form-label">Hasil Audit Investigasi
+                                    :</label>
+                                <select name="hasil" id="hasil_audit" class="form-control"
+                                    onchange="check_hasil_audit()">
                                     <option value="">Pilih Hasil</option>
                                     <option value="Ditemukan">Ditemukan</option>
                                     <option value="Tidak Ditemukan">Tidak Ditemukan</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-12 catatan_ditolak d-none">
+                            <label for="kronologis" class="form-label">Catatan</label>
+                            <textarea name="catatan_berhenti" cols="30" id="catatan_berhenti" rows="5"
+                                class="form-control border-dark" placeholder="Catatan"></textarea>
                         </div>
                     </div>
                     <div class="card card-data-penyidik">
@@ -336,12 +481,14 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Pangkat :</label>
+                                                <label for="exampleInputEmail1" class="form-label">Pangkat
+                                                    :</label>
                                                 <select name="id_pangkat[]" id="id_pangkat" class="form-control">
                                                     <option value="">Pilih Pangkat</option>
                                                     @if (isset($pangkats))
                                                         @foreach ($pangkats as $pangkat)
-                                                            <option value="{{ $pangkat->id }}">{{ $pangkat->name }}
+                                                            <option value="{{ $pangkat->id }}">
+                                                                {{ $pangkat->name }}
                                                             </option>
                                                         @endforeach
                                                     @endif
@@ -359,7 +506,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Jabatan :</label>
+                                                <label for="exampleInputEmail1" class="form-label">Jabatan
+                                                    :</label>
                                                 <input type="text" class="form-control" id="jabatan"
                                                     aria-describedby="emailHelp" name="jabatan[]"
                                                     placeholder="Jabatan">
@@ -367,7 +515,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Kesatuan :</label>
+                                                <label for="exampleInputEmail1" class="form-label">Kesatuan
+                                                    :</label>
                                                 <input type="text" class="form-control" id="kesatuan"
                                                     aria-describedby="emailHelp" name="kesatuan[]"
                                                     placeholder="Kesatuan">
@@ -427,11 +576,49 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Bukti</label>
-                        <select name="bukti" id="bukti" class="form-control">
+                        <select name="bukti" id="bukti_laporan_gelar_perkara" class="form-control">
                             <option value="">Pilih Bukti</option>
-                            <option value="0">Ditemukan Cukup Bukti</option>
-                            <option value="1">Tidak Ditemukan Cukup Bukti</option>
+                            <option value="Ditemukan Cukup Bukti">Ditemukan Cukup Bukti</option>
+                            <option value="Tidak Ditemukan Cukup Bukti">Tidak Ditemukan Cukup Bukti</option>
                         </select>
+                    </div>
+                    <div class="mb-3 div_ditemukan_bukti d-none">
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Pasal Yang Dilanggar</label>
+                            <input type="text" class="form-control" name="pasal_yang_dilanggar"
+                                id="pasal_yang_dilanggar">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Wujud Perbuatan</label>
+                            <select name="wujud_perbuatan" id="wujud_perbuatan" class="form-control">
+                                @foreach ($wujud_perbutanas as $value)
+                                    <option value="{{ $value->id }}"
+                                        {{ $value->id == $kasus->id_wujud_perbuatan ? 'selected' : '' }}>
+                                        {{ $value->keterangan_wp }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Kategori Pelanggaran</label>
+                            <select name="kategori" id="bukti_laporan_gelar_perkara" class="form-control">
+                                <option value="">Pilih Kategori</option>
+                                <option value="Ringan">Ringan</option>
+                                <option value="Sedang">Sedang</option>
+                                <option value="Berat">Berat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Rekomendasi</label>
+                            <textarea name="catatan" class="form-control" id="catatan" cols="30" rows="7"
+                                placeholder="Rekomendasi"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3 div__tidak_ditemukan_bukti d-none">
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Rekomendasi</label>
+                            <textarea name="catatan_tidak_ditemukan" class="form-control" id="catatan" cols="30" rows="7"
+                                placeholder="Rekomendasi"></textarea>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pilih Penyidik Pembuat</label>
@@ -764,6 +951,21 @@
 
         $(this).attr('counter', counter);
     });
+
+    $('#bukti_laporan_gelar_perkara').on('change', function() {
+        var value = $('#bukti_laporan_gelar_perkara').val()
+        console.log(value)
+        if (value == 'Ditemukan Cukup Bukti') {
+            $('.div_ditemukan_bukti').removeClass('d-none')
+            $('.div__tidak_ditemukan_bukti').addClass('d-none')
+        } else if (value == 'Tidak Ditemukan Cukup Bukti') {
+            $('.div_ditemukan_bukti').addClass('d-none')
+            $('.div__tidak_ditemukan_bukti').removeClass('d-none')
+        } else {
+            $('.div__tidak_ditemukan_bukti').addClass('d-none')
+            $('.div_ditemukan_bukti').addClass('d-none')
+        }
+    })
 
     function tambahSaksi(counter, pangkat) {
         let inHtml =

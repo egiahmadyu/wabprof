@@ -19,6 +19,7 @@ use App\Models\SuratPenghadapan;
 use App\Models\SprinHistory;
 use App\Models\UndanganGelar;
 use App\Models\UukHistory;
+use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -401,6 +402,7 @@ class PulbaketController extends Controller
             'pangkats' => $pangkat,
             'laporan' => $laporan,
             'penyidiks' => $penyidik,
+            'wujud_perbutanas' => WujudPerbuatan::all(),
             'surat_penghadapan' => $surat_penghadapan,
             'bai_terlapor' => BaiPelapor::where('data_pelanggar_id', $id)->first(),
             'undangan_gelar' => $undangan_gelar,

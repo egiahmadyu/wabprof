@@ -99,12 +99,7 @@
                                             <tr>
                                                 <td>Unit Pelaksana</td>
                                                 <td>:</td>
-                                                <td>{{ $penyidik->tim ?? '-' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ketua Tim</td>
-                                                <td>:</td>
-                                                <td>{{ $penyidik->name ?? '-' }}</td>
+                                                <td>{{ $disposisi->tim ?? '-' }}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -134,11 +129,11 @@
                                             <i class="far fa-download"></i> SPRIN
                                         </a>
                                     </div>
-                                    <div class="col-8">
+                                    {{-- <div class="col-8">
                                         <a href="/surat-perintah-pengantar/{{ $kasus->id }}">
                                             <i class="far fa-download"></i> Surat Pengantar SPRIN
                                         </a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             @else
                                 <a href="#!" data-bs-toggle="modal" data-bs-target="#modal_sprin">
@@ -473,6 +468,13 @@
             $('#tim').trigger('change');
         }
     });
+
+    function check_hasil_audit() {
+        var value = $('#hasil_audit').val()
+        if (value == 'Tidak Ditemukan') {
+            $('.catatan_ditolak').removeClass('d-none')
+        }
+    }
 
     function tambahSaksi() {
         let inHtml =

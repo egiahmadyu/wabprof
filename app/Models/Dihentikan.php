@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Timeline extends Model
+class Dihentikan extends Model
 {
     use HasFactory;
-    protected $fillable = ['data_pelanggar_id', 'penyidik_id', 'tanggal_klasifikasi', 'status', 'next_status'];
+    protected $fillable = [
+        'data_pelanggar_id', 'note'
+    ];
 }
