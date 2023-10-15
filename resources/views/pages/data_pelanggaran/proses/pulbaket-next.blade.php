@@ -85,7 +85,49 @@
                                         <tr>
                                             <td>Hasil</td>
                                             <td>:</td>
-                                            <td>{{ $laporan->hasil }}</td>
+                                            <td>{{ $laporan->hasil == 'Ditemukan' ? 'Ditemukan Cukup Bukti' : $laporan->hasil }}
+                                                ({{ $laporan->catatan }})</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+@endif
+@if ($undangan_gelar)
+    <h6>Undangan Gelar Perkara
+    </h6>
+    <div class="row">
+        <div class="col-lg-12 mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card border-dark">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table>
+                                        <tr>
+                                            <td>Tanggal Undangan Gelar</td>
+                                            <td>:</td>
+                                            <td>
+                                                {{ date('d-m-Y', strtotime($undangan_gelar->tanggal_gelar)) }}
+                                                {{ $undangan_gelar->jam_gelar }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tempat Gelar</td>
+                                            <td>:</td>
+                                            <td>{{ $undangan_gelar->tempat_gelar }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penyidik</td>
+                                            <td>:</td>
+                                            <td>{{ $undangan_gelar->penyidik->name }}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -140,6 +182,7 @@
         </div>
     </div>
 @endif
+
 <div class="row mt-4">
     <div class="col-lg-12">
         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">

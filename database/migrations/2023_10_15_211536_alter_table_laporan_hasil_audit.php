@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dihentikans', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('data_pelanggar_id');
-            $table->text('note')->nullable();
-            $table->timestamps();
+        Schema::table('laporan_hasil_audits', function (Blueprint $table) {
+            $table->text('catatan')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dihentikans');
+        Schema::table('laporan_hasil_audits', function (Blueprint $table) {
+            //
+        });
     }
 };

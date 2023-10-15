@@ -463,7 +463,6 @@
         });
 
         var tim = $('#tim').val();
-        console.log('isi', tim)
         if (tim != "" && tim != null) {
             $('#tim').trigger('change');
         }
@@ -471,9 +470,9 @@
 
     function check_hasil_audit() {
         var value = $('#hasil_audit').val()
-        if (value == 'Tidak Ditemukan') {
+        if (value != '') {
             $('.catatan_ditolak').removeClass('d-none')
-        }
+        } else $('.catatan_ditolak').addClass('d-none')
     }
 
     function tambahSaksi() {

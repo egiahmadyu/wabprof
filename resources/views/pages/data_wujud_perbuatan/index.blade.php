@@ -13,7 +13,8 @@
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Data Wujud Perbuatan</h4>
                     <div class="float-right">
-                        <a href="{{ route('wujud-perbuatan.input') }}" class="btn btn-primary"><span class="fa fa-plus"></span> Tambah Wujud Perbuatan</a>
+                        <a href="{{ route('wujud-perbuatan.input') }}" class="btn btn-primary"><span
+                                class="fa fa-plus"></span> Tambah Wujud Perbuatan</a>
                     </div>
                 </div><!-- end card header -->
 
@@ -37,15 +38,15 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script>
         $(document).ready(function() {
             getData()
         });
 
-        function hapus(id){
+        function hapus(id) {
             $.confirm({
                 title: 'Perhatian!',
                 content: 'Apa kamu yakin akan menghapus data ini?',
@@ -54,16 +55,16 @@
                 buttons: {
                     yes: {
                         keys: ['y'],
-                        action: function () {
-                            var url = "{{route('wujud-perbuatan.hapus', ':id')}}";
+                        action: function() {
+                            var url = "{{ route('wujud-perbuatan.hapus', ':id') }}";
                             url = url.replace(':id', id);
                             var table = $('#data-data').DataTable();
                             var $button = $(this);
                             $.ajax({
                                 type: "GET",
                                 url: url,
-                                success: function (response) {
-                                    table.row( $button.parents('tr') ).remove().draw();
+                                success: function(response) {
+                                    table.row($button.parents('tr')).remove().draw();
                                     $.confirm({
                                         title: 'Perhatian!',
                                         content: 'Data anda berhasil di hapus!',
@@ -72,20 +73,18 @@
                                         buttons: {
                                             tryAgain: {
                                                 text: 'OK',
-                                                action: function(){
-                                                }
+                                                action: function() {}
                                             },
                                         }
                                     });
                                 },
-                                error: function (e) {
-                                }
+                                error: function(e) {}
                             });
                         }
                     },
                     no: {
                         keys: ['N'],
-                        action: function () {
+                        action: function() {
                             $(this).hide();
                         }
                     },
@@ -105,8 +104,7 @@
                         data._token = '{{ csrf_token() }}'
                     }
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'jenis_wp',
                         name: 'jenis_wp'
                     },

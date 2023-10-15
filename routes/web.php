@@ -139,6 +139,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/lembar-disposisi/{type}', [LimpahPoldaController::class, 'downloadDisposisi']);
     // Route::post('/surat-limpah-polda', [LimpahPoldaController::class, 'generateLimpahPolda']);
     Route::post('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
+    Route::get('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
     Route::post('/surat-undangan-wawancara', [AuditInvestigasiController::class, 'generateWawancara']);
     Route::get('/surat-undangan-wawancara/{id}', [AuditInvestigasiController::class, 'undanganWawancara']);
     Route::post('/laporan-hasil-audit', [AuditInvestigasiController::class, 'generateLaporanHasilAudit']);

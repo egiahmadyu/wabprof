@@ -374,7 +374,6 @@ class KasusController extends Controller
         $jenis_kelamin = JenisKelamin::get();
         $pangkat = Pangkat::get();
         $wujud_perbuatan = WujudPerbuatan::where('jenis_wp', 'kode etik')->get();
-
         $data = [
             'kasus' => $kasus,
             'status' => $status,

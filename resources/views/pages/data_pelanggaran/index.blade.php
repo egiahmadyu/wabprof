@@ -52,7 +52,9 @@
                         <div class="icon">
                             <i class="fa fa-gavel f-left" aria-hidden="true"></i>
                         </div>
-                        <a href="#" class="card-box-footer"><h6>Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></h6></a>
+                        <a href="#" class="card-box-footer">
+                            <h6>Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i></h6>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
@@ -64,7 +66,9 @@
                         <div class="icon">
                             <i class="fa fa-sync-alt fa-spin" aria-hidden="true"></i>
                         </div>
-                        <a href="#" class="card-box-footer"> <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6></a>
+                        <a href="#" class="card-box-footer">
+                            <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
@@ -76,7 +80,9 @@
                         <div class="icon">
                             <i class="fad fa-clipboard-check fa-swap-opacity"></i>
                         </div>
-                        <a href="#" class="card-box-footer"> <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6></a>
+                        <a href="#" class="card-box-footer">
+                            <h6> Lihat Selengkapnya <i class="fa fa-arrow-circle-right"></i> </h6>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -116,8 +122,8 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             getData()

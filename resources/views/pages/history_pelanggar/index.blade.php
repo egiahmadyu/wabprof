@@ -7,8 +7,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
         /*
-                                  reset the list elements first (normalize)
-                                */
+                                          reset the list elements first (normalize)
+                                        */
 
         ul,
         li {
@@ -26,9 +26,9 @@
         }
 
         /* START TIMELINE
-                                 the width of the list parent is optional
-                                if you set this width
-                                A hover sample effect is added as well as an active state*/
+                                         the width of the list parent is optional
+                                        if you set this width
+                                        A hover sample effect is added as well as an active state*/
 
         .base-timeline {
             list-style-type: none;
@@ -54,8 +54,8 @@
         }
 
         /* set width of time-line this can be px, percentage or other unit
-                                3 is the number of list items minus 1 when using percentage
-                                */
+                                        3 is the number of list items minus 1 when using percentage
+                                        */
         .base-timeline__item {
             position: relative;
             display: inline-block;
@@ -150,8 +150,8 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script>
         $(document).ready(function() {

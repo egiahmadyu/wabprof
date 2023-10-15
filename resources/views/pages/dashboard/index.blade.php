@@ -104,8 +104,8 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         $(document).ready(function() {
@@ -172,66 +172,66 @@
 
         function getData() {
             var table = $('#data-data').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    searching: true,
-                    ajax: {
-                        url: "{{ route('kasus.data') }}",
-                        method: "post",
-                        data: function(data) {
-                            data._token = '{{ csrf_token() }}'
-                            // data.polda = $('#polda').val(),
-                            // data.jenis_kelamin = $('#jenis_kelamin').val(),
-                            // data.jenis_pelanggaran = $('#jenis_pelanggaran').val(),
-                            // data.pangkat = $('#pangkat').val(),
-                            // data.wujud_perbuatan = $('#wujud_perbuatan').val()
-                        }
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ajax: {
+                    url: "{{ route('kasus.data') }}",
+                    method: "post",
+                    data: function(data) {
+                        data._token = '{{ csrf_token() }}'
+                        // data.polda = $('#polda').val(),
+                        // data.jenis_kelamin = $('#jenis_kelamin').val(),
+                        // data.jenis_pelanggaran = $('#jenis_pelanggaran').val(),
+                        // data.pangkat = $('#pangkat').val(),
+                        // data.wujud_perbuatan = $('#wujud_perbuatan').val()
+                    }
+                },
+                columns: [
+                    // {
+                    //     data: 'DT_RowIndex',
+                    //     name: 'DT_RowIndex',
+                    //     orderable: false,
+                    //     searchable: false
+                    // },
+                    {
+                        data: 'no_nota_dinas',
+                        name: 'no_nota_dinas'
                     },
-                    columns: [
-                        // {
-                        //     data: 'DT_RowIndex',
-                        //     name: 'DT_RowIndex',
-                        //     orderable: false,
-                        //     searchable: false
-                        // },
-                        {
-                            data: 'no_nota_dinas',
-                            name: 'no_nota_dinas'
-                        },
-                        {
-                            data: 'tanggal_kejadian',
-                            name: 'tanggal_kejadian'
-                        },
-                        {
-                            data: 'pelapor',
-                            name: 'pelapor'
-                        },
-                        {
-                            data: 'terlapor',
-                            name: 'terlapor'
-                        },
-                        {
-                            data: 'pangkats.name',
-                            name: 'pangkats.name'
-                        },
-                        {
-                            data: 'jabatan',
-                            name: 'jabatan'
-                        },
-                        {
-                            data: 'nama_korban',
-                            name: 'nama_korban'
-                        },
-                        {
-                            data: 'processes.name',
-                            name: 'processes.name'
-                        },
-                    ]
-                }
-                $('#kt_search').on('click', function(e) {
-                    e.preventDefault();
-                    table.table().draw();
-                });
-            }
+                    {
+                        data: 'tanggal_kejadian',
+                        name: 'tanggal_kejadian'
+                    },
+                    {
+                        data: 'pelapor',
+                        name: 'pelapor'
+                    },
+                    {
+                        data: 'terlapor',
+                        name: 'terlapor'
+                    },
+                    {
+                        data: 'pangkats.name',
+                        name: 'pangkats.name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'nama_korban',
+                        name: 'nama_korban'
+                    },
+                    {
+                        data: 'processes.name',
+                        name: 'processes.name'
+                    },
+                ]
+            })
+            $('#kt_search').on('click', function(e) {
+                e.preventDefault();
+                table.table().draw();
+            });
+        }
     </script>
 @endsection

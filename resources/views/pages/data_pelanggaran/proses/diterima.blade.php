@@ -349,7 +349,8 @@
                                             </button></a>
                                     @else
                                         <button data-bs-toggle="modal" data-bs-target="#modal_disposisi_sesro"
-                                            type="button" class="btn btn-outline-primary" style="width: 100%">
+                                            type="button" class="btn btn-outline-primary" style="width: 100%"
+                                            {{ !$disposisi_karo ? 'disabled' : '' }}>
                                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                         </button>
                                     @endif
@@ -388,7 +389,7 @@
                             </button>
                         </div>
                         <div class="col-6">
-                            @if ($disposisi_kabag && $disposisi_karo && $disposisi_sesro)
+                            @if ($disposisi_kabag && $disposisi_karo && $disposisi_sesro && $kasus->status_id == 1)
                                 <form action="/data-kasus/update" method="post">
                                     @csrf
                                     <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
@@ -397,12 +398,12 @@
                                         name="disposisi_tujuan" hidden>
                                     <button class="btn btn-success col-12" name="type_submit"
                                         {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
-                                        Lanjutkan Timeline Klasifikasi
+                                        Lanjutkan Klarifikasi
                                     </button>
                                 </form>
                             @else
                                 <button class="btn btn-success col-12 disabled">
-                                    Lanjutkan Timeline Klasifikasi
+                                    Lanjutkan Klarifikasi
                                 </button>
                             @endif
                             {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
@@ -417,90 +418,101 @@
     </form>
 </div>
 </div>
-
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-disposisi-kabag"
-                    data-bs-dismiss="modal" aria-label="Close"></button>
+@if ($disposisi_karo)
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
+                    <button type="button" class="btn-close btn-tutup" form="form-disposisi-kabag"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/lembar-disposisi-kabag" method="post" id="form-disposisi-kabag">
+                    <input type="text" class="form-control" value="{{ $kasus->id }}"
+                        aria-describedby="emailHelp" name="data_pelanggar_id" hidden>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
+                            <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
+                                name="no_agenda" placeholder="Nomor Agenda">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
+                            <?php
+                            if (isset($kasus->no_nota_dinas)) {
+                                $surat_dari = explode('/', $kasus->no_nota_dinas);
+                                $surat_dari = end($surat_dari);
+                            }
+                            ?>
+                            <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
+                                name="surat_dari" placeholder="Surat dari"
+                                value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
+                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
+                                value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
+                                readonly="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
+                                value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
+                            <select name="klasifikasi" id="klasifikasi" class="form-control">
+                                <option value="">Pilih Klasifikasi</option>
+                                <option value="Biasa"
+                                    {{ $disposisi_karo->klasifikasi == 'Biasa' ? 'selected' : '' }}>
+                                    Biasa</option>
+                                <option value="Sangat Rahasia"
+                                    {{ $disposisi_karo->klasifikasi == 'Sangat Rahasia' ? 'selected' : '' }}>Sangat
+                                    Rahasia
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Derajat</label>
+                            <select name="derajat" id="derajat" class="form-control">
+                                <option value="">Pilih Derajat</option>
+                                <option value="Biasa" {{ $disposisi_karo->derajat == 'Biasa' ? 'selected' : '' }}>
+                                    Biasa
+                                </option>
+                                <option value="Kilat" {{ $disposisi_karo->derajat == 'Kilat' ? 'selected' : '' }}>
+                                    Kilat
+                                </option>
+                                <option value="Rahasia" {{ $disposisi_karo->derajat == 'Rahasia' ? 'selected' : '' }}>
+                                    Rahasia</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Tim</label>
+                            <select name="tim" id="tim" class="form-control">
+                                <option value="">Pilih Tim</option>
+                                @for ($i = 0; $i < count($tims); $i++)
+                                    <option value="{{ $tims[$i] }}">{{ $tims[$i] }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                            <input type="text" class="form-control" id="perihal" name="perihal"
+                                value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-kabag"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                    </div>
+                </form>
             </div>
-            <form action="/lembar-disposisi-kabag" method="post" id="form-disposisi-kabag">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
-                        <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
-                            name="no_agenda" placeholder="Nomor Agenda">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <?php
-                        if (isset($kasus->no_nota_dinas)) {
-                            $surat_dari = explode('/', $kasus->no_nota_dinas);
-                            $surat_dari = end($surat_dari);
-                        }
-                        ?>
-                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari" placeholder="Surat dari"
-                            value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
-                            value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
-                            readonly="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
-                            value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
-                        <select name="klasifikasi" id="klasifikasi" class="form-control">
-                            <option value="">Pilih Klasifikasi</option>
-                            <option value="Biasa">Biasa</option>
-                            <option value="Sangat Rahasia">Sangat Rahasia</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Derajat</label>
-                        <select name="derajat" id="derajat" class="form-control">
-                            <option value="">Pilih Derajat</option>
-                            <option value="Biasa">Biasa</option>
-                            <option value="Kilat">Kilat</option>
-                            <option value="Rahasia">Rahasia</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tim</label>
-                        <select name="tim" id="tim" class="form-control">
-                            <option value="">Pilih Tim</option>
-                            @for ($i = 0; $i < count($tims); $i++)
-                                <option value="{{ $tims[$i] }}">{{ $tims[$i] }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal"
-                            value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-kabag"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+@endif
 
 <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_karo" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -576,81 +588,92 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_sesro"
-    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
-                <button type="button" class="btn-close btn-tutup" form="form-disposisi-sesro"
-                    data-bs-dismiss="modal" aria-label="Close"></button>
+@if ($disposisi_karo)
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal_disposisi_sesro"
+        tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Template Disposisi</h5>
+                    <button type="button" class="btn-close btn-tutup" form="form-disposisi-sesro"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/lembar-disposisi-sesro" method="post" id="form-disposisi-sesro">
+                    <input type="text" class="form-control" value="{{ $kasus->id }}"
+                        aria-describedby="emailHelp" name="data_pelanggar_id" hidden>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
+                            <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
+                                name="no_agenda" placeholder="Nomor Agenda">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
+                            <?php
+                            if (isset($kasus->no_nota_dinas)) {
+                                $surat_dari = explode('/', $kasus->no_nota_dinas);
+                                $surat_dari = end($surat_dari);
+                            }
+                            ?>
+                            <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
+                                name="surat_dari" placeholder="Surat dari"
+                                value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
+                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
+                                value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
+                                readonly="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
+                                value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
+                            <select name="klasifikasi" id="klasifikasi" class="form-control">
+                                <option value="">Pilih Klasifikasi</option>
+                                <option value="Biasa"
+                                    {{ $disposisi_karo->klasifikasi == 'Biasa' ? 'selected' : '' }}>
+                                    Biasa</option>
+                                <option value="Sangat Rahasia"
+                                    {{ $disposisi_karo->klasifikasi == 'Sangat Rahasia' ? 'selected' : '' }}>Sangat
+                                    Rahasia
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Derajat</label>
+                            <select name="derajat" id="derajat" class="form-control">
+                                <option value="">Pilih Derajat</option>
+                                <option value="Biasa" {{ $disposisi_karo->derajat == 'Biasa' ? 'selected' : '' }}>
+                                    Biasa
+                                </option>
+                                <option value="Kilat" {{ $disposisi_karo->derajat == 'Kilat' ? 'selected' : '' }}>
+                                    Kilat
+                                </option>
+                                <option value="Rahasia" {{ $disposisi_karo->derajat == 'Rahasia' ? 'selected' : '' }}>
+                                    Rahasia</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                            <input type="text" class="form-control" id="perihal" name="perihal"
+                                value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-sesro"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Generate</button>
+                    </div>
+                </form>
             </div>
-            <form action="/lembar-disposisi-sesro" method="post" id="form-disposisi-sesro">
-                <input type="text" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id" hidden>
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
-                        <input type="text" class="form-control" id="no_agenda" aria-describedby="emailHelp"
-                            name="no_agenda" placeholder="Nomor Agenda">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <?php
-                        if (isset($kasus->no_nota_dinas)) {
-                            $surat_dari = explode('/', $kasus->no_nota_dinas);
-                            $surat_dari = end($surat_dari);
-                        }
-                        ?>
-                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
-                            name="surat_dari" placeholder="Surat dari"
-                            value="{{ isset($surat_dari) ? $surat_dari : '' }}" readonly="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat"
-                            value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" placeholder="Nomor Surat"
-                            readonly="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal_surat"
-                            value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" readonly="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Klasifikasi</label>
-                        <select name="klasifikasi" id="klasifikasi" class="form-control">
-                            <option value="">Pilih Klasifikasi</option>
-                            <option value="Biasa">Biasa</option>
-                            <option value="Sangat Rahasia">Sangat Rahasia</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Derajat</label>
-                        <select name="derajat" id="derajat" class="form-control">
-                            <option value="">Pilih Derajat</option>
-                            <option value="Biasa">Biasa</option>
-                            <option value="Kilat">Kilat</option>
-                            <option value="Rahasia">Rahasia</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal"
-                            value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" readonly="">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary  btn-tutup" form="form-disposisi-sesro"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Generate</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+@endif
 
 <script>
     $(document).ready(function() {

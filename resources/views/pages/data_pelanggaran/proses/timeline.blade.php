@@ -114,7 +114,7 @@
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_klasifikasi" class="form-label">Tanggal Klarifikasi</label>
                     <input type="date" name="tanggal_klasifikasi" id="tanggal_klasifikasi"
-                        class="form-control border-dark"
+                        class="form-control border-dark" {{ $data_klarifikasi ? 'disabled' : '' }}
                         value="{{ $data_klarifikasi ? $data_klarifikasi->tanggal_klasifikasi : '' }}">
                 </div>
                 <div class="col-lg-6 mb-3">
@@ -134,7 +134,8 @@
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Penyidik</label>
-                    <select name="penyidik" id="penyidik" class="form-control">
+                    <select name="penyidik" id="penyidik" class="form-control" required
+                        {{ $data_klarifikasi ? 'disabled' : '' }}>
                         <option value="">Pilih Penyidik</option>
                         @if (isset($penyidiks) && !empty($penyidiks))
                             @foreach ($penyidiks as $penyidik)
@@ -147,7 +148,8 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Status</label>
-                    <select name="status" id="status_time" class="form-control">
+                    <select name="status" id="status_time" class="form-control"
+                        {{ $data_klarifikasi ? 'disabled' : '' }}>
                         <option value="">Pilih Status</option>
                         <option value="Diterima"
                             {{ $data_klarifikasi ? ($data_klarifikasi->status == 'Diterima' ? 'selected' : '') : '' }}>
@@ -157,6 +159,41 @@
                             Tidak Lanjut</option>
                     </select>
                 </div>
+                @if ($data_klarifikasi && $data_klarifikasi->status == 'Diterima')
+                    <div class="col-lg-12 mb-3 saran_pendapat">
+                        <label for="perihal_nota_dinas" class="form-label" disabled>Saran Pendapat Klasifikasi</label>
+                        <select name="saran_pendapat_klasifikasi" id="saran_pendapat_klasifikasi" disabled
+                            class="form-control">
+                            <option value="">Pilih Saran</option>
+                            <option value="5" {{ $data_klarifikasi->next_status == 5 ? 'selected' : '' }}>
+                                Diterima dengan Bukti Permulaan Cukup -> Riksa</option>
+                            <option value="3" {{ $data_klarifikasi->next_status == 3 ? 'selected' : '' }}>
+                                Diterima untuk dilakukan Audit Investigasi</option>
+                        </select>
+                    </div>
+                @endif
+                @if ($data_klarifikasi && $data_klarifikasi->status == 'Ditolak')
+                    <div class="saran_pendapat_ditolak">
+                        <div class="col-lg-12 mb-3">
+                            <label for="perihal_nota_dinas" class="form-label">Saran Pendapat Tidak Lanjut</label>
+                            <select name="saran_ditolak" id="saran_ditolak" class="form-control" disabled>
+                                <option value="">Pilih Saran</option>
+                                <option value="8" {{ $data_klarifikasi->next_status == 8 ? 'selected' : '' }}>
+                                    Disatukan Penanganannya Pada Polda/Polres</option>
+                                <option value="10" {{ $data_klarifikasi->next_status == 10 ? 'selected' : '' }}>
+                                    Tidak Perlu dilanjutkan dengan catatan</option>
+                                <option value="10">Ditolak</option>
+                            </select>
+                        </div>
+                        @if ($data_klarifikasi->next_status == 10)
+                            <div class="col-lg-12 mb-3 catatan_berhenti">
+                                <label for="kronologis" class="form-label">Catatan</label>
+                                <textarea name="catatan_berhenti" cols="30" id="catatan_berhenti" rows="5" disabled
+                                    class="form-control border-dark" placeholder="Catatan">{{ $data_klarifikasi->dihentikan->note }}</textarea>
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <div class="col-lg-12 mb-3 saran_pendapat d-none">
                     <label for="perihal_nota_dinas" class="form-label">Saran Pendapat Klasifikasi</label>
                     <select name="saran_pendapat_klasifikasi" id="saran_pendapat_klasifikasi" class="form-control">
@@ -190,25 +227,6 @@
                     Simpan Data & Update Status
                 </button>
             </div>
-            {{-- <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-12">
-                            <form action="/data-kasus/update" method="post">
-                                @csrf
-                                <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
-                                    name="kasus_id">
-                                <input type="text" class="form-control" value="3" hidden
-                                    name="disposisi_tujuan" hidden>
-                                <button class="btn btn-success btn-lanjut col-12" name="type_submit"
-                                    {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
-                                    Lanjutkan Audit Investigasi
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </form>
 </div>

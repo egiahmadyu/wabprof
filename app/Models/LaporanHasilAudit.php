@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class LaporanHasilAudit extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'data_pelanggar_id' ,'nomor_laporan', 'tanggal_laporan','hasil' ];
+    protected $fillable = ['data_pelanggar_id', 'nomor_laporan', 'tanggal_laporan', 'hasil', 'catatan'];
 }

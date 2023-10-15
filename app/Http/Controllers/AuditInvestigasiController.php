@@ -226,7 +226,8 @@ class AuditInvestigasiController extends Controller
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'nomor_laporan' => $request->nomor_laporan,
                 'tanggal_laporan' => $request->tanggal,
-                'hasil' => $request->hasil
+                'hasil' => $request->hasil,
+                'catatan' => $request->catatan_berhenti
             ]);
             if ($request->hasil == 'Tidak Ditemukan') {
                 Dihentikan::create([
@@ -244,7 +245,7 @@ class AuditInvestigasiController extends Controller
                 if ($request->type[$i] == "Sipil") {
                     Saksi::create([
                         'data_pelanggar_id' => $request->data_pelanggar_id,
-                        'nama' => $request->nama[$i],
+                        'nama' => $request->nama[$i + 1],
                     ]);
                 } else {
                     Saksi::create([
@@ -262,19 +263,21 @@ class AuditInvestigasiController extends Controller
         $laporan = LaporanHasilAudit::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
+        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
         $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
         $saksi = Saksi::where('data_pelanggar_id', $request->data_pelanggar_id)->get()->toArray();
-
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
         $date = date('Y-m-d');
-
+        $wawancara = Wawancara::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $array_bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $tanggal = date("n", strtotime($date));
         $bln = $array_bln[$tanggal];
 
         $template_document->setValues(array(
+            'hari_wawancara' => '',
+            'tanggal_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('d F Y'),
+            'jam_wawancara' => $wawancara->jam,
             'nomor_laporan' => $laporan->nomor_laporan,
             'no_sprin' => $sprin->no_sprin,
             'tempat_investigasi' => $sprin->tempat_investigasi,
@@ -297,49 +300,54 @@ class AuditInvestigasiController extends Controller
             'pangkat_ketua' => $ketua_penyidik->pangkat->name ?? '',
             'anggota_1' => $penyidik[0]['name'] ?? '',
             'nrp_1' => $penyidik[0]['nrp'] ?? '',
-            'pangkat_1' => $penyidik[0]['pangkat'][0]['name'] ?? '',
+            'pangkat_1' => $penyidik[0]['pangkat']['name'] ?? '',
             'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
             'anggota_2' => $penyidik[1]['name'] ?? '',
             'nrp_2' => $penyidik[1]['nrp'] ?? '',
-            'pangkat_2' => $penyidik[1]['pangkat'][0]['name'] ?? '',
+            'pangkat_2' => $penyidik[1]['pangkat']['name'] ?? '',
             'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
             'anggota_3' => $penyidik[2]['name'] ?? '',
             'nrp_3' => $penyidik[2]['nrp'] ?? '',
-            'pangkat_3' => $penyidik[2]['pangkat'][0]['name'] ?? '',
+            'pangkat_3' => $penyidik[2]['pangkat']['name'] ?? '',
             'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
             'anggota_4' => $penyidik[3]['name'] ?? '',
             'nrp_4' => $penyidik[3]['nrp'] ?? '',
-            'pangkat_4' => $penyidik[3]['pangkat'][0]['name'] ?? '',
+            'pangkat_4' => $penyidik[3]['pangkat']['name'] ?? '',
             'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
             'anggota_5' => $penyidik[4]['name'] ?? '',
-            'pangkat_5' => $penyidik[4]['pangkat'][0]['name'] ?? '',
+            'pangkat_5' => $penyidik[4]['pangkat']['name'] ?? '',
             'nrp_5' => $penyidik[4]['nrp'] ?? '',
             'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
             'pangkat_saksi_1' => $saksi[0]['pangkat'] ?? '',
             'nama_saksi_1' => $saksi[0]['nama'] ?? '',
-            'nrp_sasi_1' => $saksi[0]['nrp'] ?? '',
+            'nrp_saksi_1' => $saksi[0]['nrp'] ?? '',
             'jabatan_saksi_1' => $saksi[0]['jabatan'] ?? '',
             'kesatuan_saksi_1' => $saksi[0]['kesatuan'] ?? '',
             'pangkat_saksi_2' => $saksi[1]['pangkat'] ?? '',
             'nama_saksi_2' => $saksi[1]['nama'] ?? '',
-            'nrp_sasi_2' => $saksi[1]['nrp'] ?? '',
+            'nrp_saksi_2' => $saksi[1]['nrp'] ?? '',
             'jabatan_saksi_2' => $saksi[1]['jabatan'] ?? '',
             'kesatuan_saksi_2' => $saksi[1]['kesatuan'] ?? '',
             'pangkat_saksi_3' => $saksi[2]['pangkat'] ?? '',
             'nama_saksi_3' => $saksi[2]['nama'] ?? '',
-            'nrp_sasi_3' => $saksi[2]['nrp'] ?? '',
+            'nrp_saksi_3' => $saksi[2]['nrp'] ?? '',
             'jabatan_saksi_3' => $saksi[2]['jabatan'] ?? '',
             'kesatuan_saksi_3' => $saksi[2]['kesatuan'] ?? '',
             'pangkat_saksi_4' => $saksi[3]['pangkat'] ?? '',
             'nama_saksi_4' => $saksi[3]['nama'] ?? '',
-            'nrp_sasi_4' => $saksi[3]['nrp'] ?? '',
+            'nrp_saksi_4' => $saksi[3]['nrp'] ?? '',
             'jabatan_saksi_4' => $saksi[3]['jabatan'] ?? '',
             'kesatuan_saksi_4' => $saksi[3]['kesatuan'] ?? '',
             'pangkat_saksi_5' => $saksi[4]['pangkat'] ?? '',
             'nama_saksi_5' => $saksi[4]['nama'] ?? '',
-            'nrp_sasi_5' => $saksi[4]['nrp'] ?? '',
+            'nrp_saksi_5' => $saksi[4]['nrp'] ?? '',
             'jabatan_saksi_5' => $saksi[4]['jabatan'] ?? '',
             'kesatuan_saksi_5' => $saksi[4]['kesatuan'] ?? '',
+            'nama_saksi_6' => $saksi[5]['nama'] ?? '',
+            'nrp_saksi_6' => $saksi[5]['nrp'] ?? '',
+            'jabatan_saksi_6' => $saksi[5]['jabatan'] ?? '',
+            'kesatuan_saksi_6' => $saksi[5]['kesatuan'] ?? '',
+            'pangkat_saksi_6' => $saksi[5]['pangkat'] ?? '',
 
         ));
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-laporan-hasil-audit.docx'));
@@ -477,20 +485,24 @@ class AuditInvestigasiController extends Controller
     {
         $laporan = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
+        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')
+            ->with('pangkat')
+            ->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->first();
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $saksi = Saksi::where('data_pelanggar_id', $kasus_id)->get()->toArray();
-
+        $wawancara = Wawancara::where('data_pelanggar_id', $kasus->id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
         $date = date('Y-m-d');
 
         $array_bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $tanggal = date("n", strtotime($date));
         $bln = $array_bln[$tanggal];
-
         $template_document->setValues(array(
+            'hari_wawancara' => '',
+            'tanggal_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('d F Y'),
+            'jam_wawancara' => $wawancara->jam,
             'nomor_laporan' => $laporan->nomor_laporan,
             'no_sprin' => $sprin->no_sprin,
             'tempat_investigasi' => $sprin->tempat_investigasi,
@@ -506,50 +518,60 @@ class AuditInvestigasiController extends Controller
             'tanggal_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('d F Y'),
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'perihal' => $kasus->perihal_nota_dinas,
-            'ketua' => $ketua_penyidik->name ?? '',
-            'nrp_ketua' => $ketua_penyidik->nrp ?? '',
-            'jabatan_ketua' => $ketua_penyidik->jabatan ?? '',
-            'pangkat_ketua' => $ketua_penyidik->pangkat ?? '',
-            'anggota_1' => $penyidik[0]['name'] ?? '',
-            'nrp_1' => $penyidik[0]['nrp'] ?? '',
-            'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
-            'anggota_2' => $penyidik[1]['name'] ?? '',
-            'nrp_2' => $penyidik[1]['nrp'] ?? '',
-            'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
-            'anggota_3' => $penyidik[2]['name'] ?? '',
-            'nrp_3' => $penyidik[2]['nrp'] ?? '',
-            'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
-            'anggota_4' => $penyidik[3]['name'] ?? '',
-            'nrp_4' => $penyidik[3]['nrp'] ?? '',
-            'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
-            'anggota_5' => $penyidik[4]['name'] ?? '',
-            'nrp_5' => $penyidik[4]['nrp'] ?? '',
-            'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
-            'pangkat_saksi_1' => $saksi[0]['pangkat'] ?? '',
-            'nama_saksi_1' => $saksi[0]['nama'] ?? '',
-            'nrp_sasi_1' => $saksi[0]['nrp'] ?? '',
-            'jabatan_saksi_1' => $saksi[0]['jabatan'] ?? '',
-            'kesatuan_saksi_1' => $saksi[0]['kesatuan'] ?? '',
-            'pangkat_saksi_2' => $saksi[1]['pangkat'] ?? '',
-            'nama_saksi_2' => $saksi[1]['nama'] ?? '',
-            'nrp_sasi_2' => $saksi[1]['nrp'] ?? '',
-            'jabatan_saksi_2' => $saksi[1]['jabatan'] ?? '',
-            'kesatuan_saksi_2' => $saksi[1]['kesatuan'] ?? '',
-            'pangkat_saksi_3' => $saksi[2]['pangkat'] ?? '',
-            'nama_saksi_3' => $saksi[2]['nama'] ?? '',
-            'nrp_sasi_3' => $saksi[2]['nrp'] ?? '',
-            'jabatan_saksi_3' => $saksi[2]['jabatan'] ?? '',
-            'kesatuan_saksi_3' => $saksi[2]['kesatuan'] ?? '',
-            'pangkat_saksi_4' => $saksi[3]['pangkat'] ?? '',
-            'nama_saksi_4' => $saksi[3]['nama'] ?? '',
-            'nrp_sasi_4' => $saksi[3]['nrp'] ?? '',
-            'jabatan_saksi_4' => $saksi[3]['jabatan'] ?? '',
-            'kesatuan_saksi_4' => $saksi[3]['kesatuan'] ?? '',
-            'pangkat_saksi_5' => $saksi[4]['pangkat'] ?? '',
-            'nama_saksi_5' => $saksi[4]['nama'] ?? '',
-            'nrp_sasi_5' => $saksi[4]['nrp'] ?? '',
-            'jabatan_saksi_5' => $saksi[4]['jabatan'] ?? '',
-            'kesatuan_saksi_5' => $saksi[4]['kesatuan'] ?? '',
+            'ketua' => $ketua_penyidik->name ?? ' ',
+            'nrp_ketua' => $ketua_penyidik->nrp ?? ' ',
+            'jabatan_ketua' => $ketua_penyidik->jabatan ?? ' ',
+            'pangkat_ketua' => $ketua_penyidik->pangkat->name ?? ' ',
+            'anggota_1' => $penyidik[0]['name'] ?? ' ',
+            'nrp_1' => $penyidik[0]['nrp'] ?? ' ',
+            'jabatan_1' => $penyidik[0]['jabatan'] ?? ' ',
+            'anggota_2' => $penyidik[1]['name'] ?? ' ',
+            'nrp_2' => $penyidik[1]['nrp'] ?? ' ',
+            'jabatan_2' => $penyidik[1]['jabatan'] ?? ' ',
+            'anggota_3' => $penyidik[2]['name'] ?? ' ',
+            'nrp_3' => $penyidik[2]['nrp'] ?? ' ',
+            'jabatan_3' => $penyidik[2]['jabatan'] ?? ' ',
+            'anggota_4' => $penyidik[3]['name'] ?? ' ',
+            'nrp_4' => $penyidik[3]['nrp'] ?? ' ',
+            'jabatan_4' => $penyidik[3]['jabatan'] ?? ' ',
+            'anggota_5' => $penyidik[4]['name'] ?? ' ',
+            'nrp_5' => $penyidik[4]['nrp'] ?? ' ',
+            'jabatan_5' => $penyidik[4]['jabatan'] ?? ' ',
+            'pangkat_saksi_1' => $saksi[0]['pangkat'] ?? ' ',
+            'nama_saksi_1' => $saksi[0]['nama'] ?? ' ',
+            'nrp_saksi_1' => $saksi[0]['nrp'] ?? ' ',
+            'jabatan_saksi_1' => $saksi[0]['jabatan'] ?? ' ',
+            'kesatuan_saksi_1' => $saksi[0]['kesatuan'] ?? ' ',
+            'pangkat_saksi_2' => $saksi[1]['pangkat'] ?? ' ',
+            'nama_saksi_2' => $saksi[1]['nama'] ?? ' ',
+            'nrp_saksi_2' => $saksi[1]['nrp'] ?? ' ',
+            'jabatan_saksi_2' => $saksi[1]['jabatan'] ?? ' ',
+            'kesatuan_saksi_2' => $saksi[1]['kesatuan'] ?? ' ',
+            'pangkat_saksi_3' => $saksi[2]['pangkat'] ?? ' ',
+            'nama_saksi_3' => $saksi[2]['nama'] ?? ' ',
+            'nrp_saksi_3' => $saksi[2]['nrp'] ?? ' ',
+            'jabatan_saksi_3' => $saksi[2]['jabatan'] ?? ' ',
+            'kesatuan_saksi_3' => $saksi[2]['kesatuan'] ?? ' ',
+            'pangkat_saksi_4' => $saksi[3]['pangkat'] ?? ' ',
+            'nama_saksi_4' => $saksi[3]['nama'] ?? ' ',
+            'nrp_saksi_4' => $saksi[3]['nrp'] ?? ' ',
+            'jabatan_saksi_4' => $saksi[3]['jabatan'] ?? ' ',
+            'kesatuan_saksi_4' => $saksi[3]['kesatuan'] ?? ' ',
+            'pangkat_saksi_5' => $saksi[4]['pangkat'] ?? ' ',
+            'nama_saksi_5' => $saksi[4]['nama'] ?? ' ',
+            'nrp_saksi_5' => $saksi[4]['nrp'] ?? ' ',
+            'jabatan_saksi_5' => $saksi[4]['jabatan'] ?? ' ',
+            'kesatuan_saksi_5' => $saksi[4]['kesatuan'] ?? ' ',
+            'pangkat_1' => $penyidik[0]['pangkat']['name'] ?? ' ',
+            'pangkat_2' => $penyidik[1]['pangkat']['name'] ?? ' ',
+            'pangkat_3' => $penyidik[2]['pangkat']['name'] ?? ' ',
+            'pangkat_4' => $penyidik[3]['pangkat']['name'] ?? ' ',
+            'pangkat_5' => $penyidik[4]['pangkat']['name'] ?? ' ',
+            'nama_saksi_6' => $saksi[5]['nama'] ?? '',
+            'nrp_saksi_6' => $saksi[5]['nrp'] ?? '',
+            'jabatan_saksi_6' => $saksi[5]['jabatan'] ?? '',
+            'kesatuan_saksi_6' => $saksi[5]['kesatuan'] ?? '',
+            'pangkat_saksi_6' => $saksi[5]['pangkat'] ?? '',
 
         ));
 
@@ -769,30 +791,30 @@ class AuditInvestigasiController extends Controller
             'alamat' => $kasus->alamat,
             'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
             'tanggal_ttd' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
-            'ketua' => $penyidik[0]['name'] ?? '',
-            'pangkat_ketua' => $penyidik[0]['pangkat'] ?? '',
-            'nrp_ketua' => $penyidik[0]['nrp'] ?? '',
-            'anggota_1' => $penyidik[1]['name'] ?? '',
-            'pangkat_1' => $penyidik[1]['pangkat'] ?? '',
-            'nrp_1' => $penyidik[1]['nrp'] ?? '',
-            'anggota_2' => $penyidik[2]['name'] ?? '',
-            'pangkat_2' => $penyidik[2]['pangkat'] ?? '',
-            'nrp_2' => $penyidik[2]['nrp'] ?? '',
-            'anggota_3' => $penyidik[3]['name'] ?? '',
-            'pangkat_3' => $penyidik[3]['pangkat'] ?? '',
-            'nrp_3' => $penyidik[3]['nrp'] ?? '',
-            'anggota_4' => $penyidik[4]['name'] ?? '',
-            'pangkat_4' => $penyidik[4]['pangkat'] ?? '',
-            'nrp_4' => $penyidik[4]['nrp'] ?? '',
-            'anggota_5' => $penyidik[5]['name'] ?? '',
-            'pangkat_5' => $penyidik[5]['pangkat'] ?? '',
-            'nrp_5' => $penyidik[5]['nrp'] ?? '',
-            'jabatan_1' => $penyidik[0]['jabatan'] ?? '',
-            'jabatan_2' => $penyidik[1]['jabatan'] ?? '',
-            'jabatan_3' => $penyidik[2]['jabatan'] ?? '',
-            'jabatan_4' => $penyidik[3]['jabatan'] ?? '',
-            'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
-            'jabatan_6' => $penyidik[5]['jabatan'] ?? ''
+            'ketua' => $penyidik[0]['name'] ?? ' ',
+            'pangkat_ketua' => $penyidik[0]['pangkat'] ?? ' ',
+            'nrp_ketua' => $penyidik[0]['nrp'] ?? ' ',
+            'anggota_1' => $penyidik[1]['name'] ?? ' ',
+            'pangkat_1' => $penyidik[1]['pangkat'] ?? ' ',
+            'nrp_1' => $penyidik[1]['nrp'] ?? ' ',
+            'anggota_2' => $penyidik[2]['name'] ?? ' ',
+            'pangkat_2' => $penyidik[2]['pangkat'] ?? ' ',
+            'nrp_2' => $penyidik[2]['nrp'] ?? ' ',
+            'anggota_3' => $penyidik[3]['name'] ?? ' ',
+            'pangkat_3' => $penyidik[3]['pangkat'] ?? ' ',
+            'nrp_3' => $penyidik[3]['nrp'] ?? ' ',
+            'anggota_4' => $penyidik[4]['name'] ?? ' ',
+            'pangkat_4' => $penyidik[4]['pangkat'] ?? ' ',
+            'nrp_4' => $penyidik[4]['nrp'] ?? ' ',
+            'anggota_5' => $penyidik[5]['name'] ?? ' ',
+            'pangkat_5' => $penyidik[5]['pangkat'] ?? ' ',
+            'nrp_5' => $penyidik[5]['nrp'] ?? ' ',
+            'jabatan_1' => $penyidik[0]['jabatan'] ?? ' ',
+            'jabatan_2' => $penyidik[1]['jabatan'] ?? ' ',
+            'jabatan_3' => $penyidik[2]['jabatan'] ?? ' ',
+            'jabatan_4' => $penyidik[3]['jabatan'] ?? ' ',
+            'jabatan_5' => $penyidik[4]['jabatan'] ?? ' ',
+            'jabatan_6' => $penyidik[5]['jabatan'] ?? ' '
         );
 
         return $data;
