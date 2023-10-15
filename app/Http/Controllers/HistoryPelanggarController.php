@@ -15,34 +15,61 @@ class HistoryPelanggarController extends Controller
 
     public function data(Request $request)
     {
-        $query = DataPelanggar::orderBy('id', 'desc')->with('processes', 'pangkats', 'history_pelanggars');
+        $query = DataPelanggar::with('processes', 'pangkats', 'history_pelanggars');
 
         return DataTables::of($query)
             ->addColumn('timeline', function ($data) {
                 $html = '<ul class="timeline">';
                 foreach ($data->history_pelanggars as $key => $value) {
                     $list = $key + 1;
-                    $html = $html . '<li class="base-timeline__item base-timeline__item--data"
-                    data-year="' . $list . '">
-                  <span class="base-timeline__summary-text">' . $value->processes->name . '</span>
-                </li>';
+                    $html = $html . ' <li>
+                    <div>
+                      <time datetime="2018-10-09">' . date('d-m-Y', strtotime($value->start_date)) . '</time>
+                      <p>' . $value->processes->name . '</p>
+                    </div>
+                  </li>';
                 }
                 $html = $html . '
                 </ul>';
-                //     $html = '<ul class="base-timeline">
-
-                //     <li class="base-timeline__item base-timeline__item--data base-timeline__item--active"         data-year="2019">
-                //       <span class="base-timeline__summary-text">two</span>
+                //     $html = '<ul class="timeline">
+                //     <li>
+                //       <div>
+                //         <time datetime="2018-10-09">October 9, 2018</time>
+                //         <p>description event #1</p>
+                //       </div>
                 //     </li>
-                //     <li class="base-timeline__item base-timeline__item--data"
-                //         data-year="2018">
-                //       <span class="base-timeline__summary-text">three</span>
+                //     <li>
+                //       <div>
+                //         <time datetime="2018-10-09">October 9, 2018</time>
+                //         <p>description event #2</p>
+                //       </div>
                 //     </li>
-                //     <li class="base-timeline__item base-timeline__item--data"
-                //         data-year="2017">
-                //       <span class="base-timeline__summary-text">four</span>
+                //     <li>
+                //       <div>
+                //         <time datetime="2018-10-09">October 9, 2018</time>
+                //         <p>description event #3</p>
+                //       </div>
                 //     </li>
-                //   </ul>';
+                //     <li>
+                //       <div>
+                //         <time datetime="2018-10-09">October 9, 2018</time>
+                //         <p>description event #4</p>
+                //       </div>
+                //     </li>
+                //     <li>
+                //       <div>
+                //         <time datetime="2018-10-09">October 9, 2018</time>
+                //         <p>description event #5</p>
+                //       </div>
+                //     </li>
+                //     <li>
+                //       <div>
+                //         <time datetime="2018-10-09">October 9, 2018</time>
+                //         <p>description event #6</p>
+                //       </div>
+                //     </li>
+                //   </ul>
+                //   ';
                 return $html;
             })
             ->rawColumns(['timeline'])

@@ -5,114 +5,98 @@
     <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
-        /*
-                                          reset the list elements first (normalize)
-                                        */
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
 
-        ul,
-        li {
+
+        .timeline {
+            --timeline-color: #9bc;
+            position: relative;
+            list-style: none;
+            display: inline-flex;
+            flex-wrap: nowrap;
             margin: 0;
             padding: 0;
 
+            /* set here the height of the timeline */
+            height: 240px;
         }
 
-        span::first-letter {
-            text-transform: capitalize;
+        /* middle line */
+        .timeline:before {
+            content: "";
+            position: absolute;
+            top: calc(50% - 1px);
+            width: 100%;
+            height: 2px;
+            background: var(--timeline-color);
         }
 
-        body {
-            font-family: 'Roboto Condensed', serif;
+        .timeline li {
+            margin: 0;
+            min-width: 200px;
+            align-self: flex-start;
         }
 
-        /* START TIMELINE
-                                         the width of the list parent is optional
-                                        if you set this width
-                                        A hover sample effect is added as well as an active state*/
+        .timeline li:not(:last-child) {
+            margin: 0 -50px 0 0;
+        }
 
-        .base-timeline {
-            list-style-type: none;
-            counter-reset: number;
-            /* number 2021*/
+        /*  event in even position are bottom-aligned */
+        .timeline li:nth-child(2n) {
+            align-self: flex-end;
+        }
+
+        .timeline div {
             position: relative;
-            display: block;
-            z-index: 2;
-            width: 100%;
-            /* change or remove*/
-
+            padding: 10px;
+            border: 1px var(--timeline-color) solid;
         }
 
-        .base-timeline::before {
-            content: '';
-            width: 100%;
-            border-top: 2px solid steelblue;
-            display: inline-block;
+        /* style for the dot over the timeline */
+        .timeline li:before {
+            content: "";
             position: absolute;
             top: 50%;
-            z-index: -1;
-
-        }
-
-        /* set width of time-line this can be px, percentage or other unit
-                                        3 is the number of list items minus 1 when using percentage
-                                        */
-        .base-timeline__item {
-            position: relative;
-            display: inline-block;
-            width: calc(100% / 3 - 15px);
-            /* change width */
-        }
-
-        .base-timeline__item::before {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            counter-increment: number;
-            /* number -1*/
-            content: counter(number) '';
+            margin-left: 100px;
+            transform: translate(-50%, -50%);
+            border: 1px #9bc solid;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            background-color: steelblue;
-            color: white;
-            font-weight: bold;
-            transition: all 0.6s ease-in-out;
-            box-sizing: border-box;
+            background: var(--timeline-color);
 
         }
 
-        /* modifier with use of the data-year attribute */
-        .base-timeline__item--data::before {
-            content: attr(data-year);
-            width: 25px;
-            height: 25px;
-        }
-
-        /* hover element */
-        .base-timeline__item:hover::before {
-            background-color: rgba(225, 114, 114, .9);
-            transform: scale(2);
-
-        }
-
-        .base-timeline__item--active::before {
-            background-color: rgba(225, 114, 114, .9);
-            border: 2px solid;
-            border-color: rgba(0, 0, 0, .3);
-
-
-        }
-
-        .base-timeline__item:last-child {
-            width: 0;
-        }
-
-        /* summary text is optional and can be anything */
-
-        .base-timeline__summary-text {
+        /* style for the event arrow */
+        .timeline div:before {
+            content: "";
             position: absolute;
-            margin-bottom: 1px;
-            /* left: 5px; */
+            left: 50%;
+            top: 100%;
+            width: 20px;
+            height: 20px;
+            transform: translate(-50%, -1px) rotateZ(45deg);
+            background: #fff;
+        }
+
+        /* position of the event arrow in odd position */
+        .timeline li:nth-child(2n - 1) div:before {
+            top: 100%;
+            margin-top: -8px;
+            border-right: 1px var(--timeline-color) solid;
+            border-bottom: 1px var(--timeline-color) solid;
+        }
+
+        /* position of the event arrow in even position */
+        .timeline li:nth-child(2n) div:before {
+            top: 0;
+            margin-top: -10px;
+            border-left: 1px var(--timeline-color) solid;
+            border-top: 1px var(--timeline-color) solid;
         }
     </style>
 @endprepend
