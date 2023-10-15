@@ -43,11 +43,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Process::create([
-            'name' => 'Disposisi'
+            'name' => 'Klarifikasi'
         ]);
 
         Process::create([
-            'name' => 'Audit Investigasi'
+            'name' => 'Gelar Audit Investigasi'
         ]);
 
         Process::create([
@@ -68,6 +68,14 @@ class DatabaseSeeder extends Seeder
 
         Process::create([
             'name' => 'Limpah Polda'
+        ]);
+
+        Process::create([
+            'name' => 'Penuntutan'
+        ]);
+
+        Process::create([
+            'name' => 'Dihentikan'
         ]);
 
         $this->call([
