@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Process::create([
-            'name' => 'Sidik'
+            'name' => 'Riksa'
         ]);
 
         Process::create([
