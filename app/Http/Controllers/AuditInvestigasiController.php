@@ -42,8 +42,8 @@ class AuditInvestigasiController extends Controller
             ]);
         }
 
-        $penyidik = Penyidik::where('tim', $request->tim)->where('fungsional', 'anggota')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $request->tim)->where('fungsional', 'ketua')->first();
+        $penyidik = Penyidik::where('tim', $data->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $data->tim)->where('fungsional', 'Akreditor Utama')->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->first();
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
@@ -365,8 +365,8 @@ class AuditInvestigasiController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->where('type', 2)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
 
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
+        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
 
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_wawancara.docx'));
 

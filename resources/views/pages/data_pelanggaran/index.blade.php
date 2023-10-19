@@ -1,46 +1,8 @@
 @extends('partials.master')
 
-@prepend('styles')
-    <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
-@endprepend
-
 @section('content')
     <div class="row">
         <div class="col-xl-12 col-md-12 col-lg-12">
-            <!-- card -->
-            {{-- <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Kasus</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
-                                    data-target="{{ count($kasuss) }}">0</span></h4>
-                            <div class="d-flex align-items-center gap-2">
-                                <h5 class="text-success fs-12 mb-0">
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +18.30 %
-                                </h5>
-                                <p class="text-muted mb-0">than last week</p>
-                            </div>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <span class="avatar-title bg-soft-success rounded fs-3">
-                                <i class="bx bx-dollar-circle text-success"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-                <div class="animation-effect-6 text-success opacity-25 fs-18">
-                    <i class="bi bi-currency-dollar"></i>
-                </div>
-                <div class="animation-effect-4 text-success opacity-25 fs-18">
-                    <i class="bi bi-currency-pound"></i>
-                </div>
-                <div class="animation-effect-3 text-success opacity-25 fs-18">
-                    <i class="bi bi-currency-euro"></i>
-                </div>
-            </div> --}}
-            <!-- end card -->
 
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
@@ -122,8 +84,9 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script>
         $(document).ready(function() {
             getData()

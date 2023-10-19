@@ -7,6 +7,8 @@ use App\Models\Disposisi;
 use App\Models\SprinHistory;
 use App\Models\Penyidik;
 use App\Models\Bap;
+use App\Models\LaporanHasilGelar;
+use App\Models\UndanganGelar;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -18,8 +20,7 @@ class SidikController extends Controller
     {
         $bap = Bap::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
 
-        if (!$bap)
-        {
+        if (!$bap) {
             $bap = Bap::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'tanggal_pemeriksaan' => $request->tanggal_pemeriksaan,
@@ -30,19 +31,25 @@ class SidikController extends Controller
         $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
         $bap = Bap::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
-        
+
+        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
+
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
         $date = date('Y-m-d');
 
-        $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
-        $tanggal = date("n",strtotime($sprin->tanggal_investigasi));
+        $array_bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $tanggal = date("n", strtotime($sprin->tanggal_investigasi));
         $bln = $array_bln[$tanggal];
-        
-        $template_document->setValues( array(
+
+        $template_document->setValues(array(
+            'terlapor' => $kasus->terlapor,
+            'nrp' => $kasus->nrp,
+            'alamat' => $kasus->alamat,
+            'jabatan' => $kasus->jabatan,
+            'kesatuan' => $kasus->kesatuan,
+            'pangkat' => $kasus->pangkat->name,
             'hari_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('l'),
             'tanggal_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('d F Y'),
             'jam_pemeriksaan' => $bap->jam_pemeriksaan ?? '',
@@ -77,9 +84,9 @@ class SidikController extends Controller
             'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
             'kesatuan_5' => $penyidik[0]['kesatuan'] ?? '',
         ));
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-bap.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-bap.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-bap.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-bap.docx'))->deleteFileAfterSend(true);
     }
 
     public function bap($kasus_id)
@@ -87,19 +94,19 @@ class SidikController extends Controller
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $bap = Bap::where('data_pelanggar_id', $kasus_id)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
-        
+
         $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
         $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
-        
+
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
         $date = date('Y-m-d');
 
-        $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
-        $tanggal = date("n",strtotime($sprin->tanggal_investigasi));
+        $array_bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+        $tanggal = date("n", strtotime($sprin->tanggal_investigasi));
         $bln = $array_bln[$tanggal];
-        
-        $template_document->setValues( array(
+
+        $template_document->setValues(array(
             'hari_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('l'),
             'tanggal_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('d F Y'),
             'jam_pemeriksaan' => $bap->jam_pemeriksaan ?? '',
@@ -134,9 +141,9 @@ class SidikController extends Controller
             'jabatan_5' => $penyidik[4]['jabatan'] ?? '',
             'kesatuan_5' => $penyidik[0]['kesatuan'] ?? '',
         ));
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-bap.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-bap.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-bap.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-bap.docx'))->deleteFileAfterSend(true);
     }
 
     // public function generateLap(Request $request)
@@ -155,10 +162,10 @@ class SidikController extends Controller
     //     $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
     //     $bap = Bap::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
     //     $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        
+
     //     $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
     //     $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
-        
+
     //     $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
     //     $date = date('Y-m-d');
@@ -166,7 +173,7 @@ class SidikController extends Controller
     //     $array_bln = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
     //     $tanggal = date("n",strtotime($sprin->tanggal_investigasi));
     //     $bln = $array_bln[$tanggal];
-        
+
     //     $template_document->setValues( array(
     //         'hari_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('l'),
     //         'tanggal_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('d F Y'),
@@ -211,23 +218,37 @@ class SidikController extends Controller
     {
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $value = AuditInvestigasiController::valueDoc($kasus_id, true, false, false, false, false, false, false, false, false);
+        $undangan_geler = UndanganGelar::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
+        $laporan_hasil_gelar = LaporanHasilGelar::where('data_pelanggar_id', $kasus->id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/lpa.docx'));
-        $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-lpa.docx'));
-
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-lpa.docx'))->deleteFileAfterSend(true);
-       
+        $tanggal = date('Y-m-d');
+        $template_document->setValues(array(
+            'penyidik' => $undangan_geler->penyidik->name,
+            'nrp_penyidik' => $undangan_geler->penyidik->nrp,
+            'pangkat_penyidik' => $undangan_geler->penyidik->pangkat->name,
+            'jabatan_penyidik' => $undangan_geler->penyidik->jabatan,
+            'nama_terlapor' => $kasus->terlapor,
+            'pangkat_terlapor' => $kasus->pangkat->terlapor,
+            'polda_terlapor' => $kasus->kesatuan,
+            'pasal' => $laporan_hasil_gelar->pasal_dilanggar,
+            'kronologi' => $kasus->kronologi,
+            'hari' => Carbon::parse($tanggal)->translatedFormat('l'),
+            'tanggal' => Carbon::parse($tanggal)->translatedFormat('d F Y')
+        ));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-lpa.docx'));
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-lpa.docx'))->deleteFileAfterSend(true);
     }
 
-    public function sprin($kasus_id){
+    public function sprin($kasus_id)
+    {
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $value = AuditInvestigasiController::valueDoc($kasus_id, true, false, false, false, false, false, false, false, false, false);
         $template_document = new TemplateProcessor(storage_path('template_surat/sprin.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-sprin.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-sprin.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-sprin.docx'))->deleteFileAfterSend(true);
-       
+
+
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-sprin.docx'))->deleteFileAfterSend(true);
     }
-    
 }

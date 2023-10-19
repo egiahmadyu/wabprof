@@ -11,7 +11,7 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/wabprof.ico') }}">
-
+    <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
     <!-- jsvectormap css -->
     <link href="{{ asset('assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -29,9 +29,11 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
 
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTable.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
     {{-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}"> --}}
@@ -262,13 +264,6 @@
                 <div class="spinner-border text-primary avatar-sm" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-            </div>
-        </div>
-
-        <div class="customizer-setting d-none d-md-block">
-            <div class="btn-info btn-rounded shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas"
-                data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
-                <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
             </div>
         </div>
 

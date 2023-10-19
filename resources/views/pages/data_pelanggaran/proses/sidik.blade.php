@@ -253,6 +253,38 @@
 </div>
 
 
+<div class="modal fade" id="modal_lpa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">LPA</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/bap" method="post" id="form-bap">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Pemeiksaan</label>
+                        <input type="date" class="form-control" name="tanggal_pemeriksaan"
+                            id="tanggal_pemeriksaan" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Jam Pemeriksaan</label>
+                        <input type="time" class="form-control" name="jam_pemeriksaan" id="jam_pemeriksaan"
+                            placeholder="Jam Pemeriksaan">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function getPolda() {
         let disposisi = $('#disposisi-tujuan').val()
