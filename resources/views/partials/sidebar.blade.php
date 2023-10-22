@@ -1,20 +1,12 @@
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
-        <a href="index.html" class="logo logo-dark">
+        <a href="/" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="/assets/images/logo/wabprof.png" alt="" height="30">
             </span>
             <span class="logo-lg">
                 <img src="/assets/images/logo/wabprof_normal.png" alt="" height="60">
-            </span>
-        </a>
-        <a href="index.html" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="/assets/images/logo/wabprof.png" alt="" height="30">
-            </span>
-            <span class="logo-lg">
-                <img src="/assets/images/logo/wabprof_dark.png" alt="" height="60">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -94,7 +86,9 @@
                         <i class="bi bi-box-arrow-right"></i> <span data-key="t-dashboard">Logout</span>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <img src="/maskot-polri.png" alt="" class="img-fluid">
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

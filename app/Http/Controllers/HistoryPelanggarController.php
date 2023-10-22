@@ -31,47 +31,12 @@ class HistoryPelanggarController extends Controller
                 }
                 $html = $html . '
                 </ul>';
-                //     $html = '<ul class="timeline">
-                //     <li>
-                //       <div>
-                //         <time datetime="2018-10-09">October 9, 2018</time>
-                //         <p>description event #1</p>
-                //       </div>
-                //     </li>
-                //     <li>
-                //       <div>
-                //         <time datetime="2018-10-09">October 9, 2018</time>
-                //         <p>description event #2</p>
-                //       </div>
-                //     </li>
-                //     <li>
-                //       <div>
-                //         <time datetime="2018-10-09">October 9, 2018</time>
-                //         <p>description event #3</p>
-                //       </div>
-                //     </li>
-                //     <li>
-                //       <div>
-                //         <time datetime="2018-10-09">October 9, 2018</time>
-                //         <p>description event #4</p>
-                //       </div>
-                //     </li>
-                //     <li>
-                //       <div>
-                //         <time datetime="2018-10-09">October 9, 2018</time>
-                //         <p>description event #5</p>
-                //       </div>
-                //     </li>
-                //     <li>
-                //       <div>
-                //         <time datetime="2018-10-09">October 9, 2018</time>
-                //         <p>description event #6</p>
-                //       </div>
-                //     </li>
-                //   </ul>
-                //   ';
                 return $html;
-            })
+            })->setRowAttr([
+                'style' => function ($data) {
+                    return $data->status_dihentikan == 1 ? 'background-color: red;color:white' : '';
+                }
+            ])
             ->rawColumns(['timeline'])
             ->make(true);
     }

@@ -25,11 +25,11 @@
                     <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 33.6%;">
                     </div>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Klarifikasi </p>
                 </div>

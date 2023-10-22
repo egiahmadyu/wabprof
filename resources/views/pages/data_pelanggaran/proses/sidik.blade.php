@@ -27,15 +27,15 @@
                     <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 63.6%;">
                     </div>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Klarifikasi </p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Gelar Audit Investigasi</p>
                 </div>
@@ -226,7 +226,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">BAP</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="/bap" method="post" id="form-bap">
                 @csrf
@@ -244,7 +245,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -258,7 +259,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">LPA</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-tutup" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="/bap" method="post" id="form-bap">
                 @csrf
@@ -276,7 +278,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary btn-tutup" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
                 </div>
             </form>
@@ -345,6 +347,26 @@
             }
         });
     });
+
+    $('.btn-tutup').on('click', function() {
+        var form = $(this).attr('form');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#viewProses').hide();
+        $('.loader-view').show();
+        $.ajax({
+            type: 'get',
+            url: `/data-kasus/view/${kasus_id}/${id}`,
+            success: function(data) {
+                $('#viewProses').html(data);
+                $('.loader-view').hide();
+                $('#viewProses').show();
+            }
+        });
+
+    });
+
+
 
     // function getNextData() {
     //     console.log($('#test_sprin').val())

@@ -133,6 +133,10 @@
             color: #338056;
         }
 
+        [data-layout-mode=dark] .f1-step p {
+            --color: #ecedf0;
+        }
+
         .f1 fieldset {
             display: none;
             text-align: left;
@@ -254,6 +258,11 @@
 
             <div class="page-content">
                 <div class="container-fluid">
+                    <div class="row justify-content-md-center mt-2">
+                        <div class="col-lg-5 mb-2">
+                            <img src="/Tagline-Propam.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
                     @yield('content')
                 </div>
             </div>

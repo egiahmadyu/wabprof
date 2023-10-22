@@ -968,6 +968,7 @@
         }
     })
 
+
     $('#tambah').on('click', function() {
         var counter = $(this).attr('counter');
         counter = parseInt(counter) + 1;
@@ -993,6 +994,25 @@
 
 
         $(this).attr('counter', counter);
+    });
+
+    $('.btn-tutup').on('click', function() {
+        var form = $(this).attr('form');
+        alert('ss')
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#viewProses').hide();
+        $('.loader-view').show();
+        $.ajax({
+            type: 'get',
+            url: `/data-kasus/view/${kasus_id}/${id}`,
+            success: function(data) {
+                $('#viewProses').html(data);
+                $('.loader-view').hide();
+                $('#viewProses').show();
+            }
+        });
+
     });
 
     $('#bukti_laporan_gelar_perkara').on('change', function() {
@@ -1085,8 +1105,4 @@
 
         $('#form_input_saksi').append(inHtml);
     }
-    $('.btn-tutup').on('click', function() {
-        var form = $(this).attr('form');
-
-    });
 </script>

@@ -10,7 +10,7 @@
             </div>
             <div>
                 @if ($kasus->status_id > 6)
-                    <button type="button" class="btn btn-primary" onclick="getViewProcess(7)">Selanjutnya <i
+                    <button type="button" class="btn btn-primary" onclick="getViewProcess(9)">Selanjutnya <i
                             class="far fa-arrow-right"></i></button>
                 @endif
             </div>
@@ -25,19 +25,19 @@
                     <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 70.6%;">
                     </div>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Klarifikasi </p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Gelar Audit Investigasi</p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Riksa</p>
                 </div>
@@ -86,6 +86,18 @@
                                     <td>:</td>
                                     <td>{{ $kasus->terlapor }}</td>
                                 </tr>
+                                @if ($penyerahan)
+                                    <tr>
+                                        <td>Nomor BP3KEPP</td>
+                                        <td>:</td>
+                                        <td>{{ $penyerahan->nomor }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tanggal BP3KEPP</td>
+                                        <td>:</td>
+                                        <td>{{ date('d-m-Y', strtotime($penyerahan->tanggal)) }}</td>
+                                    </tr>
+                                @endif
                             </table>
                         </div>
                         <div class="col-lg-6">
@@ -192,10 +204,10 @@
                     <form action="/data-kasus/update" method="post">
                         @csrf
                         <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                        <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan" hidden>
+                        <input type="text" class="form-control" value="9" hidden name="disposisi_tujuan" hidden>
                         <button class="btn btn-success" name="type_submit" value="update_status"
                             {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
-                            Lanjutkan ke proses Sidang KEPP
+                            Lanjutkan ke Proses Penuntutan
                         </button>
                     </form>
                 @else
@@ -365,12 +377,13 @@
                             <div class="col-md-6 mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Tanggal BP3KEPP</label>
                                 <input type="date" class="form-control" name="tanggal[]"
+                                    value="{{ $penyerahan ? date('Y-m-d', strtotime($penyerahan->tanggal)) : '' }}"
                                     aria-describedby="emailHelp">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Nomor BP3KEPP</label>
                                 <input type="text" class="form-control" name="nomor[]"
-                                    placeholder="Nomor BP3KEPP">
+                                    value="{{ $penyerahan ? $penyerahan->nomor : '' }}" placeholder="Nomor BP3KEPP">
                             </div>
                         </div>
                         <div class="row">
@@ -615,6 +628,22 @@
             }
         });
     });
+
+    $('.btn-tutup').on('click', function() {
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#viewProses').hide();
+        $('.loader-view').show();
+        $.ajax({
+            type: 'get',
+            url: `/data-kasus/view/${kasus_id}/${id}`,
+            success: function(data) {
+                $('#viewProses').html(data);
+                $('.loader-view').hide();
+                $('#viewProses').show();
+            }
+        });
+    })
     $('#tambah').on('click', function() {
         var counter = $(this).attr('counter');
         var counter = parseInt(counter) + 1;

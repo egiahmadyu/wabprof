@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Agama;
+use App\Models\Bap;
 use App\Models\DataPelanggar;
 use App\Models\Disposisi;
 use App\Models\GelarPerkaraHistory;
@@ -109,7 +110,11 @@ class KasusController extends Controller
             ->editColumn('no_nota_dinas', function ($query) {
                 // return $query->no_nota_dinas;
                 return '<a href="/data-kasus/detail/' . $query->id . '">' . $query->no_nota_dinas . '</a>';
-            })
+            })->setRowAttr([
+                'style' => function ($data) {
+                    return $data->status_dihentikan == 1 ? 'background-color: red;color:white' : '';
+                }
+            ])
             ->rawColumns(['no_nota_dinas'])
             ->make(true);
     }
@@ -200,9 +205,27 @@ class KasusController extends Controller
         elseif ($status_id == 6) return $this->viewPemberkasan($kasus_id);
         elseif ($status_id == 7) return $this->viewSidang($kasus_id);
         elseif ($status_id == 8) return $this->viewLimpah($kasus_id);
+        elseif ($status_id == 9) return $this->viewPenuntutan($kasus_id);
         // elseif ($status_id == 4) return $this->viewPulbaket($kasus_id);
         // elseif ($status_id == 5) return $this->viewGelarPenyelidikan($kasus_id);
         // elseif ($status_id == 6) return $this->viewLimpahBiro($kasus_id);
+    }
+
+    public function viewPenuntutan($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
+        $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'perbaikan' => $perbaikan,
+            'perbaikan_data' => $perbaikan_data,
+            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
+            'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+        ];
+        return view('pages.data_pelanggaran.proses.penuntutan', $data);
     }
 
     private function viewSidang($id)
@@ -280,6 +303,7 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+            'bap' => Bap::where('data_pelanggar_id', $id)->first()
         ];
         return view('pages.data_pelanggaran.proses.sidik', $data);
     }
