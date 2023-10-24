@@ -269,8 +269,6 @@
 
 
         <!-- Theme Settings -->
-        @include('partials.theme')
-
         @include('partials.javascript')
 
         @yield('scripts')
