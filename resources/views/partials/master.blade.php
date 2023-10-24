@@ -217,15 +217,6 @@
 </head>
 
 <body>
-    <script type="text/javascript" charset="utf-8">
-        let a;
-        let time;
-        setInterval(() => {
-            a = new Date();
-            time = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
-            document.getElementById('current-time').innerHTML = time;
-        }, 1000);
-    </script>
     <div id="layout-wrapper">
         <div class="top-tagbar">
             <div class="w-100">

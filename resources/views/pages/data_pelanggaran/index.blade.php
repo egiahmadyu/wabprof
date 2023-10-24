@@ -60,7 +60,7 @@
                 </div><!-- end card header -->
 
                 <div class="card-body">
-                    <div class="table-responsive table-card px-3">
+                    <div class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                         <table class="table mb-0" id="data-data">
                             <thead class="text-muted table-light">
                                 <tr>

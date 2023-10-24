@@ -212,8 +212,13 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="kesatuan" class="form-label">Kesatuan</label>
-                            <input type="text" name="kesatuan" id="kesatuan" class="form-control border-dark"
-                                placeholder="Kesatuan" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}">
+                            <select class="form-select border-dark" aria-label="Default select example" name="kesatuan"
+                                id="kesatuan">
+                                <option value="" selected>-- Kesatuan --</option>
+                                @foreach ($kesatuan as $key => $value)
+                                    <option value="POLDA {{ $value->name }}">POLDA {{ $value->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat</label>

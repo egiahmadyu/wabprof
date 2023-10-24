@@ -23,6 +23,7 @@ use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use App\Models\Pangkat;
+use App\Models\Polda;
 use App\Models\Timeline;
 use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
@@ -52,7 +53,8 @@ class KasusController extends Controller
             'jenis_identitas' => $jenis_identitas,
             'jenis_kelamin' => $jenis_kelamin,
             'pangkat' => $pangkat,
-            'wujud_perbuatan' => $wujud_perbuatan
+            'wujud_perbuatan' => $wujud_perbuatan,
+            'kesatuan' => Polda::all()
         ];
 
         return view('pages.data_pelanggaran.input_kasus.input', $data);

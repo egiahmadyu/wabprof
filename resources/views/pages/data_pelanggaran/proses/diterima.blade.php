@@ -859,10 +859,18 @@
     }
 
     $('.btn-tutup').on('click', function() {
-        var form = $(this).attr('form');
-        $('#no_agenda').val('');
-        $('#klasifikasi').val('');
-        $('#derajat').val('');
-        $('#tim').val('');
+        var kasus_id = $('#kasus_id').val();
+        var id = $('#status_id').val();
+        $('#viewProses').hide();
+        $('.loader-view').show();
+        $.ajax({
+            type: 'get',
+            url: `/data-kasus/view/${kasus_id}/${id}`,
+            success: function(data) {
+                $('#viewProses').html(data);
+                $('.loader-view').hide();
+                $('#viewProses').show();
+            }
+        });
     })
 </script>

@@ -16,6 +16,11 @@ class DataPelanggar extends Model
         'id_wujud_perbuatan', 'tempat_lahir', 'tanggal_lahir', 'no_hp', 'pendidikan_terakhir', 'alamat_tempat_tinggal', 'status_dihentikan'
     ];
 
+    public function total_dihentikan()
+    {
+        return 12000;
+    }
+
     public function history_pelanggars()
     {
         return $this->hasMany(HistoryPelanggar::class, 'pelanggar_id', 'id')->orderBy('created_at', 'asc');
@@ -34,6 +39,11 @@ class DataPelanggar extends Model
     public function religi()
     {
         return $this->hasOne(Agama::class, 'id', 'agama');
+    }
+
+    public function religi_terlapor()
+    {
+        return $this->hasOne(Agama::class, 'id', 'agama_terlapor');
     }
 
     public function identitas()
