@@ -70,7 +70,7 @@ class GelarInvestigasiController extends Controller
                 'tanggal_laporan_gelar' => $request->tanggal_laporan_gelar,
                 'bukti' => $request->bukti,
                 'nama_pimpinan_gelar' => $request->nama_pimpinan_gelar,
-                'pangkat_pimpinan_gelar' => $request->pangkat_pimpinan_gelar,
+                'pangkat_pimpinan_gelar' => $request->id_pangkat,
                 'jabatan_pimpinan_gelar' => $request->jabatan_pimpinan_gelar,
                 'kesatuan_pimpinan_gelar' => $request->kesatuan_pimpinan_gelar,
                 'id_penyidik_pemapar' => $request->id_penyidik_pemapar,

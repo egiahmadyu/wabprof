@@ -46,6 +46,7 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/datepicker/jquery.datepicker2.css') }}" />
     <style>
         .loader-view {
             margin-left: auto;
@@ -272,6 +273,7 @@
         @include('partials.javascript')
 
         @yield('scripts')
+        @stack('scripts')
 
     </div>
 

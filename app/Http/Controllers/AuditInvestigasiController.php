@@ -103,6 +103,14 @@ class AuditInvestigasiController extends Controller
     {
         $kasus = DataPelanggar::find($kasus_id);
         $value = $this->valueDoc($kasus_id);
+        $wawancara = Wawancara::where('data_pelanggar_id', $kasus_id)->first();
+        $value += array(
+            'nomor_surat' => $wawancara->nomor_surat,
+            'bulan_tahun_surat' => Carbon::parse(date('Y-m-d'))->translatedFormat('d F Y'),
+            'tangal_pelaksanaan' => Carbon::parse($wawancara->tanggal_pelaksana)->translatedFormat('d F Y'),
+            'bulan_surat' => Carbon::parse($wawancara->tanggal_pelaksana)->translatedFormat('dF'),
+            'tahun_surat' => Carbon::parse($wawancara->tanggal_pelaksana)->translatedFormat('Y'),
+        );
         $template_document = new TemplateProcessor(storage_path('template_surat/surat_penghadapan.docx'));
         $template_document->setValues($value);
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-surat-penghadapan.docx'));
@@ -122,6 +130,7 @@ class AuditInvestigasiController extends Controller
                 'alamat' => $request->alamat,
                 'id_penyidik' => $request->id_penyidik,
                 'nomor_handphone' => $request->nomor_handphone,
+                'nomor_surat' => $request->nomor_surat,
             ]);
         }
 
@@ -130,6 +139,7 @@ class AuditInvestigasiController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->where('type', 1)->first();
         $penyidik = Penyidik::where('id', $wawancara->id_penyidik)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
 
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
         $date = date('Y-m-d');
@@ -142,6 +152,8 @@ class AuditInvestigasiController extends Controller
         $bln_sprin = $array_bln[$tanggal_sprin];
 
         $template_document->setValues(array(
+            'nama_ketua' => $ketua_penyidik->name ?? '..',
+            'pangkat_ketua' => $ketua_penyidik ?  $ketua_penyidik->pangkat->name : '..',
             'nomor_surat' => $wawancara->nomor_surat,
             'surat_dari' => $disposisi->surat_dari,
             'no_nota_dinas' => $kasus->no_nota_dinas,
@@ -219,10 +231,12 @@ class AuditInvestigasiController extends Controller
         return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-surat-penghadapan.docx'))->deleteFileAfterSend(true);
     }
 
-    public function generateLaporanHasilAudit(Request $request)
+    public function generateLaporanHasilAudit(Request $request, $kasus_id = null)
     {
-        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+
+        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id ?? $request->data_pelanggar_id)->first();
         if (!$laporan) {
+            $kasus_id = $request->data_pelanggar_id;
             $laporan = LaporanHasilAudit::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'nomor_laporan' => $request->nomor_laporan,
@@ -261,16 +275,16 @@ class AuditInvestigasiController extends Controller
             }
         }
 
-        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $laporan = LaporanHasilAudit::where('data_pelanggar_id', $kasus_id)->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
         $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
         $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
-        $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
-        $saksi = Saksi::where('data_pelanggar_id', $request->data_pelanggar_id)->get()->toArray();
+        $kasus = DataPelanggar::where('id', $kasus_id)->first();
+        $saksi = Saksi::where('data_pelanggar_id', $kasus_id)->get()->toArray();
         $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_audit.docx'));
         $date = date('Y-m-d');
-        $wawancara = Wawancara::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $wawancara = Wawancara::where('data_pelanggar_id', $kasus_id)->first();
         $array_bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $tanggal = date("n", strtotime($date));
         $bln = $array_bln[$tanggal];
@@ -288,6 +302,8 @@ class AuditInvestigasiController extends Controller
             'pelapor' => $kasus->pelapor,
             'kesatuan' => $kasus->kesatuan,
             'jabatan' => $kasus->jabatan,
+            'kronologi' => $kasus->kronologi,
+            'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
             'nrp' => $kasus->nrp,
             'bulan_tahun_laporan' => Carbon::parse($laporan->tanggal_laporan)->translatedFormat('F Y'),
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
@@ -437,7 +453,7 @@ class AuditInvestigasiController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)->where('type', 1)->first();
         $penyidik = Penyidik::where('id', $wawancara->id_penyidik)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
-
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/undangan_wawancara.docx'));
         $date = date('Y-m-d');
 
@@ -449,6 +465,8 @@ class AuditInvestigasiController extends Controller
         $bln_sprin = $array_bln[$tanggal_sprin];
 
         $template_document->setValues(array(
+            'nama_ketua' => $ketua_penyidik->name ?? '..',
+            'pangkat_ketua' => $ketua_penyidik ?  $ketua_penyidik->pangkat->name : '..',
             'nomor_surat' => $wawancara->nomor_surat,
             'surat_dari' => $disposisi->surat_dari,
             'no_nota_dinas' => $kasus->no_nota_dinas,
@@ -668,9 +686,9 @@ class AuditInvestigasiController extends Controller
             $date = date('Y-m-d');
 
             if ($laporan_gelar_data->bukti == 0) {
-                $bukti = "Cukup Bukti";
+                $bukti = "Ditemukan Cukup Bukti";
             } else {
-                $bukti = "Tidak Cukup Bukti";
+                $bukti = "Tidak Ditemukan Cukup Bukti";
             }
 
             $data['nomor_gelar'] = $undangan_gelar_data->nomor_gelar;
@@ -678,7 +696,7 @@ class AuditInvestigasiController extends Controller
 
             $data['tanggal_laporan_gelar'] = Carbon::parse($laporan_gelar_data->tanggal_laporan_gelar)->translatedFormat('d F Y');
             $data['nama_pimpinan_gelar'] = $laporan_gelar_data->nama_pimpinan_gelar;
-            $data['pangkat_pimpinan_gelar'] = $laporan_gelar_data->pangkat_pimpinan_gelar;
+            $data['pangkat_pimpinan_gelar'] = $laporan_gelar_data->pangkat->name;
             $data['jabatan_pimpinan_gelar'] = $laporan_gelar_data->jabatan_pimpinan_gelar;
             $data['kesatuan_pimpinan_gelar'] = $laporan_gelar_data->kesatuan_pimpinan_gelar;
             $data['bulan_tahun_surat'] = Carbon::parse($date)->translatedFormat('F Y');
@@ -782,6 +800,7 @@ class AuditInvestigasiController extends Controller
             'pelapor' => $kasus->pelapor,
             'no_telp' => $kasus->no_telp,
             'terlapor' => $kasus->terlapor,
+            'kronologi' => $kasus->kronologi,
             'nrp' => $kasus->nrp,
             'pangkat' => $kasus->pangkat->name,
             'kesatuan' => $kasus->kesatuan,

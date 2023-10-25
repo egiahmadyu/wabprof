@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Wawancara extends Model
 {
     use HasFactory;
-    protected $fillable = ['data_pelanggar_id', 'tanggal', 'jam', 'ruangan', 'alamat', 'id_penyidik', 'nomor_handphone'];
+    protected $fillable = ['data_pelanggar_id', 'tanggal', 'jam', 'ruangan', 'alamat', 'id_penyidik', 'nomor_handphone', 'nomor_surat'];
 
     public function penyidiks()
     {

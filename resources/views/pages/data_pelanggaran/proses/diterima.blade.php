@@ -94,8 +94,9 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
-                    <input type="text" name="tanggal_nota_dinas" class="form-control border-dark"
-                        placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
+                    <input type="text" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
+                        class="form-control border-dark datepicker" data-select="datepicker"
+                        value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
                 </div>
             </div>
             <div class="row">
@@ -200,7 +201,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                            <input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                            <input type="text" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
                                 placeholder="Tanggal Lahir" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}">
                         </div>
@@ -844,6 +845,7 @@
             theme: 'bootstrap-5'
         });
         getPolda()
+
     });
 
     function getPolda() {
@@ -873,4 +875,8 @@
             }
         });
     })
+
+    $(function() {
+
+    });
 </script>

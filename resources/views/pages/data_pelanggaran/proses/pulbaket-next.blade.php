@@ -296,16 +296,19 @@
                         @endif
                     </td>
                 </tr>
-                <tr>
-                    <td>Nota Dinas Laporan Gelar Perkara</td>
-                    <td>
-                        <a href="/nota-dinas-laporan/{{ $kasus->id }}">
-                            <button type="button" class="btn btn-outline-primary text-primary">
-                                <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                            </button>
-                        </a>
-                    </td>
-                </tr>
+                @if ($kasus->status_dihentikan == 0)
+                    <tr>
+                        <td>Nota Dinas Laporan Gelar Perkara</td>
+                        <td>
+                            <a href="/nota-dinas-laporan/{{ $kasus->id }}">
+                                <button type="button" class="btn btn-outline-primary text-primary">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                @endif
+
             </tbody>
         </table>
     </div>
@@ -998,7 +1001,6 @@
 
     $('.btn-tutup').on('click', function() {
         var form = $(this).attr('form');
-        alert('ss')
         var kasus_id = $('#kasus_id').val();
         var id = $('#status_id').val();
         $('#viewProses').hide();

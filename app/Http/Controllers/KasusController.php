@@ -70,7 +70,7 @@ class KasusController extends Controller
             'no_pengaduan' => $no_pengaduan,
             'perihal_nota_dinas' => $request->perihal_nota_dinas,
             'id_wujud_perbuatan' => $request->id_wujud_perbuatan,
-            'tanggal_nota_dinas' => $request->tanggal_nota_dinas ? Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d') : '',
+            'tanggal_nota_dinas' => $request->tanggal_nota_dinas,
             'pelapor' => $request->pelapor,
             'umur' => $request->umur,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -91,12 +91,12 @@ class KasusController extends Controller
             'jabatan' => $request->jabatan,
             'kesatuan' => $request->kesatuan,
             'tempat_kejadian' => $request->tempat_kejadian,
-            'tanggal_kejadian' => $request->tanggal_kejadian ? Carbon::create($request->tanggal_kejadian)->format('Y-m-d') : '',
+            'tanggal_kejadian' => $request->tanggal_kejadian,
             'kronologi' => $request->kronologis,
             'alamat_tempat_tinggal' => $request->alamat_tempat_tinggal,
             'no_hp' => $request->no_hp,
-            'tempat_lahir' => $request->tempat_lahirs,
-            'tanggal_lahir' => $request->tanggal_lahirs,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
             'id_pangkat' => $request->id_pangkat,
             'nama_korban' => $request->nama_korban,
             'status_id' => 1
@@ -140,11 +140,6 @@ class KasusController extends Controller
             'pangkat' =>  $pangkat,
             'wujud_perbuatan' =>  $wujud_perbuatan,
         ];
-
-        // if ($kasus->status_id == 3)
-        // {
-
-        // }
 
         return view('pages.data_pelanggaran.detail', $data);
     }

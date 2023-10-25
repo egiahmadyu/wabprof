@@ -47,7 +47,7 @@
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
                     <input type="text" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
-                        class="form-control border-dark datepicker" placeholder="BB/HH/TTTT"
+                        class="form-control border-dark datepicker" data-select="datepicker"
                         value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
                 </div>
             </div>
@@ -155,7 +155,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                            <input type="text" name="tanggal_lahir" id="tanggal_lahir" placeholder="Tanggal Lahir"
+                            <input type="text" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
                                 class="form-control border-dark datepicker"
                                 value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}">
                         </div>
@@ -245,7 +245,7 @@
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_kejadian" class="form-label">Tanggal Kejadian</label>
                             <input type="text" id="tanggal_kejadian" name="tanggal_kejadian"
-                                class="form-control border-dark datepicker" placeholder="BB/HH/TTTT"
+                                class="form-control border-dark datepicker" data-select="datepicker"
                                 value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}">
                         </div>
                         <div class="col-lg-12 mb-3">
@@ -285,10 +285,7 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+@push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -455,20 +452,79 @@
                 }
             });
         });
-
         $(function() {
-            $(".datepicker").datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                format: 'yyyy-mm-dd',
-                language: 'id'
-            });
-            $("#datepicker2").datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                format: 'yyyy-mm-dd',
-                language: 'id'
-            });
+            $.datePicker.defaults = {
+
+                container: 'body',
+                mode: '<a href="https://www.jqueryscript.net/tags.php?/popup/">popup</a>', // or inline
+                select: 'single', // single or multiple
+                theme: 'theme-light', // theme-light or theme-dark
+                show: 'month', // decade, year or month
+                doubleSize: false,
+                restrictDates: false, // past, future or custom
+                strings: {
+                    months: [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'
+                    ],
+                    days: [
+                        'Sunday',
+                        'Monday',
+                        'Tuesday',
+                        'Wednesday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday'
+                    ]
+                },
+                views: {
+                    decade: {
+                        show: null,
+                        selected: [],
+                        disabled: [],
+                        forbidden: [],
+                        enabled: [],
+                        marked: []
+                    },
+                    year: {
+                        show: null,
+                        selected: [],
+                        disabled: [],
+                        forbidden: [],
+                        enabled: [],
+                        marked: []
+                    },
+                    month: {
+                        show: null,
+                        selected: [],
+                        disabled: [],
+                        forbidden: [],
+                        enabled: [],
+                        marked: [],
+                        firstDayOfWeek: 0
+                    }
+                },
+                templates: {
+                    widget: '<div class="jquery-datepicker">',
+                    header: '<div class="box-row row-header"><div class="header-title">{title}</div><div class="header-actions"><div class="header-action action-down"></div><div class="header-action action-up"></div></div></div>'
+                },
+                dateFormat: function(date) {
+                    return (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
+                },
+                dateParse: function(string) {
+                    return $.datePicker.api.date(string);
+                }
+            }
         });
     </script>
-@endsection
+@endpush

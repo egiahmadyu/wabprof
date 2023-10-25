@@ -106,27 +106,23 @@
     </div>
 @endsection
 
-@section('scripts')
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script> --}}
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/decoupled-document/ckeditor.js"></script> --}}
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/inline/ckeditor.js"></script> --}}
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script> --}}
-
-
-
-    {{-- <script src="{{ asset('ckeditor/build/ckeditor.js') }}"></script> --}}
+@push('scripts')
     <script>
         $(document).ready(function() {
+            let process_id = $('#process_id').val()
+            getViewProcess(process_id)
             $('#tambah').on('click', function() {
                 var counter = $(this).attr('counter');
                 var counter = parseInt(counter) + 1;
                 tambahTerlapor(counter);
                 $(this).attr('counter', counter);
             });
-
-            function tambahTerlapor(counter) {
-                let inHtml =
-                    `<div id="baris${counter}">
+        });
+    </script>
+    <script>
+        function tambahTerlapor(counter) {
+            let inHtml =
+                `<div id="baris${counter}">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="exampleInputPassword1" class="form-label">NRP Terlapor</label>
@@ -156,36 +152,16 @@
                     </div>
                     <hr>
                     </div>`;
-                $('#form_input_terlapor').append(inHtml);
+            $('#form_input_terlapor').append(inHtml);
 
-                $('.hapus').on('click', function() {
-                    var counter = $(this).attr('counter');
-                    console.log('hapussss', counter)
+            $('.hapus').on('click', function() {
+                var counter = $(this).attr('counter');
+                console.log('hapussss', counter)
 
-                    $('#baris' + counter).remove();
-                })
-            }
+                $('#baris' + counter).remove();
+            })
+        }
 
-            // ClassicEditor
-            //     .create(document.querySelector('#editor'))
-            //     .catch(error => {
-            //         console.error(error);
-            //     });
-            // var page_status = $('#page_status').val();
-            // if (page_status == 1){
-            //     console.log('refresh')
-            //     cek_status_update_refresh();
-            // }else{
-            //     console.log('not refresh')
-            //     cek_status_update();
-            // }
-
-            let process_id = $('#process_id').val()
-            getViewProcess(process_id)
-
-        });
-    </script>
-    <script>
         function getViewProcess(id) {
             let kasus_id = $('#data_pelanggar_id').val()
             let process_id = $('#process_id').val()
@@ -198,9 +174,80 @@
             $.ajax({
                 url: `/data-kasus/view/${kasus_id}/${id}`,
                 method: "get"
-            }).done(function(data) {
+            }).done(async function(data) {
                 $('.loader-view').css("display", "none");
-                $("#viewProses").html(data)
+                await $("#viewProses").html(data)
+                $.datePicker.defaults = {
+                    container: 'body',
+                    mode: '<a href="https://www.jqueryscript.net/tags.php?/popup/">popup</a>', // or inline
+                    select: 'single', // single or multiple
+                    theme: 'theme-light', // theme-light or theme-dark
+                    show: 'month', // decade, year or month
+                    doubleSize: false,
+                    restrictDates: false, // past, future or custom
+                    strings: {
+                        months: [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December'
+                        ],
+                        days: [
+                            'Sunday',
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday'
+                        ]
+                    },
+                    views: {
+                        decade: {
+                            show: null,
+                            selected: [],
+                            disabled: [],
+                            forbidden: [],
+                            enabled: [],
+                            marked: []
+                        },
+                        year: {
+                            show: null,
+                            selected: [],
+                            disabled: [],
+                            forbidden: [],
+                            enabled: [],
+                            marked: []
+                        },
+                        month: {
+                            show: null,
+                            selected: [],
+                            disabled: [],
+                            forbidden: [],
+                            enabled: [],
+                            marked: [],
+                            firstDayOfWeek: 0
+                        }
+                    },
+                    templates: {
+                        widget: '<div class="jquery-datepicker">',
+                        header: '<div class="box-row row-header"><div class="header-title">{title}</div><div class="header-actions"><div class="header-action action-down"></div><div class="header-action action-up"></div></div></div>'
+                    },
+                    dateFormat: function(date) {
+                        return (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
+                    },
+                    dateParse: function(string) {
+                        return $.datePicker.api.date(string);
+                    }
+                }
             });
         }
 
@@ -208,4 +255,4 @@
             console.log($('#editor').text())
         }
     </script>
-@endsection
+@endpush

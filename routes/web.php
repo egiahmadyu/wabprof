@@ -142,8 +142,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/surat-perintah/{id}', [AuditInvestigasiController::class, 'printSuratPerintah']);
     Route::post('/surat-undangan-wawancara', [AuditInvestigasiController::class, 'generateWawancara']);
     Route::get('/surat-undangan-wawancara/{id}', [AuditInvestigasiController::class, 'undanganWawancara']);
-    Route::post('/laporan-hasil-audit', [AuditInvestigasiController::class, 'generateLaporanHasilAudit']);
-    Route::get('/laporan-hasil-audit/{id}', [AuditInvestigasiController::class, 'laporanHasilAudit']);
+    Route::post('/laporan-hasil-audit/{id?}', [AuditInvestigasiController::class, 'generateLaporanHasilAudit']);
+    Route::get('/laporan-hasil-audit/{id}', [AuditInvestigasiController::class, 'generateLaporanHasilAudit']);
     Route::post('/gelar-perkara-undangan', [GelarInvestigasiController::class, 'generateUndanganGelar']);
     Route::get('/gelar-perkara-undangan/{id}', [GelarInvestigasiController::class, 'undanganGelar']);
     Route::post('/laporan-gelar-perkara', [GelarInvestigasiController::class, 'generateLaporanGelar']);
