@@ -111,7 +111,7 @@
                 </div><!-- end card header -->
 
                 <div class="card-body">
-                    <div class="table-responsive table-card px-3">
+                    <div class="table table-bordered dt-responsive nowrap table-striped align-middle">
                         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
                             <thead class="text-muted table-light">
                                 <tr>

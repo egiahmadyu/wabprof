@@ -19,6 +19,7 @@ class DashboardController extends Controller
         $data['pengaduan_diproses'] = $data['pelanggar']->where('status', '>', 1);
         $data['chart_pelanggaran'] = DataPelanggar::groupBy(DB::raw("DATE_TRUNC('month', created_at), TO_CHAR(created_at, 'Month')"))
             ->select(DB::raw("DATE_TRUNC('month', created_at) as bulan, count(id) as value, TO_CHAR(created_at, 'Month') as nama_bulan"))
+            ->orderBy(DB::raw("DATE_TRUNC('month', created_at)"), 'asc')
             ->get();
         $sprin = Penyidik::groupBy('tim')
             ->select('tim as name')

@@ -46,7 +46,8 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/datepicker/jquery.datepicker2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/date-picker.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/datepicker.css') }}">
     <style>
         .loader-view {
             margin-left: auto;

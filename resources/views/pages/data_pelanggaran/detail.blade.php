@@ -12,6 +12,11 @@
         .loader-view {
             margin-top: 75px;
         }
+
+        .date-picker-date-container.show {
+            display: block;
+            z-index: 10;
+        }
     </style>
 @endprepend
 

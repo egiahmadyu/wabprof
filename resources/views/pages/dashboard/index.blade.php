@@ -180,7 +180,7 @@
                     <div class="col-xl-4">
                         <div class="card">
                             <div class="card-header d-flex">
-                                <h5 class="card-title flex-grow-1 mb-0">Chart Tim Penyidik</h5>
+                                <h5 class="card-title flex-grow-1 mb-0">Chart Tim Akreditor</h5>
 
                             </div>
                             <div class="card-body px-0">

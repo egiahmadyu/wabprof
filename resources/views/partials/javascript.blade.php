@@ -27,7 +27,6 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-<script src="{{ asset('assets/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-<script src="{{ asset('assets/datepicker/jquery.datepicker2.js') }}"></script>
+<script src="{{ asset('assets/js/date-picker.js') }}"></script>
+<script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
-<script></script>

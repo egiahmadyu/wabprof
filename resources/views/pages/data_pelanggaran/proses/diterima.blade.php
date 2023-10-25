@@ -94,9 +94,9 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
-                    <input type="text" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
+                    <input type="date" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
                         class="form-control border-dark datepicker" data-select="datepicker"
-                        value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
+                        value="{{ $kasus->tanggal_nota_dinas }}">
                 </div>
             </div>
             <div class="row">
@@ -201,7 +201,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                            <input type="text" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
                                 placeholder="Tanggal Lahir" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}">
                         </div>
@@ -290,8 +290,8 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_kejadian" class="form-label">Tanggal Kejadian</label>
-                            <input type="text" name="tanggal_kejadian" class="form-control border-dark"
-                                value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}">
+                            <input type="date" name="tanggal_kejadian" class="form-control border-dark"
+                                id="tanggal_kejadian" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}">
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="nama_korban" class="form-label">Nama Korban</label>
@@ -678,6 +678,26 @@
 
 <script>
     $(document).ready(function() {
+
+        $("#tanggal_nota_dinas").pDatePicker({
+            lang: "id",
+            selected: new Date(<?= date('Y', strtotime($kasus->tanggal_nota_dinas)) ?>,
+                <?= date('m', strtotime($kasus->tanggal_nota_dinas)) ?> - 1,
+                <?= date('d', strtotime($kasus->tanggal_nota_dinas)) ?>)
+        });
+
+        $("#tanggal_lahir").pDatePicker({
+            lang: "id",
+            selected: new Date(<?= date('Y', strtotime($kasus->tanggal_lahir)) ?>,
+                <?= date('m', strtotime($kasus->tanggal_lahir)) ?> - 1,
+                <?= date('d', strtotime($kasus->tanggal_lahir)) ?>)
+        });
+        $("#tanggal_kejadian").pDatePicker({
+            lang: "id",
+            selected: new Date(<?= date('Y', strtotime($kasus->tanggal_kejadian)) ?>,
+                <?= date('m', strtotime($kasus->tanggal_kejadian)) ?> - 1,
+                <?= date('d', strtotime($kasus->tanggal_kejadian)) ?>)
+        });
         $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
@@ -875,8 +895,4 @@
             }
         });
     })
-
-    $(function() {
-
-    });
 </script>

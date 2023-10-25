@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
-                    <input type="text" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
+                    <input type="date" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
                         class="form-control border-dark datepicker" data-select="datepicker"
                         value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
                 </div>
@@ -155,7 +155,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                            <input type="text" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
                                 class="form-control border-dark datepicker"
                                 value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}">
                         </div>
@@ -244,7 +244,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_kejadian" class="form-label">Tanggal Kejadian</label>
-                            <input type="text" id="tanggal_kejadian" name="tanggal_kejadian"
+                            <input type="date" id="tanggal_kejadian" name="tanggal_kejadian"
                                 class="form-control border-dark datepicker" data-select="datepicker"
                                 value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}">
                         </div>
@@ -289,6 +289,16 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
+            $("#tanggal_nota_dinas").pDatePicker({
+                lang: "id"
+            });
+
+            $("#tanggal_lahir").pDatePicker({
+                lang: "id"
+            });
+            $("#tanggal_kejadian").pDatePicker({
+                lang: "id"
+            });
             //no identitas
             no_identitas.addEventListener('keyup', function(e) {
                 no_identitas.value = format_no_identitas(this.value, '');
@@ -309,6 +319,10 @@
                 rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                 return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
             };
+
+            $('select').select2({
+                theme: 'bootstrap-5'
+            });
 
             $('#input-pelanggar').validate({
                 rules: {
@@ -451,80 +465,6 @@
                     form.submit();
                 }
             });
-        });
-        $(function() {
-            $.datePicker.defaults = {
-
-                container: 'body',
-                mode: '<a href="https://www.jqueryscript.net/tags.php?/popup/">popup</a>', // or inline
-                select: 'single', // single or multiple
-                theme: 'theme-light', // theme-light or theme-dark
-                show: 'month', // decade, year or month
-                doubleSize: false,
-                restrictDates: false, // past, future or custom
-                strings: {
-                    months: [
-                        'January',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                        'July',
-                        'August',
-                        'September',
-                        'October',
-                        'November',
-                        'December'
-                    ],
-                    days: [
-                        'Sunday',
-                        'Monday',
-                        'Tuesday',
-                        'Wednesday',
-                        'Thursday',
-                        'Friday',
-                        'Saturday'
-                    ]
-                },
-                views: {
-                    decade: {
-                        show: null,
-                        selected: [],
-                        disabled: [],
-                        forbidden: [],
-                        enabled: [],
-                        marked: []
-                    },
-                    year: {
-                        show: null,
-                        selected: [],
-                        disabled: [],
-                        forbidden: [],
-                        enabled: [],
-                        marked: []
-                    },
-                    month: {
-                        show: null,
-                        selected: [],
-                        disabled: [],
-                        forbidden: [],
-                        enabled: [],
-                        marked: [],
-                        firstDayOfWeek: 0
-                    }
-                },
-                templates: {
-                    widget: '<div class="jquery-datepicker">',
-                    header: '<div class="box-row row-header"><div class="header-title">{title}</div><div class="header-actions"><div class="header-action action-down"></div><div class="header-action action-up"></div></div></div>'
-                },
-                dateFormat: function(date) {
-                    return (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
-                },
-                dateParse: function(string) {
-                    return $.datePicker.api.date(string);
-                }
-            }
         });
     </script>
 @endpush
