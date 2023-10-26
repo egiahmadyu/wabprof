@@ -8,6 +8,8 @@ use App\Models\SprinHistory;
 use App\Models\Penyidik;
 use App\Models\Bap;
 use App\Models\LaporanHasilGelar;
+use App\Models\Lpa;
+use App\Models\SprinRiksa;
 use App\Models\UndanganGelar;
 use Carbon\Carbon;
 use DateTime;
@@ -146,6 +148,18 @@ class SidikController extends Controller
         return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-bap.docx'))->deleteFileAfterSend(true);
     }
 
+    public function sprin_riksa(Request $request)
+    {
+        // dd($request->all());
+        SprinRiksa::create([
+            'data_pelanggar_id' => $request->data_pelanggar_id,
+            'nomor_surat' => $request->nomor_sprin_riksa,
+            'tanggal_surat' => $request->tanggal,
+        ]);
+
+        return redirect()->back();
+    }
+
     // public function generateLap(Request $request)
     // {
     //     $bap = Bap::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
@@ -214,15 +228,25 @@ class SidikController extends Controller
     //     return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-bap.docx'))->deleteFileAfterSend(true);
     // }
 
-    public function lpa($kasus_id)
+    public function lpa(Request $request, $kasus_id = null)
     {
+        $lpa = Lpa::where('data_pelanggar_id', $kasus_id ?? $request->data_pelanggar_id)->first();
+        if (!$lpa) {
+            $lpa = Lpa::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'nomor_surat' => $request->nomor_surat_lpa
+            ]);
+            $kasus_id = $request->data_pelanggar_id;
+        }
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
-        $value = AuditInvestigasiController::valueDoc($kasus_id, true, false, false, false, false, false, false, false, false);
+        // $value = AuditInvestigasiController::valueDoc($kasus_id, true, false, false, false, false, false, false, false, false);
         $undangan_geler = UndanganGelar::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
         $laporan_hasil_gelar = LaporanHasilGelar::where('data_pelanggar_id', $kasus->id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/lpa.docx'));
         $tanggal = date('Y-m-d');
         $template_document->setValues(array(
+            'terlapor' => $kasus->terlapor,
+            'pangkat' => $kasus->pangkats->name,
             'penyidik' => $undangan_geler->penyidik->name,
             'nrp_penyidik' => $undangan_geler->penyidik->nrp,
             'pangkat_penyidik' => $undangan_geler->penyidik->pangkat->name,
@@ -233,7 +257,10 @@ class SidikController extends Controller
             'pasal' => $laporan_hasil_gelar->pasal_dilanggar,
             'kronologi' => $kasus->kronologi,
             'hari' => Carbon::parse($tanggal)->translatedFormat('l'),
-            'tanggal' => Carbon::parse($tanggal)->translatedFormat('d F Y')
+            'tanggal' => Carbon::parse($tanggal)->translatedFormat('d F Y'),
+            'hari_kejadian' => Carbon::parse($kasus->tanggal_kejadian)->translatedFormat('l'),
+            'tanggal_kejadian' => Carbon::parse($kasus->tanggal_kejadian)->translatedFormat('d F Y'),
+            'nomor_lpa' => $lpa->nomor_surat
         ));
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-lpa.docx'));
         return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-lpa.docx'))->deleteFileAfterSend(true);

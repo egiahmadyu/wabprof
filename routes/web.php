@@ -176,6 +176,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bap', [SidikController::class, 'generateBap']);
     Route::get('/bap/{id}', [SidikController::class, 'bap']);
     Route::get('/lpa/{id}', [SidikController::class, 'lpa']);
+    Route::post('/lpa/{id?}', [SidikController::class, 'lpa']);
+    Route::post('/sprin_riksa', [SidikController::class, 'sprin_riksa']);
     Route::get('/sprin/{id}', [SidikController::class, 'sprin']);
 
 

@@ -203,7 +203,7 @@
                     <td>
                         @if (isset($surat_penghadapan))
                             <a href="/surat-penghadapan/{{ $kasus->id }}"
-                                class="btn btn-outline-primary text-primar btn-wawancara">
+                                class="btn btn-primary text-primar btn-wawancara">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>&nbsp;Dokumen</h6>
                                 </button>
                             @else
@@ -219,7 +219,7 @@
                     <td>
                         @if (isset($wawancara))
                             <a href="/surat-undangan-wawancara/{{ $kasus->id }}"
-                                class="btn btn-outline-primary text-primar btn-wawancara">
+                                class="btn btn-primary text-primar btn-wawancara">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>&nbsp;Dokumen</h6>
                                 </button>
                             @else
@@ -235,7 +235,7 @@
                     <td>
                         @if (isset($wawancara))
                             <a href="/surat-nota-wawancara/{{ $kasus->id }}" disabled
-                                class="btn btn-outline-primary text-primary btn-nota-wawancara">
+                                class="btn btn-primary text-primary btn-nota-wawancara">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                             </a>
                         @else
@@ -251,7 +251,7 @@
                     <td>
                         @if (isset($laporan))
                             <a href="/laporan-hasil-audit/{{ $kasus->id }}"
-                                class="btn btn-outline-primary text-primar btn-laporan">
+                                class="btn btn-primary text-primar btn-laporan">
                                 <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>&nbsp;Dokumen</h6>
                                 </button>
                             @else
@@ -267,7 +267,7 @@
                     <td>
                         @if (isset($undangan_gelar))
                             <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
+                                <button type="button" class="btn btn-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
                             </a>
@@ -284,7 +284,7 @@
                     <td>
                         @if (isset($laporan_gelar))
                             <a href="/laporan-gelar-perkara/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
+                                <button type="button" class="btn btn-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
                             </a>
@@ -301,7 +301,7 @@
                         <td>Nota Dinas Laporan Gelar Perkara</td>
                         <td>
                             <a href="/nota-dinas-laporan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
+                                <button type="button" class="btn btn-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                 </button>
                             </a>
@@ -1006,14 +1006,22 @@
         $('#viewProses').hide();
         $('.loader-view').show();
         $.ajax({
-            type: 'get',
-            url: `/data-kasus/view/${kasus_id}/${id}`,
-            success: function(data) {
-                $('#viewProses').html(data);
-                $('.loader-view').hide();
-                $('#viewProses').show();
-            }
+            url: `/pulbaket/view/next-data/` + $('#kasus_id').val(),
+            method: "get"
+        }).done(function(data) {
+            $('.loader-view').hide();
+            $("#viewNext").html(data)
+            $('#viewProses').show();
         });
+        // $.ajax({
+        //     type: 'get',
+        //     url: `/data-kasus/view/${kasus_id}/${id}`,
+        //     success: function(data) {
+        //         $('#viewProses').html(data);
+        //         $('.loader-view').hide();
+        //         $('#viewProses').show();
+        //     }
+        // });
 
     });
 

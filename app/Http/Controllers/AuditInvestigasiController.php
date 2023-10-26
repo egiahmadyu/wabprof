@@ -295,6 +295,7 @@ class AuditInvestigasiController extends Controller
             'jam_wawancara' => $wawancara->jam,
             'nomor_laporan' => $laporan->nomor_laporan,
             'no_sprin' => $sprin->no_sprin,
+            'saran' => $laporan->catatan,
             'tempat_investigasi' => $sprin->tempat_investigasi,
             'pangkat' => $kasus->pangkat->name,
             'hasil' => $laporan->hasil,
@@ -684,12 +685,7 @@ class AuditInvestigasiController extends Controller
             $undangan_gelar_data = UndanganGelar::where('data_pelanggar_id', $kasus_id)->first();
 
             $date = date('Y-m-d');
-
-            if ($laporan_gelar_data->bukti == 0) {
-                $bukti = "Ditemukan Cukup Bukti";
-            } else {
-                $bukti = "Tidak Ditemukan Cukup Bukti";
-            }
+            $bukti = $laporan_gelar_data->bukti;
 
             $data['nomor_gelar'] = $undangan_gelar_data->nomor_gelar;
             $data['tanggal_gelar'] = Carbon::parse($undangan_gelar_data->tanggal_gelar)->translatedFormat('d F Y');

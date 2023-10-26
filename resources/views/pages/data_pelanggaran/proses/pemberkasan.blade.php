@@ -219,7 +219,7 @@
         </div>
         <div class="col-lg-4">
             <button class="btn btn-success col-12 disabled">
-                SP4
+                Restorative Justice
             </button>
         </div>
         <div class="col-lg-4">

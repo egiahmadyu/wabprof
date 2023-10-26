@@ -66,17 +66,6 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <table>
-                                {{-- <tr>
-                                    <td> No. SPRIN </td>
-                                    <td>:</td>
-                                    <td>
-                                        @if (isset($sprin))
-                                            Sprin/{{ $sprin->no_sprin }}/HUK.6.6./2023
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr> --}}
                                 <tr>
                                     <td>Pelapor</td>
                                     <td>:</td>
@@ -86,6 +75,11 @@
                                     <td>Terlapor</td>
                                     <td>:</td>
                                     <td>{{ $kasus->terlapor }}</td>
+                                </tr>
+                                <tr>
+                                    <td>No LPA</td>
+                                    <td>:</td>
+                                    <td>{{ $lpa ? $lpa->nomor_surat : '-' }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -139,28 +133,51 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>LP A</td>
+                        <td>LPA</td>
                         <td>
-                            <a href="/lpa/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if ($lpa)
+                                <a href="/lpa/{{ $kasus->id }}">
+                                    <button type="button" class="btn btn-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                    </button>
+                                </a>
+                            @else
+                                <button type="button" class="btn btn-outline-primary text-primary"
+                                    data-bs-toggle="modal" data-bs-target="#modal_lpa">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Buat Dokumen</h6>
                                 </button>
-                            </a>
+                            @endif
                         </td>
 
                     </tr>
                     <tr>
                         <td>Surat Perintah Pemeriksaan</td>
                         <td>
-                            <a href="/sprin/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                            @if ($sprin_riksa)
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="inputPassword5" class="form-label">Nomor Sprin Riksa</label>
+                                        <input type="text" id="inputPassword5" class="form-control" readonly
+                                            value="{{ $sprin_riksa->nomor_surat }}">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="inputPassword5" class="form-label">Tanggal</label>
+                                        <input type="text" id="inputPassword5" class="form-control"
+                                            value="{{ Carbon\Carbon::parse($sprin_riksa->tanggal_surat)->translatedFormat('d F Y') }}"
+                                            aria-describedby="passwordHelpBlock" readonly>
+                                    </div>
+                                </div>
+                            @else
+                                <button type="button" class="btn btn-outline-primary text-primary"
+                                    data-bs-toggle="modal" data-bs-target="#modal_sprin_riksa">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Masukan Data Sprin</h6>
                                 </button>
-                            </a>
+                            @endif
+
                         </td>
 
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td>Undangan Pemerikasaan</td>
                         <td>
                             <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
@@ -169,7 +186,7 @@
                                 </button>
                             </a>
                         </td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td>Berita Acara Pemeriksaan</td>
                         <td>
@@ -262,24 +279,52 @@
                 <button type="button" class="btn-close btn-tutup" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
-            <form action="/bap" method="post" id="form-bap">
+            <form action="/lpa" method="post" id="form-bap">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Tanggal Pemeiksaan</label>
-                        <input type="date" class="form-control" name="tanggal_pemeriksaan"
-                            id="tanggal_pemeriksaan" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Jam Pemeriksaan</label>
-                        <input type="time" class="form-control" name="jam_pemeriksaan" id="jam_pemeriksaan"
-                            placeholder="Jam Pemeriksaan">
+                        <label for="exampleInputEmail1" class="form-label">Nomor LPA</label>
+                        <input type="text" class="form-control" name="nomor_surat_lpa" id="nomor_surat_lpa"
+                            aria-describedby="emailHelp">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-tutup" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_sprin_riksa" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sprin Riksa</h5>
+                <button type="button" class="btn-close btn-tutup" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form action="/sprin_riksa" method="post" id="form-bap">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Nomor Sprin Riksa</label>
+                        <input type="text" class="form-control" name="nomor_sprin_riksa" id="nomor_sprin_riksa"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tanggal Sprin Riksa</label>
+                        <input type="date" class="form-control" name="tanggal" id="tanggal_sprin_riksa"
+                            aria-describedby="emailHelp">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-tutup" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
@@ -365,20 +410,4 @@
         });
 
     });
-
-
-
-    // function getNextData() {
-    //     console.log($('#test_sprin').val())
-    //     if ($('#test_sprin').val() == 'done') {
-
-    //         $.ajax({
-    //             url: `/pulbaket/view/next-data/` + $('#kasus_id').val(),
-    //             method: "get"
-    //         }).done(function(data) {
-    //             $('.loader-view').css("display", "none");
-    //             $("#viewNext").html(data)
-    //         });
-    //     }
-    // }
 </script>

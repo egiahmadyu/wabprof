@@ -19,11 +19,13 @@ use App\Models\Penyerahan;
 use App\Models\Penyidik;
 use App\Models\Permohonan;
 use App\Models\Bp3kepps;
+use App\Models\Lpa;
 use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use App\Models\Pangkat;
 use App\Models\Polda;
+use App\Models\SprinRiksa;
 use App\Models\Timeline;
 use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
@@ -151,6 +153,7 @@ class KasusController extends Controller
         }
         $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
         $data_pelanggar->update([
+            'no_nota_dinas' => $request->no_nota_dinas,
             'pelapor' => $request->pelapor,
             'umur' => $request->umur,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -300,7 +303,9 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
-            'bap' => Bap::where('data_pelanggar_id', $id)->first()
+            'bap' => Bap::where('data_pelanggar_id', $id)->first(),
+            'lpa' => Lpa::where('data_pelanggar_id', $id)->first(),
+            'sprin_riksa' => SprinRiksa::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.sidik', $data);
     }
