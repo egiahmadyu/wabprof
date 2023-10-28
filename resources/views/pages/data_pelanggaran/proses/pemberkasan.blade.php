@@ -88,14 +88,9 @@
                                 </tr>
                                 @if ($penyerahan)
                                     <tr>
-                                        <td>Nomor BP3KEPP</td>
+                                        <td>Nomor LPA</td>
                                         <td>:</td>
                                         <td>{{ $penyerahan->nomor }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal BP3KEPP</td>
-                                        <td>:</td>
-                                        <td>{{ date('d-m-Y', strtotime($penyerahan->tanggal)) }}</td>
                                     </tr>
                                 @endif
                             </table>
@@ -131,6 +126,72 @@
             <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
                 Tambah Terlapor</button>
         </div>
+    </div>
+    <div class="row mb-2">
+        <form class="row g-3" novalidate id="form_pemberkasan" method="post" action="/pemberkasan/save">
+            @csrf
+            <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">No BP3KEPP</label>
+                <input type="tezt" class="form-control" name="no_bp3kepp" required
+                    value="{{ $pemberkasan ? $pemberkasan->no_bp3kepp : '' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal BP3KEPP</label>
+                <input type="date" class="form-control" name="tgl_bp3kepp" required>
+            </div>
+            <h4>Nota Dinas Administrasi</h4>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">No Nota Dinas Administrasi Sidang</label>
+                <input type="tezt" class="form-control" name="no_nota_dinas_administrasi" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Administrasi Sidang</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_administrasi" required>
+            </div>
+            <hr>
+            <h4>Rencana Jadwal Sidang</h4>
+            <div class="col-2">
+                <label for="inputAddress" class="form-label">Tanggal Sidang</label>
+                <input type="date" class="form-control" name="tgl_sidang" required>
+            </div>
+            <div class="col-2">
+                <label for="inputAddress" class="form-label">Jam Sidang</label>
+                <input type="time" class="form-control" name="jam_sidang" required>
+            </div>
+            <div class="col-4">
+                <label for="inputAddress2" class="form-label">Tempat Sidang</label>
+                <input type="text" class="form-control" name="tempat_sidang" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputCity" class="form-label">Pakaian Sidang</label>
+                <input type="text" class="form-control" name="pakaian_sidang" required>
+            </div>
+            <hr>
+            <h4>Nota Dinas Penyerahan Berkas</h4>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
+                <input type="text" class="form-control" name="no_nota_dinas_penyerahan" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan" required>
+            </div>
+            <hr>
+            <h4>Nota Dinas Perbaikan</h4>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
+                <input type="text" class="form-control" name="no_nota_dinas_perbaikan">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_perbaikan">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Simpan Data</button>
+            </div>
+        </form>
+
     </div>
 
     <!-- Isi Form -->
@@ -203,8 +264,10 @@
                 @if (isset($penyerahan) && isset($perbaikan))
                     <form action="/data-kasus/update" method="post">
                         @csrf
-                        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                        <input type="text" class="form-control" value="9" hidden name="disposisi_tujuan" hidden>
+                        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
+                            name="kasus_id">
+                        <input type="text" class="form-control" value="9" hidden name="disposisi_tujuan"
+                            hidden>
                         <button class="btn btn-success" name="type_submit" value="update_status"
                             {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
                             Lanjutkan ke Proses Penuntutan
@@ -437,6 +500,24 @@
         $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
+
+        // $("#form_pemberkasan").submit(function(e) {
+        //     alert('www')
+        //     var forms = $('#form_pemberkasan')
+        //     console.log(forms)
+        //     // Loop over them and prevent submission
+        //     Array.prototype.slice.call(forms)
+        //         .forEach(function(form) {
+        //             form.addEventListener('submit', function(event) {
+        //                 if (!form.checkValidity()) {
+        //                     event.preventDefault()
+        //                     event.stopPropagation()
+        //                 }
+
+        //                 form.classList.add('was-validated')
+        //             }, false)
+        //         })
+        // });
         $('#form-administrasi-sidang').validate({
             rules: {
                 tanggal: {
@@ -628,7 +709,26 @@
             }
         });
     });
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict'
 
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_pemberkasan')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
     $('.btn-tutup').on('click', function() {
         var kasus_id = $('#kasus_id').val();
         var id = $('#status_id').val();

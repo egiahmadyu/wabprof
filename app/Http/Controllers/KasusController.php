@@ -24,6 +24,7 @@ use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use App\Models\Pangkat;
+use App\Models\Pemberkasan;
 use App\Models\Polda;
 use App\Models\SprinRiksa;
 use App\Models\Timeline;
@@ -275,6 +276,7 @@ class KasusController extends Controller
         $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
         $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $id)->get();
         $permohonan = Permohonan::where('data_pelanggar_id', $id)->first();
+        $pemberkasan = Pemberkasan::where('data_pelanggar_id', $id)->first();
 
         // $process = Process::where('sort', '<=', $status->id)->get();
 
@@ -288,6 +290,7 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+            'pemberkasan' => $pemberkasan
         ];
         return view('pages.data_pelanggaran.proses.pemberkasan', $data);
     }

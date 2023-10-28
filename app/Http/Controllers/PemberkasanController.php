@@ -8,6 +8,7 @@ use App\Models\Penyerahan;
 use App\Models\Permohonan;
 use App\Models\Bp3kepps;
 use App\Http\Controllers\AuditInvestigasiController;
+use App\Models\Pemberkasan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -17,7 +18,7 @@ class PemberkasanController extends Controller
     public function generateAdmistrasiSidang(Request $request)
     {
         $sidang = Sidang::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        if(!$sidang){
+        if (!$sidang) {
             Sidang::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'tanggal' => $request->tanggal,
@@ -33,25 +34,26 @@ class PemberkasanController extends Controller
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/administrasi_sidang.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-administrasi-sidang.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-administrasi-sidang.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-administrasi-sidang.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-administrasi-sidang.docx'))->deleteFileAfterSend(true);
     }
 
-    public function AdmistrasiSidang($kasus_id){
+    public function AdmistrasiSidang($kasus_id)
+    {
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, true);
         $kasus = DataPelanggar::find($kasus_id);
         $template_document = new TemplateProcessor(storage_path('template_surat/administrasi_sidang.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-administrasi-sidang.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-administrasi-sidang.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-administrasi-sidang.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-administrasi-sidang.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateNotaDinasPenyerahan(Request $request)
     {
         $penyerahan = Penyerahan::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        if(!$penyerahan){
+        if (!$penyerahan) {
             Penyerahan::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'tanggal' => $request->tanggal,
@@ -64,26 +66,27 @@ class PemberkasanController extends Controller
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_penyerahan.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'))->deleteFileAfterSend(true);
     }
 
-    public function notaDinasPenyerahan($kasus_id){
+    public function notaDinasPenyerahan($kasus_id)
+    {
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_penyerahan.docx'));
         $template_document->setValues($value);
         $kasus = DataPelanggar::find($kasus_id);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'))->deleteFileAfterSend(true);
     }
 
     public function generateNotaDinasPerbaikan(Request $request)
     {
         $perbaikan = Bp3kepps::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        if(!$perbaikan){
-            for ($i=0; $i < count($request->tanggal); $i++) { 
+        if (!$perbaikan) {
+            for ($i = 0; $i < count($request->tanggal); $i++) {
                 Bp3kepps::create([
                     'data_pelanggar_id' => $request->data_pelanggar_id,
                     'tanggal' => $request->tanggal[$i],
@@ -102,25 +105,26 @@ class PemberkasanController extends Controller
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_perbaikan.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-perbaikan-berkas.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-perbaikan-berkas.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-perbaikan-berkas.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-perbaikan-berkas.docx'))->deleteFileAfterSend(true);
     }
 
-    public function notaDinasPerbaikan($kasus_id){
+    public function notaDinasPerbaikan($kasus_id)
+    {
         $kasus = DataPelanggar::find($kasus_id);
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_perbaikan.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-perbaikan-berkas.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-perbaikan-berkas.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-nota-dinas-perbaikan-berkas.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-perbaikan-berkas.docx'))->deleteFileAfterSend(true);
     }
 
     public function generatePermohonanPendapat(Request $request)
     {
         $permohonan = Permohonan::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        if(!$permohonan){
+        if (!$permohonan) {
             Permohonan::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'bp3kepp_id' => $request->bp3kepp_id,
@@ -135,18 +139,27 @@ class PemberkasanController extends Controller
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/permohonan_pendapat.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-permohonan-pendapat-saran-hukum.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-permohonan-pendapat-saran-hukum.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-permohonan-pendapat-saran-hukum.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-permohonan-pendapat-saran-hukum.docx'))->deleteFileAfterSend(true);
     }
 
-    public function permohonanPendapat($kasus_id){
+    public function permohonanPendapat($kasus_id)
+    {
         $kasus = DataPelanggar::find($kasus_id);
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/permohonan_pendapat.docx'));
         $template_document->setValues($value);
-        $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-permohonan-pendapat-saran-hukum.docx'));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-permohonan-pendapat-saran-hukum.docx'));
 
-        return response()->download(storage_path('template_surat/'.$kasus->pelapor.'-permohonan-pendapat-saran-hukum.docx'))->deleteFileAfterSend(true);
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-permohonan-pendapat-saran-hukum.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function simpan_data(Request $request)
+    {
+        unset($request['_token']);
+        Pemberkasan::create($request->all());
+
+        return redirect()->back();
     }
 }

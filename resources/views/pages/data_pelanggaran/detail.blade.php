@@ -123,6 +123,26 @@
                 $(this).attr('counter', counter);
             });
         });
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
     </script>
     <script>
         function tambahTerlapor(counter) {
@@ -182,77 +202,7 @@
             }).done(async function(data) {
                 $('.loader-view').css("display", "none");
                 await $("#viewProses").html(data)
-                $.datePicker.defaults = {
-                    container: 'body',
-                    mode: '<a href="https://www.jqueryscript.net/tags.php?/popup/">popup</a>', // or inline
-                    select: 'single', // single or multiple
-                    theme: 'theme-light', // theme-light or theme-dark
-                    show: 'month', // decade, year or month
-                    doubleSize: false,
-                    restrictDates: false, // past, future or custom
-                    strings: {
-                        months: [
-                            'January',
-                            'February',
-                            'March',
-                            'April',
-                            'May',
-                            'June',
-                            'July',
-                            'August',
-                            'September',
-                            'October',
-                            'November',
-                            'December'
-                        ],
-                        days: [
-                            'Sunday',
-                            'Monday',
-                            'Tuesday',
-                            'Wednesday',
-                            'Thursday',
-                            'Friday',
-                            'Saturday'
-                        ]
-                    },
-                    views: {
-                        decade: {
-                            show: null,
-                            selected: [],
-                            disabled: [],
-                            forbidden: [],
-                            enabled: [],
-                            marked: []
-                        },
-                        year: {
-                            show: null,
-                            selected: [],
-                            disabled: [],
-                            forbidden: [],
-                            enabled: [],
-                            marked: []
-                        },
-                        month: {
-                            show: null,
-                            selected: [],
-                            disabled: [],
-                            forbidden: [],
-                            enabled: [],
-                            marked: [],
-                            firstDayOfWeek: 0
-                        }
-                    },
-                    templates: {
-                        widget: '<div class="jquery-datepicker">',
-                        header: '<div class="box-row row-header"><div class="header-title">{title}</div><div class="header-actions"><div class="header-action action-down"></div><div class="header-action action-up"></div></div></div>'
-                    },
-                    dateFormat: function(date) {
-                        return (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
-                    },
-                    dateParse: function(string) {
-                        return $.datePicker.api.date(string);
-                    }
-                }
+
             });
         }
 

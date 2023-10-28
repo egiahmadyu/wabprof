@@ -788,6 +788,7 @@ class AuditInvestigasiController extends Controller
         $data += array(
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
             'no_sprin' => $sprin->no_sprin,
+            'tim' => $sprin->tim,
             'bulan_tahun_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y'),
             'tanggal_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
             'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),

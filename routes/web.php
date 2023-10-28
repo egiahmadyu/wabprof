@@ -157,6 +157,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/administrasi-sidang', [PemberkasanController::class, 'generateAdmistrasiSidang']);
     Route::get('/administrasi-sidang/{id}', [PemberkasanController::class, 'AdmistrasiSidang']);
     Route::post('/nota-dinas-penyerahan', [PemberkasanController::class, 'generateNotaDinasPenyerahan']);
+    Route::post('/pemberkasan/save', [PemberkasanController::class, 'simpan_data']);
     Route::get('/nota-dinas-penyerahan/{id}', [PemberkasanController::class, 'notaDinasPenyerahan']);
     Route::post('/nota-dinas-perbaikan', [PemberkasanController::class, 'generateNotaDinasPerbaikan']);
     Route::get('/nota-dinas-perbaikan/{id}', [PemberkasanController::class, 'notaDinasPerbaikan']);
