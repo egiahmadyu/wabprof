@@ -107,11 +107,6 @@
                                     <td>:</td>
                                     <td>{{ $kasus->pelapor }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Ketua Tim</td>
-                                    <td>:</td>
-                                    <td>{{ $kasus->terlapor }}</td>
-                                </tr>
                             </table>
                         </div>
                     </div>
@@ -138,54 +133,65 @@
             </div>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal BP3KEPP</label>
-                <input type="date" class="form-control" name="tgl_bp3kepp" required>
+                <input type="date" class="form-control" name="tgl_bp3kepp" required
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_bp3kepp : '' }}">
             </div>
             <h4>Nota Dinas Administrasi</h4>
             <div class="col-md-6">
                 <label for="inputEmail4" class="form-label">No Nota Dinas Administrasi Sidang</label>
-                <input type="tezt" class="form-control" name="no_nota_dinas_administrasi" required>
+                <input type="tezt" class="form-control" name="no_nota_dinas_administrasi" required
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_administrasi : '' }}">
             </div>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Administrasi Sidang</label>
-                <input type="date" class="form-control" name="tgl_nota_dinas_administrasi" required>
+                <input type="date" class="form-control" name="tgl_nota_dinas_administrasi" required
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_administrasi : '' }}">
             </div>
             <hr>
             <h4>Rencana Jadwal Sidang</h4>
             <div class="col-2">
                 <label for="inputAddress" class="form-label">Tanggal Sidang</label>
-                <input type="date" class="form-control" name="tgl_sidang" required>
+                <input type="date" class="form-control" name="tgl_sidang" required
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_sidang : '' }}">
             </div>
             <div class="col-2">
                 <label for="inputAddress" class="form-label">Jam Sidang</label>
-                <input type="time" class="form-control" name="jam_sidang" required>
+                <input type="time" class="form-control" name="jam_sidang" required
+                    value="{{ $pemberkasan ? $pemberkasan->jam_sidang : '' }}">
             </div>
             <div class="col-4">
                 <label for="inputAddress2" class="form-label">Tempat Sidang</label>
-                <input type="text" class="form-control" name="tempat_sidang" required>
+                <input type="text" class="form-control" name="tempat_sidang" required
+                    value="{{ $pemberkasan ? $pemberkasan->tempat_sidang : '' }}">
             </div>
             <div class="col-md-4">
                 <label for="inputCity" class="form-label">Pakaian Sidang</label>
-                <input type="text" class="form-control" name="pakaian_sidang" required>
+                <input type="text" class="form-control" name="pakaian_sidang" required
+                    value="{{ $pemberkasan ? $pemberkasan->pakaian_sidang : '' }}">
             </div>
             <hr>
             <h4>Nota Dinas Penyerahan Berkas</h4>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
-                <input type="text" class="form-control" name="no_nota_dinas_penyerahan" required>
+                <input type="text" class="form-control" name="no_nota_dinas_penyerahan" required
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_penyerahan : '' }}">
             </div>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
-                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan" required>
+                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan" required
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan : '' }}">
             </div>
             <hr>
             <h4>Nota Dinas Perbaikan</h4>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
-                <input type="text" class="form-control" name="no_nota_dinas_perbaikan">
+                <input type="text" class="form-control" name="no_nota_dinas_perbaikan"
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_perbaikan : '' }}">
             </div>
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
-                <input type="date" class="form-control" name="tgl_nota_dinas_perbaikan">
+                <input type="date" class="form-control" name="tgl_nota_dinas_perbaikan"
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_perbaikan : '' }}">
             </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Simpan Data</button>
@@ -195,18 +201,13 @@
     </div>
 
     <!-- Isi Form -->
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-12">
             <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
                 <thead class="text-muted table-light">
                     <tr>
                         <th scope="col"> Nama Kegiatan</th>
                         <th scope="col">Action</th>
-                        {{-- <th scope="col">Pelapor</th>
-                        <th scope="col">Terlapor</th>
-                        <th scope="col">Pangkat</th>
-                        <th scope="col">Nama Korban</th>
-                        <th scope="col">Status</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -242,26 +243,14 @@
                             @endif
                         </td>
                     </tr>
-                    {{-- <tr>
-                        <td>Berita Acara Intograsi</td>
-                        <td><button type="button" class="btn btn-primary">Buat Dokumen BAI</button></td>
-                    </tr>
-                    <tr>
-                        <td>Laporan Hasil Penyelidikan</td>
-                        <td><button type="button" class="btn btn-primary">Buat Dokumen</button></td>
-                    </tr>
-                    <tr>
-                        <td>ND Permohonan Gelar Perkara</td>
-                        <td><button type="button" class="btn btn-primary">Buat Dokumen</button></td>
-                    </tr> --}}
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> --}}
     <div class="row mt-4">
         <div class="col-lg-4">
             @if (isset($kasus) & ($kasus->status_id === 6))
-                @if (isset($penyerahan) && isset($perbaikan))
+                @if (isset($pemberkasan))
                     <form action="/data-kasus/update" method="post">
                         @csrf
                         <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
@@ -283,11 +272,6 @@
         <div class="col-lg-4">
             <button class="btn btn-success col-12 disabled">
                 Restorative Justice
-            </button>
-        </div>
-        <div class="col-lg-4">
-            <button class="btn btn-success col-12 disabled">
-                Lanjut Pemberkasan
             </button>
         </div>
     </div>
@@ -501,23 +485,6 @@
             $('#modal_terlapor').modal('show');
         })
 
-        // $("#form_pemberkasan").submit(function(e) {
-        //     alert('www')
-        //     var forms = $('#form_pemberkasan')
-        //     console.log(forms)
-        //     // Loop over them and prevent submission
-        //     Array.prototype.slice.call(forms)
-        //         .forEach(function(form) {
-        //             form.addEventListener('submit', function(event) {
-        //                 if (!form.checkValidity()) {
-        //                     event.preventDefault()
-        //                     event.stopPropagation()
-        //                 }
-
-        //                 form.classList.add('was-validated')
-        //             }, false)
-        //         })
-        // });
         $('#form-administrasi-sidang').validate({
             rules: {
                 tanggal: {
@@ -729,6 +696,7 @@
                 }, false)
             })
     })()
+
     $('.btn-tutup').on('click', function() {
         var kasus_id = $('#kasus_id').val();
         var id = $('#status_id').val();

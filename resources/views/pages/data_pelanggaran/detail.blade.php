@@ -9,7 +9,7 @@
             cursor: pointer;
         }
 
-        .loader-view {
+        .loader-vieww {
             margin-top: 75px;
         }
 
@@ -21,6 +21,11 @@
 @endprepend
 
 @section('content')
+    <div class="loader-view" style="display:block;">
+        <div class="ring"> <img src="/assets/images/logo/wabprof.png" class="" alt="logo" width="50">
+            <span></span>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -38,9 +43,7 @@
                         value="{{ $kasus->id }}" hidden>
                     <input type="text" class="form-control" id="process_id" name="data_pelanggar_id"
                         value="{{ $kasus->status_id }}" hidden>
-                    <div class="loader-view" style="display:block;">
 
-                    </div>
                     <input type="hidden" id="status_surat_download" value="0">
                     <input type="hidden" id="status_nota_download" value="0">
                     <input type="hidden" id="status_undangan_download" value="0">

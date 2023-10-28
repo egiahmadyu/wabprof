@@ -950,9 +950,8 @@ mybutton &&
     }),
     setInterval(() => {
         var e = new Date(),
-            t = e.toLocaleDateString(void 0, { weekday: "short", month: "short", day: "numeric" }),
+            t = e.toLocaleString("id-ID", { weekday: "long", month: "long", day: "numeric" }),
             a = e.getHours(),
-            o = 12 <= a ? " PM" : " AM",
-            a = ("0" + (a % 12)).slice(-2) + ":" + ("0" + e.getMinutes()).slice(-2) + o;
+            a = ("0" + (a % 12)).slice(-2) + ":" + ("0" + e.getMinutes()).slice(-2);
         document.getElementById("current-time").innerHTML = t + " | " + a;
     }, 1e3);

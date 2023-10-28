@@ -49,7 +49,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/date-picker.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/datepicker.css') }}">
     <style>
-        .loader-view {
+        .loaderss-view {
             margin-left: auto;
             margin-right: auto;
             margin-top: auto;
@@ -61,6 +61,119 @@
             height: 120px;
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
+        }
+
+        .loader-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            z-index: 100000;
+            overflow: show;
+            width: 100%;
+            height: 100%;
+            background-color: #3336334b
+        }
+
+        .ring {
+            background-color: #f90404;
+            pointer-events: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: transparent;
+            border: 3px solid #664745;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 150px;
+            font-family: sans-serif;
+            font-size: 20px;
+            color: #f55858;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #f55858;
+            box-shadow: 0 0 20px #ffcf54;
+            z-index: 9000;
+        }
+
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+
+            background: -webkit-radial-gradient(rgba(20, 20, 20, .8), rgba(0, 0, 0, .8));
+        }
+
+
+        .ring:before {
+            content: '';
+            position: absolute;
+            display: block;
+            top: -3px;
+            left: -3px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top: 3px solid #f55858;
+            border-right: 3px solid #f55858;
+            border-radius: 50%;
+            animation: animateC 2s linear infinite;
+
+        }
+
+        .ring span {
+            display: block;
+            position: absolute;
+            top: calc(50% - 2px);
+            left: 50%;
+            width: 50%;
+            height: 4px;
+            background: transparent;
+            transform-origin: left;
+            animation: animate 2s linear infinite;
+        }
+
+        .ring span:before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f55858;
+            top: -6px;
+            right: -8px;
+            box-shadow: 0 0 20px #f55858;
+        }
+
+        @keyframes animateC {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animate {
+            0% {
+                transform: rotate(45deg);
+            }
+
+            100% {
+                transform: rotate(405deg);
+            }
         }
 
         .f1-steps {

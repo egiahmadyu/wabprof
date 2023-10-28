@@ -98,12 +98,7 @@
                                 <tr>
                                     <td>Unit Pelaksana</td>
                                     <td>:</td>
-                                    <td>{{ $kasus->pelapor }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Ketua Tim</td>
-                                    <td>:</td>
-                                    <td>{{ $kasus->terlapor }}</td>
+                                    <td>{{ $sprin->tim }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -121,121 +116,335 @@
         </div>
     </div>
 
-    <!-- Isi Form -->
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                <thead class="text-muted table-light">
-                    <tr>
-                        <th scope="col"> Nama Kegiatan</th>
-                        <th scope="col">Action</th>
-                        {{-- <th scope="col">Pelapor</th>
-                        <th scope="col">Terlapor</th>
-                        <th scope="col">Pangkat</th>
-                        <th scope="col">Nama Korban</th>
-                        <th scope="col">Status</th> --}}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Usulan Pembentukan Komisi Etik</td>
-                        <td>
-                            <a href="/usulan-pembentukan-komisi/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pembentukan Komisi Kode Etik</td>
-                        <td>
-                            @if (isset($pembentukan_komisi))
-                                <a href="/pembentukan-komisi/{{ $kasus->id }}"
-                                    class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                    </button>
-                                @else
-                                    <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi"
-                                        type="button" class="btn btn-outline-primary text-primar">
-                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                    </button>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pendamping Divkum</td>
-                        <td>
-                            <a href="/pendamping-divkum/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Pelanggar</td>
-                        <td>
-                            <a href="/panggilan-pelanggar/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Pelanggar ( Satker )</td>
-                        <td>
-                            <a href="/panggilan-pelanggar-satker/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Saksi Anggota</td>
-                        <td>
-                            <a href="/panggilan-saksi-anggota/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Saksi Ahli SSDM</td>
-                        <td>
-                            <a href="/panggilan-saksi-sdm/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Surat Daftar Nama Terlampir</td>
-                        <td>
-                            <a href="/surat-daftar-nama-terlampir/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="row mb-4">
+        <form class="row g-3" novalidate id="form_penuntutan" method="post" action="/penuntutan/save">
+            @csrf
+            <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">No Divkum</label>
+                <input type="tezt" class="form-control" name="no_divkum" required
+                    value="{{ $penuntutan ? $penuntutan->no_divkum : '' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Divkum</label>
+                <input type="date" class="form-control" name="tanggal_divkum" required
+                    value="{{ $penuntutan ? $penuntutan->tanggal_divkum : '' }}">
+            </div>
+            @if (!$penuntutan)
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Simpan Data</button>
+                </div>
+            @endif
+        </form>
+
     </div>
-    @if (isset($kasus) & ($kasus->status_id === 6))
+
+    <!-- Isi Form -->
+    @if ($penuntutan)
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col"> Nama Kegiatan</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Usulan Pembentukan Komisi Etik</td>
+                            <td>
+                                <form action="/penuntutan/usulan_komisi" id="form_usulan_komisi" method="post"
+                                    novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}" hidden>
+                                            <input type="text" class="form-control"
+                                                name="no_usulan_pembentukan_komisi" required
+                                                value="{{ $penuntutan ? $penuntutan->no_usulan_pembentukan_komisi : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->no_usulan_pembentukan_komisi ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_usulan_pembentukan_komisi ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pembentukan Komisi Kode Etik</td>
+                            <td>
+                                <form action="/penuntutan/pembentukan_komisi" id="form_pembentukan_komisi"
+                                    method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="no_pembentukan_komisi"
+                                                required
+                                                value="{{ $penuntutan ? $penuntutan->no_pembentukan_komisi : '' }}"
+                                                placeholder="No Pembentukan Komisi Etik"
+                                                {{ $penuntutan->no_pembentukan_komisi ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_pembentukan_komisi" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_pembentukan_komisi : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_pembentukan_komisi ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_usulan_pembentukan_komisi ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pendamping Divkum</td>
+                            <td>
+                                <form action="/penuntutan/pendamping_divkum" id="form_pendamping_divkum"
+                                    method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="no_pendamping_divkum"
+                                                required
+                                                value="{{ $penuntutan ? $penuntutan->no_pendamping_divkum : '' }}"
+                                                placeholder="No Pendamping Divkum"
+                                                {{ $penuntutan->no_pendamping_divkum ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_pendamping_divkum" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_pendamping_divkum : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_pendamping_divkum ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_usulan_pembentukan_komisi ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                {{-- <a href="/pendamping-divkum/{{ $kasus->id }}">
+                                <button type="button" class="btn btn-outline-primary text-primary">
+                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
+                                </button>
+                            </a> --}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Panggilan Pelanggar</td>
+                            <td>
+                                <form action="/penuntutan/panggilan_pelanggar" id="form_panggilan_pelanggar"
+                                    method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="no_panggilan_pelanggar"
+                                                required
+                                                value="{{ $penuntutan ? $penuntutan->no_panggilan_pelanggar : '' }}"
+                                                placeholder="No Panggilan Pelanggar"
+                                                {{ $penuntutan->no_panggilan_pelanggar ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_panggilan_pelanggar" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_pelanggar : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_panggilan_pelanggar ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_usulan_pembentukan_komisi ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Panggilan Pelanggar ( Satker )</td>
+                            <td>
+                                <form action="/penuntutan/panggilan_pelanggar_satker"
+                                    id="form_panggilan_pelanggar_satker" method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control"
+                                                name="no_panggilan_pelanggar_satker" required
+                                                value="{{ $penuntutan ? $penuntutan->no_panggilan_pelanggar_satker : '' }}"
+                                                placeholder="No Panggilan Pelanggar Satker"
+                                                {{ $penuntutan->no_panggilan_pelanggar_satker ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_panggilan_pelanggan_satker" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_pelanggan_satker : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_panggilan_pelanggan_satker ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_panggilan_pelanggar_satker ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Panggilan Saksi Anggota</td>
+                            <td>
+                                <form action="/penuntutan/panggilan_saksi_anggota" id="form_panggilan_saksi_anggota"
+                                    method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control"
+                                                name="no_panggilan_saksi_anggota" required
+                                                value="{{ $penuntutan ? $penuntutan->no_panggilan_saksi_anggota : '' }}"
+                                                placeholder="No Panggilan Saksi Anggota"
+                                                {{ $penuntutan->no_panggilan_saksi_anggota ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_panggilan_saksi_anggota" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_saksi_anggota : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_panggilan_saksi_anggota ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_panggilan_saksi_anggota ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Panggilan Saksi Ahli SSDM</td>
+                            <td>
+                                <form action="/penuntutan/panggilan_saksi_ssdm" id="form_panggilan_saksi_ssdm"
+                                    method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control"
+                                                name="no_panggilan_saksi_ahli_ssdm" required
+                                                value="{{ $penuntutan ? $penuntutan->no_panggilan_saksi_ahli_ssdm : '' }}"
+                                                placeholder="No Panggilan Saksi SSDM"
+                                                {{ $penuntutan->no_panggilan_saksi_ahli_ssdm ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_panggilan_saksi_ssdm" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_saksi_ssdm : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_panggilan_saksi_ssdm ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_panggilan_saksi_ahli_ssdm ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Surat Daftar Nama Terlampir</td>
+                            <td>
+                                <form action="/penuntutan/surat_daftar_nama_terlampir"
+                                    id="form_surat_daftar_nama_terlampir" method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control"
+                                                name="no_surat_daftar_terlampir" required
+                                                value="{{ $penuntutan ? $penuntutan->no_surat_daftar_terlampir : '' }}"
+                                                placeholder="No Panggilan Saksi SSDM"
+                                                {{ $penuntutan->no_surat_daftar_terlampir ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control"
+                                                name="tanggal_surat_daftar_nama_terlampir" required
+                                                value="{{ $penuntutan ? $penuntutan->tanggal_surat_daftar_nama_terlampir : '' }}"
+                                                placeholder="No Usulan Pembentukan Komisi Etik"
+                                                {{ $penuntutan->tanggal_surat_daftar_nama_terlampir ? 'readonly' : '' }}>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $penuntutan->no_surat_daftar_terlampir ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+    @if (isset($kasus) & ($kasus->status_id === 9))
         <div class="row mt-4">
             <div class="col-lg-12">
                 <form action="/data-kasus/update" method="post">
                     @csrf
                     <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
                     <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan" hidden>
-                    <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 6 ? 'disabled' : '' }}
-                        value="update_status">
+                    <button class="btn btn-success" name="type_submit"
+                        {{ $kasus->status_id !== 9 ? 'disabled' : '' }} value="update_status">
                         Lanjutkan ke proses Sidang KEPP
                     </button>
                 </form>
@@ -459,5 +668,210 @@
     $('.btn-tutup').on('click', function() {
         var form = $(this).attr('form');
         $('#' + form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
-    })
+    });
+
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_penuntutan')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_usulan_komisi')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_pembentukan_komisi')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_pendamping_divkum')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_panggilan_pelanggar')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_panggilan_saksi_anggota')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_panggilan_saksi_ssdm')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_surat_daftar_nama_terlampir')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
 </script>

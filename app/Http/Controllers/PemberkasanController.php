@@ -9,6 +9,7 @@ use App\Models\Permohonan;
 use App\Models\Bp3kepps;
 use App\Http\Controllers\AuditInvestigasiController;
 use App\Models\Pemberkasan;
+use App\Models\SprinHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -63,9 +64,18 @@ class PemberkasanController extends Controller
 
         $kasus_id = $request->data_pelanggar_id;
         $kasus = DataPelanggar::find($kasus_id);
+        $pemberkasan = Pemberkasan::where('data_pelanggar_id', $kasus_id)->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
         $value = AuditInvestigasiController::valueDoc($kasus_id, false, false, false, false, false, false, true);
         $template_document = new TemplateProcessor(storage_path('template_surat/nota_dinas_penyerahan.docx'));
-        $template_document->setValues($value);
+        $template_document->setValues(array(
+            'no_nota_dinas_penyerahan' => $pemberkasan->no_nota_dinas_penyerahan,
+            'perihal' => $kasus->perihal,
+            'tim' => $sprin->tim,
+            'no_lpa' => '',
+            'tanggal_lpa' => '',
+
+        ));
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'));
 
         return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'))->deleteFileAfterSend(true);

@@ -772,16 +772,16 @@ class AuditInvestigasiController extends Controller
         }
 
         if ($pembentukan) {
-            $pembentukan_data = PembentukanKomisi::where('data_pelanggar_id', $kasus_id)->first();
-            $data['bulan_tahun_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('F Y');
-            $data['tanggal_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('d F Y');
-            $data['nomor_pembentukan'] = $pembentukan_data->nomor;
-            $data['nomor_surat_divkum'] = $pembentukan_data->nomor_surat_divkum;
-            $data['tanggal_surat_divkum'] = Carbon::parse($pembentukan_data->tanggal_surat_divkum)->translatedFormat('d F Y');
-            $data['pangkat_pelanggar'] = $pembentukan_data->pangkat;
-            $data['nama_pelanggar'] = $pembentukan_data->nama;
-            $data['jabtan_pelanggar'] = $pembentukan_data->jabatan;
-            $data['kesatuan_pelanggar'] = $pembentukan_data->kesatuan;
+            // $pembentukan_data = PembentukanKomisi::where('data_pelanggar_id', $kasus_id)->first();
+            // $data['bulan_tahun_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('F Y');
+            // $data['tanggal_pembentukan'] = Carbon::parse($pembentukan_data->created_at)->translatedFormat('d F Y');
+            // $data['nomor_pembentukan'] = $pembentukan_data->nomor;
+            // $data['nomor_surat_divkum'] = $pembentukan_data->nomor_surat_divkum;
+            // $data['tanggal_surat_divkum'] = Carbon::parse($pembentukan_data->tanggal_surat_divkum)->translatedFormat('d F Y');
+            // $data['pangkat_pelanggar'] = $pembentukan_data->pangkat;
+            // $data['nama_pelanggar'] = $pembentukan_data->nama;
+            // $data['jabtan_pelanggar'] = $pembentukan_data->jabatan;
+            // $data['kesatuan_pelanggar'] = $pembentukan_data->kesatuan;
         }
 
 

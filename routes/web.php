@@ -14,6 +14,7 @@ use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\WujudPerbuatanController;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
+use App\Http\Controllers\PenuntutanController;
 use App\Http\Controllers\ProvostWabprofController;
 use App\Http\Controllers\PulbaketController;
 use App\Http\Controllers\RoleController;
@@ -158,6 +159,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/administrasi-sidang/{id}', [PemberkasanController::class, 'AdmistrasiSidang']);
     Route::post('/nota-dinas-penyerahan', [PemberkasanController::class, 'generateNotaDinasPenyerahan']);
     Route::post('/pemberkasan/save', [PemberkasanController::class, 'simpan_data']);
+
     Route::get('/nota-dinas-penyerahan/{id}', [PemberkasanController::class, 'notaDinasPenyerahan']);
     Route::post('/nota-dinas-perbaikan', [PemberkasanController::class, 'generateNotaDinasPerbaikan']);
     Route::get('/nota-dinas-perbaikan/{id}', [PemberkasanController::class, 'notaDinasPerbaikan']);
@@ -180,6 +182,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/lpa/{id?}', [SidikController::class, 'lpa']);
     Route::post('/sprin_riksa', [SidikController::class, 'sprin_riksa']);
     Route::get('/sprin/{id}', [SidikController::class, 'sprin']);
+
+
+    Route::post('/penuntutan/save', [PenuntutanController::class, 'simpan_data']);
+    Route::post('/penuntutan/usulan_komisi', [PenuntutanController::class, 'usulan_pembentukan_komisi']);
+    Route::post('/penuntutan/pembentukan_komisi', [PenuntutanController::class, 'pembentukan_komisi']);
+    Route::post('/penuntutan/pendamping_divkum', [PenuntutanController::class, 'pendamping_divkum']);
+    Route::post('/penuntutan/panggilan_pelanggar', [PenuntutanController::class, 'panggilan_pelanggar']);
+    Route::post('/penuntutan/panggilan_pelanggar_satker', [PenuntutanController::class, 'panggilan_pelanggar_satker']);
+    Route::post('/penuntutan/panggilan_saksi_anggota', [PenuntutanController::class, 'panggilan_saksi_anggota']);
+    Route::post('/penuntutan/panggilan_saksi_ssdm', [PenuntutanController::class, 'panggilan_saksi_sdm']);
+    Route::post('/penuntutan/surat_daftar_nama_terlampir', [PenuntutanController::class, 'surat_daftar_nama_terlampir']);
 
 
     Route::group(['middleware' => ['role:admin']], function () {

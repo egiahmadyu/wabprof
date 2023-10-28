@@ -25,6 +25,7 @@ use App\Models\SprinHistory;
 use App\Models\UukHistory;
 use App\Models\Pangkat;
 use App\Models\Pemberkasan;
+use App\Models\Penuntutan;
 use App\Models\Polda;
 use App\Models\SprinRiksa;
 use App\Models\Timeline;
@@ -225,6 +226,7 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+            'penuntutan' => Penuntutan::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.penuntutan', $data);
     }
