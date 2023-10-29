@@ -10,7 +10,7 @@
     <meta content="Minimal Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/wabprof.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/Wabprof.ico') }}">
     <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
     <!-- jsvectormap css -->
     <link href="{{ asset('assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
