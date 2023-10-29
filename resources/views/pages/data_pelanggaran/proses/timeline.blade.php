@@ -180,12 +180,13 @@
                                 <option value="">Pilih Saran</option>
                                 <option value="8" {{ $data_klarifikasi->next_status == 8 ? 'selected' : '' }}>
                                     Disatukan Penanganannya Pada Polda/Polres</option>
-                                <option value="10" {{ $data_klarifikasi->next_status == 10 ? 'selected' : '' }}>
+                                <option value="9" {{ $data_klarifikasi->next_status == 9 ? 'selected' : '' }}>
                                     Tidak Perlu dilanjutkan dengan catatan</option>
-                                <option value="10">Ditolak</option>
+                                <option value="10" {{ $data_klarifikasi->next_status == 10 ? 'selected' : '' }}>
+                                    Ditolak</option>
                             </select>
                         </div>
-                        @if ($data_klarifikasi->next_status == 10)
+                        @if ($data_klarifikasi->next_status == 10 || $data_klarifikasi->next_status == 9)
                             <div class="col-lg-12 mb-3 catatan_berhenti">
                                 <label for="kronologis" class="form-label">Catatan</label>
                                 <textarea name="catatan_berhenti" cols="30" id="catatan_berhenti" rows="5" disabled
@@ -208,7 +209,7 @@
                         <select name="saran_ditolak" id="saran_ditolak" class="form-control">
                             <option value="">Pilih Saran</option>
                             <option value="8">Disatukan Penanganannya Pada Polda/Polres</option>
-                            <option value="10">Tidak Perlu dilanjutkan dengan catatan</option>
+                            <option value="9">Tidak Perlu dilanjutkan dengan catatan</option>
                             <option value="10">Ditolak</option>
                         </select>
                     </div>

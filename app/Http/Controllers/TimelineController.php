@@ -23,19 +23,17 @@ class TimelineController extends Controller
             'status' => $request->status,
         ]);
         if ($DP->status == 'Ditolak') {
-            if ($request->saran_ditolak == 10) {
-                $DP->next_status = 10;
-                $DP->save();
-                $pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
-                $pelanggar->status_dihentikan = 1;
-                $pelanggar->save();
-                Dihentikan::create([
-                    'data_pelanggar_id' => $request->kasus_id,
-                    'note' => $request->catatan_berhenti ?? 'Dilimpahkan Ke Polda'
-                ]);
-                Helper::saveHistory(10, $request->kasus_id);
-                return redirect()->back();
-            }
+            $DP->next_status = $request->saran_ditolak;
+            $DP->save();
+            $pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
+            $pelanggar->status_dihentikan = 1;
+            $pelanggar->save();
+            Dihentikan::create([
+                'data_pelanggar_id' => $request->kasus_id,
+                'note' => $request->catatan_berhenti ?? 'Dilimpahkan Ke Polda'
+            ]);
+            Helper::saveHistory(10, $request->kasus_id);
+            return redirect()->back();
         }
 
         if ($DP) {
