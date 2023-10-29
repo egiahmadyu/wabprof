@@ -773,6 +773,7 @@
                 }, false)
             })
     })();
+
     (function() {
         'use strict'
 
@@ -798,6 +799,33 @@
                 }, false)
             })
     })();
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_panggilan_pelanggar_satker')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
     (function() {
         'use strict'
 
