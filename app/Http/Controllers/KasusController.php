@@ -27,6 +27,8 @@ use App\Models\Pangkat;
 use App\Models\Pemberkasan;
 use App\Models\Penuntutan;
 use App\Models\Polda;
+use App\Models\SidangBanding;
+use App\Models\SidangKepp;
 use App\Models\SprinRiksa;
 use App\Models\Timeline;
 use App\Models\WujudPerbuatan;
@@ -132,8 +134,17 @@ class KasusController extends Controller
         $process = Process::where('sort', '<=', $status->id)->get();
         $agama = Agama::get();
         $pangkat = Pangkat::all();
+        $polda = Polda::all();
         $wujud_perbuatan = WujudPerbuatan::get();
+        $option_polda = '';
+        $option_pangkat = '';
+        foreach ($polda as $key => $value) {
+            $option_polda .= '<option value="' . $value->name . '">' . $value->name . '</option>';
+        }
 
+        foreach ($pangkat as $key => $value) {
+            $option_pangkat .= '<option value="' . $value->id . '">' . $value->name . '</option>';
+        }
         // dd($pangkat);
 
         // dd($agama[0]->name);
@@ -143,6 +154,9 @@ class KasusController extends Controller
             'process' =>  $process,
             'pangkat' =>  $pangkat,
             'wujud_perbuatan' =>  $wujud_perbuatan,
+            'polda' => $polda,
+            'option_pangkat' => $option_pangkat,
+            'option_polda' => $option_polda,
         ];
 
         return view('pages.data_pelanggaran.detail', $data);
@@ -246,6 +260,8 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+            'sidang' => SidangKepp::where('data_pelanggar_id', $id)->first(),
+            'sidang_banding' => SidangBanding::where('data_pelanggar_id', $id)->first()
         ];
         return view('pages.data_pelanggaran.proses.sidang', $data);
     }
@@ -266,6 +282,8 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
+            'pangkat' => Pangkat::all(),
+            'kesatuan' => Polda::all()
         ];
         return view('pages.data_pelanggaran.proses.timeline', $data);
     }

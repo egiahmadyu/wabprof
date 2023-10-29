@@ -31,7 +31,7 @@ class TimelineController extends Controller
                 $pelanggar->save();
                 Dihentikan::create([
                     'data_pelanggar_id' => $request->kasus_id,
-                    'note' => $request->catatan_berhenti
+                    'note' => $request->catatan_berhenti ?? 'Dilimpahkan Ke Polda'
                 ]);
                 Helper::saveHistory(10, $request->kasus_id);
                 return redirect()->back();

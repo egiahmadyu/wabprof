@@ -64,7 +64,7 @@
                     <button type="button" class="btn-close btn-tutup" form="form-terlapor" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form action="/tambah_terlapor" method="post" id="form-terlapor">
+                <form action="/tambah_terlapor" method="post" id="form_terlapor_tambah" novalidate>
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
@@ -72,28 +72,40 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">NRP Terlapor</label>
-                                    <input type="text" class="form-control" name="nrp[]" placeholder="NRP Terlapor">
+                                    <input type="text" class="form-control" name="nrp[]" placeholder="NRP Terlapor"
+                                        required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Nama Terlapor</label>
-                                    <input type="text" class="form-control" name="nama[]" placeholder="Nama Terlapor">
+                                    <input type="text" class="form-control" name="nama[]" placeholder="Nama Terlapor"
+                                        required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Pangkat Terlapor</label>
-                                    <input type="text" class="form-control" name="pangkat[]"
-                                        placeholder="Pangkat Terlapor">
+                                    <select class="form-select" aria-label="Default select example" name="pangkat[]"
+                                        required>
+                                        <option value="">Open this select menu</option>
+                                        @foreach ($pangkat as $value)
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Jabatan Terlapor</label>
                                     <input type="text" class="form-control" name="jabatan[]"
-                                        placeholder="Jabatan Terlapor">
+                                        placeholder="Jabatan Terlapor" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Kesatuan Terlapor</label>
-                                    <input type="text" class="form-control" name="kesatuan[]"
-                                        placeholder="Kesatuan Terlapor">
+                                    <select class="form-select" aria-label="Default select example" name="kesatuan[]"
+                                        required>
+                                        <option value="">Open this select menu</option>
+                                        @foreach ($polda as $value)
+                                            <option value="{{ $value->name }}">{{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <hr>
@@ -149,30 +161,38 @@
     </script>
     <script>
         function tambahTerlapor(counter) {
+            var pangkat = '{!! $option_pangkat !!}';
+            var polda = '{!! $option_polda !!}';
             let inHtml =
                 `<div id="baris${counter}">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="exampleInputPassword1" class="form-label">NRP Terlapor</label>
-                            <input type="text" class="form-control" name="nrp[]" id="nrp_${counter}" placeholder="NRP Terlapor">
+                            <input type="text" class="form-control" name="nrp[]" id="nrp_${counter}" placeholder="NRP Terlapor" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="exampleInputPassword1" class="form-label">Nama Terlapor</label>
-                            <input type="text" class="form-control" name="nama[]" id="nama_${counter}" placeholder="Nama Terlapor">
+                            <input type="text" class="form-control" name="nama[]" id="nama_${counter}" placeholder="Nama Terlapor" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="exampleInputPassword1" class="form-label">Pangkat Terlapor</label>
-                            <input type="text" class="form-control" name="pangkat[]" id="pangkat_${counter}" placeholder="Pangkat Terlapor">
+                            <select class="form-select" aria-label="Default select example" name="pangkat[]" id="pangkat_${counter}" required>
+                                        <option value="">Open this select menu</option>
+                                        ${pangkat}
+                                </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="exampleInputPassword1" class="form-label">Jabatan Terlapor</label>
-                            <input type="text" class="form-control" name="jabatan[]" id="jabatan_${counter}" placeholder="Jabatan Terlapor">
+                            <input type="text" class="form-control" name="jabatan[]" id="jabatan_${counter}" placeholder="Jabatan Terlapor" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="exampleInputPassword1" class="form-label">Kesatuan Terlapor</label>
-                            <input type="text" class="form-control" name="kesatuan[]" id="kesatuan_${counter}" placeholder="Kesatuan Terlapor">
+                            <select class="form-select" aria-label="Default select example" name="kesatuan[]" id="kesatuan_${counter}" required>
+                                        <option value="">Open this select menu</option>
+                                        ${polda}
+                                </select>
                         </div>
                         <div class="col-12 mb-3">
                             <button type="button" class="btn btn-danger hapus btn-sm text-white col-12" counter="${counter}"><span class="fa fa-trash"></span> Hapus Terlapor</button>
@@ -182,6 +202,9 @@
                     </div>`;
             $('#form_input_terlapor').append(inHtml);
 
+            $('select').select2({
+                theme: 'bootstrap-5'
+            });
             $('.hapus').on('click', function() {
                 var counter = $(this).attr('counter');
                 console.log('hapussss', counter)
@@ -189,6 +212,26 @@
                 $('#baris' + counter).remove();
             })
         }
+
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = $('#form_terlapor_tambah')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
 
         function getViewProcess(id) {
             let kasus_id = $('#data_pelanggar_id').val()

@@ -32,11 +32,11 @@ class SidikController extends Controller
 
         $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
         $bap = Bap::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        $sprin = SprinHistory::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $sprin = SprinRiksa::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
 
         $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
         $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
-
+        $lpa = Lpa::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
         $date = date('Y-m-d');
@@ -46,14 +46,22 @@ class SidikController extends Controller
         $bln = $array_bln[$tanggal];
 
         $template_document->setValues(array(
+            'nomor_lpa' => $lpa->nomor_surat,
+            'tanggal_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+            'no_sprin' => $sprin->nomor_surat,
+            'tanggal_sprin' => Carbon::parse($sprin->tanggal_surat)->translatedFormat('d F Y'),
             'terlapor' => $kasus->terlapor,
             'nrp' => $kasus->nrp,
+            'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
             'alamat' => $kasus->alamat,
+            'agama' => $kasus->religi->name,
             'jabatan' => $kasus->jabatan,
             'kesatuan' => $kasus->kesatuan,
             'pangkat' => $kasus->pangkat->name,
+            'tempat_lahir' => $kasus->tempat_lahir,
             'hari_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('l'),
             'tanggal_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('d F Y'),
+            'tanggal_lahir' => Carbon::parse($kasus->tanggal_lahir)->translatedFormat('d F Y'),
             'jam_pemeriksaan' => $bap->jam_pemeriksaan ?? '',
             'ketua' => $ketua_penyidik->name ?? '',
             'nrp_ketua' => $ketua_penyidik->nrp ?? '',
@@ -95,11 +103,11 @@ class SidikController extends Controller
     {
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $bap = Bap::where('data_pelanggar_id', $kasus_id)->first();
-        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
+        $sprin = SprinRiksa::where('data_pelanggar_id', $kasus_id)->first();
 
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'anggota')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'ketua')->first();
-
+        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
+        $lpa = Lpa::where('data_pelanggar_id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
         $date = date('Y-m-d');
@@ -109,8 +117,22 @@ class SidikController extends Controller
         $bln = $array_bln[$tanggal];
 
         $template_document->setValues(array(
+            'nomor_lpa' => $lpa->nomor_surat,
+            'tanggal_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+            'no_sprin' => $sprin->nomor_surat,
+            'tanggal_sprin' => Carbon::parse($sprin->tanggal_surat)->translatedFormat('d F Y'),
+            'terlapor' => $kasus->terlapor,
+            'nrp' => $kasus->nrp,
+            'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
+            'alamat' => $kasus->alamat,
+            'agama' => $kasus->religi->name,
+            'jabatan' => $kasus->jabatan,
+            'kesatuan' => $kasus->kesatuan,
+            'pangkat' => $kasus->pangkat->name,
+            'tempat_lahir' => $kasus->tempat_lahir,
             'hari_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('l'),
             'tanggal_pemeriksaan' => Carbon::parse($bap->tanggal_pemeriksaan)->translatedFormat('d F Y'),
+            'tanggal_lahir' => Carbon::parse($kasus->tanggal_lahir)->translatedFormat('d F Y'),
             'jam_pemeriksaan' => $bap->jam_pemeriksaan ?? '',
             'ketua' => $ketua_penyidik->name ?? '',
             'nrp_ketua' => $ketua_penyidik->nrp ?? '',

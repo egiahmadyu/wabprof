@@ -192,7 +192,7 @@
                         <td>
                             @if (isset($bap))
                                 <a href="/bap/{{ $kasus->id }}">
-                                    <button type="button" class="btn btn-outline-primary text-primary">
+                                    <button type="button" class="btn btn-primary text-primary">
                                         <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
                                     </button>
                                 </a>

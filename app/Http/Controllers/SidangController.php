@@ -6,6 +6,8 @@ use App\Models\PembentukanKomisi;
 use App\Models\SusunanKomisi;
 use App\Models\DataPelanggar;
 use App\Http\Controllers\AuditInvestigasiController;
+use App\Models\SidangBanding;
+use App\Models\SidangKepp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -170,5 +172,46 @@ class SidangController extends Controller
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-pengiriman-putusan-sidang.docx'));
 
         return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-pengiriman-putusan-sidang.docx'))->deleteFileAfterSend(true);
+    }
+
+
+    public function simpan_sidang_kepp(Request $request)
+    {
+        $keputusan_terbukti = $request->keputusan_terbukti;
+        unset($request['_token']);
+        unset($request['keputusan_terbukti']);
+        $sidang = SidangKepp::create($request->all());
+        for ($i = 0; $i < count($keputusan_terbukti); $i++) {
+            if ($keputusan_terbukti[$i] == 'Keputusan Etik') $sidang->keputusan_etik = 1;
+            elseif ($keputusan_terbukti[$i] == 'Keputusan Administratif') $sidang->keputusan_administratif = 1;
+            $sidang->save();
+        }
+        return redirect()->back();
+    }
+
+    public function pengajuan_sidang_banding(Request $request)
+    {
+        SidangBanding::create([
+            'data_pelanggar_id' => $request->kasus_id,
+            'tanggal_permohonan_sidang_banding' => date('Y-m-d')
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function simpan_sidang_banding(Request $request)
+    {
+        unset($request['_token']);
+        $keputusan_terbukti = $request->keputusan_terbukti;
+        unset($request['keputusan_terbukti']);
+        $sidang = SidangBanding::where('data_pelanggar_id', $request->data_pelanggar_id)
+            ->update($request->all());
+        $sidang = SidangBanding::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        for ($i = 0; $i < count($keputusan_terbukti); $i++) {
+            if ($keputusan_terbukti[$i] == 'Keputusan Etik') $sidang->keputusan_etik = 1;
+            elseif ($keputusan_terbukti[$i] == 'Keputusan Administratif') $sidang->keputusan_administratif = 1;
+            $sidang->save();
+        }
+        return redirect()->back();
     }
 }

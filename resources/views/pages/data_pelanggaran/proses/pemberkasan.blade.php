@@ -201,7 +201,7 @@
     </div>
 
     <!-- Isi Form -->
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
                 <thead class="text-muted table-light">
@@ -214,39 +214,34 @@
                     <tr>
                         <td>Nota Dinas Penyerahan Berkas</td>
                         <td>
-                            @if (isset($penyerahan))
-                                <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
-                                    class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                    </button>
-                                @else
-                                    <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_penyerahan"
-                                        type="button" class="btn btn-outline-primary text-primar">
-                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                    </button>
-                            @endif
+                            <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
+                                class="btn btn-outline-primary text-primar">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                </button>
+                            </a>
                         </td>
                     </tr>
                     <tr>
                         <td>Nota Dinas Perbaikan Berkas</td>
                         <td>
-                            @if (isset($perbaikan))
+                            @if (!$pemberkasan->no_nota_dinas_perbaikan)
+                                <div class="alert alert-warning" role="alert">
+                                    Nomor Nota Dinas Perbaikan Belum Ada
+                                </div>
+                            @else
                                 <a href="/nota-dinas-perbaikan/{{ $kasus->id }}"
-                                    class="btn btn-outline-primary text-primar">
+                                    class="btn btn-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                     </button>
-                                @else
-                                    <button data-bs-toggle="modal" data-bs-target="#modal_nota_dinas_perbaikan"
-                                        type="button" class="btn btn-outline-primary text-primar">
-                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                    </button>
+                                </a>
                             @endif
+
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div> --}}
+    </div>
     <div class="row mt-4">
         <div class="col-lg-4">
             @if (isset($kasus) & ($kasus->status_id === 6))

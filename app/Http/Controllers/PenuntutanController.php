@@ -52,6 +52,7 @@ class PenuntutanController extends Controller
             'kesatuan' => $kasus->kesatuan,
             'jabatan' => $kasus->jabatan,
             'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
+            'perihal' => 'pendapat dan saran hukum'
         ));
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-usulan-pembentukan-komisi-kode-etik.docx'));
 

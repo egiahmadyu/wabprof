@@ -120,108 +120,233 @@
         </div>
     </div>
 
+    <div class="row mb-2">
+        <form class="row g-3" novalidate id="form_sidangkeep" method="post" action="/sidangkeep/save">
+            @csrf
+            <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+            <hr>
+            <div class="row">
+                <h4>Sidang</h4>
+                <div class="col-2">
+                    <label for="inputAddress" class="form-label">Tanggal Sidang</label>
+                    <input type="date" class="form-control" name="tgl_sidang" required
+                        value="{{ $sidang ? $sidang->tgl_sidang : '' }}"
+                        {{ $sidang ? ($sidang->tgl_sidang ? 'disabled' : '') : '' }}>
+                </div>
+                <div class="col-2">
+                    <label for="inputAddress" class="form-label">Jam Sidang</label>
+                    <input type="time" class="form-control" name="jam_sidang" required
+                        value="{{ $sidang ? $sidang->jam_sidang : '' }}"
+                        {{ $sidang ? ($sidang->jam_sidang ? 'disabled' : '') : '' }}>
+                </div>
+                <div class="col-4">
+                    <label for="inputAddress2" class="form-label">Tempat Sidang</label>
+                    <input type="text" class="form-control" name="tempat_sidang" required
+                        value="{{ $sidang ? $sidang->tempat_sidang : '' }}"
+                        {{ $sidang ? ($sidang->tempat_sidang ? 'disabled' : '') : '' }}>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputCity" class="form-label">Pakaian Sidang</label>
+                    <input type="text" class="form-control" name="pakaian_sidang" required
+                        value="{{ $sidang ? $sidang->pakaian_sidang : '' }}"
+                        {{ $sidang ? ($sidang->pakaian_sidang ? 'disabled' : '') : '' }}>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputCity" class="form-label">Kehadiran</label>
+                    <select class="form-select" aria-label="Default select example" required name="kehadiran"
+                        {{ $sidang ? ($sidang->kehadiran ? 'disabled' : '') : '' }}>
+                        <option selected value="">--> Pilih Kehadiran <-- </option>
+                        <option value="Hadir" {{ $sidang ? ($sidang->kehadiran == 'Hadir' ? 'selected' : '') : '' }}>
+                            Hadir</option>
+                        <option
+                            value="Tidak Hadir"{{ $sidang ? ($sidang->kehadiran == 'Tidak Hadir' ? 'selected' : '') : '' }}>
+                            Tidak Hadir</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="row putusan_sidang_row">
+                <h4>Putusan Sidang</h4>
+                <div class="col-md-4">
+                    <label for="inputCity" class="form-label">Putusan Sidang</label>
+                    <select class="form-select" aria-label="Default select example" name="putusan_sidang" required
+                        id="putusan_sidang" {{ $sidang ? ($sidang->putusan_sidang ? 'disabled' : '') : '' }}>
+                        <option selected value="">--> Pilih Putusan Sidang <-- </option>
+                        <option value="Terbukti"
+                            {{ $sidang ? ($sidang->putusan_sidang == 'Terbukti' ? 'selected' : '') : '' }}>Terbukti
+                        </option>
+                        <option value="Tidak Terbukti"
+                            {{ $sidang ? ($sidang->putusan_sidang == 'Tidak Terbukti' ? 'selected' : '') : '' }}>Tidak
+                            Terbukti</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputCity" class="form-label">Keputusan Terbukti</label>
+                    <select class="form-select" aria-label="Default select example" name="keputusan_terbukti[]"
+                        multiple="multiple" required id="keputusan_terbukti"
+                        {{ $sidang ? ($sidang->keputusan_etik || $sidang->keputusan_administratif ? 'disabled' : '') : '' }}>
+                        <option value="">--> Pilih Keputusan <-- </option>
+                        <option value="Keputusan Etik"
+                            {{ $sidang ? ($sidang->keputusan_etik == 1 ? 'selected' : '') : '' }}>
+                            Keputusan
+                            Etik
+                        </option>
+                        <option value="Keputusan Administratif"
+                            {{ $sidang ? ($sidang->keputusan_administratif == 1 ? 'selected' : '') : '' }}>
+                            Keputusan
+                            Administratif</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label for="inputCity" class="form-label">Keputusan Sidang</label>
+                    <textarea name="keputusan_sidang" cols="30" id="alamat" rows="9" placeholder="Keputusan Hakim"
+                        required class="form-control border-dark" {{ $sidang ? ($sidang->keputusan_sidang ? 'readonly' : '') : '' }}>{{ $sidang ? $sidang->keputusan_sidang : '' }}</textarea>
+                    </select>
+                </div>
+            </div>
+            @if (!$sidang)
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    </div>
+                </div>
+            @endif
+            <hr>
+        </form>
+    </div>
+    @if ($sidang && $sidang->kehadiran == 'Hadir')
+        @if (!$sidang_banding)
+            <div class="row mt-2">
+                <div class="col-lg-12">
+                    <form action="/sidangkeep/pengajuan_banding" method="post">
+                        @csrf
+                        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
+                            name="kasus_id">
+                        <button class="btn btn-success" name="type_submit" value="update_status">
+                            Ajukan Sidang Banding
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @endif
+    @endif
+    aa
+    @if ($sidang_banding)
+        <div class="row mb-2">
+            <form class="row g-3" novalidate id="form_sidang_banding" method="post" action="/sidang_banding/save">
+                @csrf
+                <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+                <hr>
+                <div class="row">
+                    <h4>Sidang Banding</h4>
+                    <h5>Tanggal Permohonan :
+                        {{ Carbon\Carbon::parse($sidang_banding->tanggal_permohonan_sidang_banding)->translatedFormat('d F Y') }}
+                    </h5>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Tanggal Sidang</label>
+                        <input type="date" class="form-control" name="tgl_sidang" required
+                            value="{{ $sidang_banding ? $sidang_banding->tgl_sidang : '' }}"
+                            {{ $sidang_banding ? ($sidang_banding->tgl_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Jam Sidang</label>
+                        <input type="time" class="form-control" name="jam_sidang" required
+                            value="{{ $sidang_banding ? $sidang_banding->jam_sidang : '' }}"
+                            {{ $sidang_banding ? ($sidang_banding->jam_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputAddress2" class="form-label">Tempat Sidang</label>
+                        <input type="text" class="form-control" name="tempat_sidang" required
+                            value="{{ $sidang_banding ? $sidang_banding->tempat_sidang : '' }}"
+                            {{ $sidang_banding ? ($sidang_banding->tempat_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Pakaian Sidang</label>
+                        <input type="text" class="form-control" name="pakaian_sidang" required
+                            value="{{ $sidang_banding ? $sidang_banding->pakaian_sidang : '' }}"
+                            {{ $sidang_banding ? ($sidang_banding->pakaian_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Kehadiran</label>
+                        <select class="form-select" aria-label="Default select example" required name="kehadiran"
+                            {{ $sidang_banding ? ($sidang_banding->kehadiran ? 'disabled' : '') : '' }}>
+                            <option selected value="">--> Pilih Kehadiran <-- </option>
+                            <option value="Hadir"
+                                {{ $sidang_banding ? ($sidang_banding->kehadiran == 'Hadir' ? 'selected' : '') : '' }}>
+                                Hadir</option>
+                            <option
+                                value="Tidak Hadir"{{ $sidang_banding ? ($sidang_banding->kehadiran == 'Tidak Hadir' ? 'selected' : '') : '' }}>
+                                Tidak Hadir</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row putusan_sidang_row">
+                    <h4>Putusan Sidang</h4>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Putusan Sidang</label>
+                        <select class="form-select" aria-label="Default select example" name="putusan_sidang"
+                            required id="putusan_sidang_banding"
+                            {{ $sidang_banding ? ($sidang_banding->putusan_sidang ? 'disabled' : '') : '' }}>
+                            <option selected value="">--> Pilih Putusan Sidang <-- </option>
+                            <option value="Terbukti"
+                                {{ $sidang_banding ? ($sidang_banding->putusan_sidang == 'Terbukti' ? 'selected' : '') : '' }}>
+                                Terbukti
+                            </option>
+                            <option value="Tidak Terbukti"
+                                {{ $sidang_banding ? ($sidang_banding->putusan_sidang == 'Tidak Terbukti' ? 'selected' : '') : '' }}>
+                                Tidak
+                                Terbukti</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Keputusan Terbukti</label>
+                        <select class="form-select" aria-label="Default select example" name="keputusan_terbukti[]"
+                            multiple="multiple" required id="keputusan_terbukti_sidang_banding"
+                            {{ $sidang_banding ? ($sidang_banding->keputusan_etik || $sidang_banding->keputusan_administratif ? 'disabled' : '') : '' }}>
+                            <option value="">--> Pilih Keputusan <-- </option>
+                            <option value="Keputusan Etik"
+                                {{ $sidang_banding ? ($sidang_banding->keputusan_etik == 1 ? 'selected' : '') : '' }}>
+                                Keputusan
+                                Etik
+                            </option>
+                            <option value="Keputusan Administratif"
+                                {{ $sidang_banding ? ($sidang_banding->keputusan_administratif == 1 ? 'selected' : '') : '' }}>
+                                Keputusan
+                                Administratif</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputCity" class="form-label">Keputusan Sidang</label>
+                        <textarea name="keputusan_sidang" cols="30" id="alamat" rows="9" placeholder="Keputusan Hakim"
+                            required class="form-control border-dark"
+                            {{ $sidang_banding ? ($sidang_banding->keputusan_sidang ? 'readonly' : '') : '' }}>{{ $sidang_banding ? $sidang_banding->keputusan_sidang : '' }}</textarea>
+                        </select>
+                    </div>
+                </div>
+                @if (!$sidang_banding->putusan_sidang)
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Simpan Data</button>
+                        </div>
+                    </div>
+                @endif
+                <hr>
+            </form>
+        </div>
+    @endif
+
     <!-- Isi Form -->
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-12">
             <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
                 <thead class="text-muted table-light">
                     <tr>
                         <th scope="col"> Nama Kegiatan</th>
                         <th scope="col">Action</th>
-                        {{-- <th scope="col">Pelapor</th>
-                        <th scope="col">Terlapor</th>
-                        <th scope="col">Pangkat</th>
-                        <th scope="col">Nama Korban</th>
-                        <th scope="col">Status</th> --}}
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Usulan Pembentukan Komisi Etik</td>
-                        <td>
-                            <a href="/usulan-pembentukan-komisi/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pembentukan Komisi Kode Etik</td>
-                        <td>
-                            @if (isset($pembentukan_komisi))
-                                <a href="/pembentukan-komisi/{{ $kasus->id }}"
-                                    class="btn btn-outline-primary text-primar">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                    </button>
-                                @else
-                                    <button data-bs-toggle="modal" data-bs-target="#modal_pembentukan_komisi"
-                                        type="button" class="btn btn-outline-primary text-primar">
-                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                    </button>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pendamping Divkum</td>
-                        <td>
-                            <a href="/pendamping-divkum/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Pelanggar</td>
-                        <td>
-                            <a href="/panggilan-pelanggar/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Pelanggar ( Satker )</td>
-                        <td>
-                            <a href="/panggilan-pelanggar-satker/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Saksi Anggota</td>
-                        <td>
-                            <a href="/panggilan-saksi-anggota/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Panggilan Saksi Ahli SSDM</td>
-                        <td>
-                            <a href="/panggilan-saksi-sdm/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Surat Daftar Nama Terlampir</td>
-                        <td>
-                            <a href="/surat-daftar-nama-terlampir/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
                     <tr>
                         <td>Putusan Sidang Kepp</td>
                         <td>
@@ -242,37 +367,10 @@
                             </a>
                         </td>
                     </tr>
-                    {{-- <tr>
-                        <td>Berita Acara Intograsi</td>
-                        <td><button type="button" class="btn btn-primary">Buat Dokumen BAI</button></td>
-                    </tr>
-                    <tr>
-                        <td>Laporan Hasil Penyelidikan</td>
-                        <td><button type="button" class="btn btn-primary">Buat Dokumen</button></td>
-                    </tr>
-                    <tr>
-                        <td>ND Permohonan Gelar Perkara</td>
-                        <td><button type="button" class="btn btn-primary">Buat Dokumen</button></td>
-                    </tr> --}}
                 </tbody>
             </table>
         </div>
-    </div>
-    @if (isset($kasus) & ($kasus->status_id === 6))
-        <div class="row mt-4">
-            <div class="col-lg-12">
-                <form action="/data-kasus/update" method="post">
-                    @csrf
-                    <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-                    <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan" hidden>
-                    <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 6 ? 'disabled' : '' }}
-                        value="update_status">
-                        Lanjutkan ke proses Sidang KEPP
-                    </button>
-                </form>
-            </div>
-        </div>
-    @endif
+    </div> --}}
 </div>
 
 <div class="modal fade" id="modal_pembentukan_komisi" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -466,6 +564,30 @@
             <hr>`;
         $('#form_input_susunan').append(inHtml);
     }
+
+    $('select').select2({
+        theme: 'bootstrap-5'
+    });
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_sidangkeep')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
 
     $('.btn-generate').on('click', function() {
         var modal = $(this).attr('modal');

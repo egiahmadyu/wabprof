@@ -19,6 +19,7 @@ use App\Http\Controllers\ProvostWabprofController;
 use App\Http\Controllers\PulbaketController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SidikController;
+use App\Http\Controllers\TerlaporController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
@@ -193,6 +194,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/penuntutan/panggilan_saksi_anggota', [PenuntutanController::class, 'panggilan_saksi_anggota']);
     Route::post('/penuntutan/panggilan_saksi_ssdm', [PenuntutanController::class, 'panggilan_saksi_sdm']);
     Route::post('/penuntutan/surat_daftar_nama_terlampir', [PenuntutanController::class, 'surat_daftar_nama_terlampir']);
+
+    Route::post('/sidangkeep/save', [SidangController::class, 'simpan_sidang_kepp']);
+    Route::post('/sidangkeep/pengajuan_banding', [SidangController::class, 'pengajuan_sidang_banding']);
+    Route::post('/sidang_banding/save', [SidangController::class, 'simpan_sidang_banding']);
+
+
+    Route::post('/tambah_terlapor', [TerlaporController::class, 'tambah_terlapor']);
 
 
     Route::group(['middleware' => ['role:admin']], function () {

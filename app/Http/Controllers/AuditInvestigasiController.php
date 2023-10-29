@@ -21,6 +21,9 @@ use App\Models\Dihentikan;
 use App\Helpers\Helper;
 use App\Models\LaporanHasilGelar;
 use App\Models\LaporanHasilAudit;
+use App\Models\Lpa;
+use App\Models\Pemberkasan;
+use App\Models\Penuntutan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -150,8 +153,10 @@ class AuditInvestigasiController extends Controller
 
         $tanggal_sprin = date("n", strtotime($sprin->created_at));
         $bln_sprin = $array_bln[$tanggal_sprin];
-
+        $nota_dinas = explode('/', $kasus->no_nota_dinas);
+        $kepala_bagian = end($nota_dinas);
         $template_document->setValues(array(
+            'kepala_bagian' => $kepala_bagian,
             'nama_ketua' => $ketua_penyidik->name ?? '..',
             'pangkat_ketua' => $ketua_penyidik ?  $ketua_penyidik->pangkat->name : '..',
             'nomor_surat' => $wawancara->nomor_surat,
@@ -288,8 +293,10 @@ class AuditInvestigasiController extends Controller
         $array_bln = array(1 => "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
         $tanggal = date("n", strtotime($date));
         $bln = $array_bln[$tanggal];
-
+        $nota_dinas = explode('/', $kasus->no_nota_dinas);
+        $kepala_bagian = end($nota_dinas);
         $template_document->setValues(array(
+            'kepala_bagian' => $kepala_bagian,
             'hari_wawancara' => '',
             'tanggal_wawancara' => Carbon::parse($wawancara->tanggal)->translatedFormat('d F Y'),
             'jam_wawancara' => $wawancara->jam,
@@ -464,8 +471,10 @@ class AuditInvestigasiController extends Controller
 
         $tanggal_sprin = date("n", strtotime($sprin->created_at));
         $bln_sprin = $array_bln[$tanggal_sprin];
-
+        $nota_dinas = explode('/', $kasus->no_nota_dinas);
+        $kepala_bagian = end($nota_dinas);
         $template_document->setValues(array(
+            'kepala_bagian' => $kepala_bagian,
             'nama_ketua' => $ketua_penyidik->name ?? '..',
             'pangkat_ketua' => $ketua_penyidik ?  $ketua_penyidik->pangkat->name : '..',
             'nomor_surat' => $wawancara->nomor_surat,
@@ -733,14 +742,18 @@ class AuditInvestigasiController extends Controller
         }
 
         if ($penyerahan) {
-            $penyerahan_data = Penyerahan::where('data_pelanggar_id', $kasus_id)->first();
-            $data['bulan_tahun_bp3kepp'] = Carbon::parse($penyerahan_data->tanggal)->translatedFormat('F Y');
-            $data['tanggal_bp3kepp'] = Carbon::parse($penyerahan_data->tanggal)->translatedFormat('d F Y');
-            $data['nomor_bp3kepp'] = $penyerahan_data->nomor;
+            $penyerahan_data = Pemberkasan::where('data_pelanggar_id', $kasus_id)->first();
+            $lpa = Lpa::where('data_pelanggar_id', $kasus_id)->first();
+            $data['bulan_tahun_bp3kepp'] = Carbon::parse($penyerahan_data->tgl_bp3kepp)->translatedFormat('F Y');
+            $data['tanggal_bp3kepp'] = Carbon::parse($penyerahan_data->tgl_bp3kepp)->translatedFormat('d F Y');
+            $data['nomor_bp3kepp'] = $penyerahan_data->no_bp3kepp;
+            $data['tanggal_lpa'] = Carbon::parse($lpa->created_at)->translatedFormat('d F Y');
+            $data['no_lpa'] = $lpa->nomor_surat;
+            $data['no_nota_dinas_penyerahan'] = $penyerahan_data->no_nota_dinas_penyerahan;
         }
 
         if ($perbaikan) {
-            $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $kasus_id)->get()->toArray();
+            $perbaikan_data = Pemberkasan::where('data_pelanggar_id', $kasus_id)->get()->toArray();
             $data['bulan_tahun_perbaikan'] = Carbon::parse($perbaikan_data[0]['created_at'])->translatedFormat('F Y');
             $index = 1;
             for ($i = 0; $i < count($perbaikan_data); $i++) {
@@ -756,19 +769,24 @@ class AuditInvestigasiController extends Controller
         }
 
         if ($permohonan) {
-            $permohonan_data = Permohonan::where('data_pelanggar_id', $kasus_id)->first();
-            $data['bulan_tahun_lpa'] = Carbon::parse($permohonan_data->tanggal)->translatedFormat('F Y');
-            $data['tanggal_lpa'] = Carbon::parse($permohonan_data->tanggal)->translatedFormat('d F Y');
-            $data['nomor_lpa'] = $permohonan_data->nomor;
-            $data['pasal_lpa'] = $permohonan_data->pasal;
-            $perbaikan_data = Bp3kepps::where(array('data_pelanggar_id' => $kasus_id, 'id' => $permohonan_data->bp3kepp_id))->first();
+            $permohonan_data = Pemberkasan::where('data_pelanggar_id', $kasus_id)->first();
+            $laporan_gelar = LaporanHasilGelar::where('data_pelanggar_id', $kasus_id)->first();
+            $lpa = Lpa::where('data_pelanggar_id', $kasus_id)->first();
+            $data['bulan_tahun_lpa'] = Carbon::parse($lpa->created_at)->translatedFormat('F Y');
+            $data['tanggal_lpa'] = Carbon::parse($lpa->created_at)->translatedFormat('d F Y');
+            $data['no_lpa'] = $lpa->nomor_surat;
+            $data['pasal_lpa'] = $laporan_gelar->pasal_dilanggar;
+            $data['no_nota_perbaikan'] = $permohonan_data->no_nota_dinas_perbaikan;
+            $data['tanggal_no_perbaikan'] = Carbon::parse($permohonan_data->tgl_nota_dinas_perbaikan)->translatedFormat('F Y');
+            $data['bulan_tahun_perbaikan'] = Carbon::parse($permohonan_data->tgl_nota_dinas_perbaikan)->translatedFormat('F Y');
+            // $perbaikan_data = Bp3kepps::where(array('data_pelanggar_id' => $kasus_id, 'id' => $permohonan_data->bp3kepp_id))->first();
 
-            $data['nomor_terduga'] = $perbaikan_data->nomor;
-            $data['pangkat_terduga'] = $perbaikan_data->pangkat;
-            $data['nama_terduga'] = $perbaikan_data->nama;
-            $data['nrp_terduga'] = $perbaikan_data->nrp;
-            $data['jabatan_ter'] = $perbaikan_data->jabatan;
-            $data['kesatuan_terduga'] = $perbaikan_data->kesatuan;
+            // $data['nomor_terduga'] = $perbaikan_data->nomor;
+            // $data['pangkat_terduga'] = $perbaikan_data->pangkat;
+            // $data['nama_terduga'] = $perbaikan_data->nama;
+            // $data['nrp_terduga'] = $perbaikan_data->nrp;
+            // $data['jabatan_ter'] = $perbaikan_data->jabatan;
+            // $data['kesatuan_terduga'] = $perbaikan_data->kesatuan;
         }
 
         if ($pembentukan) {
@@ -783,9 +801,10 @@ class AuditInvestigasiController extends Controller
             // $data['jabtan_pelanggar'] = $pembentukan_data->jabatan;
             // $data['kesatuan_pelanggar'] = $pembentukan_data->kesatuan;
         }
-
-
+        $nota_dinas = explode('/', $kasus->no_nota_dinas);
+        $kepala_bagian = end($nota_dinas);
         $data += array(
+            'kepala_bagian' => $kepala_bagian,
             'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
             'no_sprin' => $sprin->no_sprin,
             'tim' => $sprin->tim,
@@ -798,6 +817,8 @@ class AuditInvestigasiController extends Controller
             'no_telp' => $kasus->no_telp,
             'terlapor' => $kasus->terlapor,
             'kronologi' => $kasus->kronologi,
+            'nama_korban' => $kasus->nama_korban,
+            'tempat_kejadian' => $kasus->tempat_kejadian,
             'nrp' => $kasus->nrp,
             'pangkat' => $kasus->pangkat->name,
             'kesatuan' => $kasus->kesatuan,
