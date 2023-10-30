@@ -224,7 +224,7 @@
                     <tr>
                         <td>Nota Dinas Perbaikan Berkas</td>
                         <td>
-                            @if (!$pemberkasan->no_nota_dinas_perbaikan)
+                            @if ($pemberkasan && !$pemberkasan->no_nota_dinas_perbaikan)
                                 <div class="alert alert-warning" role="alert">
                                     Nomor Nota Dinas Perbaikan Belum Ada
                                 </div>
