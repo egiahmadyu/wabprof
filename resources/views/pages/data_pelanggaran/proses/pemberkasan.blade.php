@@ -201,75 +201,78 @@
     </div>
 
     <!-- Isi Form -->
-    <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                <thead class="text-muted table-light">
-                    <tr>
-                        <th scope="col"> Nama Kegiatan</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Nota Dinas Penyerahan Berkas</td>
-                        <td>
-                            <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
-                                class="btn btn-outline-primary text-primar">
-                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Nota Dinas Perbaikan Berkas</td>
-                        <td>
-                            @if ($pemberkasan && !$pemberkasan->no_nota_dinas_perbaikan)
-                                <div class="alert alert-warning" role="alert">
-                                    Nomor Nota Dinas Perbaikan Belum Ada
-                                </div>
-                            @else
-                                <a href="/nota-dinas-perbaikan/{{ $kasus->id }}"
-                                    class="btn btn-primary text-primary">
+    @if ($pemberkasan)
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col"> Nama Kegiatan</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nota Dinas Penyerahan Berkas</td>
+                            <td>
+                                <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
+                                    class="btn btn-outline-primary text-primar">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                     </button>
                                 </a>
-                            @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nota Dinas Perbaikan Berkas</td>
+                            <td>
+                                @if (!$pemberkasan->no_nota_dinas_perbaikan)
+                                    <div class="alert alert-warning" role="alert">
+                                        Nomor Nota Dinas Perbaikan Belum Ada
+                                    </div>
+                                @else
+                                    <a href="/nota-dinas-perbaikan/{{ $kasus->id }}"
+                                        class="btn btn-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                        </button>
+                                    </a>
+                                @endif
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-lg-4">
-            @if (isset($kasus) & ($kasus->status_id === 6))
-                @if (isset($pemberkasan))
-                    <form action="/data-kasus/update" method="post">
-                        @csrf
-                        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
-                            name="kasus_id">
-                        <input type="text" class="form-control" value="9" hidden name="disposisi_tujuan"
-                            hidden>
-                        <button class="btn btn-success" name="type_submit" value="update_status"
-                            {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
-                            Lanjutkan ke Proses Penuntutan
+        <div class="row mt-4">
+            <div class="col-lg-4">
+                @if (isset($kasus) & ($kasus->status_id === 6))
+                    @if (isset($pemberkasan))
+                        <form action="/data-kasus/update" method="post">
+                            @csrf
+                            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
+                                name="kasus_id">
+                            <input type="text" class="form-control" value="9" hidden name="disposisi_tujuan"
+                                hidden>
+                            <button class="btn btn-success" name="type_submit" value="update_status"
+                                {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
+                                Lanjutkan ke Proses Penuntutan
+                            </button>
+                        </form>
+                    @else
+                        <button class="btn btn-success disabled">
+                            Lanjutkan ke proses Sidang KEPP
                         </button>
-                    </form>
-                @else
-                    <button class="btn btn-success disabled">
-                        Lanjutkan ke proses Sidang KEPP
-                    </button>
+                    @endif
                 @endif
-            @endif
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-success col-12 disabled">
+                    Restorative Justice
+                </button>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <button class="btn btn-success col-12 disabled">
-                Restorative Justice
-            </button>
-        </div>
-    </div>
+
+    @endif
 </div>
 
 <div class="modal fade" id="modal_administrasi_sidang" data-bs-backdrop="static" data-bs-keyboard="false"
