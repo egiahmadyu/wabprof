@@ -32,7 +32,7 @@ class TimelineController extends Controller
                 'data_pelanggar_id' => $request->kasus_id,
                 'note' => $request->catatan_berhenti ?? 'Dilimpahkan Ke Polda'
             ]);
-            Helper::saveHistory(10, $request->kasus_id);
+            Helper::saveHistory($request->saran_ditolak, $request->kasus_id);
             return redirect()->back();
         }
 

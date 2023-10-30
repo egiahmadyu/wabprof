@@ -106,14 +106,14 @@
         </div>
     </div>
 
-    <form action="/timeline/store" id="form-timeline" method="post">
+    <form action="/timeline/store" id="form_timeline" method="post" novalidate>
         <div class="col-lg-12">
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_klasifikasi" class="form-label">Tanggal Klarifikasi</label>
-                    <input type="date" name="tanggal_klasifikasi" id="tanggal_klasifikasi"
+                    <input type="date" name="tanggal_klasifikasi" id="tanggal_klasifikasi" required
                         class="form-control border-dark" {{ $data_klarifikasi ? 'disabled' : '' }}
                         value="{{ $data_klarifikasi ? $data_klarifikasi->tanggal_klasifikasi : '' }}">
                 </div>
@@ -148,7 +148,7 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Status</label>
-                    <select name="status" id="status_time" class="form-control"
+                    <select name="status" id="status_time" class="form-control" required
                         {{ $data_klarifikasi ? 'disabled' : '' }}>
                         <option value="">Pilih Status</option>
                         <option value="Diterima"
@@ -251,23 +251,55 @@
                 $('.saran_pendapat').removeClass('d-none');
                 $('.limpah-polda').addClass('d-none');
                 $('.saran_pendapat_ditolak').addClass('d-none');
+                $('#saran_pendapat_klasifikasi').attr('required', 'required')
+                $('#saran_ditolak').removeAttr('required')
+                $('#catatan_berhenti').removeAttr('required')
             } else if (status == 'Ditolak') {
                 $('.saran_pendapat_ditolak').removeClass('d-none');
                 $('.limpah-polda').addClass('d-none');
                 $('.saran_pendapat').addClass('d-none');
+                $('#saran_ditolak').attr('required', 'required')
+                $('#catatan_berhenti').attr('required', 'required')
+                $('#saran_pendapat_klasifikasi').removeAttr('required')
             }
         })
 
         $('#saran_ditolak').on('change', function() {
             var status = $('#saran_ditolak').val()
             console.log(status)
-            if (status == 10) {
+            if (status == 10 || status == 9) {
                 $('.catatan_berhenti').removeClass('d-none')
             } else {
                 $('.catatan_berhenti').addClass('d-none')
             }
-        })
+        });
 
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = $('#form_timeline')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        } else {
+                            $('.loader-view').show();
+                            setTimeout(async function() {
+                                let process_id = $('#process_id').val()
+                                await getViewProcess(process_id)
+
+                            }, 3000);
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
 
 
         function getPolda() {
