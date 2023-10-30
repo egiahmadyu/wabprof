@@ -10,6 +10,7 @@ use App\Models\Bap;
 use App\Models\LaporanHasilGelar;
 use App\Models\Lpa;
 use App\Models\SprinRiksa;
+use App\Models\Timeline;
 use App\Models\UndanganGelar;
 use Carbon\Carbon;
 use DateTime;
@@ -104,9 +105,10 @@ class SidikController extends Controller
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $bap = Bap::where('data_pelanggar_id', $kasus_id)->first();
         $sprin = SprinRiksa::where('data_pelanggar_id', $kasus_id)->first();
-
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
+        $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)
+            ->where('type', 1)->first();
+        $penyidik = Penyidik::where('tim', $disposisi->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $disposisi->tim)->where('fungsional', 'Akreditor Utama')->first();
         $lpa = Lpa::where('data_pelanggar_id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
@@ -262,7 +264,8 @@ class SidikController extends Controller
         }
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         // $value = AuditInvestigasiController::valueDoc($kasus_id, true, false, false, false, false, false, false, false, false);
-        $undangan_geler = UndanganGelar::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
+        $undangan_geler = Timeline::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
+
         $laporan_hasil_gelar = LaporanHasilGelar::where('data_pelanggar_id', $kasus->id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/lpa.docx'));
         $tanggal = date('Y-m-d');
@@ -276,7 +279,7 @@ class SidikController extends Controller
             'nama_terlapor' => $kasus->terlapor,
             'pangkat_terlapor' => $kasus->pangkat->terlapor,
             'polda_terlapor' => $kasus->kesatuan,
-            'pasal' => $laporan_hasil_gelar->pasal_dilanggar,
+            'pasal' => $laporan_hasil_gelar ? $laporan_hasil_gelar->pasal_dilanggar : '',
             'kronologi' => $kasus->kronologi,
             'hari' => Carbon::parse($tanggal)->translatedFormat('l'),
             'tanggal' => Carbon::parse($tanggal)->translatedFormat('d F Y'),

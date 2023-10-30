@@ -801,15 +801,18 @@ class AuditInvestigasiController extends Controller
             // $data['jabtan_pelanggar'] = $pembentukan_data->jabatan;
             // $data['kesatuan_pelanggar'] = $pembentukan_data->kesatuan;
         }
+
+        $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)
+            ->where('type', 1)->first();
         $nota_dinas = explode('/', $kasus->no_nota_dinas);
         $kepala_bagian = end($nota_dinas);
         $data += array(
             'kepala_bagian' => $kepala_bagian,
-            'tanggal_audit' => Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y'),
-            'no_sprin' => $sprin->no_sprin,
-            'tim' => $sprin->tim,
-            'bulan_tahun_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y'),
-            'tanggal_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
+            'tanggal_audit' => $sprin ? Carbon::parse($sprin->tanggal_investigasi)->translatedFormat('d F Y') : '....',
+            'no_sprin' => $sprin ? $sprin->no_sprin : '...',
+            'tim' => $disposisi ? $disposisi->tim : '...',
+            'bulan_tahun_sprin' => $sprin ? Carbon::parse($sprin->created_at)->translatedFormat('F Y') : '...',
+            'tanggal_sprin' => $sprin ? Carbon::parse($sprin->created_at)->translatedFormat('d F Y') : '...',
             'tanggal_no_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'perihal' => $kasus->perihal_nota_dinas,

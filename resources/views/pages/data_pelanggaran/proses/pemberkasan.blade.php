@@ -216,7 +216,7 @@
                             <td>Nota Dinas Penyerahan Berkas</td>
                             <td>
                                 <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
-                                    class="btn btn-outline-primary text-primar">
+                                    class="btn btn-primary text-primary">
                                     <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
                                     </button>
                                 </a>

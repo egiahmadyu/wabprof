@@ -232,12 +232,13 @@ class KasusController extends Controller
         $kasus = DataPelanggar::find($id);
         $perbaikan = Bp3kepps::where('data_pelanggar_id', $id)->first();
         $perbaikan_data = Bp3kepps::where('data_pelanggar_id', $id)->get();
-
+        $disposisi = Disposisi::where('data_pelanggar_id', $id)
+            ->where('type', 1)->first();
         $data = [
             'kasus' => $kasus,
             'perbaikan' => $perbaikan,
             'perbaikan_data' => $perbaikan_data,
-            'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
+            'sprin' => $disposisi,
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
             'penuntutan' => Penuntutan::where('data_pelanggar_id', $id)->first(),

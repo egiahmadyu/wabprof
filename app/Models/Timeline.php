@@ -14,4 +14,9 @@ class Timeline extends Model
     {
         return $this->hasOne(Dihentikan::class, 'data_pelanggar_id', 'data_pelanggar_id');
     }
+
+    public function penyidik()
+    {
+        return $this->hasOne(Penyidik::class, 'id', 'penyidik_id');
+    }
 }
