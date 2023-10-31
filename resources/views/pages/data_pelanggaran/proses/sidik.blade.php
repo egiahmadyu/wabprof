@@ -109,12 +109,15 @@
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
-                Tambah Terlapor</button>
+    @if ($kasus->status_dihentikan == 0)
+        <div class="row mb-4">
+            <div class="div col-12">
+                <button type="button" class="btn btn-primary col-12 btn-terlapor"><span
+                        class="far fa-plus-square"></span>
+                    Tambah Terlapor</button>
+            </div>
         </div>
-    </div>
+    @endif
 
     <!-- Isi Form -->
     <div class="row">

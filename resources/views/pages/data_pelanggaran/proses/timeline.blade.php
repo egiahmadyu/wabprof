@@ -99,12 +99,16 @@
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
-                Tambah Terlapor</button>
+    @if ($kasus->status_dihentikan == 0)
+        <div class="row mb-4">
+            <div class="div col-12">
+                <button type="button" class="btn btn-primary col-12 btn-terlapor"><span
+                        class="far fa-plus-square"></span>
+                    Tambah Terlapor</button>
+            </div>
         </div>
-    </div>
+    @endif
+
 
     <form action="/klarifikasi/store" id="form_timeline" method="post" novalidate>
         <div class="col-lg-12">
@@ -238,10 +242,12 @@
                 <div class="col-lg-12 mb-3 limpah-polda d-none">
 
                 </div>
-                <button class="btn btn-success btn-lanjut col-12" name="type_submit" value="update_status"
-                    type="submit" {{ $data_klarifikasi ? 'disabled' : '' }}>
-                    Simpan Data & Update Status
-                </button>
+                @if ($kasus->status_dihentikan == 0)
+                    <button class="btn btn-success btn-lanjut col-12" name="type_submit" value="update_status"
+                        type="submit" {{ $data_klarifikasi ? 'disabled' : '' }}>
+                        Simpan Data & Update Status
+                    </button>
+                @endif
             </div>
         </div>
     </form>
