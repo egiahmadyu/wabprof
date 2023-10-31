@@ -199,7 +199,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/sidangkeep/save', [SidangController::class, 'simpan_sidang_kepp']);
     Route::post('/sidangkeep/pengajuan_banding', [SidangController::class, 'pengajuan_sidang_banding']);
+    Route::post('/sidangkeep/pengajuan_ulang', [SidangController::class, 'pengajuan_ulang']);
     Route::post('/sidang_banding/save', [SidangController::class, 'simpan_sidang_banding']);
+    Route::post('/sidang_kembali/save', [SidangController::class, 'simpan_sidang_kembali']);
 
 
     Route::post('/tambah_terlapor', [TerlaporController::class, 'tambah_terlapor']);

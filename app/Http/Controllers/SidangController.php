@@ -10,6 +10,7 @@ use App\Models\KeputusanAdministratif;
 use App\Models\KeputusanEtik;
 use App\Models\SidangBanding;
 use App\Models\SidangKepp;
+use App\Models\SidangPeninjauan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -214,6 +215,15 @@ class SidangController extends Controller
         return redirect()->back();
     }
 
+    public function pengajuan_ulang(Request $request)
+    {
+        SidangPeninjauan::create([
+            'data_pelanggar_id' => $request->kasus_id
+        ]);
+
+        return redirect()->back();
+    }
+
     public function simpan_sidang_banding(Request $request)
     {
 
@@ -237,6 +247,35 @@ class SidangController extends Controller
             KeputusanAdministratif::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'tipe_sidang' => 'sidang_banding',
+                'keputusan' => $keputusan_administratif[$i]
+            ]);
+        }
+        return redirect()->back();
+    }
+
+    public function simpan_sidang_kembali(Request $request)
+    {
+
+        $keputusan_etik = $request->keputusan_etik;
+        $keputusan_administratif = $request->keputusan_administratif;
+        unset($request['_token']);
+        unset($request['keputusan_administratif']);
+        unset($request['keputusan_etik']);
+        $sidang = SidangPeninjauan::where('data_pelanggar_id', $request->data_pelanggar_id)
+            ->update($request->all());
+        $sidang = SidangPeninjauan::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        for ($i = 0; $i < count($keputusan_etik); $i++) {
+            KeputusanEtik::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'tipe_sidang' => 'sidang_kembali',
+                'keputusan' => $keputusan_etik[$i]
+            ]);
+        }
+
+        for ($i = 0; $i < count($keputusan_administratif); $i++) {
+            KeputusanAdministratif::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'tipe_sidang' => 'sidang_kembali',
                 'keputusan' => $keputusan_administratif[$i]
             ]);
         }

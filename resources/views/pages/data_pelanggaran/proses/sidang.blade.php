@@ -278,7 +278,7 @@
             </div>
         @endif
     @endif
-    aa
+
     @if ($sidang_banding)
         <div class="row mb-2">
             <form class="row g-3" novalidate id="form_sidang_banding" method="post" action="/sidang_banding/save">
@@ -440,41 +440,178 @@
         </div>
     @endif
 
-    <!-- Isi Form -->
-    {{-- <div class="row">
-        <div class="col-lg-12">
-            <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                <thead class="text-muted table-light">
-                    <tr>
-                        <th scope="col"> Nama Kegiatan</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Putusan Sidang Kepp</td>
-                        <td>
-                            <a href="/putusan-sidang-kepp/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pengiriman Putusan Sidang</td>
-                        <td>
-                            <a href="/pengiriman-putusan-sidang/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    @if ($sidang_banding && $sidang_banding->kehadiran == 'Hadir')
+        @if (!$sidang_kembali)
+            <div class="row mt-2">
+                <div class="col-lg-12">
+                    <form action="/sidangkeep/pengajuan_ulang" method="post">
+                        @csrf
+                        <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
+                            name="kasus_id">
+                        <button class="btn btn-success" name="type_submit" value="update_status">
+                            Ajukan Sidang Peninjauan Kembali
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @endif
+    @endif
+
+
+    @if ($sidang_kembali)
+        <div class="row mb-2">
+            <form class="row g-3" novalidate id="form_sidang_kembali" method="post" action="/sidang_kembali/save">
+                @csrf
+                <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+                <hr>
+                <div class="row">
+                    <h4>Sidang Peninjauan Kembali</h4>
+                    <div class="col-2 mb-4">
+                        <label for="inputAddress" class="form-label">Tanggal Usulan Kep Tim Peneliti</label>
+                        <input type="date" class="form-control" name="tanggal_usulan_kep" required
+                            value="{{ $sidang_kembali ? $sidang_kembali->tanggal_usulan_kep : '' }}"
+                            {{ $sidang_kembali ? ($sidang_kembali->tanggal_usulan_kep ? 'disabled' : '') : '' }}>
+                    </div>
+                    <hr>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Tanggal Sidang</label>
+                        <input type="date" class="form-control" name="tgl_sidang" required
+                            value="{{ $sidang_kembali ? $sidang_kembali->tgl_sidang : '' }}"
+                            {{ $sidang_kembali ? ($sidang_kembali->tgl_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Jam Sidang</label>
+                        <input type="time" class="form-control" name="jam_sidang" required
+                            value="{{ $sidang_kembali ? $sidang_kembali->jam_sidang : '' }}"
+                            {{ $sidang_kembali ? ($sidang_kembali->jam_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-4">
+                        <label for="inputAddress2" class="form-label">Tempat Sidang</label>
+                        <input type="text" class="form-control" name="tempat_sidang" required
+                            value="{{ $sidang_kembali ? $sidang_kembali->tempat_sidang : '' }}"
+                            {{ $sidang_kembali ? ($sidang_kembali->tempat_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Pakaian Sidang</label>
+                        <input type="text" class="form-control" name="pakaian_sidang" required
+                            value="{{ $sidang_kembali ? $sidang_kembali->pakaian_sidang : '' }}"
+                            {{ $sidang_kembali ? ($sidang_kembali->pakaian_sidang ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Kehadiran</label>
+                        <select class="form-select" aria-label="Default select example" required name="kehadiran"
+                            {{ $sidang_kembali ? ($sidang_kembali->kehadiran ? 'disabled' : '') : '' }}>
+                            <option selected value="">--> Pilih Kehadiran <-- </option>
+                            <option value="Hadir"
+                                {{ $sidang_kembali ? ($sidang_kembali->kehadiran == 'Hadir' ? 'selected' : '') : '' }}>
+                                Hadir</option>
+                            <option
+                                value="Tidak Hadir"{{ $sidang_kembali ? ($sidang_kembali->kehadiran == 'Tidak Hadir' ? 'selected' : '') : '' }}>
+                                Tidak Hadir</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="row putusan_sidang_row">
+                    <h4>Putusan Sidang</h4>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Putusan Sidang</label>
+                        <select class="form-select" aria-label="Default select example" name="putusan_sidang"
+                            required id="putusan_sidang_banding"
+                            {{ $sidang_kembali ? ($sidang_kembali->putusan_sidang ? 'disabled' : '') : '' }}>
+                            <option selected value="">--> Pilih Putusan Sidang <-- </option>
+                            <option value="Terbukti"
+                                {{ $sidang_kembali ? ($sidang_kembali->putusan_sidang == 'Terbukti' ? 'selected' : '') : '' }}>
+                                Terbukti
+                            </option>
+                            <option value="Tidak Terbukti"
+                                {{ $sidang_kembali ? ($sidang_kembali->putusan_sidang == 'Tidak Terbukti' ? 'selected' : '') : '' }}>
+                                Tidak
+                                Terbukti</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Keputusan Etik</label>
+                        @if ($sidang_kembali && count($sidang_kembali->keputusan_etiks) > 0)
+                            <ul>
+                                @foreach ($sidang_kembali->keputusan_etiks as $value)
+                                    <li>{{ $value->keputusan }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <select class="form-select" aria-label="Default select example" name="keputusan_etik[]"
+                                multiple="multiple" required id="keputusan_etik_sidang_banding">
+                                <option value="">--> Pilih Keputusan <-- </option>
+                                <option value="Perilaku Pelanggar dinyatakan sebagai perbuatan tercela">Perilaku
+                                    Pelanggar
+                                    dinyatakan sebagai perbuatan tercela
+                                </option>
+                                <option
+                                    value="Kewajiban Pelanggar untuk meminta maaf secara lisan dihadapan Sidang KKEP dan secara tertulis kepada pimpinan Polri dan pihak yang dirugikan">
+                                    Kewajiban Pelanggar untuk meminta maaf secara lisan dihadapan Sidang KKEP dan secara
+                                    tertulis kepada pimpinan Polri dan pihak yang dirugikan
+                                </option>
+                                <option
+                                    value="Kewajiban Pelanggar untuk mengikuti pembinaan rohani, mental dan pengetahuan profesi selama 1 (satu) bulan">
+                                    Kewajiban Pelanggar untuk mengikuti pembinaan rohani, mental dan pengetahuan profesi
+                                    selama
+                                    1 (satu) bulan
+                                </option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Keputusan Administratif</label>
+                        @if ($sidang_kembali && count($sidang_kembali->administratif) > 0)
+                            <ul>
+                                @foreach ($sidang_kembali->administratif as $value)
+                                    <li>{{ $value->keputusan }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <select class="form-select" aria-label="Default select example"
+                                name="keputusan_administratif[]" multiple="multiple" required
+                                id="keputusan_administratif_sidang_banding"
+                                {{ $sidang_kembali ? ($sidang_kembali->keputusan_etik || $sidang_kembali->keputusan_administratif ? 'disabled' : '') : '' }}>
+                                <option value="">--> Pilih Keputusan <-- </option>
+                                <option value="Mutasi Bersifat Demosi paling singkat 1 (satu) tahun">Mutasi Bersifat
+                                    Demosi
+                                    paling singkat 1 (satu) tahun</option>
+                                <option
+                                    value="Penundaan kenaikan pangkat paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)">
+                                    Penundaan kenaikan pangkat paling singkat 1 (satu) tahun dan paling lama 3 (tiga
+                                    tahun)
+                                </option>
+                                <option
+                                    value="Penundaan pendidikan paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)">
+                                    Penundaan pendidikan paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)
+                                </option>
+                                <option value="Penempatan pada Tempat Khusus paling lama 30 (tiga puluh) hari">
+                                    Penempatan pada Tempat
+                                    Khusus paling lama 30 (tiga puluh) hari</option>
+                                <option value="PTDH">PTDH</option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputCity" class="form-label">Keputusan Sidang</label>
+                        <textarea name="keputusan_sidang" cols="30" id="alamat" rows="9" placeholder="Keputusan Hakim"
+                            required class="form-control border-dark"
+                            {{ $sidang_kembali ? ($sidang_kembali->keputusan_sidang ? 'readonly' : '') : '' }}>{{ $sidang_kembali ? $sidang_kembali->keputusan_sidang : '' }}</textarea>
+                        </select>
+                    </div>
+                </div>
+                @if (!$sidang_kembali->putusan_sidang)
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Simpan Data</button>
+                        </div>
+                    </div>
+                @endif
+                <hr>
+            </form>
         </div>
-    </div> --}}
+    @endif
 </div>
 
 <div class="modal fade" id="modal_pembentukan_komisi" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -673,6 +810,25 @@
         theme: 'bootstrap-5'
     });
 
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_sidang_kembali')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
     (function() {
         'use strict'
 

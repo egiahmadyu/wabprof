@@ -30,6 +30,7 @@ use App\Models\Penuntutan;
 use App\Models\Polda;
 use App\Models\SidangBanding;
 use App\Models\SidangKepp;
+use App\Models\SidangPeninjauan;
 use App\Models\SprinRiksa;
 use App\Models\Timeline;
 use App\Models\WujudPerbuatan;
@@ -265,7 +266,8 @@ class KasusController extends Controller
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
             'sidang' => SidangKepp::where('data_pelanggar_id', $id)->with(['keputusan_etiks'])->first(),
-            'sidang_banding' => SidangBanding::where('data_pelanggar_id', $id)->first()
+            'sidang_banding' => SidangBanding::where('data_pelanggar_id', $id)->first(),
+            'sidang_kembali' => SidangPeninjauan::where('data_pelanggar_id', $id)->first()
         ];
         return view('pages.data_pelanggaran.proses.sidang', $data);
     }
