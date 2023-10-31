@@ -177,16 +177,6 @@
                         </td>
 
                     </tr>
-                    {{-- <tr>
-                        <td>Undangan Pemerikasaan</td>
-                        <td>
-                            <a href="/gelar-perkara-undangan/{{ $kasus->id }}">
-                                <button type="button" class="btn btn-outline-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="fas fa-print"></i> Dokumen</h6>
-                                </button>
-                            </a>
-                        </td>
-                    </tr> --}}
                     <tr>
                         <td>Berita Acara Pemeriksaan</td>
                         <td>
@@ -279,14 +269,18 @@
                 <button type="button" class="btn-close btn-tutup" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
-            <form action="/lpa" method="post" id="form-bap">
+            <form action="/lpa" method="post" id="form_lpa" novalidate>
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="data_pelanggar_id" value="{{ $kasus->id }}">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor LPA</label>
                         <input type="text" class="form-control" name="nomor_surat_lpa" id="nomor_surat_lpa"
-                            aria-describedby="emailHelp">
+                            aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Pasal Yang Dilanggar</label>
+                        <textarea class="form-control" id="pasal_yang_dilanggar" rows="3" name="pasal_yang_dilanggar" required>{{ $laporan_gelar ? $laporan_gelar->pasal_yang_dilanggar : '' }}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -410,4 +404,24 @@
         });
 
     });
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_lpa')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
 </script>

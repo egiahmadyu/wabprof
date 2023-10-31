@@ -7,6 +7,7 @@ use App\Models\Disposisi;
 use App\Models\SprinHistory;
 use App\Models\Penyidik;
 use App\Models\Bap;
+use App\Models\Klarifikasi;
 use App\Models\LaporanHasilGelar;
 use App\Models\Lpa;
 use App\Models\SprinRiksa;
@@ -34,9 +35,11 @@ class SidikController extends Controller
         $kasus = DataPelanggar::where('id', $request->data_pelanggar_id)->first();
         $bap = Bap::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $sprin = SprinRiksa::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+        $klarifikasi = Klarifikasi::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
 
-        $penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $sprin->tim)->where('fungsional', 'Akreditor Utama')->first();
+
+        $penyidik = Penyidik::where('tim', $klarifikasi->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $klarifikasi->tim)->where('fungsional', 'Akreditor Utama')->first();
         $lpa = Lpa::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
@@ -105,10 +108,11 @@ class SidikController extends Controller
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         $bap = Bap::where('data_pelanggar_id', $kasus_id)->first();
         $sprin = SprinRiksa::where('data_pelanggar_id', $kasus_id)->first();
-        $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)
-            ->where('type', 1)->first();
-        $penyidik = Penyidik::where('tim', $disposisi->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
-        $ketua_penyidik = Penyidik::where('tim', $disposisi->tim)->where('fungsional', 'Akreditor Utama')->first();
+        $klarifikasi = Klarifikasi::where('data_pelanggar_id', $kasus_id)->first();
+
+
+        $penyidik = Penyidik::where('tim', $klarifikasi->tim)->where('fungsional', '<>', 'Akreditor Utama')->with('pangkat')->get()->toArray();
+        $ketua_penyidik = Penyidik::where('tim', $klarifikasi->tim)->where('fungsional', 'Akreditor Utama')->first();
         $lpa = Lpa::where('data_pelanggar_id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/bap.docx'));
 
@@ -258,13 +262,14 @@ class SidikController extends Controller
         if (!$lpa) {
             $lpa = Lpa::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
-                'nomor_surat' => $request->nomor_surat_lpa
+                'nomor_surat' => $request->nomor_surat_lpa,
+                'pasal_yang_dilanggar' => $request->pasal_yang_dilanggar
             ]);
             $kasus_id = $request->data_pelanggar_id;
         }
         $kasus = DataPelanggar::where('id', $kasus_id)->first();
         // $value = AuditInvestigasiController::valueDoc($kasus_id, true, false, false, false, false, false, false, false, false);
-        $undangan_geler = Timeline::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
+        $undangan_geler = Klarifikasi::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
 
         $laporan_hasil_gelar = LaporanHasilGelar::where('data_pelanggar_id', $kasus->id)->first();
         $template_document = new TemplateProcessor(storage_path('template_surat/lpa.docx'));
@@ -279,7 +284,7 @@ class SidikController extends Controller
             'nama_terlapor' => $kasus->terlapor,
             'pangkat_terlapor' => $kasus->pangkat->terlapor,
             'polda_terlapor' => $kasus->kesatuan,
-            'pasal' => $laporan_hasil_gelar ? $laporan_hasil_gelar->pasal_dilanggar : '',
+            'pasal' => $lpa->pasal_yang_dilanggar,
             'kronologi' => $kasus->kronologi,
             'hari' => Carbon::parse($tanggal)->translatedFormat('l'),
             'tanggal' => Carbon::parse($tanggal)->translatedFormat('d F Y'),

@@ -13,6 +13,7 @@ use App\Http\Controllers\PenyidikController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\WujudPerbuatanController;
 use App\Http\Controllers\KasusController;
+use App\Http\Controllers\KlarifikasiController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\PenuntutanController;
 use App\Http\Controllers\ProvostWabprofController;
@@ -130,7 +131,7 @@ Route::middleware(['auth'])->group(function () {
     //END SPRIN
 
     //Store Time Line
-    Route::post('/timeline/store', [TimelineController::class, 'store']);
+    Route::post('/klarifikasi/store', [KlarifikasiController::class, 'store']);
     // Generate
     Route::post('/lembar-disposisi-kabag', [DiterimaController::class, 'generateDisposisiKabag']);
     Route::get('/lembar-disposisi-kabag/{id}', [DiterimaController::class, 'disposisiKabag']);
@@ -160,6 +161,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/administrasi-sidang/{id}', [PemberkasanController::class, 'AdmistrasiSidang']);
     Route::post('/nota-dinas-penyerahan', [PemberkasanController::class, 'generateNotaDinasPenyerahan']);
     Route::post('/pemberkasan/save', [PemberkasanController::class, 'simpan_data']);
+    Route::post('/pemberkasan/update', [PemberkasanController::class, 'update_data']);
 
     Route::get('/nota-dinas-penyerahan/{id}', [PemberkasanController::class, 'notaDinasPenyerahan']);
     Route::post('/nota-dinas-perbaikan', [PemberkasanController::class, 'generateNotaDinasPerbaikan']);

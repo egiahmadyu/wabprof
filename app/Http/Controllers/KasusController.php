@@ -19,6 +19,7 @@ use App\Models\Penyerahan;
 use App\Models\Penyidik;
 use App\Models\Permohonan;
 use App\Models\Bp3kepps;
+use App\Models\Klarifikasi;
 use App\Models\Lpa;
 use App\Models\Sp2hp2Hisory;
 use App\Models\SprinHistory;
@@ -69,6 +70,7 @@ class KasusController extends Controller
     public function storeKasus(Request $request)
     {
 
+        dd($request->all());
         $no_pengaduan = "123456"; //generate otomatis
         // dd($request->all());
         $DP = DataPelanggar::create([
@@ -242,6 +244,7 @@ class KasusController extends Controller
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
             'penuntutan' => Penuntutan::where('data_pelanggar_id', $id)->first(),
+            'pemberkasan' => Pemberkasan::where('data_pelanggar_id', $id)->first()
         ];
         return view('pages.data_pelanggaran.proses.penuntutan', $data);
     }
@@ -261,7 +264,7 @@ class KasusController extends Controller
             'sprin' => SprinHistory::where('data_pelanggar_id', $id)->first(),
             'uuk' => UukHistory::where('data_pelanggar_id', $id)->first(),
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
-            'sidang' => SidangKepp::where('data_pelanggar_id', $id)->first(),
+            'sidang' => SidangKepp::where('data_pelanggar_id', $id)->with(['keputusan_etiks'])->first(),
             'sidang_banding' => SidangBanding::where('data_pelanggar_id', $id)->first()
         ];
         return view('pages.data_pelanggaran.proses.sidang', $data);
@@ -273,7 +276,7 @@ class KasusController extends Controller
         $tim = ['A', 'B', 'C', 'D', 'E', 'F'];
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
         $penyidik = Penyidik::where('tim', $disposisi->tim)->get();
-        $data_klarifikasi = Timeline::where('data_pelanggar_id', $id)->first();;
+        $data_klarifikasi = Klarifikasi::where('data_pelanggar_id', $id)->first();;
         $data = [
             'kasus' => $kasus,
             'tims' => $tim,
@@ -330,6 +333,7 @@ class KasusController extends Controller
             'bap' => Bap::where('data_pelanggar_id', $id)->first(),
             'lpa' => Lpa::where('data_pelanggar_id', $id)->first(),
             'sprin_riksa' => SprinRiksa::where('data_pelanggar_id', $id)->first(),
+            'laporan_gelar' => LaporanHasilGelar::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.sidik', $data);
     }
@@ -451,7 +455,7 @@ class KasusController extends Controller
 
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->first();
         $disposisi = Disposisi::where('data_pelanggar_id', $id)->where('type', 1)->first();
-        $klarifikasi = Timeline::where('data_pelanggar_id', $id)->first();
+        $klarifikasi = Klarifikasi::where('data_pelanggar_id', $id)->first();
         // dd($klarifikasi);
         $data = [
             'kasus' => $kasus,

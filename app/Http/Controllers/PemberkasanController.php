@@ -215,4 +215,15 @@ class PemberkasanController extends Controller
 
         return redirect()->back();
     }
+
+    public function update_data(Request $request)
+    {
+        unset($request['_token']);
+        $data_pelanggar_id = $request->data_pelanggar_id;
+        unset($request['data_pelanggar_id']);
+        Pemberkasan::where('data_pelanggar_id', $data_pelanggar_id)
+            ->update($request->all());
+
+        return redirect()->back();
+    }
 }

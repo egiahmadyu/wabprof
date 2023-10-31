@@ -6,6 +6,8 @@ use App\Models\PembentukanKomisi;
 use App\Models\SusunanKomisi;
 use App\Models\DataPelanggar;
 use App\Http\Controllers\AuditInvestigasiController;
+use App\Models\KeputusanAdministratif;
+use App\Models\KeputusanEtik;
 use App\Models\SidangBanding;
 use App\Models\SidangKepp;
 use Carbon\Carbon;
@@ -177,14 +179,28 @@ class SidangController extends Controller
 
     public function simpan_sidang_kepp(Request $request)
     {
-        $keputusan_terbukti = $request->keputusan_terbukti;
+        $keputusan_etik = $request->keputusan_etik;
+        $keputusan_administratif = $request->keputusan_administratif;
         unset($request['_token']);
-        unset($request['keputusan_terbukti']);
+        unset($request['keputusan_administratif']);
+        unset($request['keputusan_etik']);
         $sidang = SidangKepp::create($request->all());
-        for ($i = 0; $i < count($keputusan_terbukti); $i++) {
-            if ($keputusan_terbukti[$i] == 'Keputusan Etik') $sidang->keputusan_etik = 1;
-            elseif ($keputusan_terbukti[$i] == 'Keputusan Administratif') $sidang->keputusan_administratif = 1;
-            $sidang->save();
+        for ($i = 0; $i < count($keputusan_etik); $i++) {
+
+            KeputusanEtik::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'tipe_sidang' => 'sidang_kepp',
+                'keputusan' => $keputusan_etik[$i]
+            ]);
+        }
+
+        for ($i = 0; $i < count($keputusan_administratif); $i++) {
+
+            KeputusanAdministratif::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'tipe_sidang' => 'sidang_kepp',
+                'keputusan' => $keputusan_administratif[$i]
+            ]);
         }
         return redirect()->back();
     }
@@ -192,8 +208,7 @@ class SidangController extends Controller
     public function pengajuan_sidang_banding(Request $request)
     {
         SidangBanding::create([
-            'data_pelanggar_id' => $request->kasus_id,
-            'tanggal_permohonan_sidang_banding' => date('Y-m-d')
+            'data_pelanggar_id' => $request->kasus_id
         ]);
 
         return redirect()->back();
@@ -201,16 +216,29 @@ class SidangController extends Controller
 
     public function simpan_sidang_banding(Request $request)
     {
+
+        $keputusan_etik = $request->keputusan_etik;
+        $keputusan_administratif = $request->keputusan_administratif;
         unset($request['_token']);
-        $keputusan_terbukti = $request->keputusan_terbukti;
-        unset($request['keputusan_terbukti']);
+        unset($request['keputusan_administratif']);
+        unset($request['keputusan_etik']);
         $sidang = SidangBanding::where('data_pelanggar_id', $request->data_pelanggar_id)
             ->update($request->all());
         $sidang = SidangBanding::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        for ($i = 0; $i < count($keputusan_terbukti); $i++) {
-            if ($keputusan_terbukti[$i] == 'Keputusan Etik') $sidang->keputusan_etik = 1;
-            elseif ($keputusan_terbukti[$i] == 'Keputusan Administratif') $sidang->keputusan_administratif = 1;
-            $sidang->save();
+        for ($i = 0; $i < count($keputusan_etik); $i++) {
+            KeputusanEtik::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'tipe_sidang' => 'sidang_banding',
+                'keputusan' => $keputusan_etik[$i]
+            ]);
+        }
+
+        for ($i = 0; $i < count($keputusan_administratif); $i++) {
+            KeputusanAdministratif::create([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'tipe_sidang' => 'sidang_banding',
+                'keputusan' => $keputusan_administratif[$i]
+            ]);
         }
         return redirect()->back();
     }

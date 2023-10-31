@@ -15,7 +15,7 @@
         <div class="text-center">
             <h3>Form Input Dumas</h3>
         </div>
-        <form action="/input-data-kasus/store" id="input-pelanggar" method="post">
+        <form action="/input-data-kasus/store" id="input-pelanggar" method="post" class="row g-3 needs-validation" novalidate>
             @csrf
             <div class="row">
                 <hr>
@@ -24,16 +24,17 @@
                 <div class="col-lg-6 mb-3">
                     <label for="no_nota_dinas" class="form-label">No. Nota Dinas</label>
                     <input type="text" name="no_nota_dinas" id="no_nota_dinas"class="form-control border-dark"
-                        placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}">
+                        placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Perihal Nota Dinas</label>
                     <input type="text" name="perihal_nota_dinas" id="perihal_nota_dinas" class="form-control border-dark"
-                        placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}">
+                        placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}"
+                        required>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
-                    <select name="id_wujud_perbuatan" id="id_wujud_perbuatan" class="form-control">
+                    <select name="id_wujud_perbuatan" id="id_wujud_perbuatan" class="form-control" required>
                         <option value="">Pilih Wujud Perbuatan</option>
                         @if (isset($wujud_perbuatan))
                             @foreach ($wujud_perbuatan as $key => $wujud)
@@ -47,8 +48,8 @@
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_nota_dinas" class="form-label">Tanggal Nota Dinas</label>
                     <input type="date" id="tanggal_nota_dinas" name="tanggal_nota_dinas"
-                        class="form-control border-dark datepicker" data-select="datepicker"
-                        value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}">
+                        class="form-control border-dark datepicker"
+                        value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
                 </div>
             </div>
             {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
@@ -61,7 +62,7 @@
                         <div class="col-lg-12 mb-3">
                             <label for="pelapor" class="form-label">Pelapor</label>
                             <input type="text" name="pelapor" id="pelapor" class="form-control border-dark"
-                                placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}">
+                                placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
                         </div>
                         <div class="col-lg-4 mb-3">
                             <label for="umur" class="form-label">Umur</label>
@@ -72,7 +73,7 @@
                             <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                             {{-- <input type="text" name="jenis_kelamin" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->jenis_kelamin : '' }}" > --}}
                             <select class="form-select border-dark" aria-label="Default select example"
-                                name="jenis_kelamin"id="jenis_kelamin">
+                                name="jenis_kelamin"id="jenis_kelamin" required>
                                 <option value="" selected>-- Jenis Kelamin --</option>
                                 {{-- <option value="0">Laki-laki</option>
                                 <option value="1">Perempuan</option> --}}
@@ -88,18 +89,19 @@
                         <div class="col-lg-4 mb-3">
                             <label for="no_telp" class="form-label">No. Telephone</label>
                             <input type="text" name="no_telp" class="form-control border-dark"
-                                placeholder="No. Telephone" value="{{ isset($kasus) ? $kasus->no_telp : '' }}">
+                                placeholder="No. Telephone" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pekerjaan" class="form-label">Pekerjaan</label>
                             <input type="text" name="pekerjaan" class="form-control border-dark"
-                                placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}">
+                                placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}"
+                                required>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="agama" class="form-label">Agama</label>
                             {{-- <input type="text" name="agama" class="form-control border-dark" placeholder="Agama Pelapor" value="{{ isset($kasus) ? $kasus->agama : '' }}" > --}}
                             <select class="form-select border-dark" aria-label="Default select example" name="agama"
-                                id="agama">
+                                id="agama" required>
                                 <option value="" selected>-- Agama --</option>
                                 @foreach ($agama as $key => $ag)
                                     <option value="{{ $ag->id }}">{{ $ag->name }}</option>
@@ -110,14 +112,14 @@
                             <label for="no_identitas" class="form-label">No Identitas</label>
                             <input type="text" name="no_identitas" id="no_identitas"
                                 placeholder="1234-5678-9012-1234" class="form-control border-dark"
-                                value="{{ isset($kasus) ? $kasus->no_identitas : '' }}">
+                                value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" required>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <label for="jenis_identitas" class="form-label">Jenis Identitas</label>
                             {{-- <input type="text" name="jenis_identitas" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->jenis_identitas : '' }}" > --}}
                             <select class="form-select border-dark" aria-label="Default select example"
-                                name="jenis_identitas"id="jenis-identitas">
+                                name="jenis_identitas"id="jenis-identitas" required>
                                 <option value="" selected>-- Jenis Identitas --</option>
                                 @if (isset($jenis_identitas))
                                     @foreach ($jenis_identitas as $key => $ji)
@@ -132,7 +134,7 @@
                         <div class="col-lg-12 mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
                             <textarea name="alamat" cols="30" id="alamat" rows="9" placeholder="Alamat"
-                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat : '' }}"></textarea>
+                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat : '' }}" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -146,7 +148,8 @@
                         <div class="col-lg-12 mb-3">
                             <label for="terlapor" class="form-label">Terlapor</label>
                             <input type="text" name="terlapor" id="terlapor" placeholder="Nama Terlapor"
-                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->terlapor : '' }}">
+                                class="form-control border-dark" value="{{ isset($kasus) ? $kasus->terlapor : '' }}"
+                                required>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tempat" class="form-label">Tempat Lahir</label>
@@ -155,7 +158,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" data-select="datepicker"
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir"
                                 class="form-control border-dark datepicker"
                                 value="{{ isset($kasus) ? $kasus->tanggal_lahir : '' }}">
                         </div>
@@ -172,7 +175,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
-                            <select name="id_pangkat" id="id_pangkat" class="form-control">
+                            <select name="id_pangkat" id="id_pangkat" class="form-control" required>
                                 <option value="">Pilih Pangkat</option>
                                 @if (isset($pangkat))
                                     @foreach ($pangkat as $key => $pangkt)
@@ -185,8 +188,8 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="nrp" class="form-label">NRP</label>
-                            <input type="text" name="nrp" id="nrp" placeholder="NRP Terlapor"
-                                maxlength="16" class="form-control border-dark"
+                            <input type="tel" name="nrp" id="nrp" placeholder="NRP Terlapor" required
+                                maxlength="8" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->nrp : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -197,7 +200,7 @@
                         <div class="col-lg-6 mb-3">
                             <label for="agama" class="form-label">Agama</label>
                             {{-- <input type="text" name="agama_terlapor" class="form-control border-dark" placeholder="Agama Terlapor" value="{{ isset($kasus) ? $kasus->agama_terlapor : '' }}" > --}}
-                            <select class="form-select border-dark" aria-label="Default select example"
+                            <select class="form-select border-dark" aria-label="Default select example" required
                                 name="agama_terlapor" id="agama_terlapor">
                                 <option value="" selected>-- Agama --</option>
                                 @foreach ($agama as $key => $ag)
@@ -207,13 +210,13 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="jabatan" class="form-label">Jabatan</label>
-                            <input type="text" name="jabatan" id="jabatan" placeholder="Jabatan Terlapor"
+                            <input type="text" name="jabatan" id="jabatan" placeholder="Jabatan Terlapor" required
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->jabatan : '' }}">
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="kesatuan" class="form-label">Kesatuan</label>
                             <select class="form-select border-dark" aria-label="Default select example" name="kesatuan"
-                                id="kesatuan">
+                                required id="kesatuan">
                                 <option value="" selected>-- Kesatuan --</option>
                                 @foreach ($kesatuan as $key => $value)
                                     <option value="POLDA {{ $value->name }}">POLDA {{ $value->name }}</option>
@@ -225,12 +228,6 @@
                             <textarea name="alamat_terlapor" id="alamat_terlapor" cols="30" rows="4" placeholder="Alamat"
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->alamat_terlapor : '' }}"></textarea>
                         </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="alamat" class="form-label">Alamat Tempat Tinggal</label>
-                            <textarea name="alamat_tempat_tinggal" id="alamat_tempat_tinggal" cols="30" rows="4"
-                                placeholder="Alamat" class="form-control border-dark"
-                                value="{{ isset($kasus) ? $kasus->alamat_tempat_tinggal : '' }}"></textarea>
-                        </div>
                     </div>
                     <div class="row">
                         <hr>
@@ -240,23 +237,23 @@
                             <label for="tempat_kejadian" class="form-label">Tempat Kejadian</label>
                             <input type="text" name="tempat_kejadian" id="tempat_kerjadian"
                                 class="form-control border-dark" placeholder="Tempat Kejadian"
-                                value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}">
+                                value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="tanggal_kejadian" class="form-label">Tanggal Kejadian</label>
                             <input type="date" id="tanggal_kejadian" name="tanggal_kejadian"
-                                class="form-control border-dark datepicker" data-select="datepicker"
-                                value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}">
+                                class="form-control border-dark datepicker" required>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="nama_korban" class="form-label">Nama Korban</label>
                             <input type="text" name="nama_korban" id="nama_korban" class="form-control border-dark"
-                                placeholder="Nama Korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}">
+                                placeholder="Nama Korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}"
+                                required>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="kronologis" class="form-label">Kronologis</label>
                             <textarea name="kronologis" cols="30" id="kronologis" rows="5" class="form-control border-dark"
-                                placeholder="Kronologi Kejadian" value="{{ isset($kasus) ? $kasus->kronologi : '' }}"></textarea>
+                                placeholder="Kronologi Kejadian" value="{{ isset($kasus) ? $kasus->kronologi : '' }}" required></textarea>
                         </div>
                         {{-- <div class="col-lg-12 mb-3">
                             <label for="download_berkas_disposisi" class="form-label">Download Berkas Disposisi</label>
@@ -323,148 +320,28 @@
             $('select').select2({
                 theme: 'bootstrap-5'
             });
-
-            $('#input-pelanggar').validate({
-                rules: {
-                    no_nota_dinas: {
-                        required: true,
-                    },
-                    perihal_nota_dinas: {
-                        required: true,
-                    },
-                    id_wujud_perbuatan: {
-                        required: true,
-                    },
-                    tanggal_nota_dinas: {
-                        required: true,
-                    },
-                    pelapor: {
-                        required: true,
-                    },
-                    umur: {
-                        required: true,
-                    },
-                    jenis_kelamin: {
-                        required: true,
-                    },
-                    pekerjaan: {
-                        required: true,
-                    },
-                    agama: {
-                        required: true,
-                    },
-                    no_identitas: {
-                        required: true,
-                    },
-                    jenis_identitas: {
-                        required: true,
-                    },
-                    alamat: {
-                        required: true,
-                    },
-                    terlapor: {
-                        required: true,
-                    },
-                    jenis_kelamin: {
-                        required: true,
-                    },
-                    id_pangkat: {
-                        required: true,
-                    },
-                    nrp: {
-                        required: true,
-                    },
-                    suku: {
-                        required: true,
-                    },
-                    agama_terlapor: {
-                        required: true,
-                    },
-                    no_telp: {
-                        required: true,
-                    },
-                    jabatan: {
-                        required: true,
-                    },
-                    kesatuan: {
-                        required: true,
-                    },
-                    alamat_terlapor: {
-                        required: true,
-                    },
-                    tempat_kejadian: {
-                        required: true,
-                    },
-                    tanggal_kejadian: {
-                        required: true,
-                    },
-                    nama_korban: {
-                        required: true,
-                    },
-                    kronologis: {
-                        required: true,
-                    },
-                    no_hp: {
-                        required: true,
-                    },
-                    tempat_lahir: {
-                        required: true,
-                    },
-                    tanggal_lahir: {
-                        required: true,
-                    },
-                    pendidikan_terakhir: {
-                        required: true,
-                    },
-                    alamat_tempat_tinggal: {
-                        required: true,
-                    },
-                },
-                messages: {
-                    no_nota_dinas: "Silahkan isi No. Nota Dinas!",
-                    perihal_nota_dinas: "Silahkan isi Perihal Nota Dinas!",
-                    id_wujud_perbuatan: "Silahkan Pilih Wujud Perbuatan!",
-                    tanggal_nota_dinas: "Silahkan isi Tanggal Nota Dinas!",
-                    pelapor: "Silahkan isi Pelapor!",
-                    umur: "Silahkan isi Umur!",
-                    jenis_kelamin: "Silahkan isi Jenis Kelamin!",
-                    no_telp: "Silahkan isi No. Telephone!",
-                    pekerjaan: "Silahkan isi Pekerjaan!",
-                    agama: "Silahkan isi Agama!",
-                    no_identitas: "Silahkan isi Nomor Identitas!",
-                    jenis_identitas: "Silahkan isi Jenis Identitas!",
-                    alamat: "Silahkan isi Alamat!",
-                    terlapor: "Silahkan isi Terlapor!",
-                    id_pangkat: "Silahkan Pilih Pangkat!",
-                    nrp: "Silahkan Isi NRP Terlapor!",
-                    suku: "Silahkan Isi Suku!",
-                    agama_terlapor: "Silahkan Isi Agama Terlapor!",
-                    jabatan: "Silahkan Isi Jabatan!",
-                    kesatuan: "Silahkan Isi Kesatuan!",
-                    alamat_terlapor: "Silahkan Isi Alanat Terlapor!",
-                    tempat_kejadian: "Silahkan Isi Tempat Kejadian!",
-                    tanggal_kejadian: "Silahkan Isi Tanggal Kejadian!",
-                    nama_korban: "Silahkan Isi Nama Korban!",
-                    kronologis: "Silahkan Isi Kronologis!",
-                    no_hp: "Silahkan Isi Nomor Handphone!",
-                    pendidikan_terakhir: "Silahkan Isi Peniddian Terakhir!",
-                    tempat_lahir: "Silahkan Isi Tempat Lahir!",
-                    tanggal_lahir: "Silahkan Isi Tanggal Lahir!",
-                    alamat_tempat_tinggal: "Silahkan Isi Alamat Tempat Tinggal!",
-                },
-                errorElement: 'label',
-                errorClass: 'text-danger',
-                errorPlacement: function(error, element) {
-                    error.insertAfter(element);
-                },
-                success: function(label, element) {
-                    label.parent().removeClass('error');
-                    label.remove();
-                },
-                submitHandler: function(form) { // for demo
-                    form.submit();
-                }
-            });
         });
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        $('.date-picker-input').attr('required', 'required')
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })();
     </script>
 @endpush

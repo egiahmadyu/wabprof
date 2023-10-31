@@ -4,7 +4,7 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-info" onclick="getViewProcess(6)"><i
+                <button type="button" class="btn btn-info" onclick="getViewProcess(9)"><i
                         class="far fa-arrow-left"></i>
                     Sebelumnya</button>
             </div>
@@ -25,29 +25,29 @@
                     <div class="f1-progress-line" data-now-value="40" data-number-of-steps="7" style="width: 86.6%;">
                     </div>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                     <p>Diterima</p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
                     <p>Klarifikasi </p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Audit Investigasi</p>
+                    <p>Gelar Audit Investigasi</p>
                 </div>
-                <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Gelar Investigasi</p>
-                </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Riksa</p>
                 </div>
-                <div class="f1-step">
+                <div class="f1-step activated">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
                     <p>Pemberkasan</p>
+                </div>
+                <div class="f1-step activated">
+                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                    <p>Penuntutan</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -113,13 +113,6 @@
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
-                Tambah Terlapor</button>
-        </div>
-    </div>
-
     <div class="row mb-2">
         <form class="row g-3" novalidate id="form_sidangkeep" method="post" action="/sidangkeep/save">
             @csrf
@@ -152,7 +145,17 @@
                         {{ $sidang ? ($sidang->pakaian_sidang ? 'disabled' : '') : '' }}>
                 </div>
                 <div class="col-md-4">
-                    <label for="inputCity" class="form-label">Kehadiran</label>
+                    <label for="inputCity" class="form-label">Terduga {{ $kasus->terlapor }}</label>
+                    {{-- <div class="form-check">
+                        <input type="radio" class="form-check-input" id="validationFormCheck2" name="kehadiran"
+                            required {{ $sidang ? ($sidang->kehadiran == 'Hadir' ? 'checked' : '') : '' }}>
+                        <label class="form-check-label" for="validationFormCheck2">Hadir</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="radio" class="form-check-input" id="validationFormCheck3" name="kehadiran"
+                            required {{ $sidang ? ($sidang->kehadiran == 'Tidak hadir' ? 'checked' : '') : '' }}>
+                        <label class="form-check-label" for="validationFormCheck3">Tidak hadir
+                    </div> --}}
                     <select class="form-select" aria-label="Default select example" required name="kehadiran"
                         {{ $sidang ? ($sidang->kehadiran ? 'disabled' : '') : '' }}>
                         <option selected value="">--> Pilih Kehadiran <-- </option>
@@ -170,7 +173,8 @@
                 <div class="col-md-4">
                     <label for="inputCity" class="form-label">Putusan Sidang</label>
                     <select class="form-select" aria-label="Default select example" name="putusan_sidang" required
-                        id="putusan_sidang" {{ $sidang ? ($sidang->putusan_sidang ? 'disabled' : '') : '' }}>
+                        onchange="check_putusan_sidangkeep()" id="putusan_sidang"
+                        {{ $sidang ? ($sidang->putusan_sidang ? 'disabled' : '') : '' }}>
                         <option selected value="">--> Pilih Putusan Sidang <-- </option>
                         <option value="Terbukti"
                             {{ $sidang ? ($sidang->putusan_sidang == 'Terbukti' ? 'selected' : '') : '' }}>Terbukti
@@ -181,21 +185,65 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="inputCity" class="form-label">Keputusan Terbukti</label>
-                    <select class="form-select" aria-label="Default select example" name="keputusan_terbukti[]"
-                        multiple="multiple" required id="keputusan_terbukti"
-                        {{ $sidang ? ($sidang->keputusan_etik || $sidang->keputusan_administratif ? 'disabled' : '') : '' }}>
-                        <option value="">--> Pilih Keputusan <-- </option>
-                        <option value="Keputusan Etik"
-                            {{ $sidang ? ($sidang->keputusan_etik == 1 ? 'selected' : '') : '' }}>
-                            Keputusan
-                            Etik
-                        </option>
-                        <option value="Keputusan Administratif"
-                            {{ $sidang ? ($sidang->keputusan_administratif == 1 ? 'selected' : '') : '' }}>
-                            Keputusan
-                            Administratif</option>
-                    </select>
+                    <label for="inputCity" class="form-label">Keputusan Etik</label>
+                    @if ($sidang && $sidang->keputusan_etiks)
+                        <ul>
+                            @foreach ($sidang->keputusan_etiks as $value)
+                                <li>{{ $value->keputusan }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <select class="form-select" aria-label="Default select example" name="keputusan_etik[]"
+                            multiple="multiple" id="keputusan_etik"
+                            {{ $sidang ? ($sidang->keputusan_etiks ? 'disabled' : '') : '' }}>
+                            a.
+                            <option value="">--> Pilih Keputusan <-- </option>
+                            <option value="Perilaku Pelanggar dinyatakan sebagai perbuatan tercela">Perilaku Pelanggar
+                                dinyatakan sebagai perbuatan tercela
+                            </option>
+                            <option
+                                value="Kewajiban Pelanggar untuk meminta maaf secara lisan dihadapan Sidang KKEP dan secara tertulis kepada pimpinan Polri dan pihak yang dirugikan">
+                                Kewajiban Pelanggar untuk meminta maaf secara lisan dihadapan Sidang KKEP dan secara
+                                tertulis kepada pimpinan Polri dan pihak yang dirugikan
+                            </option>
+                            <option
+                                value="Kewajiban Pelanggar untuk mengikuti pembinaan rohani, mental dan pengetahuan profesi selama 1 (satu) bulan">
+                                Kewajiban Pelanggar untuk mengikuti pembinaan rohani, mental dan pengetahuan profesi
+                                selama
+                                1 (satu) bulan
+                            </option>
+                        </select>
+                    @endif
+                </div>
+                <div class="col-md-4">
+                    <label for="inputCity" class="form-label">Keputusan Administratif</label>
+                    @if ($sidang && $sidang->administratif)
+                        <ul>
+                            @foreach ($sidang->administratif as $value)
+                                <li>{{ $value->keputusan }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <select class="form-select" aria-label="Default select example"
+                            name="keputusan_administratif[]" multiple="multiple" id="keputusan_administratif"
+                            {{ $sidang ? ($sidang->keputusan_etik || $sidang->keputusan_administratif ? 'disabled' : '') : '' }}>
+                            <option value="">--> Pilih Keputusan <-- </option>
+                            <option value="Mutasi Bersifat Demosi paling singkat 1 (satu) tahun">Mutasi Bersifat Demosi
+                                paling singkat 1 (satu) tahun</option>
+                            <option
+                                value="Penundaan kenaikan pangkat paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)">
+                                Penundaan kenaikan pangkat paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)
+                            </option>
+                            <option
+                                value="Penundaan pendidikan paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)">
+                                Penundaan pendidikan paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)
+                            </option>
+                            <option value="Penempatan pada Tempat Khusus paling lama 30 (tiga puluh) hari">
+                                Penempatan pada Tempat
+                                Khusus paling lama 30 (tiga puluh) hari</option>
+                            <option value="PTDH">PTDH</option>
+                        </select>
+                    @endif
                 </div>
                 <div class="col-md-12">
                     <label for="inputCity" class="form-label">Keputusan Sidang</label>
@@ -239,9 +287,19 @@
                 <hr>
                 <div class="row">
                     <h4>Sidang Banding</h4>
-                    <h5>Tanggal Permohonan :
-                        {{ Carbon\Carbon::parse($sidang_banding->tanggal_permohonan_sidang_banding)->translatedFormat('d F Y') }}
-                    </h5>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Tanggal Permohonan</label>
+                        <input type="date" class="form-control" name="tanggal_permohonan_sidang_banding" required
+                            value="{{ $sidang_banding ? $sidang_banding->tanggal_permohonan_sidang_banding : '' }}"
+                            {{ $sidang_banding ? ($sidang_banding->tanggal_permohonan_sidang_banding ? 'disabled' : '') : '' }}>
+                    </div>
+                    <div class="col-2 mb-4">
+                        <label for="inputAddress" class="form-label">Tanggal Memori Banding</label>
+                        <input type="date" class="form-control" name="tanggal_memori_banding" required
+                            value="{{ $sidang_banding ? $sidang_banding->tanggal_memori_banding : '' }}"
+                            {{ $sidang_banding ? ($sidang_banding->tanggal_memori_banding ? 'disabled' : '') : '' }}>
+                    </div>
+                    <hr>
                     <div class="col-2">
                         <label for="inputAddress" class="form-label">Tanggal Sidang</label>
                         <input type="date" class="form-control" name="tgl_sidang" required
@@ -300,21 +358,67 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label for="inputCity" class="form-label">Keputusan Terbukti</label>
-                        <select class="form-select" aria-label="Default select example" name="keputusan_terbukti[]"
-                            multiple="multiple" required id="keputusan_terbukti_sidang_banding"
-                            {{ $sidang_banding ? ($sidang_banding->keputusan_etik || $sidang_banding->keputusan_administratif ? 'disabled' : '') : '' }}>
-                            <option value="">--> Pilih Keputusan <-- </option>
-                            <option value="Keputusan Etik"
-                                {{ $sidang_banding ? ($sidang_banding->keputusan_etik == 1 ? 'selected' : '') : '' }}>
-                                Keputusan
-                                Etik
-                            </option>
-                            <option value="Keputusan Administratif"
-                                {{ $sidang_banding ? ($sidang_banding->keputusan_administratif == 1 ? 'selected' : '') : '' }}>
-                                Keputusan
-                                Administratif</option>
-                        </select>
+                        <label for="inputCity" class="form-label">Keputusan Etik</label>
+                        @if ($sidang_banding && count($sidang_banding->keputusan_etiks) > 0)
+                            <ul>
+                                @foreach ($sidang_banding->keputusan_etiks as $value)
+                                    <li>{{ $value->keputusan }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <select class="form-select" aria-label="Default select example" name="keputusan_etik[]"
+                                multiple="multiple" required id="keputusan_etik_sidang_banding">
+                                <option value="">--> Pilih Keputusan <-- </option>
+                                <option value="Perilaku Pelanggar dinyatakan sebagai perbuatan tercela">Perilaku
+                                    Pelanggar
+                                    dinyatakan sebagai perbuatan tercela
+                                </option>
+                                <option
+                                    value="Kewajiban Pelanggar untuk meminta maaf secara lisan dihadapan Sidang KKEP dan secara tertulis kepada pimpinan Polri dan pihak yang dirugikan">
+                                    Kewajiban Pelanggar untuk meminta maaf secara lisan dihadapan Sidang KKEP dan secara
+                                    tertulis kepada pimpinan Polri dan pihak yang dirugikan
+                                </option>
+                                <option
+                                    value="Kewajiban Pelanggar untuk mengikuti pembinaan rohani, mental dan pengetahuan profesi selama 1 (satu) bulan">
+                                    Kewajiban Pelanggar untuk mengikuti pembinaan rohani, mental dan pengetahuan profesi
+                                    selama
+                                    1 (satu) bulan
+                                </option>
+                            </select>
+                        @endif
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Keputusan Administratif</label>
+                        @if ($sidang_banding && count($sidang_banding->administratif) > 0)
+                            <ul>
+                                @foreach ($sidang_banding->administratif as $value)
+                                    <li>{{ $value->keputusan }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <select class="form-select" aria-label="Default select example"
+                                name="keputusan_administratif[]" multiple="multiple" required
+                                id="keputusan_administratif_sidang_banding"
+                                {{ $sidang_banding ? ($sidang_banding->keputusan_etik || $sidang_banding->keputusan_administratif ? 'disabled' : '') : '' }}>
+                                <option value="">--> Pilih Keputusan <-- </option>
+                                <option value="Mutasi Bersifat Demosi paling singkat 1 (satu) tahun">Mutasi Bersifat
+                                    Demosi
+                                    paling singkat 1 (satu) tahun</option>
+                                <option
+                                    value="Penundaan kenaikan pangkat paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)">
+                                    Penundaan kenaikan pangkat paling singkat 1 (satu) tahun dan paling lama 3 (tiga
+                                    tahun)
+                                </option>
+                                <option
+                                    value="Penundaan pendidikan paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)">
+                                    Penundaan pendidikan paling singkat 1 (satu) tahun dan paling lama 3 (tiga tahun)
+                                </option>
+                                <option value="Penempatan pada Tempat Khusus paling lama 30 (tiga puluh) hari">
+                                    Penempatan pada Tempat
+                                    Khusus paling lama 30 (tiga puluh) hari</option>
+                                <option value="PTDH">PTDH</option>
+                            </select>
+                        @endif
                     </div>
                     <div class="col-md-12">
                         <label for="inputCity" class="form-label">Keputusan Sidang</label>
@@ -588,6 +692,37 @@
                 }, false)
             })
     })();
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_sidang_banding')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+    function check_putusan_sidangkeep() {
+        var putusan_sidang = $('#putusan_sidang').val()
+        if (putusan_sidang == 'Terbukti') {
+            $('#keputusan_etik').attr('required', 'required')
+            $('#keputusan_administratif').attr('required', 'required')
+        } else {
+            $('#keputusan_etik').removeAttr('required')
+            $('#keputusan_administratif').removeAttr('required')
+        }
+    }
 
     $('.btn-generate').on('click', function() {
         var modal = $(this).attr('modal');

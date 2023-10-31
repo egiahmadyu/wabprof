@@ -106,29 +106,44 @@
         </div>
     </div>
 
-    <form action="/timeline/store" id="form_timeline" method="post" novalidate>
+    <form action="/klarifikasi/store" id="form_timeline" method="post" novalidate>
         <div class="col-lg-12">
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <label for="tanggal_klasifikasi" class="form-label">Tanggal Klarifikasi</label>
-                    <input type="date" name="tanggal_klasifikasi" id="tanggal_klasifikasi" required
+                    <input type="date" name="tanggal_klarifikasi" id="tanggal_klarifikasi" required
                         class="form-control border-dark" {{ $data_klarifikasi ? 'disabled' : '' }}
                         value="{{ $data_klarifikasi ? $data_klarifikasi->tanggal_klasifikasi : '' }}">
                 </div>
                 <div class="col-lg-6 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Tim</label>
-                    <select name="tim" id="tim" class="form-control" readonly="">
-                        <option value="">Pilih Tim</option>
-                        @for ($i = 0; $i < count($tims); $i++)
-                            <option value="{{ $tims[$i] }}"
-                                @if (isset($disposisi)) @if ($disposisi->tim == $tims[$i])
+                    @if (isset($disposisi))
+                        <input type="text" name="tim" id="" value="{{ $disposisi->tim }}" hidden>
+                        <select id="tim" class="form-control" {{ isset($disposisi) ? 'disabled' : '' }}>
+                            <option value="">Pilih Tim</option>
+                            @for ($i = 0; $i < count($tims); $i++)
+                                <option value="{{ $tims[$i] }}"
+                                    @if (isset($disposisi)) @if ($disposisi->tim == $tims[$i])
                                     {{ 'selected' }} @endif
-                                @endif
-                                >{{ $tims[$i] }}</option>
-                        @endfor
-                    </select>
+                                    @endif
+                                    >{{ $tims[$i] }}</option>
+                            @endfor
+                        </select>
+                    @else
+                        <select id="tim" name="tim" class="form-control">
+                            <option value="">Pilih Tim</option>
+                            @for ($i = 0; $i < count($tims); $i++)
+                                <option value="{{ $tims[$i] }}"
+                                    @if (isset($disposisi)) @if ($disposisi->tim == $tims[$i])
+                                {{ 'selected' }} @endif
+                                    @endif
+                                    >{{ $tims[$i] }}</option>
+                            @endfor
+                        </select>
+                    @endif
+
                 </div>
             </div>
             <div class="row">
@@ -161,8 +176,8 @@
                 </div>
                 @if ($data_klarifikasi && $data_klarifikasi->status == 'Diterima')
                     <div class="col-lg-12 mb-3 saran_pendapat">
-                        <label for="perihal_nota_dinas" class="form-label" disabled>Saran Pendapat Klasifikasi</label>
-                        <select name="saran_pendapat_klasifikasi" id="saran_pendapat_klasifikasi" disabled
+                        <label for="perihal_nota_dinas" class="form-label" disabled>Saran Pendapat Klarifikasi</label>
+                        <select name="saran_pendapat_klarifikasi" id="saran_pendapat_klarifikasi" disabled
                             class="form-control">
                             <option value="">Pilih Saran</option>
                             <option value="5" {{ $data_klarifikasi->next_status == 5 ? 'selected' : '' }}>
@@ -197,7 +212,7 @@
                 @endif
                 <div class="col-lg-12 mb-3 saran_pendapat d-none">
                     <label for="perihal_nota_dinas" class="form-label">Saran Pendapat Klasifikasi</label>
-                    <select name="saran_pendapat_klasifikasi" id="saran_pendapat_klasifikasi" class="form-control">
+                    <select name="saran_pendapat_klarifikasi" id="saran_pendapat_klarifikasi" class="form-control">
                         <option value="">Pilih Saran</option>
                         <option value="5">Diterima dengan Bukti Permulaan Cukup -> Riksa</option>
                         <option value="3">Diterima untuk dilakukan Audit Investigasi</option>
@@ -251,7 +266,7 @@
                 $('.saran_pendapat').removeClass('d-none');
                 $('.limpah-polda').addClass('d-none');
                 $('.saran_pendapat_ditolak').addClass('d-none');
-                $('#saran_pendapat_klasifikasi').attr('required', 'required')
+                $('#saran_pendapat_klarifikasi').attr('required', 'required')
                 $('#saran_ditolak').removeAttr('required')
                 $('#catatan_berhenti').removeAttr('required')
             } else if (status == 'Ditolak') {
@@ -260,7 +275,7 @@
                 $('.saran_pendapat').addClass('d-none');
                 $('#saran_ditolak').attr('required', 'required')
                 $('#catatan_berhenti').attr('required', 'required')
-                $('#saran_pendapat_klasifikasi').removeAttr('required')
+                $('#saran_pendapat_klarifikasi').removeAttr('required')
             }
         })
 
@@ -311,7 +326,7 @@
             });
         }
 
-        $('#tim').prop('disabled', true);
+        // $('#tim').prop('disabled', true);
 
         $('#form-timeline').validate({
             rules: {

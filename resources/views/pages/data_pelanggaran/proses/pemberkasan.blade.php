@@ -123,7 +123,8 @@
         </div>
     </div>
     <div class="row mb-2">
-        <form class="row g-3" novalidate id="form_pemberkasan" method="post" action="/pemberkasan/save">
+        <form class="row g-3" novalidate id="form_pemberkasan" method="post"
+            action="/pemberkasan/{{ $pemberkasan ? 'update' : 'save' }}">
             @csrf
             <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
             <div class="col-md-6">
@@ -136,7 +137,54 @@
                 <input type="date" class="form-control" name="tgl_bp3kepp" required
                     value="{{ $pemberkasan ? $pemberkasan->tgl_bp3kepp : '' }}">
             </div>
-            <h4>Nota Dinas Administrasi</h4>
+            <h4>Nota Dinas Penyerahan BP3KEPP Ke Kabag Gak Etika</h4>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">No Surat</label>
+                <input type="tezt" class="form-control" name="no_nota_dinas_penyerahan_bp3kepp" required
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_penyerahan_bp3kepp : '' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Surat</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan_bp3kepp" required
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan_bp3kepp : '' }}">
+            </div>
+            <hr>
+            <h4>Nota Dinas Penyerahan Kembali BP3KEPP untuk Perbaikan</h4>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
+                <input type="text" class="form-control" name="no_nota_dinas_perbaikan"
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_perbaikan : '' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_perbaikan"
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_perbaikan : '' }}">
+            </div>
+            <hr>
+            <h4>Nota Dinas Penyerahan Hasil Perbaikan BP3KEPP ke Kabag Gak Etika</h4>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Hasil Perbaikan</label>
+                <input type="text" class="form-control" name="no_nota_dinas_penyerahan_hasil_perbaikan"
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_penyerahan_hasil_perbaikan : '' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Hasil Perbaikan</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan_hasil_perbaikan"
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan_hasil_perbaikan : '' }}">
+            </div>
+            <hr>
+            <h4>Nota Dinas Penyerahan Berkas Ke Kabag Bin Etika</h4>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
+                <input type="text" class="form-control" name="no_nota_dinas_penyerahan"
+                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_penyerahan : '' }}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
+                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan"
+                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan : '' }}">
+            </div>
+            {{-- <h4>Nota Dinas Administrasi</h4>
             <div class="col-md-6">
                 <label for="inputEmail4" class="form-label">No Nota Dinas Administrasi Sidang</label>
                 <input type="tezt" class="form-control" name="no_nota_dinas_administrasi" required
@@ -170,17 +218,7 @@
                     value="{{ $pemberkasan ? $pemberkasan->pakaian_sidang : '' }}">
             </div>
             <hr>
-            <h4>Nota Dinas Penyerahan Berkas</h4>
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">No Nota Dinas Penyerahan Berkas</label>
-                <input type="text" class="form-control" name="no_nota_dinas_penyerahan" required
-                    value="{{ $pemberkasan ? $pemberkasan->no_nota_dinas_penyerahan : '' }}">
-            </div>
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
-                <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan" required
-                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan : '' }}">
-            </div>
+
             <hr>
             <h4>Nota Dinas Perbaikan</h4>
             <div class="col-md-6">
@@ -192,7 +230,7 @@
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
                 <input type="date" class="form-control" name="tgl_nota_dinas_perbaikan"
                     value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_perbaikan : '' }}">
-            </div>
+            </div> --}}
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Simpan Data</button>
             </div>
@@ -213,16 +251,22 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Nota Dinas Penyerahan Berkas</td>
+                            <td>Nota Dinas Penyerahan Berkas Ke Kabag Bin Etika</td>
                             <td>
-                                <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
-                                    class="btn btn-primary text-primary">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
-                                    </button>
-                                </a>
+                                @if (!$pemberkasan->no_nota_dinas_penyerahan)
+                                    <div class="alert alert-warning" role="alert">
+                                        Nomor Nota Dinas Penyerahan Belum Ada
+                                    </div>
+                                @else
+                                    <a href="/nota-dinas-penyerahan/{{ $kasus->id }}"
+                                        class="btn btn-primary text-primary">
+                                        <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Dokumen</h6>
+                                        </button>
+                                    </a>
+                                @endif
                             </td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td>Nota Dinas Perbaikan Berkas</td>
                             <td>
                                 @if (!$pemberkasan->no_nota_dinas_perbaikan)
@@ -238,7 +282,7 @@
                                 @endif
 
                             </td>
-                        </tr>
+                        </tr> --}}
                     </tbody>
                 </table>
             </div>
