@@ -71,7 +71,6 @@ class KasusController extends Controller
     public function storeKasus(Request $request)
     {
 
-        dd($request->all());
         $no_pengaduan = "123456"; //generate otomatis
         // dd($request->all());
         $DP = DataPelanggar::create([
