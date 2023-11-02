@@ -9,7 +9,8 @@ class SidangKepp extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'data_pelanggar_id', 'tgl_sidang', 'jam_sidang', 'pakaian_sidang', 'tempat_sidang', 'kehadiran', 'putusan_sidang', 'keputusan_terbukti', 'keputusan_sidang'
+        'data_pelanggar_id', 'tgl_sidang', 'jam_sidang', 'pakaian_sidang', 'tempat_sidang', 'kehadiran', 'putusan_sidang', 'keputusan_terbukti', 'keputusan_sidang',
+        'no_surat_lhs'
     ];
 
     public function keputusan_etiks()

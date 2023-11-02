@@ -286,16 +286,16 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $("#tanggal_nota_dinas").pDatePicker({
-                lang: "id"
-            });
+            // $("#tanggal_nota_dinas").pDatePicker({
+            //     lang: "id"
+            // });
 
-            $("#tanggal_lahir").pDatePicker({
-                lang: "id"
-            });
-            $("#tanggal_kejadian").pDatePicker({
-                lang: "id"
-            });
+            // $("#tanggal_lahir").pDatePicker({
+            //     lang: "id"
+            // });
+            // $("#tanggal_kejadian").pDatePicker({
+            //     lang: "id"
+            // });
             //no identitas
             no_identitas.addEventListener('keyup', function(e) {
                 no_identitas.value = format_no_identitas(this.value, '');

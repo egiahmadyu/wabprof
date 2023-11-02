@@ -30,3 +30,4 @@
 <script src="{{ asset('assets/js/date-picker.js') }}"></script>
 <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+<script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>

@@ -51,6 +51,7 @@ class SidikController extends Controller
 
         $template_document->setValues(array(
             'nomor_lpa' => $lpa->nomor_surat,
+            'pasal' => $lpa->pasal_yang_dilanggar,
             'tanggal_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
             'no_sprin' => $sprin->nomor_surat,
             'tanggal_sprin' => Carbon::parse($sprin->tanggal_surat)->translatedFormat('d F Y'),

@@ -8,6 +8,7 @@ use App\Models\DataPelanggar;
 use App\Http\Controllers\AuditInvestigasiController;
 use App\Models\KeputusanAdministratif;
 use App\Models\KeputusanEtik;
+use App\Models\Penuntutan;
 use App\Models\SidangBanding;
 use App\Models\SidangKepp;
 use App\Models\SidangPeninjauan;
@@ -186,23 +187,28 @@ class SidangController extends Controller
         unset($request['keputusan_administratif']);
         unset($request['keputusan_etik']);
         $sidang = SidangKepp::create($request->all());
-        for ($i = 0; $i < count($keputusan_etik); $i++) {
+        if ($keputusan_etik) {
+            for ($i = 0; $i < count($keputusan_etik); $i++) {
 
-            KeputusanEtik::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'tipe_sidang' => 'sidang_kepp',
-                'keputusan' => $keputusan_etik[$i]
-            ]);
+                KeputusanEtik::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'tipe_sidang' => 'sidang_kepp',
+                    'keputusan' => $keputusan_etik[$i]
+                ]);
+            }
         }
 
-        for ($i = 0; $i < count($keputusan_administratif); $i++) {
+        if ($keputusan_administratif) {
+            for ($i = 0; $i < count($keputusan_administratif); $i++) {
 
-            KeputusanAdministratif::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'tipe_sidang' => 'sidang_kepp',
-                'keputusan' => $keputusan_administratif[$i]
-            ]);
+                KeputusanAdministratif::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'tipe_sidang' => 'sidang_kepp',
+                    'keputusan' => $keputusan_administratif[$i]
+                ]);
+            }
         }
+
         return redirect()->back();
     }
 
@@ -235,20 +241,23 @@ class SidangController extends Controller
         $sidang = SidangBanding::where('data_pelanggar_id', $request->data_pelanggar_id)
             ->update($request->all());
         $sidang = SidangBanding::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        for ($i = 0; $i < count($keputusan_etik); $i++) {
-            KeputusanEtik::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'tipe_sidang' => 'sidang_banding',
-                'keputusan' => $keputusan_etik[$i]
-            ]);
+        if ($keputusan_etik) {
+            for ($i = 0; $i < count($keputusan_etik); $i++) {
+                KeputusanEtik::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'tipe_sidang' => 'sidang_banding',
+                    'keputusan' => $keputusan_etik[$i]
+                ]);
+            }
         }
-
-        for ($i = 0; $i < count($keputusan_administratif); $i++) {
-            KeputusanAdministratif::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'tipe_sidang' => 'sidang_banding',
-                'keputusan' => $keputusan_administratif[$i]
-            ]);
+        if ($keputusan_administratif) {
+            for ($i = 0; $i < count($keputusan_administratif); $i++) {
+                KeputusanAdministratif::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'tipe_sidang' => 'sidang_banding',
+                    'keputusan' => $keputusan_administratif[$i]
+                ]);
+            }
         }
         return redirect()->back();
     }
@@ -264,21 +273,136 @@ class SidangController extends Controller
         $sidang = SidangPeninjauan::where('data_pelanggar_id', $request->data_pelanggar_id)
             ->update($request->all());
         $sidang = SidangPeninjauan::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
-        for ($i = 0; $i < count($keputusan_etik); $i++) {
-            KeputusanEtik::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'tipe_sidang' => 'sidang_kembali',
-                'keputusan' => $keputusan_etik[$i]
-            ]);
+        if ($keputusan_etik) {
+            for ($i = 0; $i < count($keputusan_etik); $i++) {
+                KeputusanEtik::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'tipe_sidang' => 'sidang_kembali',
+                    'keputusan' => $keputusan_etik[$i]
+                ]);
+            }
         }
 
-        for ($i = 0; $i < count($keputusan_administratif); $i++) {
-            KeputusanAdministratif::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'tipe_sidang' => 'sidang_kembali',
-                'keputusan' => $keputusan_administratif[$i]
-            ]);
+        if ($keputusan_administratif) {
+            for ($i = 0; $i < count($keputusan_administratif); $i++) {
+                KeputusanAdministratif::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'tipe_sidang' => 'sidang_kembali',
+                    'keputusan' => $keputusan_administratif[$i]
+                ]);
+            }
         }
         return redirect()->back();
+    }
+
+    public function laporan_hasil_sidang_kepp(Request $request)
+    {
+        $sidang = SidangKepp::where('data_pelanggar_id', $request->kasus_id)->first();
+        if ($sidang->no_surat_lhs == null) {
+            $sidang->no_surat_lhs = $request->no_surat_lhs;
+            $sidang->tanggal_lhs = $request->tanggal_lhs;
+            $sidang->nomor_putusan = $request->nomor_putusan;
+            $sidang->tanggal_putusan = $request->tanggal_putusan;
+            $sidang->save();
+        }
+        $kasus = DataPelanggar::find($request->kasus_id);
+        $penuntutan = Penuntutan::where('data_pelanggar_id', $kasus->id)->first();
+        $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_sidang.docx'));
+        $template_document->setValues(array(
+            'no_surat_lhs' => $sidang->no_surat_lhs,
+            'bt_lhs' => Carbon::parse($sidang->tanggal_lhs)->translatedFormat('F Y'),
+            'jenis_sidang' => 'KEPP',
+            'no_kep_pembentukan' => $penuntutan->no_pembentukan_komisi,
+            'tanggal_kep_pembentukan' => Carbon::parse($penuntutan->tanggal_pembentukan_komisi)->translatedFormat('d F Y'),
+            'nomor_putusan' => $sidang->nomor_putusan,
+            'tanggal_putusan' => Carbon::parse($sidang->tanggal_putusan)->translatedFormat('d F Y'),
+            'terlapor' => $kasus->terlapor,
+            'kronologi' => $kasus->kronologi,
+            'nama_korban' => $kasus->nama_korban,
+            'tempat_kejadian' => $kasus->tempat_kejadian,
+            'nrp' => $kasus->nrp,
+            'pangkat' => $kasus->pangkat->name,
+            'kesatuan' => $kasus->kesatuan,
+            'jabatan' => $kasus->jabatan,
+            'agama' => $kasus->religi->name,
+
+        ));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-laporan_hasil_sidang.docx'));
+
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-laporan_hasil_sidang.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function laporan_hasil_sidang_banding(Request $request)
+    {
+        $sidang = SidangBanding::where('data_pelanggar_id', $request->kasus_id)->first();
+        if ($sidang->no_surat_lhs == null) {
+            $sidang->no_surat_lhs = $request->no_surat_lhs;
+            $sidang->tanggal_lhs = $request->tanggal_lhs;
+            $sidang->nomor_putusan = $request->nomor_putusan;
+            $sidang->tanggal_putusan = $request->tanggal_putusan;
+            $sidang->save();
+        }
+        $kasus = DataPelanggar::find($request->kasus_id);
+        $penuntutan = Penuntutan::where('data_pelanggar_id', $kasus->id)->first();
+        $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_sidang.docx'));
+        $template_document->setValues(array(
+            'no_surat_lhs' => $sidang->no_surat_lhs,
+            'bt_lhs' => Carbon::parse($sidang->tanggal_lhs)->translatedFormat('F Y'),
+            'jenis_sidang' => 'Banding',
+            'no_kep_pembentukan' => $penuntutan->no_pembentukan_komisi,
+            'tanggal_kep_pembentukan' => Carbon::parse($penuntutan->tanggal_pembentukan_komisi)->translatedFormat('d F Y'),
+            'nomor_putusan' => $sidang->nomor_putusan,
+            'tanggal_putusan' => Carbon::parse($sidang->tanggal_putusan)->translatedFormat('d F Y'),
+            'terlapor' => $kasus->terlapor,
+            'kronologi' => $kasus->kronologi,
+            'nama_korban' => $kasus->nama_korban,
+            'tempat_kejadian' => $kasus->tempat_kejadian,
+            'nrp' => $kasus->nrp,
+            'pangkat' => $kasus->pangkat->name,
+            'kesatuan' => $kasus->kesatuan,
+            'jabatan' => $kasus->jabatan,
+            'agama' => $kasus->religi->name,
+
+        ));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-laporan_hasil_sidang.docx'));
+
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-laporan_hasil_sidang.docx'))->deleteFileAfterSend(true);
+    }
+
+    public function laporan_hasil_sidang_kembali(Request $request)
+    {
+        $sidang = SidangPeninjauan::where('data_pelanggar_id', $request->kasus_id)->first();
+        if ($sidang->no_surat_lhs == null) {
+            $sidang->no_surat_lhs = $request->no_surat_lhs;
+            $sidang->tanggal_lhs = $request->tanggal_lhs;
+            $sidang->nomor_putusan = $request->nomor_putusan;
+            $sidang->tanggal_putusan = $request->tanggal_putusan;
+            $sidang->save();
+        }
+        $kasus = DataPelanggar::find($request->kasus_id);
+        $penuntutan = Penuntutan::where('data_pelanggar_id', $kasus->id)->first();
+        $template_document = new TemplateProcessor(storage_path('template_surat/laporan_hasil_sidang.docx'));
+        $template_document->setValues(array(
+            'no_surat_lhs' => $sidang->no_surat_lhs,
+            'bt_lhs' => Carbon::parse($sidang->tanggal_lhs)->translatedFormat('F Y'),
+            'jenis_sidang' => 'Peninjauan Kembali',
+            'no_kep_pembentukan' => $penuntutan->no_pembentukan_komisi,
+            'tanggal_kep_pembentukan' => Carbon::parse($penuntutan->tanggal_pembentukan_komisi)->translatedFormat('d F Y'),
+            'nomor_putusan' => $sidang->nomor_putusan,
+            'tanggal_putusan' => Carbon::parse($sidang->tanggal_putusan)->translatedFormat('d F Y'),
+            'terlapor' => $kasus->terlapor,
+            'kronologi' => $kasus->kronologi,
+            'nama_korban' => $kasus->nama_korban,
+            'tempat_kejadian' => $kasus->tempat_kejadian,
+            'nrp' => $kasus->nrp,
+            'pangkat' => $kasus->pangkat->name,
+            'kesatuan' => $kasus->kesatuan,
+            'jabatan' => $kasus->jabatan,
+            'agama' => $kasus->religi->name,
+
+        ));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-laporan_hasil_sidang.docx'));
+
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-laporan_hasil_sidang.docx'))->deleteFileAfterSend(true);
     }
 }

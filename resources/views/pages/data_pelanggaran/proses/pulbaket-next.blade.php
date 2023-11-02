@@ -1,9 +1,13 @@
 <input type="text" class="form-control" value="{{ $kasus->id }}" hidden id="kasus_id">
 <div class="row mb-4">
-    <div class="div col-12">
-        <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span> Tambah
-            Terlapor</button>
-    </div>
+    @if ($kasus->status_dihentikan == 0)
+        <div class="row mb-4">
+            <div class="div col-12">
+                <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
+                    Tambah Terlapor</button>
+            </div>
+        </div>
+    @endif
 </div>
 @if (isset($wawancara))
     <h6>Wawancara</h6>

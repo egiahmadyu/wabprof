@@ -19,6 +19,7 @@ use App\Models\Penyerahan;
 use App\Models\Penyidik;
 use App\Models\Permohonan;
 use App\Models\Bp3kepps;
+use App\Models\Dihentikan;
 use App\Models\Klarifikasi;
 use App\Models\Lpa;
 use App\Models\Sp2hp2Hisory;
@@ -127,6 +128,23 @@ class KasusController extends Controller
             ])
             ->rawColumns(['no_nota_dinas'])
             ->make(true);
+    }
+
+    public function hentikan_kasus($id)
+    {
+        $kasus = DataPelanggar::find($id);
+        $kasus->status_dihentikan = 1;
+        $kasus->save();
+        Dihentikan::create([
+            'data_pelanggar_id' => $kasus->id,
+            'note' => 'Kasus Dihentikan'
+        ]);
+        Helper::saveHistory(10, $kasus->id);
+
+        return response()->json([
+            'message' => 'success',
+            'status' => 200
+        ]);
     }
 
     public function detail($id)

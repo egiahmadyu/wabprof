@@ -60,13 +60,12 @@
                                 <p class="text-muted">Sign in to continue to Propam Integrated System.</p>
                             </div>
                             <div class="p-2 mt-3">
-                                <form action="{{ route('login-action') }}" method="post" novalidate
-                                    class="needs-validation">
+                                <form action="{{ route('login-action') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Username</label>
                                         <input type="text" class="form-control" id="username" name="username"
-                                            placeholder="Enter username" required>
+                                            placeholder="Enter username">
                                     </div>
 
                                     <div class="mb-3">
@@ -76,8 +75,7 @@
                                         <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
                                             <input type="password" class="form-control pe-5 password-input"
-                                                name="password" placeholder="Enter password" id="password-input"
-                                                required>
+                                                name="password" placeholder="Enter password" id="password-input">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                                                 type="button" id="password-addon"><i
@@ -86,7 +84,7 @@
                                     </div>
 
                                     <div class="mt-4">
-                                        <button class="btn btn-primary w-100" type="submit">Masuk</button>
+                                        <button class="btn btn-primary w-100" type="submit">Sign In</button>
                                     </div>
                                 </form>
 
@@ -115,28 +113,6 @@
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
 
     <script src="{{ asset('assets/js/pages/password-addon.init.js') }}"></script>
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
 
 </body>
 

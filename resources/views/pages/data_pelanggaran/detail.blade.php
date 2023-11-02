@@ -252,6 +252,44 @@
             });
         }
 
+        function dihentikan() {
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: "Data tidak bisa dikembalikan",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hentikan Kasus!',
+                cancelButtonText: 'Kembali'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let kasus_id = $('#data_pelanggar_id').val()
+                    $('.loader-view').css("display", "block");
+                    $.ajax({
+                        url: `/dihentikan/${kasus_id}`,
+                        method: "get"
+                    }).done(async function(data) {
+                        const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                                cancelButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                        })
+                        $('.loader-view').css("display", "none");
+                        swalWithBootstrapButtons.fire(
+                            'Dihentikan!',
+                            'Kasus Berhasil Dihentikan',
+                            'success'
+                        )
+                        location.reload();
+
+                    });
+                }
+            })
+        }
+
         function getValue() {
             console.log($('#editor').text())
         }

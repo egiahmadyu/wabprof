@@ -55,12 +55,15 @@
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="div col-12">
-            <button type="button" class="btn btn-primary col-12 btn-terlapor"><span class="far fa-plus-square"></span>
-                Tambah Terlapor</button>
+    @if ($kasus->status_dihentikan == 0)
+        <div class="row mb-4">
+            <div class="div col-12">
+                <button type="button" class="btn btn-primary col-12 btn-terlapor"><span
+                        class="far fa-plus-square"></span>
+                    Tambah Terlapor</button>
+            </div>
         </div>
-    </div>
+    @endif
 
     <div class="col-lg-12">
         <form action="/data-kasus/update" method="post">
@@ -366,7 +369,8 @@
                                             </button></a>
                                     @else
                                         <button data-bs-toggle="modal" data-bs-target="#modal_disposisi"
-                                            type="button" class="btn btn-outline-primary" style="width: 100%">
+                                            type="button" class="btn btn-outline-primary" style="width: 100%"
+                                            {{ !$disposisi_karo ? 'disabled' : '' }}>
                                             <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
                                         </button>
                                     @endif
@@ -380,41 +384,43 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-6">
-                            <button class="btn btn-update-diterima col-12 btn-success" type="submit"
-                                value="update_data" name="type_submit">
-                                <i class="far fa-upload"></i> Update Data
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            @if ($disposisi_kabag && $disposisi_karo && $disposisi_sesro && $kasus->status_id == 1)
-                                <form action="/data-kasus/update" method="post">
-                                    @csrf
-                                    <input type="text" class="form-control" value="{{ $kasus->id }}" hidden
-                                        name="kasus_id">
-                                    <input type="text" class="form-control" value="2" hidden
-                                        name="disposisi_tujuan" hidden>
-                                    <button class="btn btn-success col-12" name="type_submit"
-                                        {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
+            @if ($kasus->status_dihentikan == 0)
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-update-diterima col-12 btn-success" type="submit"
+                                    value="update_data" name="type_submit">
+                                    <i class="far fa-upload"></i> Update Data
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                @if ($disposisi_kabag && $disposisi_karo && $disposisi_sesro && $kasus->status_id == 1)
+                                    <form action="/data-kasus/update" method="post">
+                                        @csrf
+                                        <input type="text" class="form-control" value="{{ $kasus->id }}"
+                                            hidden name="kasus_id">
+                                        <input type="text" class="form-control" value="2" hidden
+                                            name="disposisi_tujuan" hidden>
+                                        <button class="btn btn-success col-12" name="type_submit"
+                                            {{ $kasus->status_id > 4 ? 'disabled' : '' }} value="update_status">
+                                            Lanjutkan Klarifikasi
+                                        </button>
+                                    </form>
+                                @else
+                                    <button class="btn btn-success col-12 disabled">
                                         Lanjutkan Klarifikasi
                                     </button>
-                                </form>
-                            @else
-                                <button class="btn btn-success col-12 disabled">
-                                    Lanjutkan Klarifikasi
-                                </button>
-                            @endif
-                            {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
+                                @endif
+                                {{-- <button class="btn btn-update-diterima btn-primary" type="submit" value="update_status"
                                     name="type_submit" {{ $kasus->status_id > 1 ? 'disabled' : '' }}>
                                     <i class="far fa-upload"></i> Lanjut Proses Audit Investigasi
                                 </button> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
     </div>
     </form>
 </div>

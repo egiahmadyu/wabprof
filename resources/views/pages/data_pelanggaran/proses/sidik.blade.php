@@ -283,7 +283,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Pasal Yang Dilanggar</label>
-                        <textarea class="form-control" id="pasal_yang_dilanggar" rows="3" name="pasal_yang_dilanggar" required>{{ $laporan_gelar ? $laporan_gelar->pasal_yang_dilanggar : '' }}</textarea>
+                        <textarea class="form-control" id="pasal_yang_dilanggar" rows="3" name="pasal_yang_dilanggar" required>{{ $laporan_gelar ? $laporan_gelar->pasal_dilanggar : '' }}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

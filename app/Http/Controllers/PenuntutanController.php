@@ -15,9 +15,47 @@ class PenuntutanController extends Controller
     public function simpan_data(Request $request)
     {
         unset($request['_token']);
-        Penuntutan::create($request->all());
+        $data_pelanggar_id = $request->data_pelanggar_id;
+        unset($request['data_pelanggar_id']);
+        Penuntutan::where('data_pelanggar_id', $data_pelanggar_id)
+            ->update($request->all());
 
         return redirect()->back();
+    }
+
+    public function permohonan_saran_hukum(Request $request)
+    {
+        if (!$penuntutan = Penuntutan::where('data_pelanggar_id', $request->data_pelanggar_id)->first()) {
+            unset($request['_token']);
+            $penuntutan = Penuntutan::create($request->all());
+        }
+
+        $template_document = new TemplateProcessor(storage_path('template_surat/permohonan_pendapat.docx'));
+        $lpa = Lpa::where('data_pelanggar_id', $request->data_pelanggar_id)->first();
+
+        $kasus = DataPelanggar::find($request->data_pelanggar_id);
+        $template_document->setValues(array(
+            'nomor_surat_saran_hukum' => $penuntutan->permohonan_pendapat_dan_saran,
+            'bt_ssh' => Carbon::parse($penuntutan->tgl_permohonan_pendapat_dan_saran)->translatedFormat('d F Y'),
+            'no_usulan_pembentukan_komisi' => $penuntutan->no_usulan_pembentukan_komisi,
+            'bt_usulan_pembentukan' => Carbon::parse(date('Y-m-d'))->translatedFormat('d F Y'),
+            'no_divkum' => $penuntutan->no_divkum,
+            'tanggal_divkum' => Carbon::parse($penuntutan->tanggal_divkum)->translatedFormat('d F Y'),
+            'nomor_lpa' => $lpa->nomor_surat,
+            'pasal_lpa' => $lpa->pasal_yang_dilanggar,
+            'tanggal_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+            'terlapor' => $kasus->terlapor,
+            'kronologi' => $kasus->kronologi,
+            'nrp' => $kasus->nrp,
+            'pangkat' => $kasus->pangkat->name,
+            'kesatuan' => $kasus->kesatuan,
+            'jabatan' => $kasus->jabatan,
+            'wujud_perbuatan' => $kasus->wujud_perbuatan->keterangan_wp,
+            'perihal' => 'pendapat dan saran hukum'
+        ));
+        $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-permohonan_pendapat.docx'));
+
+        return response()->download(storage_path('template_surat/' . $kasus->pelapor . '-permohonan_pendapat.docx'))->deleteFileAfterSend(true);
     }
 
     public function usulan_pembentukan_komisi(Request $request)
@@ -39,6 +77,7 @@ class PenuntutanController extends Controller
             'ruangan_sidang' => $pemberkasan->tempat_sidang,
             'jam_sidang' => $pemberkasan->jam_sidang,
             'no_usulan_pembentukan_komisi' => $penuntutan->no_usulan_pembentukan_komisi,
+            'bt_usulan_pembentukan' =>  Carbon::parse(date('Y-m-d'))->translatedFormat('d F Y'),
             'no_divkum' => $penuntutan->no_divkum,
             'tanggal_divkum' => Carbon::parse($penuntutan->tanggal_divkum)->translatedFormat('d F Y'),
             'no_lpa' => $lpa->nomor_surat,

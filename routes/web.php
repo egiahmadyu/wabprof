@@ -13,6 +13,7 @@ use App\Http\Controllers\PenyidikController;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\WujudPerbuatanController;
 use App\Http\Controllers\KasusController;
+use App\Http\Controllers\KelolaSidangController;
 use App\Http\Controllers\KlarifikasiController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\PenuntutanController;
@@ -61,6 +62,10 @@ Route::middleware(['auth'])->group(function () {
     // History Pelanggar
     Route::get('history-pelanggar', [HistoryPelanggarController::class, 'index']);
     Route::post('history-pelanggar/data', [HistoryPelanggarController::class, 'data']);
+
+    // Kelola Sidang
+    Route::get('kelola-sidang', [KelolaSidangController::class, 'index']);
+    Route::post('kelola-sidang/data', [KelolaSidangController::class, 'data']);
 
     // View Kasus
     Route::get('data-kasus', [KasusController::class, 'index'])->name('kasus.index');
@@ -188,6 +193,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/penuntutan/save', [PenuntutanController::class, 'simpan_data']);
+    Route::post('/penuntutan/permohonan_saran_hukum', [PenuntutanController::class, 'permohonan_saran_hukum']);
     Route::post('/penuntutan/usulan_komisi', [PenuntutanController::class, 'usulan_pembentukan_komisi']);
     Route::post('/penuntutan/pembentukan_komisi', [PenuntutanController::class, 'pembentukan_komisi']);
     Route::post('/penuntutan/pendamping_divkum', [PenuntutanController::class, 'pendamping_divkum']);
@@ -197,7 +203,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/penuntutan/panggilan_saksi_ssdm', [PenuntutanController::class, 'panggilan_saksi_sdm']);
     Route::post('/penuntutan/surat_daftar_nama_terlampir', [PenuntutanController::class, 'surat_daftar_nama_terlampir']);
 
+
     Route::post('/sidangkeep/save', [SidangController::class, 'simpan_sidang_kepp']);
+    Route::post('/sidang/lhs/kepp', [SidangController::class, 'laporan_hasil_sidang_kepp']);
+    Route::post('/sidang/lhs/banding', [SidangController::class, 'laporan_hasil_sidang_banding']);
+    Route::post('/sidang/lhs/kembali', [SidangController::class, 'laporan_hasil_sidang_kembali']);
     Route::post('/sidangkeep/pengajuan_banding', [SidangController::class, 'pengajuan_sidang_banding']);
     Route::post('/sidangkeep/pengajuan_ulang', [SidangController::class, 'pengajuan_ulang']);
     Route::post('/sidang_banding/save', [SidangController::class, 'simpan_sidang_banding']);
@@ -205,7 +215,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::post('/tambah_terlapor', [TerlaporController::class, 'tambah_terlapor']);
-
+    Route::get('dihentikan/{id}', [KasusController::class, 'hentikan_kasus']);
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('user', [UserController::class, 'index']);

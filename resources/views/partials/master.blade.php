@@ -48,6 +48,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap-5-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/date-picker.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}">
     <style>
         .loaderss-view {
             margin-left: auto;

@@ -16,6 +16,22 @@ class DataPelanggar extends Model
         'id_wujud_perbuatan', 'tempat_lahir', 'tanggal_lahir', 'no_hp', 'pendidikan_terakhir', 'alamat_tempat_tinggal', 'status_dihentikan'
     ];
 
+
+    public function sidang_kepps()
+    {
+        return $this->hasOne(SidangKepp::class, 'data_pelanggar_id', 'id');
+    }
+
+    public function sidang_bandings()
+    {
+        return $this->hasOne(SidangBanding::class, 'data_pelanggar_id', 'id');
+    }
+
+    public function sidang_peninjauans()
+    {
+        return $this->hasOne(SidangPeninjauan::class, 'data_pelanggar_id', 'id');
+    }
+
     public function total_dihentikan()
     {
         return 12000;

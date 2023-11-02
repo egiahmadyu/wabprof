@@ -184,7 +184,7 @@
                             Terbukti</option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 keputusan_sidang_1">
                     <label for="inputCity" class="form-label">Keputusan Etik</label>
                     @if ($sidang && $sidang->keputusan_etiks)
                         <ul>
@@ -194,9 +194,7 @@
                         </ul>
                     @else
                         <select class="form-select" aria-label="Default select example" name="keputusan_etik[]"
-                            multiple="multiple" id="keputusan_etik"
-                            {{ $sidang ? ($sidang->keputusan_etiks ? 'disabled' : '') : '' }}>
-                            a.
+                            multiple="multiple" id="keputusan_etik">
                             <option value="">--> Pilih Keputusan <-- </option>
                             <option value="Perilaku Pelanggar dinyatakan sebagai perbuatan tercela">Perilaku Pelanggar
                                 dinyatakan sebagai perbuatan tercela
@@ -215,7 +213,7 @@
                         </select>
                     @endif
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 keputusan_sidang_1">
                     <label for="inputCity" class="form-label">Keputusan Administratif</label>
                     @if ($sidang && $sidang->administratif)
                         <ul>
@@ -224,7 +222,7 @@
                             @endforeach
                         </ul>
                     @else
-                        <select class="form-select" aria-label="Default select example"
+                        <select class="form-select keputusan_sidang_1" aria-label="Default select example"
                             name="keputusan_administratif[]" multiple="multiple" id="keputusan_administratif"
                             {{ $sidang ? ($sidang->keputusan_etik || $sidang->keputusan_administratif ? 'disabled' : '') : '' }}>
                             <option value="">--> Pilih Keputusan <-- </option>
@@ -259,10 +257,73 @@
                     </div>
                 </div>
             @endif
-            <hr>
         </form>
     </div>
-    @if ($sidang && $sidang->kehadiran == 'Hadir')
+    @if ($sidang)
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col"> Nama Kegiatan</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Laporan Hasil Sidang KEPP</td>
+                            <td>
+                                <form action="/sidang/lhs/kepp" id="form_lhs_kepp" method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="no_surat_lhs" required
+                                                value="{{ $sidang ? $sidang->no_surat_lhs : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang->no_surat_lhs ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control" name="tanggal_lhs" required
+                                                value="{{ $sidang ? $sidang->tanggal_lhs : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang->tanggal_lhs ? 'readonly' : '' }}>
+                                        </div>
+
+                                        <div class="col-lg-6 mt-2">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="nomor_putusan" required
+                                                value="{{ $sidang ? $sidang->nomor_putusan : '' }}"
+                                                placeholder="No Putusan"
+                                                {{ $sidang->nomor_putusan ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control" name="tanggal_putusan"
+                                                required value="{{ $sidang ? $sidang->tanggal_putusan : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang->tanggal_putusan ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $sidang->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+    <hr>
+    @if ($sidang && $sidang->kehadiran == 'Hadir' && $sidang->putusan_sidang == 'Terbukti')
         @if (!$sidang_banding)
             <div class="row mt-2">
                 <div class="col-lg-12">
@@ -344,7 +405,7 @@
                     <div class="col-md-4">
                         <label for="inputCity" class="form-label">Putusan Sidang</label>
                         <select class="form-select" aria-label="Default select example" name="putusan_sidang"
-                            required id="putusan_sidang_banding"
+                            required id="putusan_sidang_banding" onchange="check_putusan_sidangbanding()"
                             {{ $sidang_banding ? ($sidang_banding->putusan_sidang ? 'disabled' : '') : '' }}>
                             <option selected value="">--> Pilih Putusan Sidang <-- </option>
                             <option value="Terbukti"
@@ -357,7 +418,7 @@
                                 Terbukti</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 keputusan_sidang_2">
                         <label for="inputCity" class="form-label">Keputusan Etik</label>
                         @if ($sidang_banding && count($sidang_banding->keputusan_etiks) > 0)
                             <ul>
@@ -387,7 +448,7 @@
                             </select>
                         @endif
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 keputusan_sidang_2">
                         <label for="inputCity" class="form-label">Keputusan Administratif</label>
                         @if ($sidang_banding && count($sidang_banding->administratif) > 0)
                             <ul>
@@ -437,6 +498,71 @@
                 @endif
                 <hr>
             </form>
+        </div>
+    @endif
+
+    @if ($sidang_banding->putusan_sidang)
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col"> Nama Kegiatan</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Laporan Hasil Sidang Banding</td>
+                            <td>
+                                <form action="/sidang/lhs/banding" id="form_lhs_banding" method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="no_surat_lhs" required
+                                                value="{{ $sidang_banding ? $sidang_banding->no_surat_lhs : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang_banding->no_surat_lhs ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control" name="tanggal_lhs" required
+                                                value="{{ $sidang_banding ? $sidang_banding->tanggal_lhs : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang_banding->tanggal_lhs ? 'readonly' : '' }}>
+                                        </div>
+
+                                        <div class="col-lg-6 mt-2">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="nomor_putusan" required
+                                                value="{{ $sidang_banding ? $sidang_banding->nomor_putusan : '' }}"
+                                                placeholder="No Putusan"
+                                                {{ $sidang_banding->nomor_putusan ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control" name="tanggal_putusan"
+                                                required
+                                                value="{{ $sidang_banding ? $sidang_banding->tanggal_putusan : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang_banding->tanggal_putusan ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $sidang_banding->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endif
 
@@ -517,9 +643,9 @@
                     <div class="col-md-4">
                         <label for="inputCity" class="form-label">Putusan Sidang</label>
                         <select class="form-select" aria-label="Default select example" name="putusan_sidang"
-                            required id="putusan_sidang_banding"
+                            required id="putusan_sidang_kembali" onchange="check_putusan_sidangkembali()"
                             {{ $sidang_kembali ? ($sidang_kembali->putusan_sidang ? 'disabled' : '') : '' }}>
-                            <option selected value="">--> Pilih Putusan Sidang <-- </option>
+                            <option selected value="" disable>--> Pilih Putusan Sidang <-- </option>
                             <option value="Terbukti"
                                 {{ $sidang_kembali ? ($sidang_kembali->putusan_sidang == 'Terbukti' ? 'selected' : '') : '' }}>
                                 Terbukti
@@ -530,7 +656,7 @@
                                 Terbukti</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 keputusan_sidang_3">
                         <label for="inputCity" class="form-label">Keputusan Etik</label>
                         @if ($sidang_kembali && count($sidang_kembali->keputusan_etiks) > 0)
                             <ul>
@@ -540,8 +666,8 @@
                             </ul>
                         @else
                             <select class="form-select" aria-label="Default select example" name="keputusan_etik[]"
-                                multiple="multiple" required id="keputusan_etik_sidang_banding">
-                                <option value="">--> Pilih Keputusan <-- </option>
+                                multiple="multiple" required id="keputusan_etik_sidang_kembali">
+                                <option value=""cdisable>--> Pilih Keputusan <-- </option>
                                 <option value="Perilaku Pelanggar dinyatakan sebagai perbuatan tercela">Perilaku
                                     Pelanggar
                                     dinyatakan sebagai perbuatan tercela
@@ -560,7 +686,7 @@
                             </select>
                         @endif
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 keputusan_sidang_3">
                         <label for="inputCity" class="form-label">Keputusan Administratif</label>
                         @if ($sidang_kembali && count($sidang_kembali->administratif) > 0)
                             <ul>
@@ -571,7 +697,7 @@
                         @else
                             <select class="form-select" aria-label="Default select example"
                                 name="keputusan_administratif[]" multiple="multiple" required
-                                id="keputusan_administratif_sidang_banding"
+                                id="keputusan_administratif_sidang_kembali"
                                 {{ $sidang_kembali ? ($sidang_kembali->keputusan_etik || $sidang_kembali->keputusan_administratif ? 'disabled' : '') : '' }}>
                                 <option value="">--> Pilih Keputusan <-- </option>
                                 <option value="Mutasi Bersifat Demosi paling singkat 1 (satu) tahun">Mutasi Bersifat
@@ -610,6 +736,71 @@
                 @endif
                 <hr>
             </form>
+        </div>
+    @endif
+
+    @if ($sidang_kembali->putusan_sidang)
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col"> Nama Kegiatan</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Laporan Hasil Sidang Banding</td>
+                            <td>
+                                <form action="/sidang/lhs/kembali" id="form_lhs_kembali" method="post" novalidate>
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="no_surat_lhs" required
+                                                value="{{ $sidang_kembali ? $sidang_kembali->no_surat_lhs : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang_kembali->no_surat_lhs ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control" name="tanggal_lhs" required
+                                                value="{{ $sidang_kembali ? $sidang_kembali->tanggal_lhs : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang_kembali->tanggal_lhs ? 'readonly' : '' }}>
+                                        </div>
+
+                                        <div class="col-lg-6 mt-2">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="text" class="form-control" name="nomor_putusan" required
+                                                value="{{ $sidang_kembali ? $sidang_kembali->nomor_putusan : '' }}"
+                                                placeholder="No Putusan"
+                                                {{ $sidang_kembali->nomor_putusan ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                hidden>
+                                            <input type="date" class="form-control" name="tanggal_putusan"
+                                                required
+                                                value="{{ $sidang_kembali ? $sidang_kembali->tanggal_putusan : '' }}"
+                                                placeholder="No Surat Laporan Hasil Sidang"
+                                                {{ $sidang_kembali->tanggal_putusan ? 'readonly' : '' }}>
+                                        </div>
+                                        <div class="col-lg-6 mt-2">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ $sidang_kembali->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endif
 </div>
@@ -814,6 +1005,56 @@
         'use strict'
 
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_lhs_banding')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#status_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_lhs_kepp')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#status_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = $('#form_sidang_kembali')
 
         // Loop over them and prevent submission
@@ -842,6 +1083,8 @@
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
+                    } else {
+                        $('.loader-view').show();
                     }
 
                     form.classList.add('was-validated')
@@ -868,15 +1111,75 @@
                 }, false)
             })
     })();
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_lhs_kembali')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#status_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+
+    $(document).ready(function() {
+        check_putusan_sidangkembali()
+        check_putusan_sidangbanding()
+        check_putusan_sidangkeep()
+    })
 
     function check_putusan_sidangkeep() {
         var putusan_sidang = $('#putusan_sidang').val()
         if (putusan_sidang == 'Terbukti') {
+            $('.keputusan_sidang_1').css('display', 'block')
             $('#keputusan_etik').attr('required', 'required')
             $('#keputusan_administratif').attr('required', 'required')
         } else {
+            $('.keputusan_sidang_1').css('display', 'none')
             $('#keputusan_etik').removeAttr('required')
             $('#keputusan_administratif').removeAttr('required')
+        }
+    }
+
+    function check_putusan_sidangbanding() {
+        var putusan_sidang = $('#putusan_sidang_banding').val()
+        if (putusan_sidang == 'Terbukti') {
+            $('.keputusan_sidang_2').css('display', 'block')
+            $('#keputusan_etik_sidang_banding').attr('required', 'required')
+            $('#keputusan_administratif_sidang_banding').attr('required', 'required')
+        } else {
+            $('.keputusan_sidang_2').css('display', 'none')
+            $('#keputusan_etik_sidang_banding').removeAttr('required')
+            $('#keputusan_administratif_sidang_banding').removeAttr('required')
+        }
+    }
+
+    function check_putusan_sidangkembali() {
+        var putusan_sidang = $('#putusan_sidang_kembali').val()
+        if (putusan_sidang == 'Terbukti') {
+            $('.keputusan_sidang_3').css('display', 'block')
+            $('#keputusan_etik_sidang_kembali').attr('required', 'required')
+            $('#keputusan_administratif_sidang_kembali').attr('required', 'required')
+        } else {
+            $('.keputusan_sidang_3').css('display', 'none')
+            $('#keputusan_etik_sidang_kembali').removeAttr('required')
+            $('#keputusan_administratif_sidang_kembali').removeAttr('required')
         }
     }
 

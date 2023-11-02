@@ -117,7 +117,8 @@
     </div> --}}
 
     <div class="row mb-4">
-        <form class="row g-3" novalidate id="form_penuntutan" method="post" action="/penuntutan/save">
+        <form class="row g-3" novalidate id="form_penuntutan_awal" method="post"
+            action="/penuntutan/permohonan_saran_hukum">
             @csrf
             <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
             <h4>Surat Permohonan Pendapat dan Saran Hukum</h4>
@@ -132,23 +133,35 @@
                     value="{{ $penuntutan ? $penuntutan->tgl_permohonan_pendapat_dan_saran : '' }}">
             </div>
             <hr>
-            <h4>Surat Kepala Divisi Hukum Polri</h4>
-            <div class="col-md-6">
-                <label for="inputEmail4" class="form-label">No Surat</label>
-                <input type="tezt" class="form-control" name="no_divkum" required
-                    value="{{ $penuntutan ? $penuntutan->no_divkum : '' }}">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">{{ $penuntutan ? 'Download' : 'Buat Dokumen' }}</button>
             </div>
-            <div class="col-md-6">
-                <label for="inputPassword4" class="form-label">Tanggal Surat</label>
-                <input type="date" class="form-control" name="tanggal_divkum" required
-                    value="{{ $penuntutan ? $penuntutan->tanggal_divkum : '' }}">
-            </div>
-            @if (!$penuntutan)
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Simpan Data</button>
-                </div>
-            @endif
         </form>
+        @if ($penuntutan)
+            <form class="row g-3" novalidate id="form_penuntutan" method="post" action="/penuntutan/save">
+                @csrf
+                <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+                <hr>
+                <h4>Surat Kepala Divisi Hukum Polri</h4>
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">No Surat</label>
+                    <input type="tezt" class="form-control" name="no_divkum" required
+                        value="{{ $penuntutan ? $penuntutan->no_divkum : '' }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPassword4" class="form-label">Tanggal Surat</label>
+                    <input type="date" class="form-control" name="tanggal_divkum" required
+                        value="{{ $penuntutan ? $penuntutan->tanggal_divkum : '' }}">
+                </div>
+                @if ($penuntutan)
+                    @if (!$penuntutan->no_divkum)
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Simpan Data</button>
+                        </div>
+                    @endif
+                @endif
+            </form>
+        @endif
 
     </div>
 
@@ -156,39 +169,42 @@
 
     <!-- Isi Form -->
     @if ($penuntutan)
-        <div class="row">
-            <form class="row g-3" novalidate id="form_pemberkasan_update" method="post" action="/pemberkasan/update">
-                <h4>Rencana Jadwal Sidang</h4>
-                @csrf
-                <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
-                <div class="col-2">
-                    <label for="inputAddress" class="form-label">Tanggal Sidang</label>
-                    <input type="date" class="form-control" name="tgl_sidang" required
-                        value="{{ $pemberkasan ? $pemberkasan->tgl_sidang : '' }}">
-                </div>
-                <div class="col-2">
-                    <label for="inputAddress" class="form-label">Jam Sidang</label>
-                    <input type="time" class="form-control" name="jam_sidang" required
-                        value="{{ $pemberkasan ? $pemberkasan->jam_sidang : '' }}">
-                </div>
-                <div class="col-4">
-                    <label for="inputAddress2" class="form-label">Tempat Sidang</label>
-                    <input type="text" class="form-control" name="tempat_sidang" required
-                        value="{{ $pemberkasan ? $pemberkasan->tempat_sidang : '' }}">
-                </div>
-                <div class="col-md-4">
-                    <label for="inputCity" class="form-label">Pakaian Sidang</label>
-                    <input type="text" class="form-control" name="pakaian_sidang" required
-                        value="{{ $pemberkasan ? $pemberkasan->pakaian_sidang : '' }}">
-                </div>
-                @if (!$pemberkasan->tgl_sidang)
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Simpan Data</button>
+        @if ($penuntutan->no_divkum)
+            <div class="row">
+                <form class="row g-3" novalidate id="form_pemberkasan_update" method="post"
+                    action="/pemberkasan/update">
+                    <h4>Rencana Jadwal Sidang</h4>
+                    @csrf
+                    <input type="text" name="data_pelanggar_id" value="{{ $kasus->id }}" hidden>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Tanggal Sidang</label>
+                        <input type="date" class="form-control" name="tgl_sidang" required
+                            value="{{ $pemberkasan ? $pemberkasan->tgl_sidang : '' }}">
                     </div>
-                @endif
-                <hr>
-            </form>
-        </div>
+                    <div class="col-2">
+                        <label for="inputAddress" class="form-label">Jam Sidang</label>
+                        <input type="time" class="form-control" name="jam_sidang" required
+                            value="{{ $pemberkasan ? $pemberkasan->jam_sidang : '' }}">
+                    </div>
+                    <div class="col-4">
+                        <label for="inputAddress2" class="form-label">Tempat Sidang</label>
+                        <input type="text" class="form-control" name="tempat_sidang" required
+                            value="{{ $pemberkasan ? $pemberkasan->tempat_sidang : '' }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCity" class="form-label">Pakaian Sidang</label>
+                        <input type="text" class="form-control" name="pakaian_sidang" required
+                            value="{{ $pemberkasan ? $pemberkasan->pakaian_sidang : '' }}">
+                    </div>
+                    @if (!$pemberkasan->tgl_sidang)
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Simpan Data</button>
+                        </div>
+                    @endif
+                    <hr>
+                </form>
+            </div>
+        @endif
         @if ($pemberkasan->tgl_sidang)
             <div class="row">
                 <div class="col-lg-12">
@@ -750,6 +766,31 @@
             })
     })();
 
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = $('#form_penuntutan_awal')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        setTimeout(async function() {
+                            let process_id = $('#process_id').val()
+                            await getViewProcess(process_id)
+
+                        }, 3000);
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
     (function() {
         'use strict'
 
