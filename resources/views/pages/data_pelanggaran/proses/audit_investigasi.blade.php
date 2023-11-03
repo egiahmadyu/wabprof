@@ -71,7 +71,7 @@
                                                 <td>:</td>
                                                 <td>
                                                     @if (isset($sprin))
-                                                        Sprin/{{ $sprin->no_sprin }}/XI/WAS.2.4./2022
+                                                        {{ $sprin->no_sprin }}
                                                     @else
                                                         -
                                                     @endif
@@ -190,7 +190,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <input type="text" class="form-control" name="no_sprin"
-                                placeholder="Masukan No. SPRIN" id="no_sprin">
+                                placeholder="Masukan No. SPRIN" id="no_sprin" required>
                         </div>
                         <div class="col">
                             <input type="date" class="form-control" name="tanggal_investigasi"
@@ -203,7 +203,9 @@
                                 placeholder="Tempat Investigasi" required id="tempat_investigasi">
                         </div>
                         <div class="col">
-                            <select name="tim" id="tim" class="form-control" readonly="">
+                            <input type="text" class="form-control" name="tim" placeholder="Tim" required
+                                id="tim" value="{{ $disposisi->tim }}" readonly>
+                            {{-- <select name="tim" id="tim" class="form-control" readonly>
                                 <option value="">Pilih Tim</option>
                                 @for ($i = 0; $i < count($tims); $i++)
                                     <option value="{{ $tims[$i] }}"
@@ -212,7 +214,7 @@
                                         @endif
                                         >{{ $tims[$i] }}</option>
                                 @endfor
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="card card-data-penyidik" id="data-penyidik" style="display:none;">

@@ -401,7 +401,7 @@
                     <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor Surat :</label>
                         <input type="text" class="form-control" id="nomor_surat" aria-describedby="emailHelp"
-                            name="nomor_surat" placeholder="Nomor Surat">
+                            name="nomor_surat" placeholder="Nomor Surat" required>
                     </div>
                     <div class="row mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Wawancara :</label>
@@ -490,7 +490,7 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Hasil Audit Investigasi
                                     :</label>
-                                <select name="hasil" id="hasil_audit" class="form-control"
+                                <select name="hasil" id="hasil_audit" class="form-control" required
                                     onchange="check_hasil_audit()">
                                     <option value="">Pilih Hasil</option>
                                     <option value="Ditemukan">Ditemukan</option>
@@ -622,11 +622,11 @@
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
                         <input type="date" class="form-control" name="tanggal_laporan_gelar"
-                            id="tanggal_laporan_gelar">
+                            id="tanggal_laporan_gelar" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Bukti</label>
-                        <select name="bukti" id="bukti_laporan_gelar_perkara" class="form-control">
+                        <select name="bukti" id="bukti_laporan_gelar_perkara" class="form-control" required>
                             <option value="">Pilih Bukti</option>
                             <option value="Ditemukan Cukup Bukti">Ditemukan Cukup Bukti</option>
                             <option value="Tidak Ditemukan Cukup Bukti">Tidak Ditemukan Cukup Bukti</option>
@@ -672,7 +672,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pilih Penyidik Pembuat</label>
-                        <select name="id_penyidik_pembuat" id="id_penyidik_pembuat" class="form-control">
+                        <select name="id_penyidik_pembuat" id="id_penyidik_pembuat" class="form-control" required>
                             <option value="">Pilih Penyidik Pembuat</option>
                             @foreach ($penyidiks as $penyidik)
                                 <option value="{{ $penyidik->id }}">
@@ -686,7 +686,7 @@
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pangkat</label>
-                        <select name="id_pangkat" id="id_pangkat" class="form-control">
+                        <select name="id_pangkat" id="id_pangkat" class="form-control" required>
                             <option value="">Pilih Pangkat</option>
                             @foreach ($pangkats as $value)
                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
@@ -695,17 +695,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama</label>
-                        <input type="text" class="form-control" name="nama_pimpinan_gelar"
+                        <input type="text" class="form-control" name="nama_pimpinan_gelar" required
                             id="nama_pimpinan_gelar" aria-describedby="emailHelp" placeholder="Nama">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar"
+                        <input type="text" class="form-control" name="jabatan_pimpinan_gelar" required
                             id="jabatan_pimpinan_gelar" placeholder="Jabatan">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Satuan Kerja</label>
-                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar"
+                        <input type="text" class="form-control" name="kesatuan_pimpinan_gelar" required
                             id="kesatuan_pimpinan_gelar" placeholder="Satuan Kerja">
                     </div>
                     <hr>
@@ -713,7 +713,7 @@
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pilih penyidik Pemapar</label>
-                        <select name="id_penyidik_pemapar" id="id_penyidik_pemapar" class="form-control">
+                        <select name="id_penyidik_pemapar" id="id_penyidik_pemapar" class="form-control" required>
                             <option value="">Pilih Penyidik Pemapar</option>
                             @foreach ($penyidiks as $penyidik)
                                 <option value="{{ $penyidik->id }}">
@@ -744,34 +744,34 @@
             </div>
             <form action="/gelar-perkara-undangan" method="post" id="form-gelar-perkara">
                 <input type="hidden" class="form-control" value="{{ $kasus->id }}" aria-describedby="emailHelp"
-                    name="data_pelanggar_id">
+                    name="data_pelanggar_id" required>
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Undangan</label>
                         <input type="text" class="form-control" name="nomor_undangan" id="nomor_undangan"
-                            placeholder="Nomor Undangan">
+                            placeholder="Nomor Undangan" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Undangan</label>
                         <input type="date" class="form-control" name="tanggal" aria-describedby="emailHelp"
-                            id="tanggal">
+                            id="tanggal" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pukul Undangan</label>
-                        <input type="time" class="form-control" id="pukul" name="pukul">
+                        <input type="time" class="form-control" id="pukul" name="pukul" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tempat Undangan</label>
                         <input type="text" class="form-control" name="tempat_undangan"
-                            placeholder="Tempat Undangan"id="tempat_undangan">
+                            placeholder="Tempat Undangan"id="tempat_undangan" required>
                     </div>
                     <hr>
                     <h5>Akreditor yang bisa dihubungi </h5>
                     <hr>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Pilih Penyidik</label>
-                        <select name="id_penyidik" id="id_penyidik" class="form-control">
+                        <select name="id_penyidik" id="id_penyidik" class="form-control" required>
                             <option value="">Pilih Penyidik</option>
                             @foreach ($penyidiks as $penyidik)
                                 <option value="{{ $penyidik->id }}">
@@ -782,7 +782,7 @@
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Telepon</label>
                         <input type="text" class="form-control" name="nomor_handphone" id="nomor_handphone"
-                            placeholder="Nomor Telepon Akreditor">
+                            placeholder="Nomor Telepon Akreditor" required>
                     </div>
                 </div>
                 <div class="modal-footer">
