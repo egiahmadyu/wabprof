@@ -31,3 +31,37 @@
 <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
 <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+
+<script>
+    $('#form_import').on('submit', function(e) {
+        e.preventDefault();
+        $('.loader-view').show();
+        $.ajax({
+            type: 'get',
+            url: `/import/yanduan`,
+            success: function(data) {
+                $('.loader-view').hide();
+                console.log(data)
+                if (data.status == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Import Data Berhasil',
+                        text: 'Total Data ' + data.total_import
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Pada Sistem'
+                    })
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Pada Sistem'
+                })
+            }
+        });
+    })
+</script>

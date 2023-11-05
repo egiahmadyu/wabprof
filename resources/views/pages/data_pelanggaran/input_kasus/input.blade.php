@@ -18,6 +18,18 @@
         <form action="/input-data-kasus/store" id="input-pelanggar" method="post" class="row g-3 needs-validation" novalidate>
             @csrf
             <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <label for="pengaduan_dari" class="form-label">Pengaduan Dari</label>
+                    <select name="pengaduan_dari" id="pengaduan_dari" class="form-control" required>
+                        <option value="">Pilih Pengaduan Darimana</option>
+                        <option value="paminal">Biro Paminal</option>
+                        <option value="provos">Biro Provos</option>
+                        <option value="wasidik">Biro Wasidik</option>
+                        <option value="polda">Bid Propam Polda Jajaran</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
                 <hr>
                 <h3>Nota Dinas</h3>
                 <hr class="mt-2">

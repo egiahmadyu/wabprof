@@ -70,6 +70,12 @@
                             class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Sidang</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link menu-link" onclick="$('#modal_import').modal('show')">
+                        <i class="bi bi-card-list"></i>
+                        <span data-key="t-dashboard">Import Data Dari Yanduan</span>
+                    </a>
+                </li>
                 <li class="menu-title"><span data-key="t-menu">Settings</span></li>
                 <li class="nav-item">
                     <a href="/user" class="nav-link menu-link {{ Request::segment(1) == 'user' ? 'active' : '' }}">

@@ -24,6 +24,7 @@ use App\Http\Controllers\SidikController;
 use App\Http\Controllers\TerlaporController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\YanduanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,8 @@ Route::get('/login', function () {
 Route::get('/pdf-test', [LimpahPoldaController::class, 'generateDocumen']);
 // Route::get('/lembar-disposisi', [LimpahPoldaController::class, 'generateDisposisi']);
 Route::post('login', [AuthController::class, 'loginAction'])->name('login-action');
+
+Route::get('import/yanduan', [YanduanController::class, 'import_data']);
 
 
 Route::middleware(['auth'])->group(function () {

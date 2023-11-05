@@ -21,11 +21,6 @@
 @endprepend
 
 @section('content')
-    <div class="loader-view" style="display:block;">
-        <div class="ring"> <img src="/assets/images/logo/wabprof.png" class="" alt="logo" width="50">
-            <span></span>
-        </div>
-    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">

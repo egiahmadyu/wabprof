@@ -108,6 +108,8 @@ class KasusController extends Controller
             'tanggal_lahir' => $request->tanggal_lahir,
             'id_pangkat' => $request->id_pangkat,
             'nama_korban' => $request->nama_korban,
+            'pengaduan_dari' => $request->pengaduan_dari,
+            'created_by' => auth()->user()->id,
             'status_id' => 1
         ]);
         return redirect()->route('kasus.detail', ['id' => $DP->id]);
@@ -119,9 +121,12 @@ class KasusController extends Controller
 
         return Datatables::of($query)
             ->editColumn('no_nota_dinas', function ($query) {
-                // return $query->no_nota_dinas;
                 return '<a href="/data-kasus/detail/' . $query->id . '">' . $query->no_nota_dinas . '</a>';
-            })->setRowAttr([
+            })->editColumn('pangkats.name', function ($query) {
+                if (!$query->pangkats) return '-';
+                return $query->pangkats->name;
+            })
+            ->setRowAttr([
                 'style' => function ($data) {
                     return $data->status_dihentikan == 1 ? 'background-color: red;color:white' : '';
                 }

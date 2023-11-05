@@ -35,6 +35,23 @@ class DashboardController extends Controller
             ->select(DB::raw('count(id) as value'), 'kesatuan')
             ->orderBy(DB::raw('count(id)'), 'desc')
             ->get();
+        $data['semester_1'] = DataPelanggar::where('created_at', '>=', date('Y') . '-01-01')
+            ->where('created_at', '<=', date('Y') . '-06-30')->count();
+        $data['semester_2'] = DataPelanggar::where('created_at', '>=', date('Y') . '-07-01')
+            ->where('created_at', '<=', date('Y') . '-12-31')->count();
         return view('pages.dashboard.index', $data);
+    }
+
+
+    private function semester_chart()
+    {
+        $semester_1 = DataPelanggar::where('created_at', '>=', date('Y') . '-01-01')
+            ->where('created_at', '<=', date('Y') . '-06-30');
+        $semester_2 = DataPelanggar::where('created_at', '>=', date('Y') . '-07-01')
+            ->where('created_at', '<=', date('Y') . '-12-31');
+
+        return [
+            $semester_1, $semester_2
+        ];
     }
 }

@@ -333,6 +333,11 @@
 </head>
 
 <body>
+    <div class="loader-view" style="display:none;">
+        <div class="ring"> <img src="/assets/images/logo/wabprof.png" class="" alt="logo" width="50">
+            <span></span>
+        </div>
+    </div>
     <div id="layout-wrapper">
         <div class="top-tagbar">
             <div class="w-100">
@@ -383,7 +388,35 @@
             </div>
         </div>
 
-
+        <div class="modal fade" id="modal_import" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tarik Data Dari WA YANDUAN</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form id="form_import">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Tanggal Mulai</label>
+                                <input type="date" class="form-control" name="tanggal_mulai"
+                                    placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Tanggal Berakhir</label>
+                                <input type="date" class="form-control" name="tangal_akhir"
+                                    placeholder="name@example.com">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Import Data</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- Theme Settings -->
         @include('partials.javascript')
 
