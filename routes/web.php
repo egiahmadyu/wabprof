@@ -51,6 +51,7 @@ Route::get('/pdf-test', [LimpahPoldaController::class, 'generateDocumen']);
 Route::post('login', [AuthController::class, 'loginAction'])->name('login-action');
 
 Route::get('import/yanduan', [YanduanController::class, 'import_data']);
+Route::post('import/yanduan', [YanduanController::class, 'import_data']);
 
 
 Route::middleware(['auth'])->group(function () {

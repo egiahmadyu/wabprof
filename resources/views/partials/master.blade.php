@@ -397,6 +397,7 @@
                             aria-label="Close"></button>
                     </div>
                     <form id="form_import">
+                        @csrf
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Tanggal Mulai</label>
@@ -405,7 +406,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Tanggal Berakhir</label>
-                                <input type="date" class="form-control" name="tangal_akhir"
+                                <input type="date" class="form-control" name="tanggal_akhir"
                                     placeholder="name@example.com">
                             </div>
                         </div>

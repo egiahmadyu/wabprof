@@ -328,8 +328,8 @@
                         name: 'no_nota_dinas'
                     },
                     {
-                        data: 'tanggal_kejadian',
-                        name: 'tanggal_kejadian'
+                        data: 'tanggal_nota_dinas',
+                        name: 'tanggal_nota_dinas'
                     },
                     {
                         data: 'pelapor',

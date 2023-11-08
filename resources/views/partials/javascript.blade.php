@@ -38,8 +38,9 @@
         e.preventDefault();
         $('.loader-view').show();
         $.ajax({
-            type: 'get',
+            type: 'post',
             url: `/import/yanduan`,
+            data: $('#form_import').serialize(),
             success: function(data) {
                 $('.loader-view').hide();
                 console.log(data)

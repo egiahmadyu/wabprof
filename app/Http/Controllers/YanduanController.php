@@ -19,7 +19,7 @@ class YanduanController extends Controller
             ]);
         }
         $body = [
-            'release_date_from' => $request->tangal_mulai,
+            'release_date_from' => $request->tanggal_mulai,
             'release_date_to' => $request->tanggal_akhir
         ];
         $data = $yanduan->processed_reports($body);
@@ -44,8 +44,15 @@ class YanduanController extends Controller
                     $kronologi = preg_replace("/\n|\r/", " ", "$str");
                     $data['kronologi'] = $kronologi;
                     $data['status_id'] = 1;
+                    $data['pelapor'] = $value->reporter->name;
+                    $data['jenis_kelamin'] = $value->reporter->gender ? ($value->reporter->gender == 'LAKI-LAKI' ? 1 : 2) : null;
+                    $data['no_identitas'] = $value->reporter->identity_number ?? '-';
+                    $data['jenis_identitas'] = 1;
+                    $data['alamat'] = $value->reporter->alamat ?? '-';
+                    $data['pekerjaan'] = $value->reporter->occupation ?? '-';
                     $data['no_pengaduan'] = $value->ticket_id;
                     $data['nama_korban'] = count($value->victims) > 0 ? $value->victims[0]->name : '-';
+                    $data['perihal_nota_dinas'] = strtoupper($value->perihal_nota_dinas);
                     $data['no_nota_dinas'] = $value->nomor_nota_dinas;
                     $data['tanggal_nota_dinas'] = $value->tanggal_nota_dinas == '-' ? date('Y-m-d') :  $value->tanggal_nota_dinas;
                     $data['tempat_kejadian'] = count($value->crime_scenes) > 0 ? $value->crime_scenes[0]->detail : '-';
@@ -53,6 +60,17 @@ class YanduanController extends Controller
                     $data['terlapor'] = count($value->defendants) > 0 ?  $value->defendants[0]->name : '';
                     $data['kesatuan'] = count($value->defendants) > 0 ? $value->defendants[0]->unit : '';
                     $data['jabatan'] = count($value->defendants) > 0 ? $value->defendants[0]->occupation : '';
+                    if ($value->victims) {
+                        $korban = '';
+                        foreach ($value->victims as $key => $victim) {
+                            if ($key == 0) {
+                                $korban = $victim->name;
+                            } else {
+                                $korban = $korban . ', ' . $victim->name;
+                            }
+                        }
+                        $data['nama_korban'] = strtoupper($korban);
+                    }
                     $insert = DataPelanggar::create($data);
                     $import++;
                     for ($i = 0; $i < count($value->evidences); $i++) {

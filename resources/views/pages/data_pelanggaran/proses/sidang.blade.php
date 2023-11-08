@@ -499,72 +499,76 @@
                 <hr>
             </form>
         </div>
-    @endif
+        @if ($sidang_banding->putusan_sidang)
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                        <thead class="text-muted table-light">
+                            <tr>
+                                <th scope="col"> Nama Kegiatan</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Laporan Hasil Sidang Banding</td>
+                                <td>
+                                    <form action="/sidang/lhs/banding" id="form_lhs_banding" method="post"
+                                        novalidate>
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="text" class="form-control" name="no_surat_lhs"
+                                                    required
+                                                    value="{{ $sidang_banding ? $sidang_banding->no_surat_lhs : '' }}"
+                                                    placeholder="No Surat Laporan Hasil Sidang"
+                                                    {{ $sidang_banding->no_surat_lhs ? 'readonly' : '' }}>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="date" class="form-control" name="tanggal_lhs"
+                                                    required
+                                                    value="{{ $sidang_banding ? $sidang_banding->tanggal_lhs : '' }}"
+                                                    placeholder="No Surat Laporan Hasil Sidang"
+                                                    {{ $sidang_banding->tanggal_lhs ? 'readonly' : '' }}>
+                                            </div>
 
-    @if ($sidang_banding->putusan_sidang)
-        <div class="row">
-            <div class="col-lg-12">
-                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                    <thead class="text-muted table-light">
-                        <tr>
-                            <th scope="col"> Nama Kegiatan</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Laporan Hasil Sidang Banding</td>
-                            <td>
-                                <form action="/sidang/lhs/banding" id="form_lhs_banding" method="post" novalidate>
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="text" class="form-control" name="no_surat_lhs" required
-                                                value="{{ $sidang_banding ? $sidang_banding->no_surat_lhs : '' }}"
-                                                placeholder="No Surat Laporan Hasil Sidang"
-                                                {{ $sidang_banding->no_surat_lhs ? 'readonly' : '' }}>
+                                            <div class="col-lg-6 mt-2">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="text" class="form-control" name="nomor_putusan"
+                                                    required
+                                                    value="{{ $sidang_banding ? $sidang_banding->nomor_putusan : '' }}"
+                                                    placeholder="No Putusan"
+                                                    {{ $sidang_banding->nomor_putusan ? 'readonly' : '' }}>
+                                            </div>
+                                            <div class="col-lg-6 mt-2">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="date" class="form-control" name="tanggal_putusan"
+                                                    required
+                                                    value="{{ $sidang_banding ? $sidang_banding->tanggal_putusan : '' }}"
+                                                    placeholder="No Surat Laporan Hasil Sidang"
+                                                    {{ $sidang_banding->tanggal_putusan ? 'readonly' : '' }}>
+                                            </div>
+                                            <div class="col-lg-6 mt-2">
+                                                <button type="submit"
+                                                    class="btn btn-primary">{{ $sidang_banding->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="date" class="form-control" name="tanggal_lhs" required
-                                                value="{{ $sidang_banding ? $sidang_banding->tanggal_lhs : '' }}"
-                                                placeholder="No Surat Laporan Hasil Sidang"
-                                                {{ $sidang_banding->tanggal_lhs ? 'readonly' : '' }}>
-                                        </div>
-
-                                        <div class="col-lg-6 mt-2">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="text" class="form-control" name="nomor_putusan" required
-                                                value="{{ $sidang_banding ? $sidang_banding->nomor_putusan : '' }}"
-                                                placeholder="No Putusan"
-                                                {{ $sidang_banding->nomor_putusan ? 'readonly' : '' }}>
-                                        </div>
-                                        <div class="col-lg-6 mt-2">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="date" class="form-control" name="tanggal_putusan"
-                                                required
-                                                value="{{ $sidang_banding ? $sidang_banding->tanggal_putusan : '' }}"
-                                                placeholder="No Surat Laporan Hasil Sidang"
-                                                {{ $sidang_banding->tanggal_putusan ? 'readonly' : '' }}>
-                                        </div>
-                                        <div class="col-lg-6 mt-2">
-                                            <button type="submit"
-                                                class="btn btn-primary">{{ $sidang_banding->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        @endif
     @endif
+
 
     @if ($sidang_banding && $sidang_banding->kehadiran == 'Hadir')
         @if (!$sidang_kembali)
@@ -737,72 +741,76 @@
                 <hr>
             </form>
         </div>
-    @endif
+        @if ($sidang_kembali->putusan_sidang)
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                        <thead class="text-muted table-light">
+                            <tr>
+                                <th scope="col"> Nama Kegiatan</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Laporan Hasil Sidang Banding</td>
+                                <td>
+                                    <form action="/sidang/lhs/kembali" id="form_lhs_kembali" method="post"
+                                        novalidate>
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="text" class="form-control" name="no_surat_lhs"
+                                                    required
+                                                    value="{{ $sidang_kembali ? $sidang_kembali->no_surat_lhs : '' }}"
+                                                    placeholder="No Surat Laporan Hasil Sidang"
+                                                    {{ $sidang_kembali->no_surat_lhs ? 'readonly' : '' }}>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="date" class="form-control" name="tanggal_lhs"
+                                                    required
+                                                    value="{{ $sidang_kembali ? $sidang_kembali->tanggal_lhs : '' }}"
+                                                    placeholder="No Surat Laporan Hasil Sidang"
+                                                    {{ $sidang_kembali->tanggal_lhs ? 'readonly' : '' }}>
+                                            </div>
 
-    @if ($sidang_kembali->putusan_sidang)
-        <div class="row">
-            <div class="col-lg-12">
-                <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                    <thead class="text-muted table-light">
-                        <tr>
-                            <th scope="col"> Nama Kegiatan</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Laporan Hasil Sidang Banding</td>
-                            <td>
-                                <form action="/sidang/lhs/kembali" id="form_lhs_kembali" method="post" novalidate>
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="text" class="form-control" name="no_surat_lhs" required
-                                                value="{{ $sidang_kembali ? $sidang_kembali->no_surat_lhs : '' }}"
-                                                placeholder="No Surat Laporan Hasil Sidang"
-                                                {{ $sidang_kembali->no_surat_lhs ? 'readonly' : '' }}>
+                                            <div class="col-lg-6 mt-2">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="text" class="form-control" name="nomor_putusan"
+                                                    required
+                                                    value="{{ $sidang_kembali ? $sidang_kembali->nomor_putusan : '' }}"
+                                                    placeholder="No Putusan"
+                                                    {{ $sidang_kembali->nomor_putusan ? 'readonly' : '' }}>
+                                            </div>
+                                            <div class="col-lg-6 mt-2">
+                                                <input type="text" name="kasus_id" value="{{ $kasus->id }}"
+                                                    hidden>
+                                                <input type="date" class="form-control" name="tanggal_putusan"
+                                                    required
+                                                    value="{{ $sidang_kembali ? $sidang_kembali->tanggal_putusan : '' }}"
+                                                    placeholder="No Surat Laporan Hasil Sidang"
+                                                    {{ $sidang_kembali->tanggal_putusan ? 'readonly' : '' }}>
+                                            </div>
+                                            <div class="col-lg-6 mt-2">
+                                                <button type="submit"
+                                                    class="btn btn-primary">{{ $sidang_kembali->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="date" class="form-control" name="tanggal_lhs" required
-                                                value="{{ $sidang_kembali ? $sidang_kembali->tanggal_lhs : '' }}"
-                                                placeholder="No Surat Laporan Hasil Sidang"
-                                                {{ $sidang_kembali->tanggal_lhs ? 'readonly' : '' }}>
-                                        </div>
-
-                                        <div class="col-lg-6 mt-2">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="text" class="form-control" name="nomor_putusan" required
-                                                value="{{ $sidang_kembali ? $sidang_kembali->nomor_putusan : '' }}"
-                                                placeholder="No Putusan"
-                                                {{ $sidang_kembali->nomor_putusan ? 'readonly' : '' }}>
-                                        </div>
-                                        <div class="col-lg-6 mt-2">
-                                            <input type="text" name="kasus_id" value="{{ $kasus->id }}"
-                                                hidden>
-                                            <input type="date" class="form-control" name="tanggal_putusan"
-                                                required
-                                                value="{{ $sidang_kembali ? $sidang_kembali->tanggal_putusan : '' }}"
-                                                placeholder="No Surat Laporan Hasil Sidang"
-                                                {{ $sidang_kembali->tanggal_putusan ? 'readonly' : '' }}>
-                                        </div>
-                                        <div class="col-lg-6 mt-2">
-                                            <button type="submit"
-                                                class="btn btn-primary">{{ $sidang_kembali->no_surat_lhs ? 'Download' : 'Buat Dokumen' }}</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        @endif
     @endif
+
 </div>
 
 <div class="modal fade" id="modal_pembentukan_komisi" data-bs-backdrop="static" data-bs-keyboard="false"
