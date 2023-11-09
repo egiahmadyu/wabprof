@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Integrations\Yanduan;
 use App\Models\DataPelanggar;
+use App\Models\Pangkat;
 use App\Models\Evidences;
 use Illuminate\Http\Request;
 
@@ -87,5 +88,37 @@ class YanduanController extends Controller
             'total_import' => $import
         ]);
         dd($data);
+    }
+
+    public function importPangkat()
+    {
+        $body = [];
+        $yanduan = new Yanduan();
+        if ($yanduan->getToken() == null) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Terjadi Kesalahan Pada Serssver'
+            ]);
+        }
+
+        $response = $yanduan->importPangkat($body);
+        if ($response == null) {
+            return response()->json([
+                'status' => 200,
+                'total_import' => 0
+            ]);
+        }
+
+        foreach ($response->data as $key => $value) {
+            # code...
+            $pangkat = Pangkat::whereRaw('UPPER(name) = (?)', strtoupper($value->name))->first();
+            if (!$pangkat) {
+                Pangkat::create([
+                    'name' => strtoupper($value->name)
+                ]);
+            }
+        }
+
+        return 'ok';
     }
 }

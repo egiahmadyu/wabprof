@@ -78,15 +78,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dihentikan'
         ]);
 
-        $this->call([
-            AgamaSeeder::class,
-            JenisKelaminSeed::class,
-            JenisIdentitasSeeder::class,
-            DataPelanggarSeed::class,
-            PoldaSeed::class,
-            PangkatSeeder::class,
-            WujudPerbuatanSeeder::class
-        ]);
+        // $this->call([
+        //     AgamaSeeder::class,
+        //     JenisKelaminSeed::class,
+        //     JenisIdentitasSeeder::class,
+        //     DataPelanggarSeed::class,
+        //     PoldaSeed::class,
+        //     PangkatSeeder::class,
+        //     WujudPerbuatanSeeder::class
+        // ]);
 
         // Process::create([
         //     'name' => 'Diterima'
