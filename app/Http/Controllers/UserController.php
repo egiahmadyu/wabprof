@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Tim;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -12,6 +13,7 @@ class UserController extends Controller
     {
         $data['users'] = User::all();
         $data['roles'] = Role::all();
+        $data['tims'] = Tim::all();
         return view('pages.user.index', $data);
     }
 

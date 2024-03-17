@@ -138,7 +138,7 @@
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal BP3KEPP</label>
                 <input type="date" class="form-control" name="tgl_bp3kepp" required
-                    value="{{ $pemberkasan ? $pemberkasan->tgl_bp3kepp : '' }}">
+                    value="{{ $pemberkasan ? date('Y-m-d', strtotime($pemberkasan->tgl_bp3kepp)) : '' }}">
             </div>
             <h4>Nota Dinas Penyerahan BP3KEPP Ke Kabag Gak Etika</h4>
             <div class="col-md-6">
@@ -149,7 +149,7 @@
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Surat</label>
                 <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan_bp3kepp" required
-                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan_bp3kepp : '' }}">
+                    value="{{ $pemberkasan ? date('Y-m-d', strtotime($pemberkasan->tgl_nota_dinas_penyerahan_bp3kepp)) : '' }}">
             </div>
             <hr>
             <h4>Nota Dinas Penyerahan Kembali BP3KEPP untuk Perbaikan</h4>
@@ -161,7 +161,7 @@
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
                 <input type="date" class="form-control" name="tgl_nota_dinas_perbaikan"
-                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_perbaikan : '' }}">
+                    value="{{ $pemberkasan && $pemberkasan->tgl_nota_dinas_perbaikan ? date('Y-m-d', strtotime($pemberkasan->tgl_nota_dinas_perbaikan)) : '' }}">
             </div>
             <hr>
             <h4>Nota Dinas Penyerahan Hasil Perbaikan BP3KEPP ke Kabag Gak Etika</h4>
@@ -173,7 +173,7 @@
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Hasil Perbaikan</label>
                 <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan_hasil_perbaikan"
-                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan_hasil_perbaikan : '' }}">
+                    value="{{ $pemberkasan && $pemberkasan->tgl_nota_dinas_penyerahan_hasil_perbaikan ? date('Y-m-d', strtotime($pemberkasan->tgl_nota_dinas_penyerahan_hasil_perbaikan)) : '' }}">
             </div>
             <hr>
             <h4>Nota Dinas Penyerahan Berkas Ke Kabag Bin Etika</h4>
@@ -185,7 +185,7 @@
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Nota Dinas Penyerahan Berkas</label>
                 <input type="date" class="form-control" name="tgl_nota_dinas_penyerahan"
-                    value="{{ $pemberkasan ? $pemberkasan->tgl_nota_dinas_penyerahan : '' }}">
+                    value="{{ $pemberkasan && $pemberkasan->tgl_nota_dinas_penyerahan ? date('Y-m-d', strtotime($pemberkasan->tgl_nota_dinas_penyerahan)) : '' }}">
             </div>
             {{-- <h4>Nota Dinas Administrasi</h4>
             <div class="col-md-6">
@@ -292,7 +292,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-lg-4">
-                @if (isset($kasus) & ($kasus->status_id === 6))
+                @if (isset($kasus) & ($kasus->status_id == 6))
                     @if (isset($pemberkasan))
                         <form action="/data-kasus/update" method="post">
                             @csrf
@@ -301,7 +301,7 @@
                             <input type="text" class="form-control" value="9" hidden name="disposisi_tujuan"
                                 hidden>
                             <button class="btn btn-success" name="type_submit" value="update_status"
-                                {{ $kasus->status_id > 6 ? 'disabled' : '' }}>
+                                {{ $kasus->status_id > 6 || !$pemberkasan->no_nota_dinas_penyerahan ? 'disabled' : '' }}>
                                 Lanjutkan ke Proses Penuntutan
                             </button>
                             <button class="btn btn-warning" onclick="dihentikan()" type="button">Restorative

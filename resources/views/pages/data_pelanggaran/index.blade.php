@@ -64,6 +64,7 @@
                         <table class="table mb-0" id="data-data">
                             <thead class="text-muted table-light">
                                 <tr>
+                                    <th>#</th>
                                     <th scope="col">No Nota Dinas</th>
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Pelapor</th>
@@ -72,6 +73,7 @@
                                     <th scope="col">Jabatan</th>
                                     <th scope="col">Nama Korban</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -94,6 +96,10 @@
 
         function getData() {
             var table = $('#data-data').DataTable({
+                lengthMenu: [
+                    [25, 50],
+                    [25, 50]
+                ],
                 processing: true,
                 serverSide: true,
                 searching: true,
@@ -109,19 +115,18 @@
                         // data.wujud_perbuatan = $('#wujud_perbuatan').val()
                     }
                 },
-                columns: [
-                    // {
-                    //     data: 'DT_RowIndex',
-                    //     name: 'DT_RowIndex',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
                     {
                         data: 'no_nota_dinas',
                         name: 'no_nota_dinas'
                     },
                     {
-                        data: 'tanggal_nota_dinas',
+                        data: 'tgl_nd',
                         name: 'tanggal_nota_dinas'
                     },
                     {
@@ -147,6 +152,12 @@
                     {
                         data: 'processes.name',
                         name: 'processes.name'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     },
                 ]
             });

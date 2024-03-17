@@ -118,10 +118,10 @@ class PemberkasanController extends Controller
             'nama_korban' => $kasus->nama_korban,
             'tempat_kejadian' => $kasus->tempat_kejadian,
             'nrp' => $kasus->nrp,
-            'pangkat' => $kasus->pangkat->name,
+            'pangkat' =>  $kasus->pangkat ? $kasus->pangkat->name : 'Pangkat Belum Dipilih',
             'kesatuan' => $kasus->kesatuan,
             'jabatan' => $kasus->jabatan,
-            'agama' => $kasus->religi->name,
+            'agama' => $kasus->religi ? $kasus->religi->name : '',
 
         ));
         $template_document->saveAs(storage_path('template_surat/' . $kasus->pelapor . '-nota-dinas-penyerahan-berkas-perkara-ke-binetik.docx'));

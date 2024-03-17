@@ -16,19 +16,76 @@ class DiterimaController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
                     ->where('type', 1)->first();
 
-        if (!$disposisi)
-        {
-            $disposisi = Disposisi::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'no_agenda' => $request->no_agenda,
-                'surat_dari' => $request->surat_dari,
-                'nomor_surat' => $request->nomor_surat,
-                'tanggal_surat' => $request->tanggal_surat,
-                'tim' => $request->tim,
-                'klasifikasi' => $request->klasifikasi,
-                'derajat' => $request->derajat,
-                'tanggal_diterima' => date('Y-m-d h:i:s'),
-                'type' => 1
+        try {
+            if (!$disposisi) {
+                if ($request->filepond->extension() != 'pdf') {
+                    return response()->json([
+                        'status' => 401,
+                        'message' => 'File Harus PDF'
+                    ]);
+                }
+                $disposisi = Disposisi::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'no_agenda' => $request->no_agenda,
+                    'surat_dari' => $request->surat_dari,
+                    'nomor_surat' => $request->nomor_surat,
+                    'tanggal_surat' => $request->tanggal_surat,
+                    'tim' => $request->tim,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'tanggal_diterima' => date('Y-m-d h:i:s'),
+                    'type' => 1
+                ]);
+
+                $dokumenName = str_replace(' ', '_', $request->no_agenda) . '_' . time() . '.' . $request->filepond->extension();
+                $request->filepond->move(public_path('dokumen'), $dokumenName);
+                $imagePath = 'dokumen/' . $dokumenName;
+                $disposisi->dokumen = $imagePath;
+                $disposisi->save();
+                return response()->json([
+                    'status' => 200
+                ]);
+                return redirect()->back();
+            } else {
+                if ($request->filepond) {
+                    if ($request->filepond->extension() != 'pdf') {
+                        return response()->json([
+                            'status' => 401,
+                            'message' => 'File Harus PDF'
+                        ]);
+                    }
+                }
+                $disposisi = Disposisi::where('id', $disposisi->id)
+                ->update([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'no_agenda' => $request->no_agenda,
+                    'surat_dari' => $request->surat_dari,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    // 'tanggal_diterima' => $request->tanggal_diterima,
+                    'tanggal_surat' => $request->tanggal_surat,
+                ]);
+
+                if ($request->filepond) {
+                    $dokumenName = str_replace(' ', '_', $request->no_agenda) . '_' . time() . '.' . $request->filepond->extension();
+                    $request->filepond->move(public_path('dokumen'), $dokumenName);
+                    $imagePath = 'dokumen/' . $dokumenName;
+                    Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
+                    ->where('type', 1)
+                    ->update([
+                        'dokumen' => $imagePath
+                    ]);
+                }
+                return response()->json([
+                    'status' => 200
+                ]);
+                return redirect()->back();
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage()
             ]);
         }
 
@@ -39,7 +96,7 @@ class DiterimaController extends Controller
 
         $date = $dt->format('m/d/Y');
         $time = $dt->format('H:i:s');
-        
+
         $template_document->setValues( array(
             'nomor_agenda' => $disposisi->no_agenda,
             'surat_dari' => $disposisi->surat_dari,
@@ -63,13 +120,15 @@ class DiterimaController extends Controller
                     ->where('type', 1)->first();
 
         $kasus = DataPelanggar::find($kasus_id);
-
+        if ($disposisi->dokumen) {
+            return redirect('/'.$disposisi->dokumen);
+        }
         $template_document = new TemplateProcessor(storage_path('template_surat/disposisi_kabagetika.docx'));
         $dt = new DateTime($disposisi->tanggal_diterima);
 
         $date = $dt->format('m/d/Y');
         $time = $dt->format('H:i:s');
-        
+
         $template_document->setValues( array(
             'nomor_agenda' => $disposisi->no_agenda,
             'surat_dari' => $disposisi->surat_dari,
@@ -92,19 +151,62 @@ class DiterimaController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
                     ->where('type', 2)->first();
 
-        if (!$disposisi)
-        {
+       try {
+        if (!$disposisi) {
             $disposisi = Disposisi::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'no_agenda' => $request->no_agenda,
                 'surat_dari' => $request->surat_dari,
                 'klasifikasi' => $request->klasifikasi,
                 'derajat' => $request->derajat,
-                'tanggal_diterima' => date('Y-m-d h:i:s'),
+                // 'tanggal_diterima' => $request->tanggal_diterima,
                 'tanggal_surat' => $request->tanggal_surat,
                 'type' => 2
             ]);
+            $dokumenName = str_replace(' ', '_', $request->no_agenda) . '_' . time() . '.' . $request->filepond->extension();
+            $request->filepond->move(public_path('dokumen'), $dokumenName);
+            $imagePath = 'dokumen/' . $dokumenName;
+            $disposisi->dokumen = $imagePath;
+            $disposisi->save();
+            return response()->json([
+                'status' => 200
+            ]);
+            return redirect()->back();
+        } else {
+            $disposisi = Disposisi::where('id', $disposisi->id)
+            ->update([
+                'data_pelanggar_id' => $request->data_pelanggar_id,
+                'no_agenda' => $request->no_agenda,
+                'surat_dari' => $request->surat_dari,
+                'klasifikasi' => $request->klasifikasi,
+                'derajat' => $request->derajat,
+                // 'tanggal_diterima' => $request->tanggal_diterima,
+                'tanggal_surat' => $request->tanggal_surat,
+                'type' => 2
+            ]);
+
+            if ($request->filepond) {
+                $dokumenName = str_replace(' ', '_', $request->no_agenda) . '_' . time() . '.' . $request->filepond->extension();
+                $request->filepond->move(public_path('dokumen'), $dokumenName);
+                $imagePath = 'dokumen/' . $dokumenName;
+                Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
+                ->where('type', 2)
+                ->update([
+                    'dokumen' => $imagePath
+                ]);
+            }
+            return response()->json([
+                'status' => 200
+            ]);
+            return redirect()->back();
         }
+       } catch (\Throwable $th) {
+        //throw $th;
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage()
+            ]);
+       }
 
 
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
@@ -116,7 +218,9 @@ class DiterimaController extends Controller
 
         $date = $dt->format('m/d/Y');
         $time = $dt->format('H:i:s');
-        
+
+        return redirect()->back();
+
         $template_document->setValues( array(
             'nomor_agenda' => $disposisi->no_agenda,
             'surat_dari' => $disposisi->surat_dari,
@@ -126,7 +230,7 @@ class DiterimaController extends Controller
             'tanggal_diterima' => Carbon::parse($date)->translatedFormat('d F Y'),
             'pukul' => $time,
             'tanggal_nota_dinas' => Carbon::parse($disposisi->tanggal_surat)->translatedFormat('d F Y'),
-            'perihal' => $kasus->perihal_nota_dinas
+            'perihal_nota_dinas' => $kasus->perihal_nota_dinas
         ));
         $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'));
 
@@ -140,12 +244,16 @@ class DiterimaController extends Controller
                     ->where('type', 2)->first();
         $kasus = DataPelanggar::find($kasus_id);
 
+        if ($disposisi->dokumen) {
+            return redirect('/'.$disposisi->dokumen);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template_surat/disposisi_karo.docx'));
         $dt = new DateTime($disposisi->tanggal_diterima);
 
         $date = $dt->format('m/d/Y');
         $time = $dt->format('H:i:s');
-        
+
         $template_document->setValues( array(
             'nomor_agenda' => $disposisi->no_agenda,
             'surat_dari' => $disposisi->surat_dari,
@@ -155,7 +263,9 @@ class DiterimaController extends Controller
             'tanggal_diterima' => Carbon::parse($date)->translatedFormat('d F Y'),
             'pukul' => $time,
             'tanggal_surat' => Carbon::parse($disposisi->tanggal_surat)->translatedFormat('d F Y'),
-            'perihal_nota_dinas' => $kasus->perihal_nota_dinas
+            'perihal_nota_dinas' => $kasus->perihal_nota_dinas,
+            'tanggal_nota_dinas' => Carbon::parse($disposisi->tanggal_surat)->translatedFormat('d F Y'),
+
         ));
         $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'));
 
@@ -167,17 +277,72 @@ class DiterimaController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
                     ->where('type', 3)->first();
 
-        if (!$disposisi)
-        {
-            $disposisi = Disposisi::create([
-                'data_pelanggar_id' => $request->data_pelanggar_id,
-                'no_agenda' => $request->no_agenda,
-                'surat_dari' => $request->surat_dari,
-                'klasifikasi' => $request->klasifikasi,
-                'derajat' => $request->derajat,
-                'tanggal_diterima' => date('Y-m-d h:i:s'),
-                'tanggal_surat' => $request->tanggal_surat,
-                'type' => 3
+        try {
+            if (!$disposisi) {
+                if ($request->filepond->extension() != 'pdf') {
+                    return response()->json([
+                        'status' => 401,
+                        'message' => 'File Harus PDF'
+                    ]);
+                }
+                $disposisi = Disposisi::create([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'no_agenda' => $request->no_agenda,
+                    'surat_dari' => $request->surat_dari,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'tanggal_diterima' => date('Y-m-d h:i:s'),
+                    'tanggal_surat' => $request->tanggal_surat,
+                    'type' => 3
+                ]);
+                $dokumenName = str_replace(' ', '_', $request->no_agenda) . '_' . time() . '.' . $request->filepond->extension();
+                $request->filepond->move(public_path('dokumen'), $dokumenName);
+                $imagePath = 'dokumen/' . $dokumenName;
+                $disposisi->dokumen = $imagePath;
+                $disposisi->save();
+                return response()->json([
+                    'status' => 200
+                ]);
+                return redirect()->back();
+            } else {
+                if ($request->filepond) {
+                    if ($request->filepond->extension() != 'pdf') {
+                        return response()->json([
+                            'status' => 401,
+                            'message' => 'File Harus PDF'
+                        ]);
+                    }
+                }
+                $disposisi = Disposisi::where('id', $disposisi->id)
+                ->update([
+                    'data_pelanggar_id' => $request->data_pelanggar_id,
+                    'no_agenda' => $request->no_agenda,
+                    'surat_dari' => $request->surat_dari,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    // 'tanggal_diterima' => $request->tanggal_diterima,
+                    'tanggal_surat' => $request->tanggal_surat,
+                ]);
+
+                if ($request->filepond) {
+                    $dokumenName = str_replace(' ', '_', $request->no_agenda) . '_' . time() . '.' . $request->filepond->extension();
+                    $request->filepond->move(public_path('dokumen'), $dokumenName);
+                    $imagePath = 'dokumen/' . $dokumenName;
+                    Disposisi::where('data_pelanggar_id', $request->data_pelanggar_id)
+                    ->where('type', 3)
+                    ->update([
+                        'dokumen' => $imagePath
+                    ]);
+                }
+                return response()->json([
+                    'status' => 200
+                ]);
+                return redirect()->back();
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage()
             ]);
         }
 
@@ -191,7 +356,7 @@ class DiterimaController extends Controller
 
         $date = $dt->format('m/d/Y');
         $time = $dt->format('H:i:s');
-        
+
         $template_document->setValues( array(
             'nomor_agenda' => $disposisi->no_agenda,
             'surat_dari' => $disposisi->surat_dari,
@@ -201,7 +366,8 @@ class DiterimaController extends Controller
             'tanggal_diterima' => Carbon::parse($date)->translatedFormat('d F Y'),
             'pukul' => $time,
             'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
-            'perihal' => $kasus->perihal_nota_dinas
+            'perihal' => $kasus->perihal_nota_dinas,
+            'perihal_nota_dinas' => $kasus->perihal_nota_dinas,
         ));
         $template_document->saveAs(storage_path('template_surat/'.$kasus->pelapor.'-surat-disposisi-karo.docx'));
 
@@ -214,13 +380,15 @@ class DiterimaController extends Controller
         $disposisi = Disposisi::where('data_pelanggar_id', $kasus_id)
                     ->where('type', 3)->first();
         $kasus = DataPelanggar::find($kasus_id);
-
+        if ($disposisi->dokumen) {
+            return redirect('/'.$disposisi->dokumen);
+        }
         $template_document = new TemplateProcessor(storage_path('template_surat/disposisi_sesro.docx'));
         $dt = new DateTime($disposisi->tanggal_diterima);
 
         $date = $dt->format('m/d/Y');
         $time = $dt->format('H:i:s');
-        
+
         $template_document->setValues( array(
             'nomor_agenda' => $disposisi->no_agenda,
             'surat_dari' => $disposisi->surat_dari,

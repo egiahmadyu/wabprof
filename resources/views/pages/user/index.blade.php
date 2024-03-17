@@ -12,7 +12,7 @@
     <!-- DataTable list pelanggar -->
     <div class="row">
         <div class="justify-content-between d-flex align-items-center mt-3 mb-4">
-            <h5 class="mb-0 pb-1 text-decoration-underline">Paminal User</h5>
+            <h5 class="mb-0 pb-1 text-decoration-underline">Wabprof User</h5>
         </div>
     </div>
     <div class="row">
@@ -84,10 +84,21 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Role</label>
-                            <select class="form-select" aria-label="Default select example" name="role">
+                            <select class="form-select" aria-label="Default select example" name="role" id="role"
+                                onchange="checkRole()">
                                 <option selected>Open this select menu</option>
                                 @foreach ($roles as $value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    <option value="{{ $value->id }}" data-role={{ $value->name }}>{{ $value->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3" id="divtim" style="display: none">
+                            <label for="exampleFormControlInput1" class="form-label">TIM</label>
+                            <select class="form-select" aria-label="Default select example" name="tim" id="tim">
+                                <option selected>Open this select menu</option>
+                                @foreach ($tims as $value)
+                                    <option value="{{ $value->tim }}">{{ $value->tim }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -103,4 +114,19 @@
 @endsection
 
 @section('scripts')
+    <script>
+        function checkRole() {
+            var role = $('#role').find('option:selected').attr('data-role');
+            if (role == 'akreditor') {
+                $('#divtim').css('display', 'block');
+                $("#tim").attr('required', true);
+
+            } else {
+                $('#tim').val('')
+                $('#divtim').css('display', 'none')
+                $("#tim").attr('required', false);
+            }
+
+        }
+    </script>
 @endsection

@@ -38,6 +38,7 @@ use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
+use DB;
 
 class KasusController extends Controller
 {
@@ -117,21 +118,57 @@ class KasusController extends Controller
 
     public function data(Request $request)
     {
-        $query = DataPelanggar::orderBy('id', 'desc')->with('processes', 'pangkats');
+        $query = DataPelanggar::with('processes', 'pangkats');
+        if (auth()->user()->hasRole('urtu')) {
+            $query = $query->doesntHave('disposisi_urtu')->where('status_id', 1);
+        } else if(auth()->user()->hasRole('urmin')) {
+            $query = $query->where('data_pelanggars.status_id', 1)->with('disposisi_urmin')
+            ->whereExists(function($query)
+                {
+                    $query->select(DB::raw(1))
+                        ->from('disposisis')
+                        ->whereRaw("data_pelanggar_id = data_pelanggars.id")
+                        ->where(function($q) {
+                            $q->where('type', 2)->orWhere('type', 3);
+                        });
+                });
+        } else if(auth()->user()->hasRole('akreditor')) {
+            $query = $query->with('disposisi_urmin')
+            ->whereExists(function($query)
+            {
+                $query->select(DB::raw(1))
+                    ->from('disposisis')
+                    ->whereRaw("data_pelanggar_id = data_pelanggars.id")
+                    ->where(function($q) {
+                        $q->where('type', 1)
+                        ->where('tim', auth()->user()->tim);
+                    });
+            });
+        }
 
-        return Datatables::of($query)
+        return Datatables::of($query)->addIndexColumn()
             ->editColumn('no_nota_dinas', function ($query) {
                 return '<a href="/data-kasus/detail/' . $query->id . '">' . $query->no_nota_dinas . '</a>';
             })->editColumn('pangkats.name', function ($query) {
                 if (!$query->pangkats) return '-';
                 return $query->pangkats->name;
             })
+            ->addColumn('tgl_nd', function($query) {
+                return Carbon::parse($query->tanggal_nota_dinas)->translatedFormat('d F Y');
+            })
             ->setRowAttr([
                 'style' => function ($data) {
                     return $data->status_dihentikan == 1 ? 'background-color: red;color:white' : '';
                 }
             ])
-            ->rawColumns(['no_nota_dinas'])
+            ->addColumn('action', function($data) {
+                $html = '';
+                if (auth()->user()->hasRole('admin')) {
+                    $html = '<a href="/kasus/delete/'.$data->id.'"><button class="btn btn-sm btn-danger">Hapus Data</button></a>';
+                }
+                return $html;
+            })
+            ->rawColumns(['no_nota_dinas', 'action'])
             ->make(true);
     }
 
@@ -160,7 +197,7 @@ class KasusController extends Controller
         $agama = Agama::get();
         $pangkat = Pangkat::all();
         $polda = Polda::all();
-        $wujud_perbuatan = WujudPerbuatan::get();
+        $wujud_perbuatan = WujudPerbuatan::where('jenis_wp')->get();
         $option_polda = '';
         $option_pangkat = '';
         foreach ($polda as $key => $value) {
@@ -189,36 +226,41 @@ class KasusController extends Controller
 
     public function updateData(Request $request)
     {
-        if ($request->type_submit === 'update_status') {
+        // if ($request->type_submit === 'update_status') {
+        //     return $this->updateStatus(($request));
+        // }
+        $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
+        // $data_pelanggar->update([
+        //     'no_nota_dinas' => $request->no_nota_dinas,
+        //     'perihal_nota_dinas' => $request->perihal_nota_dinas,
+        //     'pelapor' => $request->pelapor,
+        //     'umur' => $request->umur,
+        //     'jenis_kelamin' => $request->jenis_kelamin,
+        //     'pekerjaan' => $request->pekerjaan,
+        //     'agama' => $request->agama,
+        //     'suku' => $request->suku,
+        //     'id_wujud_perbuatan' => $request->id_wujud_perbuatan,
+        //     'agama_terlapor' => $request->agama_terlapor,
+        //     'alamat_terlapor' => $request->alamat_terlapor,
+        //     'suku' => $request->suku,
+        //     'alamat' => $request->alamat,
+        //     'no_identitas' => $request->no_identitas,
+        //     'no_telp' => '08212345678',
+        //     'jenis_identitas' => $request->jenis_identitas,
+        //     'kewarganegaraan' => 'WNI',
+        //     'terlapor' => $request->terlapor,
+        //     'kesatuan' => $request->kesatuan,
+        //     'jabatan' => $request->jabatan,
+        //     'tempat_kejadian' => $request->tempat_kejadian,
+        //     'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
+        //     'kronologi' => $request->kronologis,
+        //     'id_pangkat' => $request->id_pangkat,
+        //     'nama_korban' => $request->nama_korban,
+        // ]);
+        $data_pelanggar->update($request->all());
+        if ($request->type_submit == 'update_status') {
             return $this->updateStatus(($request));
         }
-        $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
-        $data_pelanggar->update([
-            'no_nota_dinas' => $request->no_nota_dinas,
-            'pelapor' => $request->pelapor,
-            'umur' => $request->umur,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'pekerjaan' => $request->pekerjaan,
-            'agama' => $request->agama,
-            'suku' => $request->suku,
-            'id_wujud_perbuatan' => $request->id_wujud_perbuatan,
-            'agama_terlapor' => $request->agama_terlapor,
-            'alamat_terlapor' => $request->alamat_terlapor,
-            'suku' => $request->suku,
-            'alamat' => $request->alamat,
-            'no_identitas' => $request->no_identitas,
-            'no_telp' => '08212345678',
-            'jenis_identitas' => $request->jenis_identitas,
-            'kewarganegaraan' => 'WNI',
-            'terlapor' => $request->terlapor,
-            'kesatuan' => $request->kesatuan,
-            'jabatan' => $request->jabatan,
-            'tempat_kejadian' => $request->tempat_kejadian,
-            'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
-            'kronologi' => $request->kronologis,
-            'id_pangkat' => $request->id_pangkat,
-            'nama_korban' => $request->nama_korban,
-        ]);
         return redirect()->back();
     }
 
@@ -518,5 +560,12 @@ class KasusController extends Controller
             'sp2hp_awal' => Sp2hp2Hisory::where('data_pelanggar_id', $id)->first(),
         ];
         return view('pages.data_pelanggaran.proses.gelar_investigasi', $data);
+    }
+
+    public function delete($id)
+    {
+        $data = DataPelanggar::where('id', $id)->delete();
+
+        return redirect()->back();
     }
 }

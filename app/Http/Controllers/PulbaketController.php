@@ -199,7 +199,7 @@ class PulbaketController extends Controller
             'pelapor' => $kasus->pelapor,
             'pekerjaan' => $kasus->pekerjaan,
             'nik' => $kasus->nik,
-            'agama' => $kasus->religi->name,
+            'agama' => $kasus->religi ? $kasus->religi->name : '',
             'alamat' => $kasus->alamat,
             'telp' => $kasus->no_telp,
             'pelapor' => $kasus->pelapor,

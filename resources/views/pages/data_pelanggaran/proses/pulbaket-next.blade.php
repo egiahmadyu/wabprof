@@ -202,22 +202,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Surat Penghadapan</td>
-                    <td>
-                        @if (isset($surat_penghadapan))
-                            <a href="/surat-penghadapan/{{ $kasus->id }}"
-                                class="btn btn-primary text-primar btn-wawancara">
-                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>&nbsp;Dokumen</h6>
-                                </button>
-                            @else
-                                <button data-bs-toggle="modal" data-bs-target="#modal_surat_penghadapan" type="button"
-                                    class="btn btn-outline-primary text-primar btn-dokumen-surat-penghadapan">
-                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
-                                </button>
-                        @endif
-                    </td>
-                </tr>
+
                 <tr>
                     <td>Undangan Wawancara</td>
                     <td>
@@ -248,6 +233,22 @@
                             </div>
                         @endif
                         {{-- <button type="button" class="btn btn-outline-primary text-primary">Buat Dokumen</button> --}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Surat Penghadapan</td>
+                    <td>
+                        @if (isset($surat_penghadapan))
+                            <a href="/surat-penghadapan/{{ $kasus->id }}"
+                                class="btn btn-primary text-primar btn-wawancara">
+                                <h6 class="p-0 m-0"><i class="far fa-file-plus"></i>&nbsp;Dokumen</h6>
+                                </button>
+                            @else
+                                <button data-bs-toggle="modal" data-bs-target="#modal_surat_penghadapan" type="button"
+                                    class="btn btn-outline-primary text-primar btn-dokumen-surat-penghadapan">
+                                    <h6 class="p-0 m-0"><i class="far fa-file-plus"></i> Buat Dokumen</h6>
+                                </button>
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -318,7 +319,7 @@
     </div>
 </div>
 
-@if (isset($kasus) & ($kasus->status_id === 3))
+@if (isset($kasus) & ($kasus->status_id == 3))
     @if ($kasus->status_dihentikan == 0)
         <div class="row mt-4">
             <div class="col-lg-12">
@@ -641,10 +642,13 @@
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Wujud Perbuatan</label>
                             <select name="wujud_perbuatan" id="wujud_perbuatan" class="form-control">
+                                <option value="">Pilih</option>
                                 @foreach ($wujud_perbutanas as $value)
-                                    <option value="{{ $value->id }}"
-                                        {{ $value->id == $kasus->id_wujud_perbuatan ? 'selected' : '' }}>
-                                        {{ $value->keterangan_wp }}</option>
+                                    @if ($value->jenis_wp == 'kode etik')
+                                        <option value="{{ $value->id }}"
+                                            {{ $value->id == $kasus->id_wujud_perbuatan ? 'selected' : '' }}>
+                                            {{ $value->keterangan_wp }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

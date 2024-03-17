@@ -7,6 +7,7 @@ use App\Models\DataPelanggar;
 use App\Models\Pangkat;
 use App\Models\Evidences;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
 
 class YanduanController extends Controller
 {
@@ -39,13 +40,20 @@ class YanduanController extends Controller
         }
         $import = 0;
         foreach ($data_dumas->data as $key => $value) {
+
             if ($value->biro == 'BIRO WABPROF') {
+                // return response()->json($value);
                 if (!DataPelanggar::where('no_pengaduan', $value->ticket_id)->first()) {
                     $str = strip_tags($value->chronology);
+                    $pelapor = str_replace('/', '-', $value->reporter->name);
+                    $pelapor = str_replace('.', '-', $pelapor);
+                    $pelapor = str_replace('&', 'dan', $pelapor);
                     $kronologi = preg_replace("/\n|\r/", " ", "$str");
                     $data['kronologi'] = $kronologi;
+                    $data['selfie'] = $value->reporter->selfie;
+                    $data['id_card'] = $value->reporter->id_card;
                     $data['status_id'] = 1;
-                    $data['pelapor'] = $value->reporter->name;
+                    $data['pelapor'] =$pelapor;
                     $data['jenis_kelamin'] = $value->reporter->gender ? ($value->reporter->gender == 'LAKI-LAKI' ? 1 : 2) : null;
                     $data['no_identitas'] = $value->reporter->identity_number ?? '-';
                     $data['jenis_identitas'] = 1;
@@ -53,11 +61,11 @@ class YanduanController extends Controller
                     $data['pekerjaan'] = $value->reporter->occupation ?? '-';
                     $data['no_pengaduan'] = $value->ticket_id;
                     $data['nama_korban'] = count($value->victims) > 0 ? $value->victims[0]->name : '-';
-                    $data['perihal_nota_dinas'] = strtoupper($value->perihal_nota_dinas);
+                    $data['perihal_nota_dinas'] = str_replace('&', 'dan', strtoupper($value->perihal_nota_dinas))  ;
                     $data['no_nota_dinas'] = $value->nomor_nota_dinas;
                     $data['tanggal_nota_dinas'] = $value->tanggal_nota_dinas == '-' ? date('Y-m-d') :  $value->tanggal_nota_dinas;
                     $data['tempat_kejadian'] = count($value->crime_scenes) > 0 ? $value->crime_scenes[0]->detail : '-';
-                    $data['tanggal_kejadian'] = count($value->crime_scenes) > 0 ? date('Y-m-d', strtotime($value->crime_scenes[0]->datetime)) : null;
+                    // $data['tanggal_kejadian'] = count($value->crime_scenes) > 0 ? $value->crime_scenes[0]->datetime ? date('Y-m-d', strtotime($value->crime_scenes[0]->datetime)) : null : null;
                     $data['terlapor'] = count($value->defendants) > 0 ?  $value->defendants[0]->name : '';
                     $data['kesatuan'] = count($value->defendants) > 0 ? $value->defendants[0]->unit : '';
                     $data['jabatan'] = count($value->defendants) > 0 ? $value->defendants[0]->occupation : '';
@@ -73,6 +81,7 @@ class YanduanController extends Controller
                         $data['nama_korban'] = strtoupper($korban);
                     }
                     $insert = DataPelanggar::create($data);
+                    Helper::saveHistory(1, $insert->id);
                     $import++;
                     for ($i = 0; $i < count($value->evidences); $i++) {
                         Evidences::create([

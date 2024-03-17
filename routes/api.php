@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PoldaController;
 use App\Http\Controllers\YanduanController;
+use App\Http\Controllers\Api\LimpahWabprofController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('all-polda', [PoldaController::class, 'getAllPolda']);
 Route::get('import-pangkat', [YanduanController::class, 'importPangkat']);
+
+Route::post('limpat_to_wabprof', [LimpahWabprofController::class, 'limpah_wabprof']);

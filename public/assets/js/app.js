@@ -952,6 +952,6 @@ mybutton &&
         var e = new Date(),
             t = e.toLocaleString("id-ID", { weekday: "long", month: "long", day: "numeric" }),
             a = e.getHours(),
-            a = ("0" + (a % 12)).slice(-2) + ":" + ("0" + e.getMinutes()).slice(-2);
+            a = e.getHours() + ":" + ("0" + e.getMinutes()).slice(-2);
         document.getElementById("current-time").innerHTML = t + " | " + a;
     }, 1e3);

@@ -18,7 +18,10 @@ class HistoryPelanggarController extends Controller
         $query = DataPelanggar::with('processes', 'pangkats', 'history_pelanggars');
 
         return DataTables::of($query)
-            ->addColumn('timeline', function ($data) {
+        ->editColumn('pangkats.name', function($data) {
+            return $data->id_pangkat ? $data->pangkats->name : 'Data Pangkat Tidak Terkirim Dari Yanduan';
+
+        })->addColumn('timeline', function ($data) {
                 $html = '<ul class="timeline">';
                 foreach ($data->history_pelanggars as $key => $value) {
                     $list = $key + 1;

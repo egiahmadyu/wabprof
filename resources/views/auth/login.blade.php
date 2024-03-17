@@ -59,6 +59,11 @@
                                 <h5 class="text-primary fs-22">Welcome Back !</h5>
                                 <p class="text-muted">Sign in to continue to Propam Integrated System.</p>
                             </div>
+                            @if (session('error'))
+                                <div class="alert alert-danger" role="alert">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <div class="p-2 mt-3">
                                 <form action="{{ route('login-action') }}" method="post" novalidate
                                     class="needs-validation">

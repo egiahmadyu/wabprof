@@ -130,7 +130,7 @@
             <div class="col-md-6">
                 <label for="inputPassword4" class="form-label">Tanggal Surat</label>
                 <input type="date" class="form-control" name="tgl_permohonan_pendapat_dan_saran" required
-                    value="{{ $penuntutan ? $penuntutan->tgl_permohonan_pendapat_dan_saran : '' }}">
+                    value="{{ $penuntutan ? date('Y-m-d', strtotime($penuntutan->tgl_permohonan_pendapat_dan_saran)) : '' }}">
             </div>
             <hr>
             <div class="col-12">
@@ -151,7 +151,7 @@
                 <div class="col-md-6">
                     <label for="inputPassword4" class="form-label">Tanggal Surat</label>
                     <input type="date" class="form-control" name="tanggal_divkum" required
-                        value="{{ $penuntutan ? $penuntutan->tanggal_divkum : '' }}">
+                        value="{{ $penuntutan && $penuntutan->tanggal_divkum ? date('Y-m-d', strtotime($penuntutan->tanggal_divkum)) : '' }}">
                 </div>
                 @if ($penuntutan)
                     @if (!$penuntutan->no_divkum)
@@ -179,7 +179,7 @@
                     <div class="col-2">
                         <label for="inputAddress" class="form-label">Tanggal Sidang</label>
                         <input type="date" class="form-control" name="tgl_sidang" required
-                            value="{{ $pemberkasan ? $pemberkasan->tgl_sidang : '' }}">
+                            value="{{ $pemberkasan ? ($pemberkasan->tgl_sidang ? date('Y-m-d', strtotime($pemberkasan->tgl_sidang)) : '') : '' }}">
                     </div>
                     <div class="col-2">
                         <label for="inputAddress" class="form-label">Jam Sidang</label>
@@ -263,7 +263,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_pembentukan_komisi" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_pembentukan_komisi : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_pembentukan_komisi ? date('Y-m-d', strtotime($penuntutan->tanggal_pembentukan_komisi)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_pembentukan_komisi ? 'readonly' : '' }}>
                                             </div>
@@ -299,7 +299,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_pendamping_divkum" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_pendamping_divkum : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_pendamping_divkum ? date('Y-m-d', strtotime($penuntutan->tanggal_pendamping_divkum)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_pendamping_divkum ? 'readonly' : '' }}>
                                             </div>
@@ -340,7 +340,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_panggilan_pelanggar" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_pelanggar : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_panggilan_pelanggar ? date('Y-m-d', strtotime($penuntutan->tanggal_panggilan_pelanggar)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_panggilan_pelanggar ? 'readonly' : '' }}>
                                             </div>
@@ -375,7 +375,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_panggilan_pelanggan_satker" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_pelanggan_satker : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_panggilan_pelanggan_satker ? date('Y-m-d', strtotime($penuntutan->tanggal_panggilan_pelanggan_satker)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_panggilan_pelanggan_satker ? 'readonly' : '' }}>
                                             </div>
@@ -411,7 +411,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_panggilan_saksi_anggota" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_saksi_anggota : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_panggilan_saksi_anggota ? date('Y-m-d', strtotime($penuntutan->tanggal_panggilan_saksi_anggota)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_panggilan_saksi_anggota ? 'readonly' : '' }}>
                                             </div>
@@ -447,7 +447,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_panggilan_saksi_ssdm" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_panggilan_saksi_ssdm : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_panggilan_saksi_ssdm ? date('Y-m-d', strtotime($penuntutan->tanggal_panggilan_saksi_ssdm)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_panggilan_saksi_ssdm ? 'readonly' : '' }}>
                                             </div>
@@ -483,7 +483,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control"
                                                     name="tanggal_surat_daftar_nama_terlampir" required
-                                                    value="{{ $penuntutan ? $penuntutan->tanggal_surat_daftar_nama_terlampir : '' }}"
+                                                    value="{{ $penuntutan ? ($penuntutan->tanggal_surat_daftar_nama_terlampir ? date('Y-m-d', strtotime($penuntutan->tanggal_surat_daftar_nama_terlampir)) : '') : '' }}"
                                                     placeholder="No Usulan Pembentukan Komisi Etik"
                                                     {{ $penuntutan->tanggal_surat_daftar_nama_terlampir ? 'readonly' : '' }}>
                                             </div>
@@ -501,7 +501,7 @@
                     </table>
                 </div>
             </div>
-            @if (isset($kasus) & ($kasus->status_id === 9))
+            @if (isset($kasus) & ($kasus->status_id == 9))
                 <div class="row mt-4">
                     <div class="col-lg-12">
                         <form action="/data-kasus/update" method="post">
@@ -510,10 +510,24 @@
                                 name="kasus_id">
                             <input type="text" class="form-control" value="7" hidden name="disposisi_tujuan"
                                 hidden>
-                            <button class="btn btn-success" name="type_submit"
-                                {{ $kasus->status_id !== 9 ? 'disabled' : '' }} value="update_status">
-                                Lanjutkan ke proses Sidang KEPP
-                            </button>
+                            @if (
+                                $penuntutan->no_usulan_pembentukan_komisi &&
+                                    $penuntutan->no_usulan_pembentukan_komisi &&
+                                    $penuntutan->tanggal_pendamping_divkum &&
+                                    $penuntutan->no_panggilan_pelanggar &&
+                                    $penuntutan->no_panggilan_pelanggar_satker &&
+                                    $penuntutan->no_panggilan_saksi_anggota &&
+                                    $penuntutan->no_panggilan_saksi_ahli_ssdm &&
+                                    $penuntutan->no_surat_daftar_terlampir)
+                                <button class="btn btn-success" name="type_submit" value="update_status">
+                                    Lanjutkan ke proses Sidang KEPP
+                                </button>
+                            @else
+                                <button class="btn btn-success" name="type_submit" value="update_status" disabled>
+                                    Lanjutkan ke proses Sidang KEPP
+                                </button>
+                            @endif
+
                         </form>
                     </div>
                 </div>

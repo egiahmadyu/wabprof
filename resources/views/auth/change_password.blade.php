@@ -60,34 +60,31 @@
                                 <p class="text-muted">Sign in to continue to Propam Integrated System.</p>
                             </div>
                             <div class="p-2 mt-3">
-                                <form action="{{ route('login-action') }}" method="post">
+                                <form action="{{ route('reset.action') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username"
-                                            placeholder="Enter username">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        {{-- <div class="float-end">
-                                            <a href="auth-pass-reset-basic.html" class="text-muted">Forgot password?</a>
-                                        </div> --}}
                                         <label class="form-label" for="password-input">Password</label>
-                                        <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 password-input"
-                                                name="password" placeholder="Enter password" id="password-input">
-                                            <button
-                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
-                                                type="button" id="password-addon"><i
-                                                    class="ri-eye-fill align-middle"></i></button>
+                                        <div class="position-relative auth-pass-inputgroup">
+                                            <input type="password" class="form-control pe-5 password-input border-dark" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" required>
+                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                         </div>
+                                        <div id="passwordInput" class="form-text">Password harus berisi 8-20 karakter.</div>
                                     </div>
-
+                    
+                                    <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                                        <h5 class="fs-13">Password harus berisi :</h5>
+                                        <p id="pass-length" class="invalid fs-12 mb-2"> Minimal <b>8 karakter</b></p>
+                                        <p id="pass-lower" class="invalid fs-12 mb-2"> Minimal huruf <b>kecil</b> (a-z)</p>
+                                        <p id="pass-upper" class="invalid fs-12 mb-2"> Minimal huruf <b>kapital</b> (A-Z)</p>
+                                        <p id="pass-number" class="invalid fs-12 mb-0"> Minimal ada <b>angka</b> (0-9)</p>
+                                    </div>
+                    
                                     <div class="mt-4">
-                                        <button class="btn btn-primary w-100" type="submit">Sign In</button>
+                                        <button class="btn btn-primary w-100" type="submit">Reset Password</button>
                                     </div>
+                                    
+                                    
                                 </form>
-
                                 {{-- <div class="text-center mt-5">
                                     <p class="mb-0">Don't have an account ? <a href="auth-signup-cover.html"
                                             class="fw-semibold text-secondary text-decoration-underline"> SignUp</a>
@@ -111,6 +108,7 @@
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/passowrd-create.init.js') }}"></script>
 
     <script src="{{ asset('assets/js/pages/password-addon.init.js') }}"></script>
 

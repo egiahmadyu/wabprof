@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nomor_gelar')->nullable();
             $table->date('tanggal_gelar')->nullable();
             $table->string('tempat_gelar')->nullable();
-            $table->time('jam_gelar')->nullable();
+            $table->string('jam_gelar')->nullable();
             $table->integer('id_penyidik')->nullable();
             $table->string('nomor_handphone')->nullable();
             $table->timestamps();

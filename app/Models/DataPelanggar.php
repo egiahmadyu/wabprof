@@ -13,13 +13,32 @@ class DataPelanggar extends Model
         'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama', 'suku', 'agama_terlapor', 'jabatan', 'nrp',
         'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian', 'tanggal_kejadian', 'kronologi', 'alamat_terlapor',
         'id_pangkat', 'nama_korban', 'status_id', 'no_telp', 'kewarganegaraan', 'perihal_nota_dinas', 'tanggal_nota_dinas',
-        'id_wujud_perbuatan', 'tempat_lahir', 'tanggal_lahir', 'no_hp', 'pendidikan_terakhir', 'alamat_tempat_tinggal', 'status_dihentikan', 'pengaduan_dari', 'created_by'
+        'id_wujud_perbuatan', 'tempat_lahir', 'tanggal_lahir', 'no_hp', 'pendidikan_terakhir', 'alamat_tempat_tinggal', 'status_dihentikan', 'pengaduan_dari', 'created_by', 'id_card', 'selfie', 'fakta_fakta', 'pendapat_pelapor', 'catatan'
     ];
 
+    public function disposisi_urtu()
+    {
+        return $this->hasMany(Disposisi::class, 'data_pelanggar_id', 'id')->where('type', 2)->where('type', 3);
+    }
+
+    public function disposisi_urmin()
+    {
+        return $this->hasMany(Disposisi::class, 'data_pelanggar_id', 'id')->where('type', 1);
+    }
+
+    public function disposisi()
+    {
+        return $this->hasMany(Disposisi::class, 'data_pelanggar_id', 'id')->where('type', 1);
+    }
 
     public function sidang_kepps()
     {
         return $this->hasOne(SidangKepp::class, 'data_pelanggar_id', 'id');
+    }
+
+    public function evidences()
+    {
+        return $this->hasMany(Evidences::class, 'data_pelanggar_id', 'id');
     }
 
     public function sidang_bandings()
@@ -84,6 +103,6 @@ class DataPelanggar extends Model
 
     public function wujud_perbuatan()
     {
-        return $this->belongsTo(WujudPerbuatan::class, 'id_wujud_perbuatan');
+        return $this->hasOne(WujudPerbuatan::class,'id', 'id_wujud_perbuatan');
     }
 }

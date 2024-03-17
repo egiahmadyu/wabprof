@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sidangs', function (Blueprint $table) {
+        Schema::create('tims', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('data_pelanggar_id');
-            $table->date('tanggal')->nullable();
-            $table->string('jam')->nullable();
-            $table->string('tempat')->nullable();
-            $table->string('pakaian')->nullable();
+            $table->string('tim')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sidangs');
+        Schema::dropIfExists('tims');
     }
 };

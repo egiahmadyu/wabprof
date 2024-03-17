@@ -157,13 +157,13 @@
                 <hr class="mt-2">
                 <div class="col-lg-12 p-3">
                     <div class="row">
-                        <div class="col-lg-12 mb-3">
+                        <div class="col-lg-6 mb-3">
                             <label for="terlapor" class="form-label">Terlapor</label>
                             <input type="text" name="terlapor" id="terlapor" placeholder="Nama Terlapor"
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->terlapor : '' }}"
                                 required>
                         </div>
-                        <div class="col-lg-6 mb-3">
+                        {{-- <div class="col-lg-6 mb-3">
                             <label for="tempat" class="form-label">Tempat Lahir</label>
                             <input type="text" name="tempat_lahir" id="tempat_lahir" placeholder="Tempat Lahir"
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->tempat_lahir : '' }}">
@@ -178,13 +178,13 @@
                             <label for="no_hp" class="form-label">No. Handphone</label>
                             <input type="text" name="no_hp" id="no_hp" placeholder="No. Handphone"
                                 class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_hp : '' }}">
-                        </div>
-                        <div class="col-lg-6 mb-3">
+                        </div> --}}
+                        {{-- <div class="col-lg-6 mb-3">
                             <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
                             <input type="text" name="pendidikan_terakhir" id="pendidikan_terakhir"
                                 placeholder="Pendidikan Terakhir" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->pendidikan_terakhir : '' }}">
-                        </div>
+                        </div> --}}
                         <div class="col-lg-6 mb-3">
                             <label for="pangkat" class="form-label">Pangkat</label>
                             <select name="id_pangkat" id="id_pangkat" class="form-control" required>
@@ -204,11 +204,11 @@
                                 maxlength="8" class="form-control border-dark"
                                 value="{{ isset($kasus) ? $kasus->nrp : '' }}">
                         </div>
-                        <div class="col-lg-6 mb-3">
+                        {{-- <div class="col-lg-6 mb-3">
                             <label for="suku" class="form-label">Suku</label>
                             <input type="text" name="suku" id="suku" class="form-control border-dark"
                                 placeholder="Suku Terlapor" value="{{ isset($kasus) ? $kasus->suku : '' }}">
-                        </div>
+                        </div> --}}
                         <div class="col-lg-6 mb-3">
                             <label for="agama" class="form-label">Agama</label>
                             {{-- <input type="text" name="agama_terlapor" class="form-control border-dark" placeholder="Agama Terlapor" value="{{ isset($kasus) ? $kasus->agama_terlapor : '' }}" > --}}
@@ -231,7 +231,7 @@
                                 required id="kesatuan">
                                 <option value="" selected>-- Kesatuan --</option>
                                 @foreach ($kesatuan as $key => $value)
-                                    <option value="POLDA {{ $value->name }}">POLDA {{ $value->name }}</option>
+                                    <option value="{{ $value->name }}">POLDA {{ $value->name }}</option>
                                 @endforeach
                             </select>
                         </div>

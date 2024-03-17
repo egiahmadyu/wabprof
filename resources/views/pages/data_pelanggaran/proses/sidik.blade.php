@@ -214,7 +214,7 @@
             </table>
         </div>
     </div>
-    @if (isset($kasus) & ($kasus->status_id === 5))
+    @if (isset($kasus) & ($kasus->status_id == 5))
         <div class="row mt-4">
             <div class="col-lg-12">
                 <form action="/data-kasus/update" method="post">
@@ -222,7 +222,7 @@
                     <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
                     <input type="text" class="form-control" value="6" hidden name="disposisi_tujuan" hidden>
                     <button class="btn btn-success" name="type_submit" {{ $kasus->status_id > 5 ? 'disabled' : '' }}
-                        value="update_status">
+                        value="update_status" {{ $lpa && $sprin_riksa && $bap ? '' : 'disabled' }}>
                         Lanjutkan ke proses Pemberkasan
                     </button>
                 </form>

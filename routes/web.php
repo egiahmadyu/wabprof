@@ -62,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     //Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('change-password', [AuthController::class, 'change_password']);
+    Route::post('change-password', [AuthController::class, 'storeReset'])->name('reset.action');
 
     // History Pelanggar
     Route::get('history-pelanggar', [HistoryPelanggarController::class, 'index']);
@@ -73,6 +75,7 @@ Route::middleware(['auth'])->group(function () {
 
     // View Kasus
     Route::get('data-kasus', [KasusController::class, 'index'])->name('kasus.index');
+    Route::get('kasus/delete/{id}', [KasusController::class, 'delete'])->name('kasus.delete');
     Route::post('data-kasus/data', [KasusController::class, 'data'])->name('kasus.data');
     Route::post('data-kasus/update', [KasusController::class, 'updateData'])->name('kasus.update');
     Route::get('data-kasus/detail/{id}', [KasusController::class, 'detail'])->name('kasus.detail');
@@ -221,6 +224,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tambah_terlapor', [TerlaporController::class, 'tambah_terlapor']);
     Route::get('dihentikan/{id}', [KasusController::class, 'hentikan_kasus']);
 
+    Route::get('/get-chart/{tipe}', [DashboardController::class, 'getDataChart'])->name('get.chart');
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('user', [UserController::class, 'index']);
         Route::post('user/save', [UserController::class, 'store']);

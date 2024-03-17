@@ -82,9 +82,9 @@ class DatabaseSeeder extends Seeder
         //     AgamaSeeder::class,
         //     JenisKelaminSeed::class,
         //     JenisIdentitasSeeder::class,
-        //     DataPelanggarSeed::class,
-        //     PoldaSeed::class,
-        //     PangkatSeeder::class,
+        //     // DataPelanggarSeed::class,
+        //     // PoldaSeed::class,
+        //     // PangkatSeeder::class,
         //     WujudPerbuatanSeeder::class
         // ]);
 

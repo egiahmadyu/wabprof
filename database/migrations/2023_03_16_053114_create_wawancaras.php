@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('data_pelanggar_id');
             $table->date('tanggal')->nullable();
-            $table->time('jam')->nullable();
+            $table->string('jam')->nullable();
             $table->string('ruangan')->nullable();
             $table->text('alamat')->nullable();
             $table->integer('id_penyidik');
