@@ -101,6 +101,11 @@ class DataPelanggar extends Model
         return $this->belongsTo(Pangkat::class, 'id_pangkat');
     }
 
+    public function ketua_tim()
+    {
+        return $this->belongsTo(UndanganGelar::class, 'id', 'data_pelanggar_id');
+    }
+
     public function wujud_perbuatan()
     {
         return $this->hasOne(WujudPerbuatan::class,'id', 'id_wujud_perbuatan');

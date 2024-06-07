@@ -398,4 +398,11 @@
         $('#derajat').val('');
         $('#tim').val('');
     })
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
 </script>

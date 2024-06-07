@@ -153,6 +153,12 @@ class DiterimaController extends Controller
 
        try {
         if (!$disposisi) {
+            if ($request->filepond->extension() != 'pdf') {
+                return response()->json([
+                    'status' => 401,
+                    'message' => 'File Harus PDF'
+                ]);
+            }
             $disposisi = Disposisi::create([
                 'data_pelanggar_id' => $request->data_pelanggar_id,
                 'no_agenda' => $request->no_agenda,
@@ -173,6 +179,14 @@ class DiterimaController extends Controller
             ]);
             return redirect()->back();
         } else {
+            if ($request->filepond) {
+                if ($request->filepond->extension() != 'pdf') {
+                    return response()->json([
+                        'status' => 401,
+                        'message' => 'File Harus PDF'
+                    ]);
+                }
+            }
             $disposisi = Disposisi::where('id', $disposisi->id)
             ->update([
                 'data_pelanggar_id' => $request->data_pelanggar_id,

@@ -88,17 +88,17 @@
                                 <tr>
                                     <td>Perihal</td>
                                     <td>:</td>
-                                    <td>Perihal</td>
+                                    <td>{{ $kasus->perihal_nota_dinas }}</td>
                                 </tr>
                                 <tr>
                                     <td>Unit Pelaksana</td>
                                     <td>:</td>
-                                    <td>{{ $kasus->pelapor }}</td>
+                                    <td>{{ auth()->user()->tim }}</td>
                                 </tr>
                                 <tr>
                                     <td>Ketua Tim</td>
                                     <td>:</td>
-                                    <td>{{ $kasus->terlapor }}</td>
+                                    <td>{{ $kasus->ketua_tim->penyidik->name }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -115,6 +115,46 @@
                 <button type="button" class="btn btn-primary col-12 btn-terlapor"><span
                         class="far fa-plus-square"></span>
                     Tambah Terlapor</button>
+            </div>
+        </div>
+    @endif
+    @if (isset($laporan))
+        <h6>Laporan Hasil Audit</h6>
+        <div class="row">
+            <div class="col-lg-12 mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card border-dark">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <table>
+                                            <tr>
+                                                <td>Nomor Laporan</td>
+                                                <td>:</td>
+                                                <td>
+                                                    {{ $laporan->nomor_laporan }}
+                                                </td>
+                                            </tr>
+                                            {{-- <tr>
+                                                <td>Tanggal Laporan</td>
+                                                <td>:</td>
+                                                <td>{{ date('d-m-Y', strtotime($laporan->tanggal_laporan)) }}</td>
+                                            </tr> --}}
+                                            <tr>
+                                                <td>Hasil</td>
+                                                <td>:</td>
+                                                <td>{{ $laporan->hasil == 'Ditemukan' ? 'Ditemukan Cukup Bukti' : $laporan->hasil }}
+                                                    ({{ $laporan->catatan }})</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
             </div>
         </div>
     @endif
@@ -427,4 +467,11 @@
                 }, false)
             })
     })();
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
 </script>

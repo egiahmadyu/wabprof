@@ -11,6 +11,7 @@ use App\Models\GelarPerkaraHistory;
 use App\Models\JenisIdentitas;
 use App\Models\UndanganGelar;
 use App\Models\LaporanHasilGelar;
+use App\Models\laporanHasilAudit;
 use App\Models\JenisKelamin;
 use App\Models\LimpahPolda;
 use App\Models\Process;
@@ -189,7 +190,7 @@ class KasusController extends Controller
         ]);
     }
 
-    public function detail($id)
+    public function detail(int $id)
     {
         $kasus = DataPelanggar::find($id);
         $status = Process::find($kasus->status_id);
@@ -400,6 +401,7 @@ class KasusController extends Controller
             'lpa' => Lpa::where('data_pelanggar_id', $id)->first(),
             'sprin_riksa' => SprinRiksa::where('data_pelanggar_id', $id)->first(),
             'laporan_gelar' => LaporanHasilGelar::where('data_pelanggar_id', $id)->first(),
+            'laporan' => LaporanHasilAudit::where('data_pelanggar_id', $id)->first()
         ];
         return view('pages.data_pelanggaran.proses.sidik', $data);
     }

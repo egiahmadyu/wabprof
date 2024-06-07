@@ -42,7 +42,7 @@ class LimpahWabprofController extends Controller
             'nama_korban' => $request->nama_korban,
             'id_card' => $request->id_card,
             'selfie' => $request->selfie,
-            'pengaduann_dari' => 'paminal',
+            'pengaduan_dari' => 'BIRO PAMINAL',
             'status_id' => 1,
             'no_pengaduan' => time()
         ];

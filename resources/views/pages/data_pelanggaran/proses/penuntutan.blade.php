@@ -86,20 +86,37 @@
                                     <td>:</td>
                                     <td>{{ $kasus->terlapor }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Pangkat / NRP</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->pangkat->name . ' / ' . $kasus->nrp }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Perihal</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->perihal_nota_dinas }}</td>
+                                </tr>
                             </table>
                         </div>
                         <div class="col-lg-6">
                             <table>
                                 <tr>
-                                    <td>Perihal</td>
+                                    <td>Pelimpahan Dari</td>
                                     <td>:</td>
-                                    <td>Perihal</td>
+                                    <td>{{ $kasus->pengaduan_dari ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Unit Pelaksana</td>
                                     <td>:</td>
-                                    <td>{{ $sprin->tim }}</td>
+                                    <td>{{ auth()->user()->tim }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Ketua Tim</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->ketua_tim->penyidik->name }}</td>
+                                </tr>
+
                             </table>
                         </div>
                     </div>
@@ -682,6 +699,13 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
     $('.btn-terlapor').on('click', function() {
         $('#modal_terlapor').modal('show');
     })

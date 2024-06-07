@@ -91,9 +91,9 @@
                                     <td>{{ $kasus->pelapor }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Ketua Tim</td>
+                                    <td>Ketua Tiaaam</td>
                                     <td>:</td>
-                                    <td>{{ $kasus->terlapor }}</td>
+                                    <td>{{ $kasus->ketua_tim->penyidik->name }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -310,6 +310,13 @@
         $('.btn-terlapor').on('click', function() {
             $('#modal_terlapor').modal('show');
         })
+    });
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
     });
 
     // function getNextData() {

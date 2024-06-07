@@ -83,18 +83,25 @@
                                                 <td>{{ $kasus->pelapor }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Terlapor</td>
+                                                <td>Perihal</td>
                                                 <td>:</td>
-                                                <td>{{ $kasus->terlapor }}</td>
+                                                <td>{{ $kasus->perihal_nota_dinas }}</td>
                                             </tr>
+
                                         </table>
                                     </div>
                                     <div class="col-lg-6">
                                         <table>
                                             <tr>
-                                                <td>Perihal</td>
+                                                <td>Nama Terlapor</td>
                                                 <td>:</td>
-                                                <td>{{ $kasus->perihal_nota_dinas }}</td>
+                                                <td>{{ $kasus->terlapor }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pangkat / NRP</td>
+                                                <td>:</td>
+                                                <td>{{ $kasus->pangkat->name . ' / ' . $kasus->nrp . ' ' . $kasus->terlapor }}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Unit Pelaksana</td>
@@ -259,6 +266,13 @@
 
 
 <script>
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
     $(document).ready(function() {
         getNextData();
         $('#form-sprin').validate({

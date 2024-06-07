@@ -103,6 +103,11 @@
                         class="form-control border-dark datepicker" data-select="datepicker"
                         value="{{ $kasus->tanggal_nota_dinas }}" required>
                 </div>
+                <div class="col-lg-6 mb-3">
+                    <label for="" class="form-label">Pelimpahan Dari</label>
+                    <input type="text" id="pengaduan_dari" name="pengaduan_dari" class="form-control border-dark"
+                        readonly value="{{ $kasus->pengaduan_dari }}">
+                </div>
             </div>
             <div class="row">
                 <hr>
@@ -741,6 +746,7 @@
                             <label for="formFile" class="form-label">Dokumen Disposisi</label>
                             <input class="form-control" type="file" accept=".pdf, .png" id="formFile"
                                 name="filepond" {{ $disposisi_kabag ? '' : 'required' }}>
+                            <p>PDF (MAKS 300kb)</p>
                             @if ($disposisi_kabag)
                                 <a href="/lembar-disposisi-kabag/{{ $kasus->id }}" target="_blank">
                                     <p>Dokumen Sekarang </p>
@@ -845,6 +851,7 @@
                         <label for="formFile" class="form-label">Dokumen Disposisi</label>
                         <input class="form-control" type="file" accept=".pdf, .png" id="formFile"
                             name="filepond" {{ $disposisi_karo ? '' : 'required' }}>
+                        <p>PDF (MAKS 300kb)</p>
                         @if ($disposisi_karo)
                             <a href="/lembar-disposisi-karo/{{ $kasus->id }}" target="_blank">
                                 <p>Dokumen Sekarang </p>
@@ -951,6 +958,7 @@
                         <label for="formFile" class="form-label">Dokumen Disposisi</label>
                         <input class="form-control" type="file" accept=".pdf, .png" id="formFile"
                             name="filepond" {{ $disposisi_sesro ? '' : 'required' }}>
+                        <p>PDF (MAKS 300kb)</p>
                         @if ($disposisi_sesro)
                             <a href="/lembar-disposisi-sesro/{{ $kasus->id }}" target="_blank">
                                 <p>Dokumen Sekarang </p>
@@ -969,6 +977,13 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
     $(document).ready(function() {
 
         $('#nrp').keyup(function() {

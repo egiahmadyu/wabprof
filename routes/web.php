@@ -42,6 +42,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('partials.master');
 // });
 
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');

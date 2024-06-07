@@ -421,6 +421,7 @@
         <!-- Theme Settings -->
         @include('partials.javascript')
 
+
         @yield('scripts')
         @stack('scripts')
 

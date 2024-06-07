@@ -34,6 +34,13 @@
 
 
 <script>
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
     $('#form_import').on('submit', function(e) {
         e.preventDefault();
         $('.loader-view').show();

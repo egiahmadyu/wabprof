@@ -50,6 +50,7 @@ class YanduanController extends Controller
                     $pelapor = str_replace('&', 'dan', $pelapor);
                     $kronologi = preg_replace("/\n|\r/", " ", "$str");
                     $data['kronologi'] = $kronologi;
+                    $data['pengaduan_dari'] ='BAGYANDUAN';
                     $data['selfie'] = $value->reporter->selfie;
                     $data['id_card'] = $value->reporter->id_card;
                     $data['status_id'] = 1;

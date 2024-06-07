@@ -85,25 +85,37 @@
                                     <td>:</td>
                                     <td>{{ $kasus->terlapor }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Pangkat / NRP</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->pangkat->name . ' / ' . $kasus->nrp }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Perihal</td>
+                                    <td>:</td>
+                                    <td>{{ $kasus->perihal_nota_dinas }}</td>
+                                </tr>
                             </table>
                         </div>
                         <div class="col-lg-6">
                             <table>
                                 <tr>
-                                    <td>Perihal</td>
+                                    <td>Pelimpahan Dari</td>
                                     <td>:</td>
-                                    <td>Perihal</td>
+                                    <td>{{ $kasus->pengaduan_dari ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Unit Pelaksana</td>
                                     <td>:</td>
-                                    <td>{{ $kasus->pelapor }}</td>
+                                    <td>{{ auth()->user()->tim }}</td>
                                 </tr>
                                 <tr>
                                     <td>Ketua Tim</td>
                                     <td>:</td>
-                                    <td>{{ $kasus->terlapor }}</td>
+                                    <td>{{ $kasus->ketua_tim->penyidik->name }}</td>
                                 </tr>
+
                             </table>
                         </div>
                     </div>
@@ -123,7 +135,7 @@
                 <div class="col-2">
                     <label for="inputAddress" class="form-label">Tanggal Sidang</label>
                     <input type="date" class="form-control" name="tgl_sidang" required
-                        value="{{ $sidang ? $sidang->tgl_sidang ? date('Y-m-d', strtotime($sidang->tgl_sidang)) : '' : '' }}"
+                        value="{{ $sidang ? ($sidang->tgl_sidang ? date('Y-m-d', strtotime($sidang->tgl_sidang)) : '') : '' }}"
                         {{ $sidang ? ($sidang->tgl_sidang ? 'disabled' : '') : '' }}>
                 </div>
                 <div class="col-2">
@@ -288,7 +300,7 @@
                                             <input type="text" name="kasus_id" value="{{ $kasus->id }}"
                                                 hidden>
                                             <input type="date" class="form-control" name="tanggal_lhs" required
-                                                value="{{ $sidang ? $sidang->tanggal_lhs ? date('Y-m-d', strtotime($sidang->tanggal_lhs)) : '' : '' }}"
+                                                value="{{ $sidang ? ($sidang->tanggal_lhs ? date('Y-m-d', strtotime($sidang->tanggal_lhs)) : '') : '' }}"
                                                 placeholder="No Surat Laporan Hasil Sidang"
                                                 {{ $sidang->tanggal_lhs ? 'readonly' : '' }}>
                                         </div>
@@ -305,7 +317,8 @@
                                             <input type="text" name="kasus_id" value="{{ $kasus->id }}"
                                                 hidden>
                                             <input type="date" class="form-control" name="tanggal_putusan"
-                                                required value="{{ $sidang ? $sidang->tanggal_putusan ? date('Y-m-d', strtotime($sidang->tanggal_putusan)) : '' : '' }}"
+                                                required
+                                                value="{{ $sidang ? ($sidang->tanggal_putusan ? date('Y-m-d', strtotime($sidang->tanggal_putusan)) : '') : '' }}"
                                                 placeholder="No Surat Laporan Hasil Sidang"
                                                 {{ $sidang->tanggal_putusan ? 'readonly' : '' }}>
                                         </div>
@@ -351,20 +364,20 @@
                     <div class="col-2">
                         <label for="inputAddress" class="form-label">Tanggal Permohonan</label>
                         <input type="date" class="form-control" name="tanggal_permohonan_sidang_banding" required
-                            value="{{ $sidang_banding ? $sidang_banding->tanggal_permohonan_sidang_banding ? date('Y-m-d', strtotime($sidang_banding->tanggal_permohonan_sidang_banding)) : '' : '' }}"
+                            value="{{ $sidang_banding ? ($sidang_banding->tanggal_permohonan_sidang_banding ? date('Y-m-d', strtotime($sidang_banding->tanggal_permohonan_sidang_banding)) : '') : '' }}"
                             {{ $sidang_banding ? ($sidang_banding->tanggal_permohonan_sidang_banding ? 'disabled' : '') : '' }}>
                     </div>
                     <div class="col-2 mb-4">
                         <label for="inputAddress" class="form-label">Tanggal Memori Banding</label>
                         <input type="date" class="form-control" name="tanggal_memori_banding" required
-                            value="{{ $sidang_banding ? $sidang_banding->tanggal_memori_banding ? date('Y-m-d', strtotime($sidang_banding->tanggal_memori_banding)) : '' : '' }}"
+                            value="{{ $sidang_banding ? ($sidang_banding->tanggal_memori_banding ? date('Y-m-d', strtotime($sidang_banding->tanggal_memori_banding)) : '') : '' }}"
                             {{ $sidang_banding ? ($sidang_banding->tanggal_memori_banding ? 'disabled' : '') : '' }}>
                     </div>
                     <hr>
                     <div class="col-2">
                         <label for="inputAddress" class="form-label">Tanggal Sidang</label>
                         <input type="date" class="form-control" name="tgl_sidang" required
-                            value="{{ $sidang_banding ? $sidang_banding->tgl_sidang ? date('Y-m-d', strtotime($sidang_banding->tgl_sidang)) : '' : '' }}"
+                            value="{{ $sidang_banding ? ($sidang_banding->tgl_sidang ? date('Y-m-d', strtotime($sidang_banding->tgl_sidang)) : '') : '' }}"
                             {{ $sidang_banding ? ($sidang_banding->tgl_sidang ? 'disabled' : '') : '' }}>
                     </div>
                     <div class="col-2">
@@ -531,7 +544,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control" name="tanggal_lhs"
                                                     required
-                                                    value="{{ $sidang_banding ? $sidang_banding->tanggal_lhs ? date('Y-m-d', strtotime($sidang_banding->tanggal_lhs)) : '' : '' }}"
+                                                    value="{{ $sidang_banding ? ($sidang_banding->tanggal_lhs ? date('Y-m-d', strtotime($sidang_banding->tanggal_lhs)) : '') : '' }}"
                                                     placeholder="No Surat Laporan Hasil Sidang"
                                                     {{ $sidang_banding->tanggal_lhs ? 'readonly' : '' }}>
                                             </div>
@@ -599,14 +612,14 @@
                     <div class="col-2 mb-4">
                         <label for="inputAddress" class="form-label">Tanggal Usulan Kep Tim Peneliti</label>
                         <input type="date" class="form-control" name="tanggal_usulan_kep" required
-                            value="{{ $sidang_kembali ? $sidang_kembali->tanggal_usulan_kep ? date('Y-m-d', strtotime($sidang_kembali->tanggal_usulan_kep)) : '' : '' }}"
+                            value="{{ $sidang_kembali ? ($sidang_kembali->tanggal_usulan_kep ? date('Y-m-d', strtotime($sidang_kembali->tanggal_usulan_kep)) : '') : '' }}"
                             {{ $sidang_kembali ? ($sidang_kembali->tanggal_usulan_kep ? 'disabled' : '') : '' }}>
                     </div>
                     <hr>
                     <div class="col-2">
                         <label for="inputAddress" class="form-label">Tanggal Sidang</label>
                         <input type="date" class="form-control" name="tgl_sidang" required
-                            value="{{ $sidang_kembali ? $sidang_kembali->tgl_sidang  ? date('Y-m-d', strtotime($sidang_kembali->tgl_sidang)) : '': '' }}"
+                            value="{{ $sidang_kembali ? ($sidang_kembali->tgl_sidang ? date('Y-m-d', strtotime($sidang_kembali->tgl_sidang)) : '') : '' }}"
                             {{ $sidang_kembali ? ($sidang_kembali->tgl_sidang ? 'disabled' : '') : '' }}>
                     </div>
                     <div class="col-2">
@@ -773,7 +786,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control" name="tanggal_lhs"
                                                     required
-                                                    value="{{ $sidang_kembali ? $sidang_kembali->tanggal_lhs ? date('Y-m-d', strtotime($sidang_kembali->tanggal_lhs)) : '' : '' }}"
+                                                    value="{{ $sidang_kembali ? ($sidang_kembali->tanggal_lhs ? date('Y-m-d', strtotime($sidang_kembali->tanggal_lhs)) : '') : '' }}"
                                                     placeholder="No Surat Laporan Hasil Sidang"
                                                     {{ $sidang_kembali->tanggal_lhs ? 'readonly' : '' }}>
                                             </div>
@@ -792,7 +805,7 @@
                                                     hidden>
                                                 <input type="date" class="form-control" name="tanggal_putusan"
                                                     required
-                                                    value="{{ $sidang_kembali ? $sidang_kembali->tanggal_putusan ? date('Y-m-d', strtotime($sidang_kembali->tanggal_putusan)) : '' : '' }}"
+                                                    value="{{ $sidang_kembali ? ($sidang_kembali->tanggal_putusan ? date('Y-m-d', strtotime($sidang_kembali->tanggal_putusan)) : '') : '' }}"
                                                     placeholder="No Surat Laporan Hasil Sidang"
                                                     {{ $sidang_kembali->tanggal_putusan ? 'readonly' : '' }}>
                                             </div>
@@ -1215,4 +1228,11 @@
         var form = $(this).attr('form');
         $('#' + form).find("input[type=text], input[type=time], input[type=date], textarea").val("");
     })
+    $(document).ready(function() {
+        try {
+            $("input").each(function() {
+                $(this).attr("autocomplete", "off");
+            });
+        } catch (e) {}
+    });
 </script>
